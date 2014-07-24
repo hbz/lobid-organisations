@@ -1,0 +1,13 @@
+h1. About
+
+Experimental new data transformation workflows for the lobid-organisations data set based on Metafacture.
+
+_Note: for the currently productive transformations see "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill_
+
+h1. Setup
+
+Prerequisites: Java 8, Maven 3; Build: @mvn clean install@
+
+h1. License
+
+Eclipse Public License: "http://www.eclipse.org/legal/epl-v10.html":http://www.eclipse.org/legal/epl-v10.html
