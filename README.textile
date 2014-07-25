@@ -8,6 +8,10 @@ h1. Setup
 
 Prerequisites: Java 8, Maven 3; Build: @mvn clean install@
 
+See the @.travis.yml@ file for details on the CI config used by Travis.
+
+"!https://secure.travis-ci.org/hbz/lobid-organisations.png?branch=master!":https://travis-ci.org/hbz/lobid-organisations
+
 h1. License
 
 Eclipse Public License: "http://www.eclipse.org/legal/epl-v10.html":http://www.eclipse.org/legal/epl-v10.html

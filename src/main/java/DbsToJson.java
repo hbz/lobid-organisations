@@ -21,7 +21,7 @@ public class DbsToJson {
 		HttpOpener opener = new HttpOpener();
 		opener.setEncoding("ISO-8859-1");
 		LineReader lines = new LineReader();
-		CsvDecoder decoder = new CsvDecoder(";");
+		CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
 		Metamorph morph = new Metamorph("src/main/resources/dbs-json.morph.xml");
 		JsonEncoder encoder = new JsonEncoder();
