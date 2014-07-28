@@ -14,22 +14,29 @@ public class SigelToJson {
 
 	/** @param args Not used */
 	public static void main(String[] args) {
-
 		HttpOpener open = new HttpOpener();
-		PicaXmlReader readPicaXml = new PicaXmlReader();
-		Metamorph morph = new Metamorph("src/main/resources/sigel-json.morph.xml");
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/main/resources/sigel-json.out.json");
-
-		open//
-		.setReceiver(readPicaXml)//
-				.setReceiver(morph)//
+				new ObjectWriter<>("src/main/resources/sigel.out.json");
+		morphSigel(open)//
 				.setReceiver(encodeJson)//
 				.setReceiver(writer);
+		processSigel(open);
+	}
 
-		open.process("http://services.d-nb.de/oai/repository?verb=ListRecords&metadataPrefix=PicaPlus-xml&from=2013-08-11&until=2013-09-12&set=bib");
+	static Metamorph morphSigel(HttpOpener open) {
+		PicaXmlReader readPicaXml = new PicaXmlReader();
+		Metamorph morph = new Metamorph("src/main/resources/sigel.morph.xml");
+		return open//
+				.setReceiver(readPicaXml)//
+				.setReceiver(morph)//
+		;
+	}
+
+	static void processSigel(HttpOpener open) {
+		open.process("http://services.d-nb.de/oai/repository"
+				+ "?verb=ListRecords&metadataPrefix=PicaPlus-xml&from=2013-08-11&until=2013-09-12&set=bib");
 		open.closeStream();
 	}
 }

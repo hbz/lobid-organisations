@@ -5,6 +5,7 @@
 	entityMarker=".">
 
 	<rules>
+		<data source="isil" name="_id"></data>
 		<data source="_else"></data>
 	</rules>
 

@@ -5,6 +5,7 @@
 	entityMarker=".">
 
 	<rules>
+		<data source="008H.e" name="_id"></data>
 		<data source="_else"></data>
 	</rules>
 
