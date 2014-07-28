@@ -5,7 +5,8 @@ import org.culturegraph.mf.stream.pipe.sort.AbstractTripleSort.Compare;
 import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
 import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.sink.ObjectWriter;
-import org.culturegraph.mf.stream.source.HttpOpener;
+import org.culturegraph.mf.stream.source.DirReader;
+import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
 
 /**
@@ -21,13 +22,14 @@ public class SigelAndDbsToJson {
 	/** @param args Not used */
 	public static void main(String[] args) {
 
-		HttpOpener openSigel = new HttpOpener();
+		DirReader openSigel = new DirReader();
+
 		StreamToTriples streamToTriples1 = new StreamToTriples();
 		streamToTriples1.setRedirect(true);
 		StreamToTriples flow1 = //
 				SigelToJson.morphSigel(openSigel).setReceiver(streamToTriples1);
 
-		HttpOpener openDbs = new HttpOpener();
+		FileOpener openDbs = new FileOpener();
 		StreamToTriples streamToTriples2 = new StreamToTriples();
 		streamToTriples2.setRedirect(true);
 		StreamToTriples flow2 = //
@@ -49,7 +51,7 @@ public class SigelAndDbsToJson {
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/main/resources/sigel-dbs.out.json");
+				new ObjectWriter<>("src/main/resources/output/sigel-dbs.out.json");
 
 		flow.setReceiver(wait)//
 				.setReceiver(sortTriples)//

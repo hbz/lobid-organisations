@@ -3,7 +3,7 @@ import org.culturegraph.mf.stream.converter.CsvDecoder;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.LineReader;
 import org.culturegraph.mf.stream.sink.ObjectWriter;
-import org.culturegraph.mf.stream.source.HttpOpener;
+import org.culturegraph.mf.stream.source.FileOpener;
 
 /**
  * Initial simple transformation from DBS CSV to JSON.
@@ -15,23 +15,23 @@ public class DbsToJson {
 
 	/** @param args Not used */
 	public static void main(String[] args) {
-		HttpOpener opener = new HttpOpener();
+		FileOpener opener = new FileOpener();
 		JsonEncoder encoder = new JsonEncoder();
 		encoder.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/main/resources/dbs.out.json");
+				new ObjectWriter<>("src/main/resources/output/dbs.out.json");
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);
 		processDbs(opener);
 	}
 
-	static Metamorph morphDbs(HttpOpener opener) {
+	static Metamorph morphDbs(FileOpener opener) {
 		opener.setEncoding("ISO-8859-1");
 		LineReader lines = new LineReader();
 		CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
-		Metamorph morph = new Metamorph("src/main/resources/dbs.morph.xml");
+		Metamorph morph = new Metamorph("src/main/resources/morph/dbs.morph.xml");
 
 		Metamorph morphDbs = opener//
 				.setReceiver(lines)//
@@ -42,8 +42,8 @@ public class DbsToJson {
 		return morphDbs;
 	}
 
-	static void processDbs(HttpOpener opener) {
-		opener.process("http://test.lobid.org/assets/dbs.csv");
+	static void processDbs(FileOpener opener) {
+		opener.process("src/main/resources/input/dbs.csv");
 		opener.closeStream();
 	}
 }

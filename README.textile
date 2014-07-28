@@ -4,13 +4,21 @@ Experimental new data transformation workflows for the lobid-organisations data 
 
 _Note: for the currently productive transformations see "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill_
 
-h1. Setup
+h1. Build
 
 Prerequisites: Java 8, Maven 3; Build: @mvn clean install@
 
 See the @.travis.yml@ file for details on the CI config used by Travis.
 
 "!https://secure.travis-ci.org/hbz/lobid-organisations.png?branch=master!":https://travis-ci.org/hbz/lobid-organisations
+
+h1. Data
+
+Get the input data (hbz internal):
+
+* @cd src/main/resources/input/@
+* @wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip@
+* @wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.zip; unzip sigel.zip@
 
 h1. License
 

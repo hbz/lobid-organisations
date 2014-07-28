@@ -2,7 +2,8 @@ import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.reader.PicaXmlReader;
 import org.culturegraph.mf.stream.sink.ObjectWriter;
-import org.culturegraph.mf.stream.source.HttpOpener;
+import org.culturegraph.mf.stream.source.DirReader;
+import org.culturegraph.mf.stream.source.FileOpener;
 
 /**
  * Initial simple transformation from Sigel PicaPlus-XML to JSON.
@@ -14,29 +15,31 @@ public class SigelToJson {
 
 	/** @param args Not used */
 	public static void main(String[] args) {
-		HttpOpener open = new HttpOpener();
+		DirReader open = new DirReader();
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/main/resources/sigel.out.json");
+				new ObjectWriter<>("src/main/resources/output/sigel.out.json");
 		morphSigel(open)//
 				.setReceiver(encodeJson)//
 				.setReceiver(writer);
 		processSigel(open);
 	}
 
-	static Metamorph morphSigel(HttpOpener open) {
+	static Metamorph morphSigel(DirReader open) {
+		open.setRecursive(false);
+		open.setFilenamePattern(".*\\.xml");
+		FileOpener openFile = new FileOpener();
 		PicaXmlReader readPicaXml = new PicaXmlReader();
-		Metamorph morph = new Metamorph("src/main/resources/sigel.morph.xml");
+		Metamorph morph = new Metamorph("src/main/resources/morph/sigel.morph.xml");
 		return open//
+				.setReceiver(openFile)//
 				.setReceiver(readPicaXml)//
-				.setReceiver(morph)//
-		;
+				.setReceiver(morph);//
 	}
 
-	static void processSigel(HttpOpener open) {
-		open.process("http://services.d-nb.de/oai/repository"
-				+ "?verb=ListRecords&metadataPrefix=PicaPlus-xml&from=2013-08-11&until=2013-09-12&set=bib");
+	static void processSigel(DirReader open) {
+		open.process("src/main/resources/input/sigel/");
 		open.closeStream();
 	}
 }
