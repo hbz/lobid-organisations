@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metamorph xmlns="http://www.culturegraph.org/metamorph"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
+	entityMarker=".">
+	<rules>
+		<data source="_id" name="inr" />
+		<data source="008H.e" name="isil" />
+		<data source="008H.e" name="lobid">
+			<regexp match="(.*)" format="http://lobid.org/organisation/${1}" />
+		</data>
+		<data source="008H.e" name="isPrimaryTopicOf">
+			<regexp match="(.*)"
+				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
+		</data>
+		<data source="008H.e" name="sameAs">
+			<regexp match="(.*)"
+				format="http://ld.zdb-services.de/resource/organisations/${1}" />
+		</data>
+		<data source="008H.e" name="@dbpediaMap">
+			<lookup in="isil2dbpedia_map" />
+		</data>
+		<entity name="location" flushWith="record">
+			<data source="032P.k" name="long" />
+			<data source="032P.l" name="lat" />
+		</entity>
+		<combine name="url" value="${hp}" sameEntity="true">
+			<data source="009Q.u" name="hp" />
+			<data source="009Q.z" name="">
+				<regexp match="A" format="" />
+			</data>
+		</combine>
+		<combine name="provides" value="${url}" sameEntity="true">
+			<data source="009Q.u" name="url" />
+			<data source="009Q.z" name="">
+				<regexp match="B" format="" />
+			</data>
+		</combine>
+		<data source="029@.a" name="altLabel" />
+		<data source="029A.a" name="name">
+			<!-- sanitize entries like "Ruhr-Universita\u0308t Bochum,\n\t\t\t\t\tUniversita\u0308tsbibliothek" -->
+			<replace pattern="\t|\n|\(\s\)\s+" with="" />
+		</data>
+		<combine name="wikipedia" value="http://de.wikipedia.org/wiki/${titleDbpedia}">
+			<data source="@dbpediaMap" name="titleDbpedia" />
+		</combine>
+		<combine name="seeAlso" value="http://dbpedia.org/resource/${titleDbpedia}">
+			<data source="@dbpediaMap" name="titleDbpedia" />
+		</combine>
+		<entity name="adr" flushWith="record">
+			<data source="032P.a" name="street-address" />
+			<data source="032P.b" name="locality" />
+			<combine name="postal-code" value="${plz}" sameEntity="true">
+				<data source="032P.e" name="plz" />
+				<data source="032P.a" name="" />
+			</combine>
+			<combine name="country-name" value="${country}">
+				<data source="032P.d" name="country">
+					<lookup in="country-map" />
+				</data>
+			</combine>
+		</entity>
+		<data source="032P.i" name="hasOpeningHoursSpecification" />
+		<data source="032P.n" name="locatedIn" />
+		<combine name="tel" value="(0${prefix}) ${phonenr}"
+			sameEntity="true">
+			<data source="035B.e" name="prefix" />
+			<data source="035B.f" name="phonenr" />
+		</combine>
+		<combine name="fax" value="(0${prefix}) ${faxnr}" sameEntity="true">
+			<data source="035B.h" name="prefix" />
+			<data source="035B.i" name="faxnr" />
+		</combine>
+		<data source="035B.k" name="email">
+			<regexp match="(.*)" format="mailto:${1}" />
+		</data>
+		<data source="035E.f" name="classification">
+			<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
+		</data>
+		<data source="035E.g" name="fundertype">
+			<regexp match="(.*)" format="http://purl.org/lobid/fundertype#n${1}" />
+		</data>
+		<data source="035E.h" name="stocksize">
+			<regexp match="(.*)" format="http://purl.org/lobid/stocksize#n${1}" />
+		</data>
+		<data source="035G.a" name="subject" />
+		<group name="linkedTo">
+			<data source="035I.c">
+				<regexp match="(?i).*gbv" format="http://lobid.org/organisation/DE-601" />
+			</data>
+			<data source="035I.c">
+				<regexp match="(?i).*bvb" format="http://lobid.org/organisation/DE-604" />
+			</data>
+			<data source="035I.c">
+				<regexp match="(?i).*hebis" format="http://lobid.org/organisation/DE-603" />
+			</data>
+			<data source="035I.c">
+				<regexp match="(?i).*hbz" format="http://lobid.org/organisation/DE-605" />
+			</data>
+			<data source="035I.c">
+				<regexp match="(?i).*kobv" format="http://lobid.org/organisation/DE-602" />
+			</data>
+			<data source="035I.c">
+				<regexp match="(?i).*swb" format="http://lobid.org/organisation/DE-576" />
+			</data>
+		</group>
+	</rules>
+	<maps>
+		<filemap name="country-map" files="http://test.lobid.org/assets/data/country-map.csv" />
+		<filemap name="isil2dbpedia_map" files="http://test.lobid.org/assets/data/isil2dbpedia-map.csv" />
+	</maps>
+</metamorph>
