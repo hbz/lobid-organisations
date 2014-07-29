@@ -5,8 +5,10 @@
 	entityMarker=".">
 
 	<rules>
-		<data source="isil" name="_id"></data>
-		<data source="_else"></data>
+		<data source="inr" name="_id"/>
+		<data source="_else">
+			<not-equals string="NULL" />
+		</data>
 	</rules>
 
 </metamorph>
