@@ -4,6 +4,92 @@
 	entityMarker=".">
 	<rules>
 		<data source="_id" name="inr" />
+
+		<!-- DBS-only FIELDS -->
+
+		<data source="iso"></data>
+		<data source="sbi"></data>
+		<data source="gemeindekennzahl"></data>
+		<data source="tvw"></data>
+		<data source="text"></data>
+		<data source="leitung"></data>
+
+		<!-- DBS+SIGEL merged FIELDS -->
+
+		<entity name="name[]" flushWith="record">
+			<data source="nam" name="dbs" />
+			<data source="029A.a" name="sigel">
+				<!-- sanitize entries like "Ruhr-Universita\u0308t Bochum,\n\t\t\t\t\tUniversita\u0308tsbibliothek" -->
+				<replace pattern="\t|\n|\(\s\)\s+" with="" />
+			</data>
+		</entity>
+		<entity name="tel[]" flushWith="record">
+			<combine name="sigel" value="(0${prefix}) ${phonenr}"
+				sameEntity="true">
+				<data source="035B.e" name="prefix" />
+				<data source="035B.f" name="phonenr" />
+			</combine>
+			<data source="tel" name="dbs"></data>
+		</entity>
+		<entity name="fax[]" flushWith="record">
+			<combine name="sigel" value="(0${prefix}) ${faxnr}"
+				sameEntity="true">
+				<data source="035B.h" name="prefix" />
+				<data source="035B.i" name="faxnr" />
+			</combine>
+			<data source="fax" name="dbs"></data>
+		</entity>
+		<entity name="email[]" flushWith="record">
+			<data source="035B.k" name="sigel">
+				<regexp match="(.*)" format="mailto:${1}" />
+			</data>
+			<data source="ema" name="dbs">
+				<regexp match="(.*)" format="mailto:${1}" />
+			</data>
+		</entity>
+		<entity name="url[]" flushWith="record">
+			<combine name="sigel" value="${hp}" sameEntity="true">
+				<data source="009Q.u" name="hp" />
+				<data source="009Q.z" name="">
+					<regexp match="A" format="" />
+				</data>
+			</combine>
+			<data source="url" name="dbs"></data>
+		</entity>
+		<entity name="provides[]" flushWith="record">
+			<combine name="sigel" value="${url}" sameEntity="true">
+				<data source="009Q.u" name="url" />
+				<data source="009Q.z" name="">
+					<regexp match="B" format="" />
+				</data>
+			</combine>
+			<data source="opa" name="dbs"></data>
+		</entity>
+		<entity name="hasOpeningHoursSpecification[]" flushWith="record">
+			<data source="032P.i" name="sigel" />
+			<data source="oef" name="dbs" />
+		</entity>
+		<entity name="classification" flushWith="record">
+			<data source="035E.f" name="id">
+				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
+			</data>
+			<data source="typ_text" name="value"></data>
+		</entity>
+		<entity name="fundertype" flushWith="record">
+			<data source="035E.g" name="id">
+				<regexp match="(.*)" format="http://purl.org/lobid/fundertype#n${1}" />
+			</data>
+			<data source="utr_text" name="value"></data>
+		</entity>
+		<entity name="stocksize" flushWith="record">
+			<data source="035E.h" name="id">
+				<regexp match="(.*)" format="http://purl.org/lobid/stocksize#n${1}" />
+			</data>
+			<data source="gro_text" name="value"></data>
+		</entity>
+
+		<!-- SIGEL-only FIELDS -->
+
 		<data source="008H.e" name="isil" />
 		<data source="008H.e" name="lobid">
 			<regexp match="(.*)" format="http://lobid.org/organisation/${1}" />
@@ -23,27 +109,9 @@
 			<data source="032P.k" name="long" />
 			<data source="032P.l" name="lat" />
 		</entity>
-		<entity name="url[]" flushWith="record">
-			<combine name="url" value="${hp}" sameEntity="true">
-				<data source="009Q.u" name="hp" />
-				<data source="009Q.z" name="">
-					<regexp match="A" format="" />
-				</data>
-			</combine>
-		</entity>
-		<combine name="provides" value="${url}" sameEntity="true">
-			<data source="009Q.u" name="url" />
-			<data source="009Q.z" name="">
-				<regexp match="B" format="" />
-			</data>
-		</combine>
 		<entity name="altLabel[]" flushWith="record">
 			<data source="029@.a" name="altLabel" />
 		</entity>
-		<data source="029A.a" name="name">
-			<!-- sanitize entries like "Ruhr-Universita\u0308t Bochum,\n\t\t\t\t\tUniversita\u0308tsbibliothek" -->
-			<replace pattern="\t|\n|\(\s\)\s+" with="" />
-		</data>
 		<combine name="wikipedia" value="http://de.wikipedia.org/wiki/${titleDbpedia}">
 			<data source="@dbpediaMap" name="titleDbpedia" />
 		</combine>
@@ -63,35 +131,7 @@
 				</data>
 			</combine>
 		</entity>
-		<data source="032P.i" name="hasOpeningHoursSpecification" />
 		<data source="032P.n" name="locatedIn" />
-		<entity name="tel[]" flushWith="record">
-			<combine name="tel" value="(0${prefix}) ${phonenr}"
-				sameEntity="true">
-				<data source="035B.e" name="prefix" />
-				<data source="035B.f" name="phonenr" />
-			</combine>
-		</entity>
-		<entity name="fax[]" flushWith="record">
-			<combine name="fax" value="(0${prefix}) ${faxnr}" sameEntity="true">
-				<data source="035B.h" name="prefix" />
-				<data source="035B.i" name="faxnr" />
-			</combine>
-		</entity>
-		<entity name="email[]" flushWith="record">
-			<data source="035B.k" name="email">
-				<regexp match="(.*)" format="mailto:${1}" />
-			</data>
-		</entity>
-		<data source="035E.f" name="classification">
-			<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
-		</data>
-		<data source="035E.g" name="fundertype">
-			<regexp match="(.*)" format="http://purl.org/lobid/fundertype#n${1}" />
-		</data>
-		<data source="035E.h" name="stocksize">
-			<regexp match="(.*)" format="http://purl.org/lobid/stocksize#n${1}" />
-		</data>
 		<entity name="subject[]" flushWith="record">
 			<data source="035G.a" name="subject" />
 		</entity>
