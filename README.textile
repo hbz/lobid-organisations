@@ -32,6 +32,20 @@ in @src/test/resources@:
 
 For details, see the "Metamorph testing framework documentation":https://github.com/culturegraph/metafacture-core/wiki/Testing-Framework-for-Metamorph.
 
+h1. Workflow
+
+This project currently transforms two data sets into JSON for Elasticsearch indexing.
+
+The source data sets are the _Sigelverzeichnis_ ('Sigel', format: PicaPlus-XML) and the _Deutsche Bibliotheksstatistik_ ('DBS', format: CSV).
+
+The transformation is implemented by a pipeline with 3 logical steps:
+
+* Preprocess Sigel data, use DBS ID as record ID
+* Preprocess DBS data, use DBS ID as record ID
+* Enrich the DBS data with transformed Sigel data
+
+Each of these steps has a corresponding Java class, Morph definition, and output file.
+
 h1. Data
 
 Get the input data (hbz internal):
@@ -42,11 +56,11 @@ Get the input data (hbz internal):
 
 In the project root, run the transformation and change into the output directory:
 
-* @mvn exec:java -Dexec.mainClass="EnrichDbsWithSigelToJson"; cd src/main/resources/output/@
+* @mvn exec:java -Dexec.mainClass="flow.Enrich"; cd src/main/resources/output/@
 
 Import the data into Elasticsearch:
 
-* @curl -s -XPOST http://quaoar2.hbz-nrw.de:9200/_bulk --data-binary @dbs-enriched.out.json; echo@
+* @curl -s -XPOST http://quaoar2.hbz-nrw.de:9200/_bulk --data-binary @enriched.out.json; echo@
 
 Query the resulting index:
 

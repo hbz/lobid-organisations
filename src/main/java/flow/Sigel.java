@@ -1,3 +1,5 @@
+package flow;
+
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.reader.PicaXmlReader;
@@ -11,10 +13,10 @@ import org.culturegraph.mf.stream.source.FileOpener;
  * @author Fabian Steeg (fsteeg)
  *
  */
-public class SigelToJson {
+public class Sigel {
 
 	/** @param args Not used */
-	public static void main(String[] args) {
+	public static void main(String... args) {
 		DirReader open = new DirReader();
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);

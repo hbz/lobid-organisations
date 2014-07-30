@@ -1,3 +1,5 @@
+package flow;
+
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.CsvDecoder;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
@@ -11,10 +13,10 @@ import org.culturegraph.mf.stream.source.FileOpener;
  * @author Fabian Steeg (fsteeg)
  *
  */
-public class DbsToJson {
+public class Dbs {
 
 	/** @param args Not used */
-	public static void main(String[] args) {
+	public static void main(String... args) {
 		FileOpener opener = new FileOpener();
 		JsonEncoder encoder = new JsonEncoder();
 		encoder.setPrettyPrinting(true);

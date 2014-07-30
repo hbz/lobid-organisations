@@ -1,3 +1,5 @@
+package pipe;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -7,11 +9,13 @@ import org.culturegraph.mf.framework.DefaultObjectPipe;
 import org.culturegraph.mf.framework.ObjectReceiver;
 import org.culturegraph.mf.framework.annotations.In;
 import org.culturegraph.mf.framework.annotations.Out;
+import org.culturegraph.mf.stream.converter.JsonEncoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Add Elasticsearch bulk indexing metadata to JSON input.
+ * Add Elasticsearch bulk indexing metadata to JSON input.<br/>
+ * Use after {@link JsonEncoder}, before writing.
  * 
  * @author Fabian Steeg (fsteeg)
  *
@@ -27,7 +31,7 @@ public class ElasticsearchBulk extends
 	private String index;
 
 	/**
-	 * @param idKey The key of the value to be used as the ID for the record
+	 * @param idKey The key of the JSON value to be used as the ID for the record
 	 * @param type The Elasticsearch index type
 	 * @param index The Elasticsearch index name
 	 */
