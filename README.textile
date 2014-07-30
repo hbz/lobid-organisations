@@ -64,7 +64,7 @@ Import the data into Elasticsearch:
 
 Query the resulting index:
 
-* @curl -XGET 'http://quaoar2.hbz-nrw.de:9200/dbs/_search?q=name:hbz'; echo@
+* @curl -XGET 'http://quaoar2.hbz-nrw.de:9200/dbs/_search?q=name:hbz+OR+altLabel:hbz'; echo@
 
 For details see the "query string syntax documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax and general "Elasticsearch API documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/index.html.
 
