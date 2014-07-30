@@ -20,6 +20,20 @@ Get the input data (hbz internal):
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip@
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.zip; unzip sigel.zip@
 
+In the project root, run the transformation and change into the output directory:
+
+* @mvn exec:java -Dexec.mainClass="EnrichDbsWithSigelToJson"; cd src/main/resources/output/@
+
+Import the data into Elasticsearch:
+
+* @curl -s -XPOST http://quaoar2.hbz-nrw.de:9200/_bulk --data-binary @dbs-enriched.out.json; echo@
+
+Query the resulting index:
+
+* @curl -XGET 'http://quaoar2.hbz-nrw.de:9200/dbs/_search?q=name:hbz'; echo@
+
+For details see the "query string syntax documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax and general "Elasticsearch API documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/index.html.
+
 h1. License
 
 Eclipse Public License: "http://www.eclipse.org/legal/epl-v10.html":http://www.eclipse.org/legal/epl-v10.html

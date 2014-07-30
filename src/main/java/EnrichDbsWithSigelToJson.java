@@ -52,12 +52,15 @@ public class EnrichDbsWithSigelToJson {
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
 				new ObjectWriter<>("src/main/resources/output/dbs-enriched.out.json");
+		ElasticsearchBulk esBulk =
+				new ElasticsearchBulk("inr", "lobid-organisation", "dbs");
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(sortTriples)//
 				.setReceiver(new TripleCollect())//
 				.setReceiver(morph)//
 				.setReceiver(encodeJson)//
+				.setReceiver(esBulk)//
 				.setReceiver(writer);
 	}
 }
