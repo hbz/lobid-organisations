@@ -1,0 +1,42 @@
+<metamorph-test version="1.0"
+	xmlns="http://www.culturegraph.org/metamorph-test">
+	<test-case name="DbsMorph">
+		<input type="text/x-cg+xml">
+			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
+				<records>
+					<record id="dbs-id">
+						<literal name="035E.f" value="60" />
+						<literal name="typ_text" value="Universitätsbibliothek" />
+						<literal name="035E.g" value="02" />
+						<literal name="utr_text" value="Land" />
+						<literal name="035E.h" value="10" />
+						<literal name="gro_text" value="1.000.001 und mehr" />
+					</record>
+				</records>
+			</cgxml>
+		</input>
+		<transformation type="text/x-metamorph+xml" src="morph-enriched.xml">
+		</transformation>
+		<result type="text/x-cg+xml">
+			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
+				<records>
+					<record id="dbs-id">
+						<literal name="inr" value="dbs-id" />
+						<entity name="classification">
+							<literal name="id" value="http://purl.org/lobid/libtype#n60" />
+							<literal name="value" value="Universitätsbibliothek" />
+						</entity>
+						<entity name="fundertype">
+							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
+							<literal name="value" value="Land" />
+						</entity>
+						<entity name="stocksize">
+							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+							<literal name="value" value="1.000.001 und mehr" />
+						</entity>
+					</record>
+				</records>
+			</cgxml>
+		</result>
+	</test-case>
+</metamorph-test>

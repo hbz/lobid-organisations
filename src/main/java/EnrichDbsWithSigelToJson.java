@@ -44,8 +44,7 @@ public class EnrichDbsWithSigelToJson {
 			CloseSupressor<Triple> wait) {
 		TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // remove Sigel entries w/o DBS link
-		Metamorph morph =
-				new Metamorph("src/main/resources/morph/enriched.morph.xml");
+		Metamorph morph = new Metamorph("src/main/resources/morph-enriched.xml");
 		TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
 		JsonEncoder encodeJson = new JsonEncoder();

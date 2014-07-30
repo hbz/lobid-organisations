@@ -31,7 +31,7 @@ public class SigelToJson {
 		open.setFilenamePattern(".*\\.xml");
 		FileOpener openFile = new FileOpener();
 		PicaXmlReader readPicaXml = new PicaXmlReader();
-		Metamorph morph = new Metamorph("src/main/resources/morph/sigel.morph.xml");
+		Metamorph morph = new Metamorph("src/main/resources/morph-sigel.xml");
 		return open//
 				.setReceiver(openFile)//
 				.setReceiver(readPicaXml)//

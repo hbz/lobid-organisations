@@ -31,7 +31,7 @@ public class DbsToJson {
 		LineReader lines = new LineReader();
 		CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
-		Metamorph morph = new Metamorph("src/main/resources/morph/dbs.morph.xml");
+		Metamorph morph = new Metamorph("src/main/resources/morph-dbs.xml");
 
 		Metamorph morphDbs = opener//
 				.setReceiver(lines)//
