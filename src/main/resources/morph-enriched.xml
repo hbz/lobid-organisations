@@ -136,17 +136,25 @@
 			<data source="@dbpediaMap" name="titleDbpedia" />
 		</combine>
 		<entity name="adr" flushWith="record">
-			<data source="032P.a" name="street-address" />
-			<data source="032P.b" name="locality" />
-			<combine name="postal-code" value="${plz}" sameEntity="true">
-				<data source="032P.e" name="plz" />
-				<data source="032P.a" name="" />
-			</combine>
-			<combine name="country-name" value="${country}">
-				<data source="032P.d" name="country">
-					<lookup in="country-map" />
-				</data>
-			</combine>
+			<choose>
+				<data source="032P.a" name="street-address" />
+			</choose>
+			<choose>
+				<data source="032P.b" name="locality" />
+			</choose>
+			<choose>
+				<combine name="postal-code" value="${plz}" sameEntity="true">
+					<data source="032P.e" name="plz" />
+					<data source="032P.a" name="" />
+				</combine>
+			</choose>
+			<choose>
+				<combine name="country-name" value="${country}">
+					<data source="032P.d" name="country">
+						<lookup in="country-map" />
+					</data>
+				</combine>
+			</choose>
 		</entity>
 		<data source="032P.n" name="locatedIn" />
 		<entity name="subject[]" flushWith="record">
