@@ -64,7 +64,7 @@ public class Enrich {
 		ObjectWriter<String> writer =
 				new ObjectWriter<>("src/main/resources/output/enriched.out.json");
 		ElasticsearchBulk esBulk =
-				new ElasticsearchBulk("inr", "lobid-organisation", "dbs");
+				new ElasticsearchBulk("inr", "dbs", "organisations");
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(sortTriples)//
