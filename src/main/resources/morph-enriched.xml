@@ -87,28 +87,33 @@
 		<!-- DBS+SIGEL merge FIELDS -->
 
 		<entity name="classification" flushWith="record">
-			<data source="035E.f" name="id">
+			<data source="035E.f" name="@id">
 				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
 			</data>
 			<data source="typ_text" name="value"></data>
 		</entity>
 		<entity name="fundertype" flushWith="record">
-			<data source="035E.g" name="id">
+			<data source="035E.g" name="@id">
 				<regexp match="(.*)" format="http://purl.org/lobid/fundertype#n${1}" />
 			</data>
 			<data source="utr_text" name="value"></data>
 		</entity>
 		<entity name="stocksize" flushWith="record">
-			<data source="035E.h" name="id">
+			<data source="035E.h" name="@id">
 				<regexp match="(.*)" format="http://purl.org/lobid/stocksize#n${1}" />
 			</data>
 			<data source="gro_text" name="value"></data>
 		</entity>
 
 		<!-- SIGEL-only FIELDS -->
-
 		<data source="008H.e" name="isil" />
-		<data source="008H.e" name="lobid">
+		<data source="008H.e" name="\@context">
+			<constant value="http://schema.org" />
+		</data>
+		<data source="008H.e" name="\@type">
+			<constant value="http://xmlns.com/foaf/0.1/Organization" />
+		</data>
+		<data source="008H.e" name="\@id">
 			<regexp match="(.*)" format="http://lobid.org/organisation/${1}" />
 		</data>
 		<data source="008H.e" name="isPrimaryTopicOf">

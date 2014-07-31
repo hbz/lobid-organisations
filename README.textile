@@ -2,6 +2,8 @@ h1. About
 
 Experimental new data transformation workflows for the lobid-organisations data set based on "Metafacture":https://github.com/culturegraph/metafacture-core/wiki.
 
+Currently transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing.
+
 _Note: for the currently productive transformations see "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill_
 
 h1. Setup
@@ -67,11 +69,7 @@ h1. Data
 
 h2. Workflow
 
-This project currently transforms two data sets into JSON for Elasticsearch indexing.
-
-The source data sets are the _Sigelverzeichnis_ ('Sigel', format: PicaPlus-XML) and the _Deutsche Bibliotheksstatistik_ ('DBS', format: CSV).
-
-The transformation is implemented by a pipeline with 3 logical steps:
+The source data sets are the _Sigelverzeichnis_ ('Sigel', format: PicaPlus-XML) and the _Deutsche Bibliotheksstatistik_ ('DBS', format: CSV). The transformation is implemented by a pipeline with 3 logical steps:
 
 * Preprocess Sigel data, use DBS ID as record ID
 * Preprocess DBS data, use DBS ID as record ID
@@ -109,7 +107,11 @@ For details on the various options see the "query string syntax documentation":h
 
 Get a specific record by DBS ID:
 
-* @curl -XGET 'http://quaoar2.hbz-nrw.de:9200/organisations/dbs/ZY571'@
+* @curl -XGET 'http://quaoar2.hbz-nrw.de:9200/organisations/dbs/ZY571'; echo@
+
+Exclude the metadata (you can paste the resulting document into the "JSON-LD Playground":http://json-ld.org/playground/ for conversion tests etc.):
+
+* @curl -XGET 'http://quaoar2.hbz-nrw.de:9200/organisations/dbs/ZY571/_source'; echo@
 
 For details on the various options see the "GET API documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html.
 
