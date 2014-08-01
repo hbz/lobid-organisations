@@ -79,7 +79,7 @@ Each of these steps has a corresponding Java class, Morph definition, and output
 
 h2. Downloads
 
-Download the input data dumps (hbz internal):
+Download the input data dumps (only works hbz internally!):
 
 * @cd src/main/resources/input/@
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip@
@@ -89,8 +89,9 @@ Download the latest update of the Sigel data:
 
 * @wget -O sigel/sigel-picaplus-updates-2014.xml http://services.d-nb.de/oai/repository?set=bib&verb=ListRecords&metadataPrefix=PicaPlus-xml&from=2014-01-01&until=2014-12-31@
 
-In the project root, run the transformation and change into the output directory:
+Go to the project root, run the transformation and change into the output directory:
 
+* @cd ../../../../@
 * @mvn exec:java -Dexec.mainClass="flow.Enrich"; cd src/main/resources/output/@
 
 h2. Index
