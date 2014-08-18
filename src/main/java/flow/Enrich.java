@@ -2,6 +2,7 @@ package flow;
 
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
+import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
 import org.culturegraph.mf.stream.pipe.TripleFilter;
@@ -12,8 +13,6 @@ import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.DirReader;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
-
-import pipe.ElasticsearchBulk;
 
 /**
  * Simple enrichment of DBS records with Sigel data based on the DBS ID.
@@ -63,8 +62,8 @@ public class Enrich {
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
 				new ObjectWriter<>("src/main/resources/output/enriched.out.json");
-		ElasticsearchBulk esBulk =
-				new ElasticsearchBulk("inr", "dbs", "organisations");
+		JsonToElasticsearchBulk esBulk =
+				new JsonToElasticsearchBulk("inr", "dbs", "organisations");
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(sortTriples)//
