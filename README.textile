@@ -96,23 +96,25 @@ Go to the project root, run the transformation and change into the output direct
 
 h2. Index
 
-Import the data into Elasticsearch (hbz internal):
+Import the data into Elasticsearch (only works hbz internally!):
 
-* @curl -s -XPOST http://quaoar2.hbz-nrw.de:9200/_bulk --data-binary @enriched.out.json; echo@
+* @curl -s -XPOST http://weywot2.hbz-nrw.de:9200/_bulk --data-binary @enriched.out.json; echo@
 
-Query the resulting index:
+h2. Query
 
-* @curl -XGET 'http://quaoar2.hbz-nrw.de:9200/organisations/_search?q=name:hbz+OR+altLabel:hbz'; echo@
+Query the resulting index (using http://data.lobid.org, the public GET-only access proxy for our ES server):
+
+* @curl -XGET 'http://data.lobid.org/organisations/_search?q=name:hbz+OR+altLabel:hbz'; echo@
 
 For details on the various options see the "query string syntax documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax.
 
 Get a specific record by DBS ID:
 
-* @curl -XGET 'http://quaoar2.hbz-nrw.de:9200/organisations/dbs/ZY571'; echo@
+* @curl -XGET 'http://data.lobid.org/organisations/dbs/ZY571'; echo@
 
 Exclude the metadata (you can paste the resulting document into the "JSON-LD Playground":http://json-ld.org/playground/ for conversion tests etc.):
 
-* @curl -XGET 'http://quaoar2.hbz-nrw.de:9200/organisations/dbs/ZY571/_source'; echo@
+* @curl -XGET 'http://data.lobid.org/organisations/dbs/ZY571/_source'; echo@
 
 For details on the various options see the "GET API documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html.
 
