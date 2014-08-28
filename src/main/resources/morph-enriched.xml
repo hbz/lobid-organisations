@@ -77,13 +77,12 @@
 				</combine>
 			</choose>
 		</group>
-<!-- opening hours -->
-		<entity name="openingHoursSpecification" 
-				flushWith="record">
+		<!-- opening hours -->
+		<entity name="openingHoursSpecification" flushWith="record">
 			<data source="032P.i" name="description">
 			</data>
 			<data source="032P.i" name="@type">
-				<regexp match="(.*)" format="http://schema.org/OpeningHoursSpecification"/>
+				<constant value="http://schema.org/OpeningHoursSpecification" />
 			</data>
 		</entity>
 
@@ -123,10 +122,6 @@
 			<regexp match="(.*)"
 				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
 		</data>
-		<data source="008H.e" name="sameAs">
-			<regexp match="(.*)"
-				format="http://ld.zdb-services.de/resource/organisations/${1}" />
-		</data>
 		<data source="008H.e" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
 		</data>
@@ -134,7 +129,7 @@
 			<data source="032P.k" name="longitude" />
 			<data source="032P.l" name="latitude" />
 			<data source="032P.l" name="@type">
-				<regexp match="(.*)" format="http://schema.org/GeoCoordinates"/>
+				<regexp match="(.*)" format="http://schema.org/GeoCoordinates" />
 			</data>
 		</entity>
 		<entity name="alternateName[]" flushWith="record">
@@ -143,9 +138,15 @@
 		<combine name="wikipedia" value="http://de.wikipedia.org/wiki/${titleDbpedia}">
 			<data source="@dbpediaMap" name="titleDbpedia" />
 		</combine>
-		<combine name="sameAs" value="http://dbpedia.org/resource/${titleDbpedia}">
-			<data source="@dbpediaMap" name="titleDbpedia" />
-		</combine>
+		<entity name="sameAs[]" flushWith="record">
+			<combine name="sameAs" value="http://dbpedia.org/resource/${titleDbpedia}">
+				<data source="@dbpediaMap" name="titleDbpedia" />
+			</combine>
+			<data source="008H.e" name="sameAs">
+				<regexp match="(.*)"
+					format="http://ld.zdb-services.de/resource/organisations/${1}" />
+			</data>
+		</entity>
 		<entity name="address" flushWith="record">
 			<choose>
 				<data source="032P.a" name="streetAddress" />
@@ -167,7 +168,7 @@
 				</combine>
 			</choose>
 			<data source="032P.d" name="@type">
-				<regexp match="(.*)" format="http://schema.org/PostalAddress"/>
+				<constant value="http://schema.org/PostalAddress" />
 			</data>
 		</entity>
 		<data source="032P.n" name="locatedIn" />
