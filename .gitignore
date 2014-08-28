@@ -1,6 +1,4 @@
 target/
 .DS_Store
 *.out.*
-sigel/
 *.zip
-*.csv
