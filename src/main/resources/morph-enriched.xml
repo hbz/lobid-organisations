@@ -110,7 +110,7 @@
 		<!-- SIGEL-only FIELDS -->
 		<data source="008H.e" name="isil" />
 		<data source="008H.e" name="\@context">
-			<constant value="http://schema.org" />
+			<constant value="http://data.lobid.org/organisations/context.jsonld" />
 		</data>
 		<data source="008H.e" name="\@type">
 			<constant value="http://schema.org/Organization" />
