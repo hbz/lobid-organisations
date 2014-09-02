@@ -9,7 +9,7 @@
 
 		<data source="iso"></data>
 		<data source="sbi"></data>
-		<data source="gemeindekennzahl"></data>
+		<data source="gemeindekennzahl" name="ags"></data>
 		<data source="tvw"></data>
 		<data source="text"></data>
 		<data source="leitung"></data>
@@ -77,12 +77,14 @@
 				</combine>
 			</choose>
 		</group>
-		<group name="hasOpeningHoursSpecification">
-			<choose>
-				<data source="oef" />
-				<data source="032P.i" />
-			</choose>
-		</group>
+		<!-- opening hours -->
+		<entity name="openingHoursSpecification" flushWith="record">
+			<data source="032P.i" name="description">
+			</data>
+			<data source="032P.i" name="@type">
+				<constant value="http://schema.org/OpeningHoursSpecification" />
+			</data>
+		</entity>
 
 		<!-- DBS+SIGEL merge FIELDS -->
 
@@ -111,7 +113,7 @@
 			<constant value="http://schema.org" />
 		</data>
 		<data source="008H.e" name="\@type">
-			<constant value="http://xmlns.com/foaf/0.1/Organization" />
+			<constant value="http://schema.org/Organization" />
 		</data>
 		<data source="008H.e" name="\@id">
 			<regexp match="(.*)" format="http://lobid.org/organisation/${1}" />
@@ -120,46 +122,54 @@
 			<regexp match="(.*)"
 				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
 		</data>
-		<data source="008H.e" name="sameAs">
-			<regexp match="(.*)"
-				format="http://ld.zdb-services.de/resource/organisations/${1}" />
-		</data>
 		<data source="008H.e" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
 		</data>
-		<entity name="location" flushWith="record">
-			<data source="032P.k" name="long" />
-			<data source="032P.l" name="lat" />
+		<entity name="geo" flushWith="record">
+			<data source="032P.k" name="longitude" />
+			<data source="032P.l" name="latitude" />
+			<data source="032P.l" name="@type">
+				<regexp match="(.*)" format="http://schema.org/GeoCoordinates" />
+			</data>
 		</entity>
-		<entity name="altLabel[]" flushWith="record">
+		<entity name="alternateName[]" flushWith="record">
 			<data source="029@.a" name="altLabel" />
 		</entity>
 		<combine name="wikipedia" value="http://de.wikipedia.org/wiki/${titleDbpedia}">
 			<data source="@dbpediaMap" name="titleDbpedia" />
 		</combine>
-		<combine name="seeAlso" value="http://dbpedia.org/resource/${titleDbpedia}">
-			<data source="@dbpediaMap" name="titleDbpedia" />
-		</combine>
-		<entity name="adr" flushWith="record">
+		<entity name="sameAs[]" flushWith="record">
+			<combine name="sameAs" value="http://dbpedia.org/resource/${titleDbpedia}">
+				<data source="@dbpediaMap" name="titleDbpedia" />
+			</combine>
+			<data source="008H.e" name="sameAs">
+				<regexp match="(.*)"
+					format="http://ld.zdb-services.de/resource/organisations/${1}" />
+			</data>
+		</entity>
+		<entity name="address" flushWith="record">
 			<choose>
-				<data source="032P.a" name="street-address" />
+				<data source="032P.a" name="streetAddress" />
 			</choose>
 			<choose>
-				<data source="032P.b" name="locality" />
+				<data source="032P.b" name="addressLocality" />
 			</choose>
 			<choose>
-				<combine name="postal-code" value="${plz}" sameEntity="true">
+				<combine name="postalCode" value="${plz}" sameEntity="true">
 					<data source="032P.e" name="plz" />
 					<data source="032P.a" name="" />
 				</combine>
 			</choose>
 			<choose>
-				<combine name="country-name" value="${country}">
+				<combine name="addressCountry" value="${country}">
 					<data source="032P.d" name="country">
 						<lookup in="country-map" />
 					</data>
 				</combine>
 			</choose>
+			<data source="032P.d" name="@type">
+				<constant value="http://schema.org/PostalAddress" />
+			</data>
 		</entity>
 		<data source="032P.n" name="locatedIn" />
 		<entity name="subject[]" flushWith="record">
