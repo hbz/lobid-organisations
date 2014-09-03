@@ -5,7 +5,8 @@
 # Home page
 GET     /organisations                           controllers.Application.index()
 GET     /organisations/context.jsonld            controllers.Application.context()
-
+GET     /organisations/search                    controllers.Application.search(q)
+GET     /organisations/:id                       controllers.Application.get(id)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /public/*file                                  controllers.Assets.at(path="/public", file)

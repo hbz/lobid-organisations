@@ -122,7 +122,9 @@ For details on the various options see the "GET API documentation":http://www.el
 
 h2. Web
 
-The @web/@ directory contains a basic web app implemented with Play to serve the JSON-LD context as @application/ld+json@ with CORS support. This is required to use the JSON-LD from third party clients, e.g. the "JSON-LD Playground":http://json-ld.org/playground/
+The @web/@ directory contains a basic web app implemented with Play to serve the JSON-LD context as @application/ld+json@ with CORS support. This is required to use the JSON-LD from third party clients, e.g. the "JSON-LD Playground":http://json-ld.org/playground/. It also provides proxy routes for Elasticsearch queries via HTTP (see index page of the web app for details).
+
+Set up the Play application:
 
 * @cd ~@
 * @wget http://downloads.typesafe.com/typesafe-activator/1.2.10/typesafe-activator-1.2.10-minimal.zip@

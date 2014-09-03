@@ -1,7 +1,14 @@
 @(title: String)
 
-@main(title) {
+@desc(label: String, link: play.api.mvc.Call) = {
+ <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":")</a></dd>
+}
 
+@main(title) {
     <h1>@title</h1>
-    <a href="@routes.Application.context">JSON-LD context</a>
+    <dl>
+    @desc("Get", routes.Application.get("ZY571"))
+    @desc("Query", routes.Application.search("fundertype.value:land"))
+    @desc("Context", routes.Application.context)
+    </dl>
 }
