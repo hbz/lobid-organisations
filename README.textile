@@ -6,6 +6,12 @@ Currently transforms two data sets from Pica-XML and CSV to JSON-LD for Elastics
 
 _Note: for the currently productive transformations see "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill_
 
+h1. Overview
+
+This repo is an implementation of a _Lobid Dataset Module_. See its role in the _Lobid Macro Architecture_:
+
+!{width:50%}architecture.png!  
+
 h1. Setup
 
 h2. Build
