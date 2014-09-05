@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
 import org.junit.*;
 
 import play.mvc.*;
@@ -15,31 +16,30 @@ import play.i18n.Lang;
 import play.libs.F;
 import play.libs.F.*;
 import play.twirl.api.Content;
-
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
 
 /**
-*
-* Simple (JUnit) tests that can call all parts of a play app.
-* If you are interested in mocking a whole application, see the wiki for more details.
-*
-*/
+ * Tests without external dependencies. Run in CI.
+ */
 public class ApplicationTest {
 
     @Test
-    public void simpleCheck() {
-        int a = 1 + 1;
-        assertThat(a).isEqualTo(2);
+    public void renderIndexTemplate() {
+        Content html = views.html.index.render("Page title");
+        assertThat(contentType(html)).isEqualTo("text/html");
+        assertThat(contentAsString(html)).contains("Page title");
     }
 
     @Test
-    public void renderTemplate() {
-        Content html = views.html.index.render("Your new application is ready.");
-        assertThat(contentType(html)).isEqualTo("text/html");
-        assertThat(contentAsString(html)).contains("Your new application is ready.");
+    public void contextContentTypeAndCorsHeader() {
+        running(fakeApplication(), () -> {
+             Result result = route(fakeRequest(GET, "/organisations/context.jsonld"));
+             assertThat(result).isNotNull();
+             assertThat(contentType(result)).isEqualTo("application/ld+json");
+             assertThat(header("Access-Control-Allow-Origin", result)).isEqualTo("*");
+        });
     }
-
 
 }

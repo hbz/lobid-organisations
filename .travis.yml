@@ -12,4 +12,4 @@ before_install:
 script:
   - mvn test
   - cd web
-  - ../activator-${ACTIVATOR_VERSION}-minimal/activator test
+  - ../activator-${ACTIVATOR_VERSION}-minimal/activator "test-only ApplicationTest"
