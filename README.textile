@@ -63,7 +63,7 @@ h2. Eclipse
 
 The processing pipelines are written in Java, the actual transformation logic and tests are written in XML. Both can be comfortably edited using Eclipse, which provides content assist (auto-suggest), Maven support, and direct execution of tests and the transformation.
 
-* Download and run the "Eclipse Java IDE":https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/lunar, close the welcome screen and import metafacture-core and lobid-resources: 
+* Download and run the "Eclipse Java IDE":https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/lunar (at least version 4.4, Luna), close the welcome screen and import metafacture-core and lobid-resources: 
 * @File@ -> @Import...@ -> @Maven@ -> @Existing Maven Projects...@ -> @Next@ -> @Browse...@ -> select @~/git@ -> @Finish@
 * Follow the instructions for installing additional plugins and restart Eclipse when it asks you to
 * Set up the XML schemas for content assist and documentation while editing metamorph and metamorph-test files:
