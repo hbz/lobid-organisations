@@ -1,0 +1,36 @@
+{
+	"settings": {
+		"index":{
+			"analysis":{
+				"filter": {
+					"autocomplete_filter":{
+						"type": "edge_ngram",
+						"min_gram": 1,
+						"max_gram": 40
+					}
+				},
+				"analyzer": {
+					"autocomplete": {
+						"type": "custom",
+						"tokenizer": "letter",
+						"filter": [
+							"lowercase",
+							"autocomplete_filter"
+						]
+					}
+				}
+			}
+		}
+	},
+	"mappings" : {
+		"dbs": {
+			"properties": {
+				"name": {
+					"type": "string",
+					"index_analyzer": "autocomplete",
+					"search_analyzer": "standard"
+				}
+			}
+		}
+	}
+}
