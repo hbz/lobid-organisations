@@ -30,14 +30,17 @@ public class TestNGram {
 		removeIndex();
 		sendSettings();
 		indexData();
+		Thread.sleep(1000);
 	}
 
-	private static void indexData() throws IOException {
+	private static void indexData() throws IOException, InterruptedException {
 		String command =
 				"curl -s -XPOST " + SERVER + "_bulk"
 						+ " --data-binary @src/main/resources/output/enriched.out.json";
 		Process createProcess = Runtime.getRuntime().exec(command);
+		createProcess.waitFor();
 		printProcessOutput(createProcess);
+
 	}
 
 	private static void sendSettings() throws IOException, InterruptedException {
@@ -72,16 +75,16 @@ public class TestNGram {
 
 	@Test
 	public void requestFullTerm() throws IOException {
-		URL url = new URL(SEARCH_ROOT + "q=name:Hochschulbibliothekszentrum'");
+		URL url = new URL(SEARCH_ROOT + "q=name:Stadtbibliothek");
 		int total = getTotal(url);
-		assertEquals("Request should return 6", 6, total);
+		assertEquals("Request should return 1", 1, total);
 	}
 
 	@Test
 	public void requestNGram() throws IOException {
-		URL url = new URL(SEARCH_ROOT + "q=name:Hochschulbibliothekszen'");
+		URL url = new URL(SEARCH_ROOT + "q=name:Stadtbib");
 		int total = getTotal(url);
-		assertEquals("Request should return results for ngram", 6, total);
+		assertEquals("Request should return results for ngram", 1, total);
 	}
 
 	private static int getTotal(URL url) throws IOException, JsonParseException,
