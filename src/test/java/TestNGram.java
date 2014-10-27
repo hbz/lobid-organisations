@@ -1,10 +1,23 @@
+import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.node.Node;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -18,80 +31,103 @@ import flow.Enrich;
 @SuppressWarnings("javadoc")
 public class TestNGram {
 
-	private static Runtime rt = Runtime.getRuntime();
-	private static final String SERVER =
-			"http://weywot2.hbz-nrw.de:9200/organisations/";
-
-	private static final String SEARCH_ROOT = SERVER + "_search?";
+	private static Node node = nodeBuilder().local(true).node();
+	private static Client client = node.client();
 
 	@BeforeClass
-	public static void makeIndex() throws IOException, InterruptedException {
+	public static void makeIndex() throws IOException {
 		Enrich.main();
-		removeIndex();
-		sendSettings();
+		createEmptyIndex();
 		indexData();
-		Thread.sleep(1000);
 	}
 
-	private static void indexData() throws IOException, InterruptedException {
-		String command =
-				"curl -s -XPOST " + SERVER + "_bulk"
-						+ " --data-binary @src/main/resources/output/enriched.out.json";
-		Process createProcess = Runtime.getRuntime().exec(command);
-		createProcess.waitFor();
-		printProcessOutput(createProcess);
+	@AfterClass
+	public static void closeNode() {
+		node.close();
+	}
+
+	private static void indexData() throws IOException {
+
+		BulkRequestBuilder bulkRequest = client.prepareBulk();
+
+		try (BufferedReader br =
+				new BufferedReader(new FileReader(
+						"src/main/resources/output/enriched.out.json"))) {
+			readData(bulkRequest, br);
+		}
+
+		bulkRequest.execute().actionGet();
+		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 
 	}
 
-	private static void sendSettings() throws IOException, InterruptedException {
-		Process settingsProcess =
-				Runtime.getRuntime().exec(
-						"curl -XPUT " + SERVER
-								+ " --data-binary @src/main/resources/index-settings.json");
-		settingsProcess.waitFor();
-		printProcessOutput(settingsProcess);
-	}
+	private static void readData(BulkRequestBuilder bulkRequest, BufferedReader br)
+			throws IOException, JsonParseException, JsonMappingException {
+		ObjectMapper mapper = new ObjectMapper();
+		String line;
+		int currentLine = 1;
+		String organisationId = null;
+		String organisationData = null;
 
-	private static void removeIndex() throws IOException, InterruptedException {
-		Process deleteProcess = rt.exec("curl -XDELETE " + SERVER);
-		deleteProcess.waitFor();
-		printProcessOutput(deleteProcess);
-	}
+		// First line: index with id, second line: source
+		while ((line = br.readLine()) != null) {
+			if (currentLine % 2 != 0) {
+				JsonNode rootNode = mapper.readValue(line, JsonNode.class);
+				JsonNode index = rootNode.get("index");
+				organisationId = index.findValue("_id").asText();
 
-	private static void printProcessOutput(Process p) {
-		BufferedReader reader =
-				new BufferedReader(new InputStreamReader(p.getInputStream()));
-		String outputLine;
-		try {
-			outputLine = reader.readLine();
-			while (outputLine != null) {
-				System.out.println(outputLine);
-				outputLine = reader.readLine();
+			} else {
+				organisationData = line;
+				bulkRequest.add(client.prepareIndex("organisations", "dbs",
+						organisationId).setSource(organisationData));
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			currentLine++;
 		}
 	}
 
+	private static void createEmptyIndex() throws JsonParseException,
+			JsonMappingException, IOException {
+
+		deleteIndex();
+
+		String settingsMappings =
+				Files.lines(Paths.get("src/main/resources/index-settings.json"))
+						.collect(Collectors.joining());
+
+		CreateIndexRequestBuilder cirb =
+				client.admin().indices().prepareCreate("organisations");
+
+		cirb.setSource(settingsMappings);
+		cirb.execute().actionGet();
+	}
+
+	private static void deleteIndex() {
+		if (client.admin().indices().prepareExists("organisations").execute()
+				.actionGet().isExists()) {
+			DeleteIndexRequest deleteIndexRequest =
+					new DeleteIndexRequest("organisations");
+			client.admin().indices().delete(deleteIndexRequest);
+		}
+	}
+
+	private static SearchResponse search(String nameToSearch) {
+		SearchResponse responseOfSearch =
+				client.prepareSearch("organisations").setTypes("dbs")
+						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
+						.setQuery(QueryBuilders.termQuery("name", nameToSearch)).execute()
+						.actionGet();
+		return responseOfSearch;
+	}
+
 	@Test
-	public void requestFullTerm() throws IOException {
-		URL url = new URL(SEARCH_ROOT + "q=name:Stadtbibliothek");
-		int total = getTotal(url);
+	public void requestFullTerm() {
+		long total = search("stadtbibliothek").getHits().getTotalHits();
 		assertEquals("Request should return 1", 1, total);
 	}
 
 	@Test
-	public void requestNGram() throws IOException {
-		URL url = new URL(SEARCH_ROOT + "q=name:Stadtbib");
-		int total = getTotal(url);
-		assertEquals("Request should return results for ngram", 1, total);
-	}
-
-	private static int getTotal(URL url) throws IOException, JsonParseException,
-			JsonMappingException {
-		ObjectMapper mapper = new ObjectMapper();
-		JsonNode rootNode = mapper.readValue(url, JsonNode.class);
-		int total = rootNode.get("hits").findValue("total").asInt();
-		return total;
+	public void requestNGram() {
+		long total = search("stadtbib").getHits().getTotalHits();
+		assertEquals("Request should return 1", 1, total);
 	}
 }
