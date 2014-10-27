@@ -1,22 +1,23 @@
 {
 	"settings": {
 		"index":{
-			"analysis":{
-				"filter": {
-					"autocomplete_filter":{
-						"type": "edge_ngram",
-						"min_gram": 1,
-						"max_gram": 40
-					}
-				},
+			"analysis":{				
 				"analyzer": {
 					"autocomplete": {
-						"type": "custom",
-						"tokenizer": "letter",
-						"filter": [
-							"lowercase",
-							"autocomplete_filter"
-						]
+						"tokenizer" : "my_edge_ngram_tokenizer",
+						"filter" : "lowercase"
+					},
+					"lowercasesearch": {
+						"tokenizer" : "standard",
+						"filter" : "lowercase"
+					}
+				},
+				"tokenizer" : {
+					"my_edge_ngram_tokenizer" : {
+						"type" : "edgeNGram",
+						"min_gram" : "1",
+						"max_gram" : "40",
+						"token_chars": [ "letter", "digit" ]
 					}
 				}
 			}
@@ -28,7 +29,7 @@
 				"name": {
 					"type": "string",
 					"index_analyzer": "autocomplete",
-					"search_analyzer": "standard"
+					"search_analyzer": "lowercasesearch"
 				}
 			}
 		}

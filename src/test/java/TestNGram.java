@@ -114,20 +114,20 @@ public class TestNGram {
 		SearchResponse responseOfSearch =
 				client.prepareSearch("organisations").setTypes("dbs")
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
-						.setQuery(QueryBuilders.termQuery("name", nameToSearch)).execute()
+						.setQuery(QueryBuilders.matchQuery("name", nameToSearch)).execute()
 						.actionGet();
 		return responseOfSearch;
 	}
 
 	@Test
 	public void requestFullTerm() {
-		long total = search("stadtbibliothek").getHits().getTotalHits();
+		long total = search("Stadtbibliothek").getHits().getTotalHits();
 		assertEquals("Request should return 1", 1, total);
 	}
 
 	@Test
 	public void requestNGram() {
-		long total = search("stadtbib").getHits().getTotalHits();
+		long total = search("Stadtbib").getHits().getTotalHits();
 		assertEquals("Request should return 1", 1, total);
 	}
 }
