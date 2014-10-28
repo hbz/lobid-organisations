@@ -10,6 +10,7 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.node.Node;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -29,6 +30,13 @@ public class TestNGram {
 		/* Index creation */
 		Index.createEmptyIndex(client);
 		Index.indexData(client);
+
+	}
+
+	@AfterClass
+	public static void closeElasticSearch() {
+		client.close();
+		node.close();
 	}
 
 	private static SearchResponse search(String nameToSearch) {
