@@ -24,7 +24,9 @@ import org.culturegraph.mf.types.Triple;
  */
 public class Enrich {
 
-	/** @param args Not used */
+	/**
+	 * @param args Not used
+	 */
 	public static void main(String... args) {
 		/* Run both preparatory pipelines standalone for debugging, doc etc. */
 		Dbs.main();
@@ -33,7 +35,7 @@ public class Enrich {
 		process();
 	}
 
-	private static void process() {
+	static void process() {
 		DirReader openSigel = new DirReader();
 		StreamToTriples streamToTriples1 = new StreamToTriples();
 		streamToTriples1.setRedirect(true);

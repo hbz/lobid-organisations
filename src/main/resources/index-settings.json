@@ -1,0 +1,37 @@
+{
+	"settings": {
+		"index":{
+			"analysis":{
+				"analyzer": {
+					"autocomplete": {
+						"tokenizer" : "my_edge_ngram_tokenizer",
+						"filter" : "lowercase"
+					},
+					"lowercasesearch": {
+						"tokenizer" : "standard",
+						"filter" : "lowercase"
+					}
+				},
+				"tokenizer" : {
+					"my_edge_ngram_tokenizer" : {
+						"type" : "edgeNGram",
+						"min_gram" : "1",
+						"max_gram" : "40",
+						"token_chars": [ "letter", "digit" ]
+					}
+				}
+			}
+		}
+	},
+	"mappings" : {
+		"dbs": {
+			"properties": {
+				"name": {
+					"type": "string",
+					"index_analyzer": "autocomplete",
+					"search_analyzer": "lowercasesearch"
+				}
+			}
+		}
+	}
+}
