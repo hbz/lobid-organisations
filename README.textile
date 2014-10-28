@@ -2,7 +2,7 @@ h1. About
 
 Experimental new data transformation workflows for the lobid-organisations data set based on "Metafacture":https://github.com/culturegraph/metafacture-core/wiki.
 
-Currently transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing.
+Currently transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing. The reulting data is used to build an index in Elasticsearch.
 
 _Note: for the currently productive transformations see "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill_
 
@@ -41,9 +41,9 @@ See the @.travis.yml@ file for details on the CI config used by Travis.
 
 h2. Tests
 
-The build described above executes tests of the Metamorph transformations.
+The build described above executes tests of the Metamorph transformations and the elasticsearch indexing.
 
-These tests are defined in XML files with a @test_@ prefix corresponding to the tested Metamorph files:
+The Metamorph tests are defined in XML files with a @test_@ prefix corresponding to the tested Metamorph files:
 
 in @src/main/resources@:
 
@@ -58,6 +58,8 @@ in @src/test/resources@:
 @test_morph-sigel.xml@
 
 For details, see the "Metamorph testing framework documentation":https://github.com/culturegraph/metafacture-core/wiki/Testing-Framework-for-Metamorph.
+
+The elasticsearch tests are defined in in @src/test/java/TestNGram.java@.
 
 h2. Eclipse
 
@@ -81,7 +83,9 @@ The source data sets are the _Sigelverzeichnis_ ('Sigel', format: PicaPlus-XML) 
 * Preprocess DBS data, use DBS ID as record ID
 * Enrich the DBS data with transformed Sigel data
 
-Each of these steps has a corresponding Java class, Morph definition, and output file.
+Each of these steps has a corresponding Java class, Morph definition, and output file. 
+
+Finally, the data can be indexed in elasticsearch using a separate Java class (only works hbz internally).
 
 h2. Downloads
 
@@ -97,16 +101,16 @@ Optional: download the latest update of the Sigel data:
 
 h2. Transform
 
-Go to the project root, run the transformation and change into the output directory:
+Go to the project root and run the transformation:
 
 * @cd ../../../../@
-* @mvn exec:java -Dexec.mainClass="flow.Enrich"; cd src/main/resources/output/@
+* @mvn exec:java -Dexec.mainClass="flow.Enrich"@
 
 h2. Index
 
-Import the data into Elasticsearch (only works hbz internally!):
+Run the indexing (only works hbz internally!):
 
-* @curl -s -XPOST http://weywot2.hbz-nrw.de:9200/_bulk --data-binary @enriched.out.json; echo@
+* @mvn exec:java -Dexec.mainClass="flow.Index"@
 
 h2. Query
 
