@@ -1,7 +1,7 @@
 {
 	"settings": {
 		"index":{
-			"analysis":{				
+			"analysis":{
 				"analyzer": {
 					"autocomplete": {
 						"tokenizer" : "my_edge_ngram_tokenizer",

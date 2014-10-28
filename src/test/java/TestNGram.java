@@ -26,8 +26,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import flow.Enrich;
-
 @SuppressWarnings("javadoc")
 public class TestNGram {
 
@@ -36,7 +34,7 @@ public class TestNGram {
 
 	@BeforeClass
 	public static void makeIndex() throws IOException {
-		Enrich.main();
+		// Enrich.main();
 		createEmptyIndex();
 		indexData();
 	}
@@ -128,6 +126,18 @@ public class TestNGram {
 	@Test
 	public void requestNGram() {
 		long total = search("Stadtbib").getHits().getTotalHits();
+		assertEquals("Request should return 1", 1, total);
+	}
+
+	@Test
+	public void requestLowerCase() {
+		long total = search("stadtbibliothek").getHits().getTotalHits();
+		assertEquals("Request should return 1", 1, total);
+	}
+
+	@Test
+	public void requestUpperCase() {
+		long total = search("STADTBIBLIOTHEK").getHits().getTotalHits();
 		assertEquals("Request should return 1", 1, total);
 	}
 }
