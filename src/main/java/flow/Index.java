@@ -35,9 +35,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Index {
 
-	private static Node node;
-	private static Client client;
-
 	/**
 	 * @param args Not used
 	 * @throws IOException if json file with output cannot be found
@@ -47,31 +44,25 @@ public class Index {
 	 */
 	public static void main(String... args) throws JsonParseException,
 			JsonMappingException, IOException {
-		indexToElasticSearch();
-	}
-
-	private static void indexToElasticSearch() throws JsonParseException,
-			JsonMappingException, IOException {
-		node = nodeBuilder().local(false).node();
 		Settings clientSettings =
 				ImmutableSettings.settingsBuilder()
 						.put("cluster.name", "organisation-cluster")
 						.put("client.transport.sniff", true).build();
 
-		try (TransportClient transportClient = new TransportClient(clientSettings)) {
-			client =
-					transportClient.addTransportAddress(new InetSocketTransportAddress(
-							"weywot2.hbz-nrw.de", 9300));
-
-			createEmptyIndex();
-			indexData();
+		try (Node node = nodeBuilder().local(false).node();
+				TransportClient transportClient = new TransportClient(clientSettings);
+				Client client =
+						transportClient.addTransportAddress(new InetSocketTransportAddress(
+								"weywot2.hbz-nrw.de", 9300));) {
+			createEmptyIndex(client);
+			indexData(client);
 			client.close();
 			node.close();
 		}
 	}
 
-	private static void createEmptyIndex() throws IOException {
-		deleteIndex();
+	static void createEmptyIndex(Client client) throws IOException {
+		deleteIndex(client);
 		String settingsMappings =
 				Files.lines(Paths.get("src/main/resources/index-settings.json"))
 						.collect(Collectors.joining());
@@ -81,19 +72,20 @@ public class Index {
 		cirb.execute().actionGet();
 	}
 
-	private static void indexData() throws IOException {
+	static void indexData(Client client) throws IOException {
 		BulkRequestBuilder bulkRequest = client.prepareBulk();
 		try (BufferedReader br =
 				new BufferedReader(new FileReader(
 						"src/main/resources/output/enriched.out.json"))) {
-			readData(bulkRequest, br);
+			readData(bulkRequest, br, client);
 		}
 		bulkRequest.execute().actionGet();
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
-	private static void readData(BulkRequestBuilder bulkRequest, BufferedReader br)
-			throws IOException, JsonParseException, JsonMappingException {
+	private static void readData(BulkRequestBuilder bulkRequest,
+			BufferedReader br, Client client) throws IOException, JsonParseException,
+			JsonMappingException {
 		ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;
@@ -106,7 +98,6 @@ public class Index {
 				JsonNode rootNode = mapper.readValue(line, JsonNode.class);
 				JsonNode index = rootNode.get("index");
 				organisationId = index.findValue("_id").asText();
-
 			} else {
 				organisationData = line;
 				bulkRequest.add(client.prepareIndex("organisations", "dbs",
@@ -116,14 +107,12 @@ public class Index {
 		}
 	}
 
-	private static void deleteIndex() {
+	private static void deleteIndex(Client client) {
 		if (client.admin().indices().prepareExists("organisations").execute()
 				.actionGet().isExists()) {
 			DeleteIndexRequest deleteIndexRequest =
 					new DeleteIndexRequest("organisations");
 			client.admin().indices().delete(deleteIndexRequest);
 		}
-
 	}
-
 }

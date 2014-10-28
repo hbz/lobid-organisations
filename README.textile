@@ -2,7 +2,7 @@ h1. About
 
 Experimental new data transformation workflows for the lobid-organisations data set based on "Metafacture":https://github.com/culturegraph/metafacture-core/wiki.
 
-Currently transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing. The reulting data is used to build an index in Elasticsearch.
+Currently transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing. The resulting data is used to build an index in Elasticsearch.
 
 _Note: for the currently productive transformations see "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill_
 
@@ -41,7 +41,7 @@ See the @.travis.yml@ file for details on the CI config used by Travis.
 
 h2. Tests
 
-The build described above executes tests of the Metamorph transformations and the elasticsearch indexing.
+The build described above executes tests of the Metamorph transformations and the Elasticsearch indexing.
 
 The Metamorph tests are defined in XML files with a @test_@ prefix corresponding to the tested Metamorph files:
 
@@ -59,7 +59,7 @@ in @src/test/resources@:
 
 For details, see the "Metamorph testing framework documentation":https://github.com/culturegraph/metafacture-core/wiki/Testing-Framework-for-Metamorph.
 
-The elasticsearch tests are defined in in @src/test/java/TestNGram.java@.
+The Elasticsearch tests are defined in in @src/test/java/TestNGram.java@.
 
 h2. Eclipse
 
@@ -85,7 +85,7 @@ The source data sets are the _Sigelverzeichnis_ ('Sigel', format: PicaPlus-XML) 
 
 Each of these steps has a corresponding Java class, Morph definition, and output file. 
 
-Finally, the data can be indexed in elasticsearch using a separate Java class (only works hbz internally).
+Finally, the data can be indexed in Elasticsearch using a separate Java class (only works hbz internally).
 
 h2. Downloads
 
