@@ -19,3 +19,4 @@ RUNNING_PID
 .settings
 *~
 sigel-*
+data/*

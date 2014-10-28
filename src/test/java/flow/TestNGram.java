@@ -1,3 +1,5 @@
+package flow;
+
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import static org.junit.Assert.assertEquals;
 
@@ -34,7 +36,12 @@ public class TestNGram {
 
 	@BeforeClass
 	public static void makeIndex() throws IOException {
-		// Enrich.main();
+		/* Data transformation */
+		Dbs.main();
+		Sigel.main();
+		Enrich.process();
+
+		/* Index creation */
 		createEmptyIndex();
 		indexData();
 	}

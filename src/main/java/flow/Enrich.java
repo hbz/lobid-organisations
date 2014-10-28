@@ -69,7 +69,7 @@ public class Enrich {
 		indexToElasticSearch();
 	}
 
-	private static void process() {
+	static void process() {
 		DirReader openSigel = new DirReader();
 		StreamToTriples streamToTriples1 = new StreamToTriples();
 		streamToTriples1.setRedirect(true);
