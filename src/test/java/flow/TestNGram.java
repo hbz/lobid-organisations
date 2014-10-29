@@ -1,43 +1,14 @@
 package flow;
 
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.node.Node;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class TestNGram {
-
-	private static Node node = nodeBuilder().local(true).node();
-	private static Client client = node.client();
-
-	@BeforeClass
-	public static void makeIndex() throws IOException {
-		/* Data transformation */
-		Dbs.main();
-		Sigel.main();
-		Enrich.process();
-
-		/* Index creation */
-		Index.createEmptyIndex(client);
-		Index.indexData(client);
-
-	}
-
-	@AfterClass
-	public static void closeElasticSearch() {
-		client.close();
-		node.close();
-	}
+public class TestNGram extends ElasticsearchTest {
 
 	private static SearchResponse search(String nameToSearch) {
 		SearchResponse responseOfSearch =
@@ -71,4 +42,5 @@ public class TestNGram {
 		long total = search("STADTBIBLIOTHEK").getHits().getTotalHits();
 		assertEquals("Request should return 1", 1, total);
 	}
+
 }
