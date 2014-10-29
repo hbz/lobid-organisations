@@ -18,7 +18,24 @@ public class TestJsonLd extends ElasticsearchTest {
 	private static String getSource(String id) {
 		GetResponse response =
 				client.prepareGet("organisations", "dbs", id).execute().actionGet();
-		return response.getSourceAsString();
+		String source = response.getSourceAsString();
+		source = replaceContext(source);
+		return source;
+	}
+
+	private static String replaceContext(String source) {
+		String newSource =
+				source.replaceAll("http://data.lobid.org/organisations/context.jsonld",
+						"http://schema.org");
+
+		/* For testing with local context */
+		// File file = new File("src/main/resources/organisations-context.jsonld");
+		// String pathToContext = file.getAbsolutePath();
+		// String newSource =
+		// source.replaceAll("http://data.lobid.org/organisations/context.jsonld",
+		// "file://" + pathToContext);
+
+		return newSource;
 	}
 
 	@Test
