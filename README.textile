@@ -144,6 +144,12 @@ Set up the Play application:
 
 Open @http://localhost:9000/organisations@
 
+Load the web application into Eclipse:
+
+* @Ctrl+D@
+* @eclipse@
+* In Eclipse: @File@ -> @Import...@ -> @Existing Projects into Workspace...@ -> @Next@ -> @Browse...@ -> select root directory: @~/git/lobid-organisations/web@ -> @Finish@
+
 h1. License
 
 Eclipse Public License: "http://www.eclipse.org/legal/epl-v10.html":http://www.eclipse.org/legal/epl-v10.html
