@@ -30,6 +30,9 @@
 					"type": "string",
 					"index_analyzer": "autocomplete",
 					"search_analyzer": "lowercasesearch"
+				},
+				"location": {
+					"type": "geo_point"
 				}
 			}
 		}
