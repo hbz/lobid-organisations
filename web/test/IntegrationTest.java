@@ -5,6 +5,7 @@ import play.test.*;
 import play.libs.F.*;
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests with internal dependencies. Run locally.
@@ -40,5 +41,12 @@ public class IntegrationTest {
              assertThat(contentAsString(result)).contains("Musikhochschule Lübeck");
         });
     }
-
+    
+    @Test
+    public void locationSearch(){
+    	running(fakeApplication(), () -> {
+	    	Result result = route(fakeRequest(GET, "/organisations/search?q=*&location=12,52+14,52+12+54+14,54"));
+	    	assertThat(result).isNotNull();
+    	});
+    }
 }

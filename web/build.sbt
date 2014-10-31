@@ -8,5 +8,6 @@ scalaVersion := "2.11.1"
 
 libraryDependencies ++= Seq(
   cache,
-  javaWs
+  javaWs,
+  "org.elasticsearch" % "elasticsearch" % "1.3.2"
 )

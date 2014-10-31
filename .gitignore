@@ -20,3 +20,4 @@ RUNNING_PID
 *~
 sigel-*
 data/*
+web/data/*
