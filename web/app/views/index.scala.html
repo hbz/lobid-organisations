@@ -7,8 +7,14 @@
 @main(title) {
     <h1>@title</h1>
     <dl>
+    <h2>Simple queries</h2>
     @desc("Get", routes.Application.get("ZY571"))
-    @desc("Query", routes.Application.search("fundertype.value:land", "52,12+53,12+53,14+52,14"))
+    @desc("Query", routes.Application.search("fundertype.value:land"))
+    <hr/>
+    <h2>Queries with location</h2>
+    @desc("Query with coordinates", routes.Application.search("fundertype.value:land", "52,12+53,12+53,14+52,14"))
+    <hr/>
+    <h2>JSON-LD Context</h2>
     @desc("Context", routes.Application.context)
     </dl>
 }
