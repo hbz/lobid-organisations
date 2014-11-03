@@ -1,25 +1,19 @@
 @(title: String)
 
 @desc(label: String, link: play.api.mvc.Call) = {
- <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":")</a></dd>
+ <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":").replace("%2C",",")</a></dd>
 }
 
 @main(title) {
     <h1>@title</h1>
     <dl>
-    <h2>Simple queries</h2>
+    <h2>Basics</h2>
     @desc("Get", routes.Application.get("ZY571"))
     @desc("Query", routes.Application.search("fundertype.value:land"))
-    <hr/>
-    <h2>Queries with from and size</h2> 
-    @desc("Query with size", routes.Application.search("fundertype.value:land", size = 4))
     @desc("Query with from and size", routes.Application.search("fundertype.value:land", from=2, size = 2))
-    <hr/>
-    <h2>Queries with location</h2>
-    @desc("Query with polygon coordinates (location stands for polygon points)", routes.Application.search("fundertype.value:land", "52,12+53,12+53,14+52,14"))
-    @desc("Query with point coordinates and distance (location stands for single point)", routes.Application.search("fundertype.value:land", "52.52,13.39", 25))
-    <hr/>
-    <h2>JSON-LD Context</h2>
     @desc("Context", routes.Application.context)
-    </dl>
+    <h2>Location based queries</h2>
+    @desc("Query with polygon (location: coordinates of polygon points 'lat,lon')", routes.Application.search("fundertype.value:land", "52,12 53,12 53,14 52,14"))
+    @desc("Query with distance (location: coordinate of a point and a distance in km 'lat,lon,distance')", routes.Application.search("fundertype.value:land", "52.52,13.39,25"))
+	</dl>
 }

@@ -53,7 +53,7 @@ public class Application extends Controller {
 		return ok(Play.application().resourceAsStream("context.jsonld"));
 	}
 	
-	public static Result search(String q, String location, double distance, int from, int size) throws JsonProcessingException, IOException {
+	public static Result search(String q, String location, int from, int size) throws JsonProcessingException, IOException {
 		String[] queryParts = q.split(":");
 		String field = queryParts[0];
 		String term = queryParts[1];		
@@ -61,19 +61,27 @@ public class Application extends Controller {
 		
 		if(location == null) {
 			queryResponse = querySimple(field, term, from, size);			
-		} else {
-			if (distance == -1){
-				String[] coordinatesAsString = location.split("[,+]");
-				double[] coordinates = new double[coordinatesAsString.length];
-				for (int i = 0; i < coordinatesAsString.length; i++){
-					coordinates[i] = Double.parseDouble(coordinatesAsString[i]);
+		} else {			
+			String[] coordPairsAsString = location.split(" ");
+			
+			/* if there is a list of three elements separated by a comma:
+			interpretation as point (first + second value) and distance (third value) */
+			if(coordPairsAsString[0].split(",").length > 2){
+				double lat = Double.parseDouble(coordPairsAsString[0].split(",")[0]);
+				double lon = Double.parseDouble(coordPairsAsString[0].split(",")[1]);
+				double distance = Double.parseDouble(coordPairsAsString[0].split(",")[2]); 
+				queryResponse = queryDistance(field, term, from, size, lat, lon, distance);				
+			} 
+			
+			/* if not, interpretation as list of polygon points */
+			else {
+				double[] latCoordinates = new double[coordPairsAsString.length];
+				double[] lonCoordinates = new double[coordPairsAsString.length];
+				for(int i = 0; i < coordPairsAsString.length; i++){
+					latCoordinates[i] = Double.parseDouble(coordPairsAsString[i].split(",")[0]);
+					lonCoordinates[i] = Double.parseDouble(coordPairsAsString[i].split(",")[1]);
 				}
-				queryResponse = queryPolygon(field,term,coordinates, from, size);
-			} else {
-				String[] coordinatesAsString = location.split("[,+]");
-				double lat = Double.parseDouble(coordinatesAsString[0]);
-				double lon = Double.parseDouble(coordinatesAsString[1]);
-				queryResponse = queryDistance(field, term, from, size, lat, lon, distance);
+				queryResponse = queryPolygon(field, term, latCoordinates, lonCoordinates, from, size);
 			}
 		}
 		JsonNode responseAsJson = new ObjectMapper().readTree(queryResponse.toString());
@@ -87,11 +95,14 @@ public class Application extends Controller {
 		return executeQuery(from, size, simpleQuery);
 	}
 	
-	private static SearchResponse queryPolygon(String field, String term, double[] coordinates, int from, int size) {
+	private static SearchResponse queryPolygon(String field, String term, double[] latCoordinates, double[] lonCoordinates, int from, int size) {
 		GeoPolygonFilterBuilder polygonFilter =
-				FilterBuilders.geoPolygonFilter("location").addPoint(coordinates[0], coordinates[1])
-						.addPoint(coordinates[2], coordinates[3]).addPoint(coordinates[4], coordinates[5])
-						.addPoint(coordinates[6], coordinates[7]);
+				FilterBuilders.geoPolygonFilter("location");
+		
+		for(int i = 0; i < latCoordinates.length; i++){
+			polygonFilter.addPoint(latCoordinates[i], lonCoordinates[i]);
+		}
+		
 		FilteredQueryBuilder polygonQuery =
 				QueryBuilders.filteredQuery(QueryBuilders.matchQuery(field, term), polygonFilter);
 		return executeQuery(from, size, polygonQuery);
