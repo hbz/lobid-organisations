@@ -42,7 +42,7 @@ public class IntegrationTest {
     }
     
     @Test
-    public void locationSearch(){
+    public void polygonSearch(){
     	running(fakeApplication(), () -> {
     		Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land&location=52,12,53,12,53,14,52,14"));
     		assertThat(result).isNotNull();
@@ -50,4 +50,15 @@ public class IntegrationTest {
     		assertThat(contentAsString(result)).contains("Berlin");
     	});
     }
+    
+    @Test
+    public void distanceSearch(){
+    	running(fakeApplication(), () -> {
+    		Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land&location=52.52,13.39&distance=25"));
+    		assertThat(result).isNotNull();
+    		assertThat(contentType(result)).isEqualTo("application/json");
+    		assertThat(contentAsString(result)).contains("Berlin");
+    	});
+    }
+    
 }
