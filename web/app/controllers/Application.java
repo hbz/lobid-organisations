@@ -51,38 +51,37 @@ public class Application extends Controller {
 		return ok(Play.application().resourceAsStream("context.jsonld"));
 	}
 	
-	public static Result search(String q, String location) throws JsonProcessingException, IOException {
+	public static Result search(String q, String location, int from, int size) throws JsonProcessingException, IOException {
 		String[] queryParts = q.split(":");
 		String field = queryParts[0];
 		String term = queryParts[1];		
 		SearchResponse queryResponse;
 		
 		if(location == null) {
-			queryResponse = query(field,term);			
+			queryResponse = query(field, term, from, size);			
 		} else {			
 			String[] coordinatesAsString = location.split("[,+]");
 			double[] coordinates = new double[coordinatesAsString.length];
 			for (int i = 0; i < coordinatesAsString.length; i++){
 				coordinates[i] = Double.parseDouble(coordinatesAsString[i]);
 			}
-			queryResponse = queryGeo(field,term,coordinates);
+			queryResponse = queryGeo(field,term,coordinates, from, size);
 		}
 		JsonNode responseAsJson = new ObjectMapper().readTree(queryResponse.toString());
 		return ok(responseAsJson);
 	}
 	
-	private static SearchResponse query(String field, String term) {		
+	private static SearchResponse query(String field, String term, int from, int size) {		
 		MatchQueryBuilder matchQuery = QueryBuilders.matchQuery(field, term);
 		SearchResponse responseOfSearch =
 				client.prepareSearch("organisations").setTypes("dbs")
-						.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setQuery(matchQuery)
-						// for more results
-						//.setFrom(0).setSize(2000)
+						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(matchQuery)
+						.setFrom(from).setSize(size)
 						.execute().actionGet();
 		return responseOfSearch;
 	}
 	
-	private static SearchResponse queryGeo(String field, String term, double[] coordinates) {
+	private static SearchResponse queryGeo(String field, String term, double[] coordinates, int from, int size) {
 		GeoPolygonFilterBuilder geoFilter =
 				FilterBuilders.geoPolygonFilter("location").addPoint(coordinates[0], coordinates[1])
 						.addPoint(coordinates[2], coordinates[3]).addPoint(coordinates[4], coordinates[5])
@@ -91,9 +90,8 @@ public class Application extends Controller {
 				QueryBuilders.filteredQuery(QueryBuilders.matchQuery(field, term), geoFilter);
 		SearchResponse responseOfSearch =
 				client.prepareSearch("organisations").setTypes("dbs")
-						.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setQuery(geoQuery)
-						// for more results
-						//.setFrom(0).setSize(2000)
+						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(geoQuery)
+						.setFrom(from).setSize(size)
 						.execute().actionGet();
 		return responseOfSearch;
 	}	

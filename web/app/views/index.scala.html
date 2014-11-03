@@ -11,6 +11,10 @@
     @desc("Get", routes.Application.get("ZY571"))
     @desc("Query", routes.Application.search("fundertype.value:land"))
     <hr/>
+    <h2>Queries with from and size</h2> 
+    @desc("Query with size", routes.Application.search("fundertype.value:land", size = 4))
+    @desc("Query with from and size", routes.Application.search("fundertype.value:land", from=2, size = 2))
+    <hr/>
     <h2>Queries with location</h2>
     @desc("Query with coordinates", routes.Application.search("fundertype.value:land", "52,12+53,12+53,14+52,14"))
     <hr/>

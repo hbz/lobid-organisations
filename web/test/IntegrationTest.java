@@ -34,7 +34,7 @@ public class IntegrationTest {
     @Test
     public void queryByField() {
         running(fakeApplication(), () -> {
-             Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land"));
+             Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land&size=2000"));
              assertThat(result).isNotNull();
              assertThat(contentType(result)).isEqualTo("application/json");
              assertThat(contentAsString(result)).contains("Universitätsbibliothek Dortmund");
