@@ -172,7 +172,7 @@ public class Application extends Controller {
 	private static SearchResponse executeQuery(int from, int size,
 			FilteredQueryBuilder filteredQuery) {
 		SearchResponse responseOfSearch =
-				client.prepareSearch("organisations").setTypes("dbs")
+				client.prepareSearch(ES_INDEX).setTypes(ES_TYPE)
 						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(filteredQuery)
 						.setFrom(from).setSize(size).execute().actionGet();
 		return responseOfSearch;
