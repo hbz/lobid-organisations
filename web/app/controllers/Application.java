@@ -28,31 +28,55 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 
+ * Contains the methods of the play application to search, get source, and
+ * display context
+ *
+ */
 public class Application extends Controller {
 
 	private static final String ES_SERVER = "http://weywot2.hbz-nrw.de:9200";
 	private static final String ES_INDEX = "organisations";
 	private static final String ES_TYPE = "dbs";
 
-	private static Settings clientSettings = ImmutableSettings
-			.settingsBuilder().put("cluster.name", "organisation-cluster")
+	private static Settings clientSettings = ImmutableSettings.settingsBuilder()
+			.put("cluster.name", "organisation-cluster")
 			.put("client.transport.sniff", true).build();
 	private static TransportClient transportClient = new TransportClient(
 			clientSettings);
 	private static Client client = transportClient
-			.addTransportAddress(new InetSocketTransportAddress(
-					"weywot2.hbz-nrw.de", 9300));
+			.addTransportAddress(new InetSocketTransportAddress("weywot2.hbz-nrw.de",
+					9300));
 
+	/**
+	 * @return 200 ok response to render index
+	 */
 	public static Result index() {
 		return ok(index.render("lobid-organisations"));
 	}
 
+	/**
+	 * @return JSON-LD context
+	 */
 	public static Result context() {
 		response().setContentType("application/ld+json");
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		return ok(Play.application().resourceAsStream("context.jsonld"));
 	}
 
+	/**
+	 * @param q The search string
+	 * @param location The geographical location to search in (polygon points or
+	 *          single point plus distance)
+	 * @param from From parameter for Elasticsearch query
+	 * @param size Size parameter for Elasitcsearch query
+	 * @return Result of search as ok() or badRequest()
+	 * @throws JsonProcessingException Is thrown if response of search cannot be
+	 *           processed as JsonNode
+	 * @throws IOException Is thrown if response of search cannot be processed as
+	 *           JsonNode
+	 */
 	public static Result search(String q, String location, int from, int size)
 			throws JsonProcessingException, IOException {
 		Status result = null;
@@ -77,8 +101,7 @@ public class Application extends Controller {
 	}
 
 	private static Status preparePolygonQuery(String[] coordPairsAsString,
-			String q, int from, int size) throws JsonProcessingException,
-			IOException {
+			String q, int from, int size) throws JsonProcessingException, IOException {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
 		Status result;
@@ -89,16 +112,13 @@ public class Application extends Controller {
 		}
 		if (coordPairsAsString.length < 3) {
 			return badRequest("Not enough points. Polygon requires more than two points.");
-		} else {
-			result = buildPolygonQuery(q, latCoordinates, lonCoordinates, from,
-					size);
 		}
+		result = buildPolygonQuery(q, latCoordinates, lonCoordinates, from, size);
 		return result;
 	}
 
 	private static Status prepareDistanceQuery(String[] coordPairsAsString,
-			String q, int from, int size) throws JsonProcessingException,
-			IOException {
+			String q, int from, int size) throws JsonProcessingException, IOException {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
@@ -106,17 +126,17 @@ public class Application extends Controller {
 		Status result;
 		if (distance < 0) {
 			return badRequest("Distance must not be smaller than 0.");
-		} else {
-			result = buildDistanceQuery(q, from, size, lat, lon, distance);
 		}
+		result = buildDistanceQuery(q, from, size, lat, lon, distance);
 		return result;
 	}
 
 	private static Status buildSimpleQuery(String q, int from, int size)
 			throws JsonProcessingException, IOException {
 		MatchAllFilterBuilder matchAllFilter = FilterBuilders.matchAllFilter();
-		FilteredQueryBuilder simpleQuery = QueryBuilders.filteredQuery(
-				QueryBuilders.queryString(q), matchAllFilter);
+		FilteredQueryBuilder simpleQuery =
+				QueryBuilders.filteredQuery(QueryBuilders.queryString(q),
+						matchAllFilter);
 		SearchResponse queryResponse = executeQuery(from, size, simpleQuery);
 		return returnAsJson(queryResponse);
 	}
@@ -124,48 +144,54 @@ public class Application extends Controller {
 	private static Status buildPolygonQuery(String q, double[] latCoordinates,
 			double[] lonCoordinates, int from, int size)
 			throws JsonProcessingException, IOException {
-		GeoPolygonFilterBuilder polygonFilter = FilterBuilders
-				.geoPolygonFilter("location");
+		GeoPolygonFilterBuilder polygonFilter =
+				FilterBuilders.geoPolygonFilter("location");
 		for (int i = 0; i < latCoordinates.length; i++) {
 			polygonFilter.addPoint(latCoordinates[i], lonCoordinates[i]);
 		}
-		FilteredQueryBuilder polygonQuery = QueryBuilders.filteredQuery(
-				QueryBuilders.queryString(q), polygonFilter);
+		FilteredQueryBuilder polygonQuery =
+				QueryBuilders
+						.filteredQuery(QueryBuilders.queryString(q), polygonFilter);
 		SearchResponse queryResponse = executeQuery(from, size, polygonQuery);
 		return returnAsJson(queryResponse);
 	}
 
 	private static Status buildDistanceQuery(String q, int from, int size,
-			double lat, double lon, double distance)
-			throws JsonProcessingException, IOException {
-		GeoDistanceFilterBuilder distanceFilter = FilterBuilders
-				.geoDistanceFilter("location")
-				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
-		FilteredQueryBuilder distanceQuery = QueryBuilders.filteredQuery(
-				QueryBuilders.queryString(q), distanceFilter);
+			double lat, double lon, double distance) throws JsonProcessingException,
+			IOException {
+		GeoDistanceFilterBuilder distanceFilter =
+				FilterBuilders.geoDistanceFilter("location")
+						.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
+		FilteredQueryBuilder distanceQuery =
+				QueryBuilders.filteredQuery(QueryBuilders.queryString(q),
+						distanceFilter);
 		SearchResponse queryResponse = executeQuery(from, size, distanceQuery);
 		return returnAsJson(queryResponse);
 	}
 
 	private static SearchResponse executeQuery(int from, int size,
 			FilteredQueryBuilder filteredQuery) {
-		SearchResponse responseOfSearch = client.prepareSearch("organisations")
-				.setTypes("dbs").setSearchType(SearchType.QUERY_THEN_FETCH)
-				.setQuery(filteredQuery).setFrom(from).setSize(size).execute()
-				.actionGet();
+		SearchResponse responseOfSearch =
+				client.prepareSearch("organisations").setTypes("dbs")
+						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(filteredQuery)
+						.setFrom(from).setSize(size).execute().actionGet();
 		return responseOfSearch;
 	}
 
 	private static Status returnAsJson(SearchResponse queryResponse)
 			throws IOException, JsonProcessingException {
-		JsonNode responseAsJson = new ObjectMapper().readTree(queryResponse
-				.toString());
+		JsonNode responseAsJson =
+				new ObjectMapper().readTree(queryResponse.toString());
 		return ok(responseAsJson);
 	}
 
+	/**
+	 * @param id The id of a document in the Elasticsearch index
+	 * @return The source of a document as JSON
+	 */
 	public static Promise<Result> get(String id) {
-		String url = String.format("%s/%s/%s/%s/_source", ES_SERVER, ES_INDEX,
-				ES_TYPE, id);
+		String url =
+				String.format("%s/%s/%s/%s/_source", ES_SERVER, ES_INDEX, ES_TYPE, id);
 		return WS.url(url).execute().map(x -> ok(x.asJson()));
 	}
 }
