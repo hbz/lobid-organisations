@@ -34,11 +34,49 @@ public class IntegrationTest {
     @Test
     public void queryByField() {
         running(fakeApplication(), () -> {
-             Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land"));
+             Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land&size=2000"));
              assertThat(result).isNotNull();
              assertThat(contentType(result)).isEqualTo("application/json");
-             assertThat(contentAsString(result)).contains("Musikhochschule Lübeck");
+             assertThat(contentAsString(result)).contains("Universitätsbibliothek Dortmund");
         });
     }
-
+    
+    @Test
+    public void rectangleSearch(){
+    	running(fakeApplication(), () -> {
+    		Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land&location=52,12+53,12+53,14+52,14"));
+    		assertThat(result).isNotNull();
+    		assertThat(contentType(result)).isEqualTo("application/json");
+    		assertThat(contentAsString(result)).contains("Berlin");
+    	});
+    }
+    
+    @Test
+    public void triangleSearch(){
+    	running(fakeApplication(), () -> {
+    		Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land&location=54,15+56,14+56,12"));
+    		assertThat(result).isNotNull();
+    		assertThat(contentType(result)).isEqualTo("application/json");
+    	});
+    }
+    
+    @Test
+    public void hexagonSearch(){
+    	running(fakeApplication(), () -> {
+    		Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land&location=54,15+56,14+56,12+54,10+52,11+53,14"));
+    		assertThat(result).isNotNull();
+    		assertThat(contentType(result)).isEqualTo("application/json");
+    	});
+    }
+    
+    @Test
+    public void distanceSearch(){
+    	running(fakeApplication(), () -> {
+    		Result result = route(fakeRequest(GET, "/organisations/search?q=fundertype.value:land&location=52.52,13.39,25"));
+    		assertThat(result).isNotNull();
+    		assertThat(contentType(result)).isEqualTo("application/json");
+    		assertThat(contentAsString(result)).contains("Berlin");
+    	});
+    }
+    
 }

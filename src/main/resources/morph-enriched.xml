@@ -125,12 +125,9 @@
 		<data source="008H.e" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
 		</data>
-		<entity name="geo" flushWith="record">
-			<data source="032P.k" name="longitude" />
-			<data source="032P.l" name="latitude" />
-			<data source="032P.l" name="@type">
-				<regexp match="(.*)" format="http://schema.org/GeoCoordinates" />
-			</data>
+		<entity name="location" flushWith="record">
+			<data source="032P.k" name="lon" />
+			<data source="032P.l" name="lat" />
 		</entity>
 		<entity name="alternateName[]" flushWith="record">
 			<data source="029@.a" name="altLabel" />

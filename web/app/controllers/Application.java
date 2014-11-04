@@ -1,24 +1,47 @@
 package controllers;
 
-import java.io.InputStream;
+import java.io.IOException;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.unit.DistanceUnit;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.FilteredQueryBuilder;
+import org.elasticsearch.index.query.GeoDistanceFilterBuilder;
+import org.elasticsearch.index.query.GeoPolygonFilterBuilder;
+import org.elasticsearch.index.query.MatchAllFilterBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 
-import play.*;
-import play.api.mvc.AnyContent;
-import play.api.mvc.Request;
-import play.cache.Cached;
+import play.Play;
 import play.libs.F.Promise;
-import play.libs.Json;
 import play.libs.ws.WS;
-import play.mvc.*;
-import views.html.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.index;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Application extends Controller {
 
 	private static final String ES_SERVER = "http://weywot2.hbz-nrw.de:9200";
 	private static final String ES_INDEX = "organisations";
 	private static final String ES_TYPE = "dbs";
+
+	private static Settings clientSettings = ImmutableSettings
+			.settingsBuilder().put("cluster.name", "organisation-cluster")
+			.put("client.transport.sniff", true).build();
+	private static TransportClient transportClient = new TransportClient(
+			clientSettings);
+	private static Client client = transportClient
+			.addTransportAddress(new InetSocketTransportAddress(
+					"weywot2.hbz-nrw.de", 9300));
 
 	public static Result index() {
 		return ok(index.render("lobid-organisations"));
@@ -30,13 +53,119 @@ public class Application extends Controller {
 		return ok(Play.application().resourceAsStream("context.jsonld"));
 	}
 
-	public static Promise<Result> search(String q) {
-		String url = String.format("%s/%s/_search", ES_SERVER, ES_INDEX);
-		return WS.url(url).setQueryParameter("q", q).execute().map(x -> ok(x.asJson()));
+	public static Result search(String q, String location, int from, int size)
+			throws JsonProcessingException, IOException {
+		Status result = null;
+		if (location == null) {
+			result = buildSimpleQuery(q, from, size);
+		} else {
+			result = prepareLocationQuery(location, q, from, size);
+		}
+		return result;
+	}
+
+	private static Status prepareLocationQuery(String location, String q,
+			int from, int size) throws JsonProcessingException, IOException {
+		String[] coordPairsAsString = location.split(" ");
+		Status result;
+		if (coordPairsAsString[0].split(",").length > 2) {
+			result = prepareDistanceQuery(coordPairsAsString, q, from, size);
+		} else {
+			result = preparePolygonQuery(coordPairsAsString, q, from, size);
+		}
+		return result;
+	}
+
+	private static Status preparePolygonQuery(String[] coordPairsAsString,
+			String q, int from, int size) throws JsonProcessingException,
+			IOException {
+		double[] latCoordinates = new double[coordPairsAsString.length];
+		double[] lonCoordinates = new double[coordPairsAsString.length];
+		Status result;
+		for (int i = 0; i < coordPairsAsString.length; i++) {
+			String[] coordinatePair = coordPairsAsString[i].split(",");
+			latCoordinates[i] = Double.parseDouble(coordinatePair[0]);
+			lonCoordinates[i] = Double.parseDouble(coordinatePair[1]);
+		}
+		if (coordPairsAsString.length < 3) {
+			return badRequest("Not enough points. Polygon requires more than two points.");
+		} else {
+			result = buildPolygonQuery(q, latCoordinates, lonCoordinates, from,
+					size);
+		}
+		return result;
+	}
+
+	private static Status prepareDistanceQuery(String[] coordPairsAsString,
+			String q, int from, int size) throws JsonProcessingException,
+			IOException {
+		String[] coordinatePair = coordPairsAsString[0].split(",");
+		double lat = Double.parseDouble(coordinatePair[0]);
+		double lon = Double.parseDouble(coordinatePair[1]);
+		double distance = Double.parseDouble(coordinatePair[2]);
+		Status result;
+		if (distance < 0) {
+			return badRequest("Distance must not be smaller than 0.");
+		} else {
+			result = buildDistanceQuery(q, from, size, lat, lon, distance);
+		}
+		return result;
+	}
+
+	private static Status buildSimpleQuery(String q, int from, int size)
+			throws JsonProcessingException, IOException {
+		MatchAllFilterBuilder matchAllFilter = FilterBuilders.matchAllFilter();
+		FilteredQueryBuilder simpleQuery = QueryBuilders.filteredQuery(
+				QueryBuilders.queryString(q), matchAllFilter);
+		SearchResponse queryResponse = executeQuery(from, size, simpleQuery);
+		return returnAsJson(queryResponse);
+	}
+
+	private static Status buildPolygonQuery(String q, double[] latCoordinates,
+			double[] lonCoordinates, int from, int size)
+			throws JsonProcessingException, IOException {
+		GeoPolygonFilterBuilder polygonFilter = FilterBuilders
+				.geoPolygonFilter("location");
+		for (int i = 0; i < latCoordinates.length; i++) {
+			polygonFilter.addPoint(latCoordinates[i], lonCoordinates[i]);
+		}
+		FilteredQueryBuilder polygonQuery = QueryBuilders.filteredQuery(
+				QueryBuilders.queryString(q), polygonFilter);
+		SearchResponse queryResponse = executeQuery(from, size, polygonQuery);
+		return returnAsJson(queryResponse);
+	}
+
+	private static Status buildDistanceQuery(String q, int from, int size,
+			double lat, double lon, double distance)
+			throws JsonProcessingException, IOException {
+		GeoDistanceFilterBuilder distanceFilter = FilterBuilders
+				.geoDistanceFilter("location")
+				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
+		FilteredQueryBuilder distanceQuery = QueryBuilders.filteredQuery(
+				QueryBuilders.queryString(q), distanceFilter);
+		SearchResponse queryResponse = executeQuery(from, size, distanceQuery);
+		return returnAsJson(queryResponse);
+	}
+
+	private static SearchResponse executeQuery(int from, int size,
+			FilteredQueryBuilder filteredQuery) {
+		SearchResponse responseOfSearch = client.prepareSearch("organisations")
+				.setTypes("dbs").setSearchType(SearchType.QUERY_THEN_FETCH)
+				.setQuery(filteredQuery).setFrom(from).setSize(size).execute()
+				.actionGet();
+		return responseOfSearch;
+	}
+
+	private static Status returnAsJson(SearchResponse queryResponse)
+			throws IOException, JsonProcessingException {
+		JsonNode responseAsJson = new ObjectMapper().readTree(queryResponse
+				.toString());
+		return ok(responseAsJson);
 	}
 
 	public static Promise<Result> get(String id) {
-		String url = String.format("%s/%s/%s/%s/_source", ES_SERVER, ES_INDEX, ES_TYPE, id);
+		String url = String.format("%s/%s/%s/%s/_source", ES_SERVER, ES_INDEX,
+				ES_TYPE, id);
 		return WS.url(url).execute().map(x -> ok(x.asJson()));
 	}
 }
