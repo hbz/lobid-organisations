@@ -55,36 +55,30 @@ public class Application extends Controller {
 
 	public static Result search(String q, String location, int from, int size)
 			throws JsonProcessingException, IOException {
-		String[] queryParts = q.split(":");
-		String field = queryParts[0];
-		String term = queryParts[1];
 		Status result = null;
 		if (location == null) {
-			result = buildSimpleQuery(field, term, from, size);
+			result = buildSimpleQuery(q, from, size);
 		} else {
-			result = prepareLocationQuery(location, field, term, from, size);
+			result = prepareLocationQuery(location, q, from, size);
 		}
 		return result;
 	}
 
-	private static Status prepareLocationQuery(String location, String field,
-			String term, int from, int size) throws JsonProcessingException,
-			IOException {
+	private static Status prepareLocationQuery(String location, String q,
+			int from, int size) throws JsonProcessingException, IOException {
 		String[] coordPairsAsString = location.split(" ");
 		Status result;
 		if (coordPairsAsString[0].split(",").length > 2) {
-			result = prepareDistanceQuery(coordPairsAsString, field, term,
-					from, size);
+			result = prepareDistanceQuery(coordPairsAsString, q, from, size);
 		} else {
-			result = preparePolygonQuery(coordPairsAsString, field, term, from,
-					size);
+			result = preparePolygonQuery(coordPairsAsString, q, from, size);
 		}
 		return result;
 	}
 
 	private static Status preparePolygonQuery(String[] coordPairsAsString,
-			String field, String term, int from, int size)
-			throws JsonProcessingException, IOException {
+			String q, int from, int size) throws JsonProcessingException,
+			IOException {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
 		Status result;
@@ -96,15 +90,15 @@ public class Application extends Controller {
 		if (coordPairsAsString.length < 3) {
 			return badRequest("Not enough points. Polygon requires more than two points.");
 		} else {
-			result = buildPolygonQuery(field, term, latCoordinates, lonCoordinates,
-					from, size);
+			result = buildPolygonQuery(q, latCoordinates, lonCoordinates, from,
+					size);
 		}
 		return result;
 	}
 
 	private static Status prepareDistanceQuery(String[] coordPairsAsString,
-			String field, String term, int from, int size)
-			throws JsonProcessingException, IOException {
+			String q, int from, int size) throws JsonProcessingException,
+			IOException {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
@@ -113,22 +107,22 @@ public class Application extends Controller {
 		if (distance < 0) {
 			return badRequest("Distance must not be smaller than 0.");
 		} else {
-			result = buildDistanceQuery(field, term, from, size, lat, lon, distance);
+			result = buildDistanceQuery(q, from, size, lat, lon, distance);
 		}
 		return result;
 	}
 
-	private static Status buildSimpleQuery(String field, String term, int from,
-			int size) throws JsonProcessingException, IOException {
+	private static Status buildSimpleQuery(String q, int from, int size)
+			throws JsonProcessingException, IOException {
 		MatchAllFilterBuilder matchAllFilter = FilterBuilders.matchAllFilter();
 		FilteredQueryBuilder simpleQuery = QueryBuilders.filteredQuery(
-				QueryBuilders.matchQuery(field, term), matchAllFilter);
+				QueryBuilders.queryString(q), matchAllFilter);
 		SearchResponse queryResponse = executeQuery(from, size, simpleQuery);
 		return returnAsJson(queryResponse);
 	}
 
-	private static Status buildPolygonQuery(String field, String term,
-			double[] latCoordinates, double[] lonCoordinates, int from, int size)
+	private static Status buildPolygonQuery(String q, double[] latCoordinates,
+			double[] lonCoordinates, int from, int size)
 			throws JsonProcessingException, IOException {
 		GeoPolygonFilterBuilder polygonFilter = FilterBuilders
 				.geoPolygonFilter("location");
@@ -136,19 +130,19 @@ public class Application extends Controller {
 			polygonFilter.addPoint(latCoordinates[i], lonCoordinates[i]);
 		}
 		FilteredQueryBuilder polygonQuery = QueryBuilders.filteredQuery(
-				QueryBuilders.matchQuery(field, term), polygonFilter);
+				QueryBuilders.queryString(q), polygonFilter);
 		SearchResponse queryResponse = executeQuery(from, size, polygonQuery);
 		return returnAsJson(queryResponse);
 	}
 
-	private static Status buildDistanceQuery(String field, String term, int from,
-			int size, double lat, double lon, double distance)
+	private static Status buildDistanceQuery(String q, int from, int size,
+			double lat, double lon, double distance)
 			throws JsonProcessingException, IOException {
 		GeoDistanceFilterBuilder distanceFilter = FilterBuilders
 				.geoDistanceFilter("location")
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		FilteredQueryBuilder distanceQuery = QueryBuilders.filteredQuery(
-				QueryBuilders.matchQuery(field, term), distanceFilter);
+				QueryBuilders.queryString(q), distanceFilter);
 		SearchResponse queryResponse = executeQuery(from, size, distanceQuery);
 		return returnAsJson(queryResponse);
 	}
