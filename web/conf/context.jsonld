@@ -4,6 +4,7 @@
         "name": "http://schema.org/name",
         "alternateName": "http://schema.org/alternateName",
         "isil": "http://purl.org/lobid/lv#isil",
+        "ags": "http://purl.org/lobid/lv#ags",
         "address":  {
             "@type": "@id",
             "@id": "http://schema.org/address"
@@ -25,12 +26,12 @@
             "@type": "@id",
             "@id": "http://www.w3.org/2006/vcard/ns#url"
         },
-        "geo":  {
+        "location":  {
             "@type": "@id",
             "@id": "http://schema.org/geo"
         },
-        "latitude": "http://schema.org/latitude",
-        "longitude": "http://schema.org/longitude",
+        "lat": "http://schema.org/latitude",
+        "lon": "http://schema.org/longitude",
         "containedIn": {
             "@type": "@id",
             "@id": "http://schema.org/containedIn"
@@ -62,17 +63,19 @@
         },
 		"wikipedia":	{
 			"@type": "@id",
-			"id": "http://purl.org/ontology/mo/wikipedia"
+			"@id": "http://purl.org/ontology/mo/wikipedia"
 		},
 		"isPrimaryTopicOf":	{
 			"@type": "@id",
-			"@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
-		
+			"@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"		
 		},
         "primaryTopic": {
             "@type": "@id",
             "@id": "http://xmlns.com/foaf/0.1/primaryTopic"
-
+        },
+        "sameAs": {
+            "@type": "@id",
+            "@id": "http://schema.org/sameAs"
         }
 	}
 }
