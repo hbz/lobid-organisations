@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Exercise 3a -->
+
+<metamorph xmlns="http://www.culturegraph.org/metamorph"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
+	entityMarker=".">
+
+	<rules>
+		<data source="003@.0" name="erfasst"></data>
+		<data source="008H.b" name="inr...."></data>
+		<data source="035B.f" name="tel...."></data>
+		<data source="035B.k" name="mail..."></data>
+		<data source="032P.a" name="straße."></data>
+		<data source="032P.e" name="plz...."></data>
+	</rules>
+
+</metamorph>
