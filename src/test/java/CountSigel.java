@@ -27,7 +27,7 @@ public class CountSigel {
 		TripleSort sort = new TripleSort();
 		ObjectTemplate<Triple> template = new ObjectTemplate<>("${s} ${o}");
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/test/resources/count_sigel_out.txt");
+				new ObjectWriter<>("src/test/resources/output/count_sigel_out.txt");
 
 		opener//
 				.setReceiver(openFile)//
@@ -42,5 +42,4 @@ public class CountSigel {
 		opener.process("src/main/resources/input/sigel/");
 		opener.closeStream();
 	}
-
 }

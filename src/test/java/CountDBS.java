@@ -27,7 +27,7 @@ public class CountDBS {
 		TripleSort sort = new TripleSort();
 		ObjectTemplate<Triple> template = new ObjectTemplate<>("${s} ${o}");
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/test/resources/count_dbs_out.txt");
+				new ObjectWriter<>("src/test/resources/output/count_dbs_out.txt");
 
 		opener//
 				.setReceiver(lines)//

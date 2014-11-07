@@ -157,7 +157,7 @@
 		</entity>
 		<entity name="address" flushWith="record">
 			<choose>
-				<data source="032P.a" name="streetAddress" />
+				<data source="_id" name="streetAddress" />
 			</choose>
 			<choose>
 				<data source="032P.b" name="addressLocality" />

@@ -6,11 +6,15 @@
 	entityMarker=".">
 
 	<rules>
+		
+		<data source="plz" name="straße-hausnr"><not-equals string="NULL" /></data>
+		
+		<!-- For counting other fields
 		<data source="inr" name="erfasst / inr"><not-equals string="NULL" /></data>
 		<data source="tel" name="tel.........."><not-equals string="NULL" /></data>
 		<data source="ema" name="mail........."><not-equals string="NULL" /></data>
-		<data source="plz" name="straße......."><not-equals string="NULL" /></data>
 		<data source="gemeindekennzahl" name="gemeindekennz"><not-equals string="NULL" /></data>
+		 -->
 	</rules>
 
 </metamorph>

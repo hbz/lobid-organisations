@@ -1,11 +1,11 @@
 import org.culturegraph.mf.morph.Metamorph;
-import org.culturegraph.mf.stream.converter.JsonEncoder;
-import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
+import org.culturegraph.mf.stream.converter.ObjectTemplate;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
 import org.culturegraph.mf.stream.pipe.TripleFilter;
 import org.culturegraph.mf.stream.pipe.sort.AbstractTripleSort.Compare;
 import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
+import org.culturegraph.mf.stream.pipe.sort.TripleCount;
 import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.DirReader;
@@ -13,14 +13,13 @@ import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
 
 /**
- * Simple enrichment of DBS records with Sigel data based on the DBS ID.
  * 
- * After enrichment, the result is transformed to JSON for ES indexing.
+ * Counts data in enriched transformation output
  * 
- * @author Fabian Steeg (fsteeg)
+ * @author Fabian Steeg (fsteeg), Simon Ritter (SBRitter)
  *
  */
-public class EnrichStreet {
+public class CountEnriched {
 
 	/**
 	 * @param args Not used
@@ -58,26 +57,27 @@ public class EnrichStreet {
 			CloseSupressor<Triple> wait) {
 		TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // remove entries w/o Street
-		Metamorph morph =
-				new Metamorph("src/test/resources/street-morph-enriched.xml");
-
 		TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
 		TripleCollect collectTriples = new TripleCollect();
-		JsonEncoder encodeJson = new JsonEncoder();
-		encodeJson.setPrettyPrinting(true);
+		Metamorph morph = new Metamorph("src/test/resources/count_enriched.xml");
+		StreamToTriples triples = new StreamToTriples();
+		TripleCount count = new TripleCount();
+		count.setCountBy(Compare.PREDICATE);
+		TripleSort sort = new TripleSort();
+		ObjectTemplate<Triple> template = new ObjectTemplate<>("${s} ${o}");
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/test/resources/output/street-enriched.out.json");
-		JsonToElasticsearchBulk esBulk =
-				new JsonToElasticsearchBulk("new-id", "dbs", "organisations");
+				new ObjectWriter<>("src/test/resources/output/count_enriched_out.txt");
 
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(sortTriples)//
 				.setReceiver(collectTriples)//
 				.setReceiver(morph)//
-				.setReceiver(encodeJson)//
-				.setReceiver(esBulk)//
+				.setReceiver(triples)//
+				.setReceiver(count)//
+				.setReceiver(sort)//
+				.setReceiver(template)//
 				.setReceiver(writer);
 	}
 }

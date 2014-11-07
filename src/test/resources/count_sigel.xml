@@ -5,13 +5,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
 	entityMarker=".">
 
-	<rules>
+	<rules>		
+		<data source="032P.a" name="straße-hausnr"></data>
+		
+		<!-- For counting other fields
 		<data source="003@.0" name="erfasst"></data>
 		<data source="008H.b" name="inr...."></data>
 		<data source="035B.f" name="tel...."></data>
-		<data source="035B.k" name="mail..."></data>
-		<data source="032P.a" name="straße."></data>
-		<data source="032P.e" name="plz...."></data>
+		<data source="035B.k" name="mail..."></data> 
+		-->
 	</rules>
 
 </metamorph>
