@@ -27,10 +27,17 @@ public class EnrichStreet {
 	 */
 	public static void main(String... args) {
 		/* Run both preparatory pipelines standalone for debugging, doc etc. */
+
 		DbsStreet.main();
 		SigelStreet.main();
+
 		/* Run the actual enrichment pipeline, which includes the previous: */
 		process();
+
+		/* Count the data */
+		CountDBS.main();
+		CountSigel.main();
+		CountEnriched.main();
 	}
 
 	static void process() {

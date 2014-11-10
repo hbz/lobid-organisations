@@ -19,7 +19,7 @@ public class SigelStreet {
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/test/resources/street-sigel.out.json");
+				new ObjectWriter<>("src/test/resources/output/street-sigel.out.json");
 		morphSigel(open)//
 				.setReceiver(encodeJson)//
 				.setReceiver(writer);

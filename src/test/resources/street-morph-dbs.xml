@@ -4,7 +4,15 @@
 	entityMarker=".">
 	<rules>
 		<!-- plz stands for street and number -->
-		<data source="plz" name="_id" />
+		<data source="plz" name="_id">
+			<case to="lower" />
+			<replace pattern=" "  with="" />
+			<replace pattern="\." with="" />
+			<replace pattern="-" with="" />
+			<replace pattern="straße" with="str" />
+			<replace pattern="platz" with="pl" />
+		</data>	
+		<data source="plz" name="str-hausnr" />
 		<data source="_else">
 			<not-equals string="NULL" />
 		</data>

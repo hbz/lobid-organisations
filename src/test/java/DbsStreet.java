@@ -19,7 +19,7 @@ public class DbsStreet {
 		JsonEncoder encoder = new JsonEncoder();
 		encoder.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/test/resources/street-dbs.out.json");
+				new ObjectWriter<>("src/test/resources/output/street-dbs.out.json");
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);

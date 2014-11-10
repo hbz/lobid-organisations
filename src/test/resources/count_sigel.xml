@@ -8,7 +8,8 @@
 	<rules>		
 		<data source="032P.a" name="straße-hausnr"></data>
 		
-		<!-- For counting other fields
+		<!-- To count other fields
+		<data source="008H.b" name="inr"></data>		
 		<data source="003@.0" name="erfasst"></data>
 		<data source="008H.b" name="inr...."></data>
 		<data source="035B.f" name="tel...."></data>

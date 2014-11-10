@@ -23,9 +23,10 @@ public class CountSigel {
 
 		StreamToTriples triples = new StreamToTriples();
 		TripleCount count = new TripleCount();
-		count.setCountBy(Compare.PREDICATE);
+		count.setCountBy(Compare.OBJECT);
 		TripleSort sort = new TripleSort();
-		ObjectTemplate<Triple> template = new ObjectTemplate<>("${s} ${o}");
+		sort.setBy(Compare.PREDICATE);
+		ObjectTemplate<Triple> template = new ObjectTemplate<>("${o} | ${s}");
 		ObjectWriter<String> writer =
 				new ObjectWriter<>("src/test/resources/output/count_sigel_out.txt");
 

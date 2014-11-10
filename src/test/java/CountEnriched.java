@@ -12,27 +12,14 @@ import org.culturegraph.mf.stream.source.DirReader;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
 
-/**
- * 
- * Counts data in enriched transformation output
- * 
- * @author Fabian Steeg (fsteeg), Simon Ritter (SBRitter)
- *
- */
+@SuppressWarnings("javadoc")
 public class CountEnriched {
 
-	/**
-	 * @param args Not used
-	 */
 	public static void main(String... args) {
-		/* Run both preparatory pipelines standalone for debugging, doc etc. */
-		DbsStreet.main();
-		SigelStreet.main();
-		/* Run the actual enrichment pipeline, which includes the previous: */
-		process();
+		count();
 	}
 
-	static void process() {
+	static void count() {
 		DirReader openSigel = new DirReader();
 		StreamToTriples streamToTriples1 = new StreamToTriples();
 		streamToTriples1.setRedirect(true);

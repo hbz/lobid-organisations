@@ -9,7 +9,8 @@
 		
 		<data source="plz" name="straße-hausnr"><not-equals string="NULL" /></data>
 		
-		<!-- For counting other fields
+		<!-- To count other fields
+		<data source="new_id" name="inr"><not-equals string="NULL" /></data>		
 		<data source="inr" name="erfasst / inr"><not-equals string="NULL" /></data>
 		<data source="tel" name="tel.........."><not-equals string="NULL" /></data>
 		<data source="ema" name="mail........."><not-equals string="NULL" /></data>

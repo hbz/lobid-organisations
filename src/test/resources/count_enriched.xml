@@ -6,7 +6,7 @@
 	entityMarker=".">
 
 	<rules>		
-		<data source="_id" name="straße-hausnr"></data>
+		<data source="_id" name="new-id"></data>
 	</rules>
 
 </metamorph>
