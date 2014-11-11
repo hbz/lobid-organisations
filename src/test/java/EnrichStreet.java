@@ -76,7 +76,7 @@ public class EnrichStreet {
 		ObjectWriter<String> writer =
 				new ObjectWriter<>("src/test/resources/output/street-enriched.out.json");
 		JsonToElasticsearchBulk esBulk =
-				new JsonToElasticsearchBulk("new-id", "dbs", "organisations");
+				new JsonToElasticsearchBulk("@id", "dbs", "organisations");
 
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//

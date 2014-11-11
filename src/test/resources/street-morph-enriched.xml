@@ -99,16 +99,6 @@
 		</group>
 		<!-- new-id: isil for Sigel, and Pseudo isil for DBS data-->
 		<choose>
-			<data source="008H.e" name="new-id">				
-				<not-equals string="NULL" />
-			</data>			
-			<combine name="new-id" value="DBS-${inr}">
-				<data source="inr" name="inr">
-					<not-equals string="NULL" />
-				</data>
-			</combine>
-		</choose>
-		<choose>
 			<data source="008H.e" name="\@id">
 				<regexp match="(.*)" format="http://data.lobid.org/organisation/${1}" />
 				<not-equals string="NULL" />
