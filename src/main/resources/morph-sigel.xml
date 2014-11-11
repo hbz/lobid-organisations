@@ -4,7 +4,16 @@
 	entityMarker=".">
 	<rules>
 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
-		<data source="008H.b" name="_id"></data>
+		<data source="032P.a" name="_id">
+			<case to="lower" />
+			<replace pattern=" "  with="" />
+			<replace pattern="\." with="" />
+			<replace pattern="-" with="" />
+			<replace pattern="straße" with="str" />
+			<replace pattern="platz" with="pl" />		
+		</data>
+		<data source="032P.a" name="str-hausnr"></data>
+		
 		<data source="_else"></data>
 	</rules>
 </metamorph>

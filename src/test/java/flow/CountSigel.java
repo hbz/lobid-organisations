@@ -1,3 +1,4 @@
+package flow;
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.ObjectTemplate;
 import org.culturegraph.mf.stream.converter.StreamToTriples;

@@ -1,3 +1,5 @@
+package flow;
+
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.ObjectTemplate;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
@@ -24,20 +26,20 @@ public class CountEnriched {
 		StreamToTriples streamToTriples1 = new StreamToTriples();
 		streamToTriples1.setRedirect(true);
 		StreamToTriples flow1 = //
-				SigelStreet.morphSigel(openSigel).setReceiver(streamToTriples1);
+				Sigel.morphSigel(openSigel).setReceiver(streamToTriples1);
 
 		FileOpener openDbs = new FileOpener();
 		StreamToTriples streamToTriples2 = new StreamToTriples();
 		streamToTriples2.setRedirect(true);
 		StreamToTriples flow2 = //
-				DbsStreet.morphDbs(openDbs).setReceiver(streamToTriples2);
+				Dbs.morphDbs(openDbs).setReceiver(streamToTriples2);
 
 		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
 		continueWith(flow1, wait);
 		continueWith(flow2, wait);
 
-		DbsStreet.processDbs(openDbs);
-		SigelStreet.processSigel(openSigel);
+		Dbs.processDbs(openDbs);
+		Sigel.processSigel(openSigel);
 	}
 
 	private static void continueWith(StreamToTriples flow,

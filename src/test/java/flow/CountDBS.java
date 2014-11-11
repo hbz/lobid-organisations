@@ -1,3 +1,4 @@
+package flow;
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.CsvDecoder;
 import org.culturegraph.mf.stream.converter.LineReader;
