@@ -23,9 +23,11 @@ import org.culturegraph.mf.types.Triple;
  *         how many entries are merged when Sigel and DBS data come together.
  *
  */
-@SuppressWarnings("javadoc")
 public class CountEnriched {
 
+	/**
+	 * @param args not used
+	 */
 	public static void main(String... args) {
 		count();
 	}

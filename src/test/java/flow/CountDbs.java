@@ -20,9 +20,11 @@ import org.culturegraph.mf.types.Triple;
  *         counted
  *
  */
-@SuppressWarnings("javadoc")
 public class CountDbs {
 
+	/**
+	 * @param args not used
+	 */
 	public static void main(String... args) {
 		FileOpener opener = new FileOpener();
 		opener.setEncoding("ISO-8859-1");

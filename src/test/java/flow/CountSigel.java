@@ -20,9 +20,11 @@ import org.culturegraph.mf.types.Triple;
  *         counted
  *
  */
-@SuppressWarnings("javadoc")
 public class CountSigel {
 
+	/**
+	 * @param args not used
+	 */
 	public static void main(String... args) {
 		DirReader opener = new DirReader();
 		opener.setRecursive(false);
