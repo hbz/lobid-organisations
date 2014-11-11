@@ -2,17 +2,18 @@
 <metamorph xmlns="http://www.culturegraph.org/metamorph"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
 	entityMarker=".">
-	<rules>
-		<data source="_id" name="inr" />
-
+	<rules>		
+		<data source="nam|029A.a" name="\@context">
+			<constant value="http://data.lobid.org/organisations/context.jsonld" />
+		</data>
+		
+		<data source="nam|029A.a" name="\@type">
+			<constant value="http://schema.org/Organization" />
+		</data>
+		
 		<!-- DBS-only FIELDS -->
-
-		<data source="iso"></data>
-		<data source="sbi"></data>
+		
 		<data source="gemeindekennzahl" name="ags"></data>
-		<data source="tvw"></data>
-		<data source="text"></data>
-		<data source="leitung"></data>
 
 		<!-- DBS+SIGEL choose FIELDS -->
 
@@ -25,47 +26,54 @@
 				</data>
 			</choose>
 		</group>
-		<group name="tel">
-			<choose>
-				<data source="tel"></data>
-				<combine value="(0${prefix}) ${phonenr}" name="tel"
-					sameEntity="true">
-					<data source="035B.e" name="prefix" />
-					<data source="035B.f" name="phonenr" />
-				</combine>
-			</choose>
-		</group>
-		<group name="fax">
-			<choose>
-				<data source="fax"></data>
-				<combine value="(0${prefix}) ${faxnr}" name="fax"
-					sameEntity="true">
-					<data source="035B.h" name="prefix" />
-					<data source="035B.i" name="faxnr" />
-				</combine>
-			</choose>
-		</group>
-		<group name="email">
-			<choose>
-				<data source="ema">
-					<regexp match="(.*)" format="mailto:${1}" />
-				</data>
-				<data source="035B.k">
-					<regexp match="(.*)" format="mailto:${1}" />
-				</data>
-			</choose>
-		</group>
-		<group name="url">
-			<choose>
-				<data source="url"></data>
-				<combine value="${hp}" name="url" sameEntity="true">
-					<data source="009Q.u" name="hp" />
-					<data source="009Q.z" name="">
-						<regexp match="A" format="" />
+		<entity name="contact" flushWith="record">
+			<group name="tel">
+				<choose>
+					<combine value="(0${prefix}) ${phonenr}" name="tel" sameEntity="true">
+						<data source="tvw" name="prefix">
+							<regexp match="\d*"/>
+						</data>
+						<data source="tel" name="phonenr">
+							<not-equals string="NULL" />
+						</data>
+					</combine>
+					<combine value="(0${prefix}) ${phonenr}" name="tel"	sameEntity="true">
+						<data source="035B.e" name="prefix" />
+						<data source="035B.f" name="phonenr" />
+					</combine>
+				</choose>
+			</group>
+			<group name="fax">
+				<choose>
+					<data source="fax"></data>
+					<combine value="(0${prefix}) ${faxnr}" name="fax" sameEntity="true">
+						<data source="035B.h" name="prefix" />
+						<data source="035B.i" name="faxnr" />
+					</combine>
+				</choose>
+			</group>
+			<group name="email">
+				<choose>
+					<data source="ema">
+						<regexp match="(.*)" format="mailto:${1}" />
 					</data>
-				</combine>
-			</choose>
-		</group>
+					<data source="035B.k">
+						<regexp match="(.*)" format="mailto:${1}" />
+					</data>
+				</choose>
+			</group>
+			<group name="url">
+				<choose>
+					<data source="url"></data>
+					<combine value="${hp}" name="url" sameEntity="true">
+						<data source="009Q.u" name="hp" />
+						<data source="009Q.z" name="">
+							<regexp match="A" format="" />
+						</data>
+					</combine>
+				</choose>
+			</group>
+		</entity>
 		<group name="provides">
 			<choose>
 				<data source="opa"></data>
@@ -77,12 +85,50 @@
 				</combine>
 			</choose>
 		</group>
-		<!-- opening hours -->
+		<group name="isil">
+			<choose>
+				<data source="008H.e" />
+				<data source="isil">
+					<not-equals string="NULL" />
+				</data>
+			</choose>
+		</group>
+		<!-- new-id: isil for Sigel, and Pseudo isil for DBS data-->
+		<choose>
+			<data source="008H.e" name="\@id">
+				<regexp match="(.*)" format="http://data.lobid.org/organisation/${1}" />
+				<not-equals string="NULL" />
+			</data>			
+			<combine name="\@id" value="http://data.lobid.org/organisation/DBS-${inr}">
+				<data source="inr" name="inr">
+					<not-equals string="NULL" />
+				</data>
+			</combine>
+		</choose>		
 		<entity name="openingHoursSpecification" flushWith="record">
-			<data source="032P.i" name="description">
-			</data>
-			<data source="032P.i" name="@type">
+			<choose>			
+				<data source="032P.i" name="description" />
+				<data source="oef" name="description" />
+			</choose>
+			<data source="032P.i|oef" name="@type">
 				<constant value="http://schema.org/OpeningHoursSpecification" />
+			</data>
+		</entity>
+		<!-- address -->
+		<entity name="address" flushWith="record">
+			<data source="str-hausnr" name="streetAddress" />
+			<choose>
+				<data source="032P.b" name="addressLocality" />
+				<data source="ort" name="addressLocality" />
+			</choose>
+			<!-- Postal code not available in DBS -->
+			<data source="032P.e" name="postalCode" />			
+			<!-- Country no available in DBS -->
+			<data source="032P.d" name="addressCountry">
+				<lookup in="country-map" />
+			</data>
+			<data source="str-hausnr" name="@type">
+				<constant value="http://schema.org/PostalAddress" />
 			</data>
 		</entity>
 
@@ -108,16 +154,7 @@
 		</entity>
 
 		<!-- SIGEL-only FIELDS -->
-		<data source="008H.e" name="isil" />
-		<data source="008H.e" name="\@context">
-			<constant value="http://data.lobid.org/organisations/context.jsonld" />
-		</data>
-		<data source="008H.e" name="\@type">
-			<constant value="http://schema.org/Organization" />
-		</data>
-		<data source="008H.e" name="\@id">
-			<regexp match="(.*)" format="http://lobid.org/organisation/${1}" />
-		</data>
+		
 		<data source="008H.e" name="isPrimaryTopicOf">
 			<regexp match="(.*)"
 				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
@@ -143,31 +180,7 @@
 				<regexp match="(.*)"
 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
 			</data>
-		</entity>
-		<entity name="address" flushWith="record">
-			<choose>
-				<data source="032P.a" name="streetAddress" />
-			</choose>
-			<choose>
-				<data source="032P.b" name="addressLocality" />
-			</choose>
-			<choose>
-				<combine name="postalCode" value="${plz}" sameEntity="true">
-					<data source="032P.e" name="plz" />
-					<data source="032P.a" name="" />
-				</combine>
-			</choose>
-			<choose>
-				<combine name="addressCountry" value="${country}">
-					<data source="032P.d" name="country">
-						<lookup in="country-map" />
-					</data>
-				</combine>
-			</choose>
-			<data source="032P.d" name="@type">
-				<constant value="http://schema.org/PostalAddress" />
-			</data>
-		</entity>
+		</entity>		
 		<data source="032P.n" name="locatedIn" />
 		<entity name="subject[]" flushWith="record">
 			<data source="035G.a" name="subject" />

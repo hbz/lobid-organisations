@@ -89,18 +89,20 @@ public class Index {
 		ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;
-		String organisationId = null;
 		String organisationData = null;
+		String[] idUriParts = null;
+		String organisationId = null;
 
 		// First line: index with id, second line: source
 		while ((line = br.readLine()) != null) {
 			if (currentLine % 2 != 0) {
 				JsonNode rootNode = mapper.readValue(line, JsonNode.class);
 				JsonNode index = rootNode.get("index");
-				organisationId = index.findValue("_id").asText();
+				idUriParts = index.findValue("_id").asText().split("/");
+				organisationId = idUriParts[idUriParts.length - 1];
 			} else {
 				organisationData = line;
-				bulkRequest.add(client.prepareIndex("organisations", "dbs",
+				bulkRequest.add(client.prepareIndex("organisations", "organisation",
 						organisationId).setSource(organisationData));
 			}
 			currentLine++;

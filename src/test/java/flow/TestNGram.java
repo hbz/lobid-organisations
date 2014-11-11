@@ -12,7 +12,7 @@ public class TestNGram extends ElasticsearchTest {
 
 	private static SearchResponse search(String nameToSearch) {
 		SearchResponse responseOfSearch =
-				client.prepareSearch("organisations").setTypes("dbs")
+				client.prepareSearch("organisations").setTypes("organisation")
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
 						.setQuery(QueryBuilders.matchQuery("name", nameToSearch)).execute()
 						.actionGet();

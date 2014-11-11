@@ -38,7 +38,7 @@ public class Application extends Controller {
 
 	private static final String ES_SERVER = "http://weywot2.hbz-nrw.de:9200";
 	private static final String ES_INDEX = "organisations";
-	private static final String ES_TYPE = "dbs";
+	private static final String ES_TYPE = "organisation";
 
 	private static Settings clientSettings = ImmutableSettings.settingsBuilder()
 			.put("cluster.name", "organisation-cluster")

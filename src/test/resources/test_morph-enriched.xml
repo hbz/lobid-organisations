@@ -4,7 +4,7 @@
 		<input type="text/x-cg+xml">
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
 				<records>
-					<record id="dbs-id">
+					<record id="str123">
 						<literal name="035E.f" value="60" />
 						<literal name="typ_text" value="Universitätsbibliothek" />
 						<literal name="035E.g" value="02" />
@@ -20,8 +20,8 @@
 		<result type="text/x-cg+xml">
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
 				<records>
-					<record id="dbs-id">
-						<literal name="inr" value="dbs-id" />
+					<record id="str123">
+						<!--<literal name="inr" value="dbs-id" />-->
 						<entity name="classification">
 							<literal name="@id" value="http://purl.org/lobid/libtype#n60" />
 							<literal name="value" value="Universitätsbibliothek" />

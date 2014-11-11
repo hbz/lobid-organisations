@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Exercise 3a -->
+
+<metamorph xmlns="http://www.culturegraph.org/metamorph"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
+	entityMarker=".">
+
+	<rules>
+		
+		<data source="plz" name="straße-hausnr"><not-equals string="NULL" /></data>
+		
+		<!-- To count other fields
+		<data source="new_id" name="inr"><not-equals string="NULL" /></data>		
+		<data source="inr" name="erfasst / inr"><not-equals string="NULL" /></data>
+		<data source="tel" name="tel.........."><not-equals string="NULL" /></data>
+		<data source="ema" name="mail........."><not-equals string="NULL" /></data>
+		<data source="gemeindekennzahl" name="gemeindekennz"><not-equals string="NULL" /></data>
+		 -->
+	</rules>
+
+</metamorph>

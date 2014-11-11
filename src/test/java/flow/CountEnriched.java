@@ -1,13 +1,13 @@
 package flow;
 
 import org.culturegraph.mf.morph.Metamorph;
-import org.culturegraph.mf.stream.converter.JsonEncoder;
-import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
+import org.culturegraph.mf.stream.converter.ObjectTemplate;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
 import org.culturegraph.mf.stream.pipe.TripleFilter;
 import org.culturegraph.mf.stream.pipe.sort.AbstractTripleSort.Compare;
 import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
+import org.culturegraph.mf.stream.pipe.sort.TripleCount;
 import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.DirReader;
@@ -15,40 +15,40 @@ import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
 
 /**
- * Simple enrichment of DBS records with Sigel data based on the DBS ID.
+ * @author Simon Ritter (SBRitter)
  * 
- * After enrichment, the result is transformed to JSON for ES indexing.
- * 
- * @author Fabian Steeg (fsteeg)
+ *         Counts the data in the transformation output.
+ *         src/test/resources/count_sigel.xml defines how the data is prepared
+ *         before counting and which fields are counted. This can help to see
+ *         how many entries are merged when Sigel and DBS data come together.
  *
  */
-public class Enrich {
+public class CountEnriched {
 
 	/**
-	 * @param args Not used
+	 * @param args not used
 	 */
 	public static void main(String... args) {
-		/* Run both preparatory pipelines standalone for debugging, doc etc. */
-		Dbs.main();
-		Sigel.main();
-		/* Run the actual enrichment pipeline, which includes the previous: */
-		process();
+		count();
 	}
 
-	static void process() {
+	static void count() {
 		DirReader openSigel = new DirReader();
 		StreamToTriples streamToTriples1 = new StreamToTriples();
 		streamToTriples1.setRedirect(true);
 		StreamToTriples flow1 = //
 				Sigel.morphSigel(openSigel).setReceiver(streamToTriples1);
+
 		FileOpener openDbs = new FileOpener();
 		StreamToTriples streamToTriples2 = new StreamToTriples();
 		streamToTriples2.setRedirect(true);
 		StreamToTriples flow2 = //
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriples2);
+
 		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
 		continueWith(flow1, wait);
 		continueWith(flow2, wait);
+
 		Dbs.processDbs(openDbs);
 		Sigel.processSigel(openSigel);
 	}
@@ -56,23 +56,28 @@ public class Enrich {
 	private static void continueWith(StreamToTriples flow,
 			CloseSupressor<Triple> wait) {
 		TripleFilter tripleFilter = new TripleFilter();
-		tripleFilter.setSubjectPattern(".+"); // remove Sigel entries w/o DBS link
-		Metamorph morph = new Metamorph("src/main/resources/morph-enriched.xml");
+		tripleFilter.setSubjectPattern(".+"); // remove entries w/o Street
 		TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
-		JsonEncoder encodeJson = new JsonEncoder();
-		encodeJson.setPrettyPrinting(true);
+		TripleCollect collectTriples = new TripleCollect();
+		Metamorph morph = new Metamorph("src/test/resources/count_enriched.xml");
+		StreamToTriples triples = new StreamToTriples();
+		TripleCount count = new TripleCount();
+		count.setCountBy(Compare.PREDICATE);
+		TripleSort sort = new TripleSort();
+		ObjectTemplate<Triple> template = new ObjectTemplate<>("${s} ${o}");
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/main/resources/output/enriched.out.json");
-		JsonToElasticsearchBulk esBulk =
-				new JsonToElasticsearchBulk("@id", "organisation", "organisations");
+				new ObjectWriter<>("src/test/resources/output/count_enriched_out.txt");
+
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(sortTriples)//
-				.setReceiver(new TripleCollect())//
+				.setReceiver(collectTriples)//
 				.setReceiver(morph)//
-				.setReceiver(encodeJson)//
-				.setReceiver(esBulk)//
+				.setReceiver(triples)//
+				.setReceiver(count)//
+				.setReceiver(sort)//
+				.setReceiver(template)//
 				.setReceiver(writer);
 	}
 }
