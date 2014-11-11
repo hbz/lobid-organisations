@@ -1,11 +1,11 @@
 <metamorph-test version="1.0"
 	xmlns="http://www.culturegraph.org/metamorph-test">
-	<test-case name="DbsMorph">
+	<test-case name="SigelMorph">
 		<input type="text/x-cg+xml">
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
 				<records>
 					<record id="1">
-						<literal name="008H.b" value="inr-abc" />
+						<literal name="032P.a" value="straße 123" />
 					</record>
 				</records>
 			</cgxml>
@@ -16,7 +16,8 @@
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
 				<records>
 					<record id="1">
-						<literal name="_id" value="inr-abc" />
+						<literal name="_id" value="str123" />
+						<literal name="str-hausnr" value="straße 123" />
 					</record>
 				</records>
 			</cgxml>

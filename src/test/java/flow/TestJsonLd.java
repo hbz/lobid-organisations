@@ -2,7 +2,6 @@ package flow;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.elasticsearch.action.get.GetResponse;
@@ -25,16 +24,16 @@ public class TestJsonLd extends ElasticsearchTest {
 	}
 
 	private static String replaceContext(String source) {
-		// String newSource =
-		// source.replaceAll("http://data.lobid.org/organisations/context.jsonld",
-		// "http://schema.org");
-
-		/* For testing with local context */
-		File file = new File("web/conf/context.jsonld");
-		String pathToContext = file.getAbsolutePath();
 		String newSource =
 				source.replaceAll("http://data.lobid.org/organisations/context.jsonld",
-						"file://" + pathToContext);
+						"http://schema.org");
+
+		/* For testing with local context */
+		// File file = new File("web/conf/context.jsonld");
+		// String pathToContext = file.getAbsolutePath();
+		// String newSource =
+		// source.replaceAll("http://data.lobid.org/organisations/context.jsonld",
+		// "file://" + pathToContext);
 
 		return newSource;
 	}
@@ -42,7 +41,7 @@ public class TestJsonLd extends ElasticsearchTest {
 	@Test
 	public void validateJsonLd() throws JsonParseException, IOException,
 			JsonLdError {
-		Object sourceAsJson = JsonUtils.fromString(getSource("AB038"));
+		Object sourceAsJson = JsonUtils.fromString(getSource("DE-1a"));
 		Object sourceAsRdf = JsonLdProcessor.toRDF(sourceAsJson);
 		assertNotNull("Index documents should be parsable as JSON-LD", sourceAsRdf);
 	}
