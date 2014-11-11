@@ -1,4 +1,5 @@
 package flow;
+
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.CsvDecoder;
 import org.culturegraph.mf.stream.converter.LineReader;
@@ -11,8 +12,16 @@ import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
 
+/**
+ * @author Simon Ritter (SBRitter)
+ * 
+ *         Counts the data in DBS data set. src/test/resources/count_dbs.xml
+ *         defines how the data is prepared before counting and which fields are
+ *         counted
+ *
+ */
 @SuppressWarnings("javadoc")
-public class CountDBS {
+public class CountDbs {
 
 	public static void main(String... args) {
 		FileOpener opener = new FileOpener();

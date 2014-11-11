@@ -14,6 +14,15 @@ import org.culturegraph.mf.stream.source.DirReader;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
 
+/**
+ * @author Simon Ritter (SBRitter)
+ * 
+ *         Counts the data in the transformation output.
+ *         src/test/resources/count_sigel.xml defines how the data is prepared
+ *         before counting and which fields are counted. This can help to see
+ *         how many entries are merged when Sigel and DBS data come together.
+ *
+ */
 @SuppressWarnings("javadoc")
 public class CountEnriched {
 

@@ -1,4 +1,5 @@
 package flow;
+
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.ObjectTemplate;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
@@ -11,6 +12,14 @@ import org.culturegraph.mf.stream.source.DirReader;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
 
+/**
+ * @author Simon Ritter (SBRitter)
+ * 
+ *         Counts the data in Sigel data set. src/test/resources/count_sigel.xml
+ *         defines how the data is prepared before counting and which fields are
+ *         counted
+ *
+ */
 @SuppressWarnings("javadoc")
 public class CountSigel {
 

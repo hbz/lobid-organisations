@@ -6,9 +6,7 @@
 		<!-- plz stands for street and number -->
 		<data source="plz" name="_id">
 			<case to="lower" />
-			<replace pattern=" "  with="" />
-			<replace pattern="\." with="" />
-			<replace pattern="-" with="" />
+			<replace pattern="[\.\-\s]" with="" />
 			<replace pattern="straße" with="str" />
 			<replace pattern="platz" with="pl" />
 		</data>	
