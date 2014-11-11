@@ -102,7 +102,7 @@ public class Index {
 				organisationId = idUriParts[idUriParts.length - 1];
 			} else {
 				organisationData = line;
-				bulkRequest.add(client.prepareIndex("organisations", "dbs",
+				bulkRequest.add(client.prepareIndex("organisations", "organisation",
 						organisationId).setSource(organisationData));
 			}
 			currentLine++;

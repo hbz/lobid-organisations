@@ -24,7 +24,7 @@
 		}
 	},
 	"mappings" : {
-		"dbs": {
+		"organisation": {
 			"properties": {
 				"name": {
 					"type": "string",
