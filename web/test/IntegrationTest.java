@@ -37,10 +37,10 @@ public class IntegrationTest {
 	@Test
 	public void getById() {
 		running(fakeApplication(), () -> {
-			Result result = route(fakeRequest(GET, "/organisations/ZY571"));
+			Result result = route(fakeRequest(GET, "/organisations/DE-9"));
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result)).contains("HBZ");
+			assertThat(contentAsString(result)).contains("Greifswald");
 		});
 	}
 
@@ -55,7 +55,7 @@ public class IntegrationTest {
 					assertThat(result).isNotNull();
 					assertThat(contentType(result)).isEqualTo("application/json");
 					assertThat(contentAsString(result)).contains(
-							"Universitätsbibliothek Dortmund");
+							"Bayerisches Landesvermessungsamt");
 				});
 	}
 
