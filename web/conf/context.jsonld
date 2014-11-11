@@ -1,41 +1,41 @@
 {
-    "@context": {
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "name": "http://schema.org/name",
-        "alternateName": "http://schema.org/alternateName",
-        "isil": "http://purl.org/lobid/lv#isil",
-        "ags": "http://purl.org/lobid/lv#ags",
-        "address":  {
-            "@type": "@id",
-            "@id": "http://schema.org/address"
-        },
-        "addressCountry": "http://schema.org/addressCountry",
-        "addressLocality": "http://schema.org/addressLocality",
-        "postalCode": "http://schema.org/postalCode",
-        "streetAddress": "http://schema.org/streetAddress",
-        "openingHoursSpecification":	{
+	"@context": {
+		"xsd": "http://www.w3.org/2001/XMLSchema#",
+		"name": "http://schema.org/name",
+		"alternateName": "http://schema.org/alternateName",
+		"isil": "http://purl.org/lobid/lv#isil",
+		"ags": "http://purl.org/lobid/lv#ags",
+		"address":  {
+			"@type": "@id",
+			"@id": "http://schema.org/address"
+		},
+		"addressCountry": "http://schema.org/addressCountry",
+		"addressLocality": "http://schema.org/addressLocality",
+		"postalCode": "http://schema.org/postalCode",
+		"streetAddress": "http://schema.org/streetAddress",
+		"openingHoursSpecification":	{
 			"@type": "@id",
 			"@id": "http://schema.org/openingHoursSpecification"
 		},
 		"description": "http://schema.org/description",
-        "email":    {
-            "@type": "@id",
-            "@id": "http://schema.org/email"
-        },
-        "url":  {
-            "@type": "@id",
-            "@id": "http://www.w3.org/2006/vcard/ns#url"
-        },
-        "location":  {
-            "@type": "@id",
-            "@id": "http://schema.org/geo"
-        },
-        "lat": "http://schema.org/latitude",
-        "lon": "http://schema.org/longitude",
-        "containedIn": {
-            "@type": "@id",
-            "@id": "http://schema.org/containedIn"
-        },
+		"email":    {
+			"@type": "@id",
+			"@id": "http://schema.org/email"
+		},
+		"url":  {
+			"@type": "@id",
+			"@id": "http://www.w3.org/2006/vcard/ns#url"
+		},
+		"location":  {
+			"@type": "@id",
+			"@id": "http://schema.org/geo"
+		},
+		"lat": "http://schema.org/latitude",
+		"lon": "http://schema.org/longitude",
+		"containedIn": {
+			"@type": "@id",
+			"@id": "http://schema.org/containedIn"
+		},
 		"provides":	{
 			"@type": "@id",
 			"@id": "http://purl.org/ontology/daia/provides"
@@ -48,34 +48,30 @@
 			"@type": "@id",
 			"@id": "http://purl.org/lobid/lv#stocksize"
 		},
-        "classification":   {
-            "@type": "@id",
-            "@id": "http://www.w3.org/ns/org#classification"
+		"classification":   {
+			"@type": "@id",
+			"@id": "http://www.w3.org/ns/org#classification"
 		},
 		"subject": "http://purl.org/dc/elements/1.1/subject",
-        "linkedTo": {
-            "@type": "@id",
-            "@id": "http://www.w3.org/ns/org#linkedTo"
-        },  
-        "isPrimaryTopicOf": {
-            "@type": "@id",
-            "@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
-        },
+		"linkedTo": {
+			"@type": "@id",
+			"@id": "http://www.w3.org/ns/org#linkedTo"
+		},  
+		"isPrimaryTopicOf": {
+			"@type": "@id",
+			"@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
+		},
 		"wikipedia":	{
 			"@type": "@id",
 			"@id": "http://purl.org/ontology/mo/wikipedia"
 		},
-		"isPrimaryTopicOf":	{
+		"primaryTopic": {
 			"@type": "@id",
-			"@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"		
+			"@id": "http://xmlns.com/foaf/0.1/primaryTopic"
 		},
-        "primaryTopic": {
-            "@type": "@id",
-            "@id": "http://xmlns.com/foaf/0.1/primaryTopic"
-        },
-        "sameAs": {
-            "@type": "@id",
-            "@id": "http://schema.org/sameAs"
-        }
+		"sameAs": {
+			"@type": "@id",
+			"@id": "http://schema.org/sameAs"
+		}
 	}
 }

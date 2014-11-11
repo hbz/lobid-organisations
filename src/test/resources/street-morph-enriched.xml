@@ -12,12 +12,8 @@
 		</data>
 		
 		<!-- DBS-only FIELDS -->
-
-		<data source="iso"></data>
-		<!-- <data source="sbi"></data>-->
+		
 		<data source="gemeindekennzahl" name="ags"></data>
-		<data source="text"></data>
-		<data source="leitung"></data>
 
 		<!-- DBS+SIGEL choose FIELDS -->
 
