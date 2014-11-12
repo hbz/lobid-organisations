@@ -213,6 +213,6 @@
 		<filemap name="country-map"
 			files="http://test.lobid.org/assets/data/country-map.csv" />
 		<filemap name="isil2dbpedia_map"
-			files="http://test.lobid.org/assets/data/isil2dbpedia-map.csv" />
+			files="http://test.lobid.org/assets/data/isil2dbpedia-map.csv" />		
 	</maps>
 </metamorph>
