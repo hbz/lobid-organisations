@@ -212,7 +212,7 @@
 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
 			</data>
 		</entity>		
-		<data source="032P.n" name="locatedIn" />
+		<data source="032P.n" name="containedIn" />
 		<entity name="subject[]" flushWith="record">
 			<data source="035G.a" name="subject" />
 		</entity>
