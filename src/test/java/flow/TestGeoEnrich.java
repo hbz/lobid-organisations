@@ -26,7 +26,7 @@ public class TestGeoEnrich extends ElasticsearchTest {
 	@Test
 	public void requestCoordinates() {
 		SearchHit response =
-				searchByAddress("Neuenheimer Feld 282").getHits().getAt(0);
+				searchByAddress("Universitätsstr. 33").getHits().getAt(0);
 		System.out.println(response.getSourceAsString());
 		assertTrue("Response should contain the field location", response
 				.getSourceAsString().contains("location"));
