@@ -165,10 +165,38 @@
 		<data source="008H.e" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
 		</data>
-		<entity name="location" flushWith="record">
+		
+		<!-- <entity name="location" flushWith="record">
 			<data source="032P.k" name="lon" />
 			<data source="032P.l" name="lat" />
+		</entity> -->	
+		
+		<!-- combine field for look in coordinate maps -->
+		<combine name="@geo-lookup-field" value="${land}/${ort}/${plz}/${str-hausnr}" flushWith="record">
+			<data source="032P.d" name="land">
+				<lookup in="country-map" />
+			</data>
+			<data source="032P.b" name="ort" />
+			<data source="032P.e" name="plz" />
+			<data source="032P.a" name="" />
+			<data source="str-hausnr" name="str-hausnr" />
+		</combine>
+		
+		<entity name="location" flushWith="record">
+			<choose>
+				<data source="032P.l" name="lat" />
+				<data source="@geo-lookup-field" name="lat">
+					<lookup in="geolocation-lat_map" />
+				</data>
+			</choose>
+			<choose>
+				<data source="032P.k" name="lon" />
+				<data source="@geo-lookup-field" name="lon">
+					<lookup in="geolocation-lon_map" />
+				</data>
+			</choose>
 		</entity>
+					
 		<entity name="alternateName[]" flushWith="record">
 			<data source="029@.a" name="altLabel" />
 		</entity>
@@ -213,6 +241,8 @@
 		<filemap name="country-map"
 			files="http://test.lobid.org/assets/data/country-map.csv" />
 		<filemap name="isil2dbpedia_map"
-			files="http://test.lobid.org/assets/data/isil2dbpedia-map.csv" />		
+			files="http://test.lobid.org/assets/data/isil2dbpedia-map.csv" />
+		<filemap name="geolocation-lat_map" files="geo-latitude-map.csv"/>		
+		<filemap name="geolocation-lon_map" files="geo-longitude-map.csv"/>
 	</maps>
 </metamorph>

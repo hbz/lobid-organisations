@@ -8,6 +8,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.junit.Test;
 
+@SuppressWarnings("javadoc")
 public class TestGeoEnrich extends ElasticsearchTest {
 
 	private static SearchResponse searchByAddress(String addressToSearch) {
@@ -25,7 +26,7 @@ public class TestGeoEnrich extends ElasticsearchTest {
 	@Test
 	public void requestCoordinates() {
 		SearchHit response =
-				searchByAddress("Neuenheimer Feld 282 1").getHits().getAt(0);
+				searchByAddress("Neuenheimer Feld 282").getHits().getAt(0);
 		System.out.println(response.getSourceAsString());
 		assertTrue("Response should contain the field location", response
 				.getSourceAsString().contains("location"));
