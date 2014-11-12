@@ -122,7 +122,10 @@
 				<data source="ort" name="addressLocality" />
 			</choose>
 			<!-- Postal code not available in DBS -->
-			<data source="032P.e" name="postalCode" />			
+			<combine name="postalCode" value="${plz}" sameEntity="true">
+				<data source="032P.e" name="plz" />
+				<data source="032P.a" name="" />
+			</combine>			
 			<!-- Country no available in DBS -->
 			<data source="032P.d" name="addressCountry">
 				<lookup in="country-map" />
