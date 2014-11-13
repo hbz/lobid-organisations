@@ -10,13 +10,8 @@
 		<data source="nam|029A.a" name="\@type">
 			<constant value="http://schema.org/Organization" />
 		</data>
-		
-		<!-- DBS-only FIELDS -->
-		
+			
 		<data source="gemeindekennzahl" name="ags"></data>
-
-		<!-- DBS+SIGEL choose FIELDS -->
-
 		<group name="name">
 			<choose>
 				<data source="nam" />
@@ -119,27 +114,22 @@
 		</entity>
 		<!-- address -->
 		<entity name="address" flushWith="record">
-			<data source="str-hausnr" name="streetAddress" />
+			<data source="streetNumber" name="streetAddress" />
 			<choose>
 				<data source="032P.b" name="addressLocality" />
 				<data source="ort" name="addressLocality" />
 			</choose>
-			<!-- Postal code not available in DBS -->
-			<combine name="postalCode" value="${plz}" sameEntity="true">
-				<data source="032P.e" name="plz" />
-				<data source="032P.a" name="" />
-			</combine>			
+			<!-- Postal code not available in DBS -->					
+			<data source="postalCodeVisitors" name="postalCode" />			
+		
 			<!-- Country no available in DBS -->
 			<data source="032P.d" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
-			<data source="str-hausnr" name="@type">
+			<data source="streetNumber" name="@type">
 				<constant value="http://schema.org/PostalAddress" />
 			</data>
 		</entity>
-
-		<!-- DBS+SIGEL merge FIELDS -->
-
 		<entity name="classification" flushWith="record">
 			<data source="035E.f" name="@id">
 				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
@@ -158,33 +148,22 @@
 			</data>
 			<data source="gro_text" name="value"></data>
 		</entity>
-
-		<!-- SIGEL-only FIELDS -->
-		
 		<data source="008H.e" name="isPrimaryTopicOf">
 			<regexp match="(.*)"
 				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
 		</data>
 		<data source="008H.e" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
-		</data>
-		
-		<!-- <entity name="location" flushWith="record">
-			<data source="032P.k" name="lon" />
-			<data source="032P.l" name="lat" />
-		</entity> -->	
-		
+		</data>	
 		<!-- combine field for look in coordinate maps -->
-		<combine name="@geo-lookup-field" value="${land}/${ort}/${plz}/${str-hausnr}" flushWith="record">
+		<combine name="@geo-lookup-field" value="${land}/${ort}/${plz}/${str}" sameEntity="true">
 			<data source="032P.d" name="land">
 				<lookup in="country-map" />
 			</data>
 			<data source="032P.b" name="ort" />
-			<data source="032P.e" name="plz" />
-			<data source="032P.a" name="" />
-			<data source="str-hausnr" name="str-hausnr" />
-		</combine>
-		
+			<data source="postalCodeVisitors" name="plz" />			
+			<data source="streetNumber" name="str" />
+		</combine>		
 		<entity name="location" flushWith="record">
 			<choose>
 				<data source="032P.l" name="lat" />
@@ -198,8 +177,7 @@
 					<lookup in="geolocation-lon_map" />
 				</data>
 			</choose>
-		</entity>
-					
+		</entity>					
 		<entity name="alternateName[]" flushWith="record">
 			<data source="029@.a" name="altLabel" />
 		</entity>
