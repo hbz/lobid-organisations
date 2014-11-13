@@ -93,12 +93,15 @@
 				</data>
 			</choose>
 		</group>
-		<!-- new-id: isil for Sigel, and Pseudo isil for DBS data-->
+		<!-- new-id: isil for Sigel, and Pseudo isil for DBS data that lack isil-->
 		<choose>
 			<data source="008H.e" name="\@id">
 				<regexp match="(.*)" format="http://data.lobid.org/organisations/${1}" />
+			</data>
+			<data source="isil" name="\@id">
+				<regexp match="(.*)" format="http://data.lobid.org/organisations/${1}" />
 				<not-equals string="NULL" />
-			</data>			
+			</data>	
 			<combine name="\@id" value="http://data.lobid.org/organisations/DBS-${inr}">
 				<data source="inr" name="inr">
 					<not-equals string="NULL" />
