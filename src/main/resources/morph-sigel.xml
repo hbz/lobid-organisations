@@ -4,13 +4,30 @@
 	entityMarker=".">
 	<rules>
 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
-		<data source="032P.a" name="_id">
-			<case to="lower" />
-			<replace pattern="[\.\-\s]" with="" />
-			<replace pattern="straße" with="str" />
-			<replace pattern="platz" with="pl" />		
-		</data>
-		<data source="032P.a" name="streetNumber"></data>
+				
+		<combine name="_id" value="${id}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>					
+			<data source="032P.a" name="id">		
+				<case to="lower" />
+				<replace pattern="[\/\.\-\s]" with="" />
+				<replace pattern="straße" with="str" />
+				<replace pattern="platz" with="pl" />		
+			</data>		
+		</combine>
+		
+		<combine name="streetNumber" value="${strtNmb}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>					
+			<data source="032P.a" name="strtNmb" />		
+		</combine>	
+	
 		<combine name="postalCodeVisitors" value="${pstCd}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -18,7 +35,9 @@
 				</data>
 			</if>
 			<data source="032P.e" name="pstCd" />
-		</combine>				
+		</combine>	
+					
 		<data source="_else"></data>
+		
 	</rules>
 </metamorph>
