@@ -101,29 +101,62 @@
 				<constant value="http://schema.org/OpeningHoursSpecification" />
 			</data>
 		</entity>
-		<!-- address -->
-		<entity name="address" flushWith="record">
+		<!-- Main address -->
+		<entity name="addressVisitor" flushWith="record">
 			<choose>
-				<data source="032P.a" name="streetAddress" />
+				<data source="streetAddressVisitor" name="streetAddress" />
 				<!-- plz stand for street address in dbs data -->
 				<data source="plz" name="streetAddress">
 					<not-equals string="NULL"/>
 				</data>
 			</choose>			
 			<choose>
-				<data source="032P.b" name="addressLocality" />
+				<data source="localityVisitor" name="addressLocality" />
 				<data source="ort" name="addressLocality" />
-			</choose>			
-			<!-- Postal code not available in DBS -->
-			<data source="postalCodeVisitors" name="postalCode" />
-			<!-- Country not available in DBS -->
-			<data source="032P.d" name="addressCountry">
+			</choose>
+			<data source="postalCodeVisitor" name="postalCode" />
+			<data source="countryMain" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
-			<data source="032P.*" name="@type">
+			<data source="streetAddressVisitor" name="@type">
+				<constant value="http://schema.org/PostalAddress" />
+			</data>
+		</entity>		
+		<!-- Further addresses -->
+		<entity name="addressMail" flushWith="record">			
+			<data source="streetAddressMail" name="streetAddress" />
+			<data source="mailBox" name="mailBox" />
+			<data source="localityMail" name="addressLocality" />
+			<data source="postalCodeMail" name="postalCode" />
+			<data source="coutnryMail" name="addressCountry">
+				<lookup in="country-map" />
+			</data>
+			<data source="streetAddressMail" name="@type">
 				<constant value="http://schema.org/PostalAddress" />
 			</data>
 		</entity>
+		<entity name="addressBill" flushWith="record">			
+			<data source="streetAddressBill" name="streetAddress" />
+			<data source="localityBill" name="addressLocality" />
+			<data source="postalCodeBill" name="postalCode" />
+			<data source="coutnryBill" name="addressCountry">
+				<lookup in="country-map" />
+			</data>
+			<data source="streetAddressBill" name="@type">
+				<constant value="http://schema.org/PostalAddress" />
+			</data>
+		</entity>
+		<entity name="addressOther" flushWith="record">			
+			<data source="streetAddressOther" name="streetAddress" />
+			<data source="localityOther" name="addressLocality" />
+			<data source="postalCodeOther" name="postalCode" />
+			<data source="coutnryOther" name="addressCountry">
+				<lookup in="country-map" />
+			</data>
+			<data source="streetAddressOther" name="@type">
+				<constant value="http://schema.org/PostalAddress" />
+			</data>
+		</entity>		
 		<entity name="classification" flushWith="record">
 			<data source="035E.f" name="@id">
 				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
@@ -151,12 +184,12 @@
 		</data>	
 		<!-- combine field for look in coordinate maps -->
 		<combine name="@geo-lookup-field" value="${land}/${ort}/${plz}/${str}" sameEntity="true">
-			<data source="032P.d" name="land">
+			<data source="countryVisitor" name="land">
 				<lookup in="country-map" />
 			</data>
-			<data source="032P.b" name="ort" />
+			<data source="localityVisitor" name="ort" />
 			<data source="postalCodeVisitors" name="plz" />			
-			<data source="032P.a" name="str" />
+			<data source="streetAddressVisitor" name="str" />
 		</combine>		
 		<entity name="location" flushWith="record">
 			<choose>

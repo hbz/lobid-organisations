@@ -5,8 +5,35 @@
 	<rules>
 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
 		<data name="_id" source="008H.e" />
-		<data name="isil" source="008H.e" />		
-		<combine name="postalCodeVisitors" value="${pstCd}" sameEntity="true">
+		<data name="isil" source="008H.e" />
+		
+		<!-- Different types of addresses -->
+		<!-- Main address / address for visitors -->
+		<combine name="streetAddressVisitor" value="${strAdr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.a" name="strAdr" />
+		</combine>
+		<combine name="localityVisitor" value="${loc}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.b" name="loc" />
+		</combine>
+		<combine name="countryVisitor" value="${cntr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.d" name="cntr" />
+		</combine>
+		<combine name="postalCodeVisitor" value="${pstCd}" sameEntity="true">
 			<if>
 				<data source="032P.2">
 					<equals string = "S" />
@@ -14,6 +41,117 @@
 			</if>
 			<data source="032P.e" name="pstCd" />
 		</combine>
+		
+		<!-- Mailing address -->
+		<combine name="streetAddressMail" value="${strAdr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.a" name="strAdr" />
+		</combine>
+		<combine name="mailBox" value="${mlbx}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.g" name="mlbx" />
+		</combine>
+		<combine name="localityMail" value="${loc}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.b" name="loc" />
+		</combine>
+		<combine name="countryMail" value="${cntr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.d" name="cntr" />
+		</combine>
+		<combine name="postalCodeMail" value="${pstCd}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.e" name="pstCd" />
+		</combine>
+		
+		<!-- Billing address -->
+		<combine name="streetAddressBill" value="${strAdr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "R" />
+				</data>
+			</if>
+			<data source="032P.a" name="strAdr" />
+		</combine>
+		<combine name="localityBill" value="${loc}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "R" />
+				</data>
+			</if>
+			<data source="032P.b" name="loc" />
+		</combine>
+		<combine name="countryMail" value="${cntr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "R" />
+				</data>
+			</if>
+			<data source="032P.d" name="cntr" />
+		</combine>
+		<combine name="postalCodeBill" value="${pstCd}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "R" />
+				</data>
+			</if>
+			<data source="032P.e" name="pstCd" />
+		</combine>
+		
+		<!-- Other address -->
+		<combine name="streetAddressOther" value="${strAdr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.a" name="strAdr" />
+		</combine>
+		<combine name="localityOther" value="${loc}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.b" name="loc" />
+		</combine>
+		<combine name="countryOther" value="${cntr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.d" name="cntr" />
+		</combine>
+		<combine name="postalCodeOther" value="${pstCd}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.e" name="pstCd" />
+		</combine>
+		
 		<data source="_else"></data>
 	</rules>
 </metamorph>
