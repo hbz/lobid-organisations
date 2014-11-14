@@ -81,11 +81,12 @@
 			</choose>
 		</group>
 		<data source="isil" name="isil"/>
+		<data source="inr" name="inr"/>
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
 			<data source="isil" name="\@id">
 				<regexp match="(.*)" format="http://data.lobid.org/organisations/${1}" />
-			</data>			
+			</data>
 			<combine name="\@id" value="http://data.lobid.org/organisations/DBS-${inr}">
 				<data source="inr" name="inr">
 					<not-equals string="NULL" />
@@ -115,10 +116,10 @@
 				<data source="ort" name="addressLocality" />
 			</choose>
 			<data source="postalCodeVisitor" name="postalCode" />
-			<data source="countryMain" name="addressCountry">
+			<data source="countryVisitor" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
-			<data source="streetAddressVisitor" name="@type">
+			<data source="streetAddressVisitor" name="type">
 				<constant value="http://schema.org/PostalAddress" />
 			</data>
 		</entity>		
@@ -128,7 +129,7 @@
 			<data source="mailBox" name="mailBox" />
 			<data source="localityMail" name="addressLocality" />
 			<data source="postalCodeMail" name="postalCode" />
-			<data source="coutnryMail" name="addressCountry">
+			<data source="countryMail" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
 			<data source="streetAddressMail" name="@type">
@@ -139,7 +140,7 @@
 			<data source="streetAddressBill" name="streetAddress" />
 			<data source="localityBill" name="addressLocality" />
 			<data source="postalCodeBill" name="postalCode" />
-			<data source="coutnryBill" name="addressCountry">
+			<data source="countryBill" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
 			<data source="streetAddressBill" name="@type">
@@ -150,7 +151,7 @@
 			<data source="streetAddressOther" name="streetAddress" />
 			<data source="localityOther" name="addressLocality" />
 			<data source="postalCodeOther" name="postalCode" />
-			<data source="coutnryOther" name="addressCountry">
+			<data source="countryOther" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
 			<data source="streetAddressOther" name="@type">
@@ -183,14 +184,14 @@
 			<lookup in="isil2dbpedia_map" />
 		</data>	
 		<!-- combine field for look in coordinate maps -->
-		<combine name="@geo-lookup-field" value="${land}/${ort}/${plz}/${str}" sameEntity="true">
+		<combine name="@geo-lookup-field" value="${land}/${ort}/${plz}/${str}">
 			<data source="countryVisitor" name="land">
 				<lookup in="country-map" />
 			</data>
 			<data source="localityVisitor" name="ort" />
-			<data source="postalCodeVisitors" name="plz" />			
+			<data source="postalCodeVisitor" name="plz" />			
 			<data source="streetAddressVisitor" name="str" />
-		</combine>		
+		</combine>
 		<entity name="location" flushWith="record">
 			<choose>
 				<data source="032P.l" name="lat" />

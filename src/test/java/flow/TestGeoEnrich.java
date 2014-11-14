@@ -18,7 +18,7 @@ public class TestGeoEnrich extends ElasticsearchTest {
 						.setTypes("organisation")
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
 						.setQuery(
-								QueryBuilders.matchQuery("address.streetAddress",
+								QueryBuilders.matchQuery("addressVisitor.streetAddress",
 										addressToSearch)).execute().actionGet();
 		return responseOfSearch;
 	}

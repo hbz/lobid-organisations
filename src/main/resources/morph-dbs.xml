@@ -3,21 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
 	entityMarker=".">
 	<rules>
-		<!-- use isil as id if available, use inr if not -->
-		<choose name="_id">
-			<data source="isil">
-				<not-equals string="NULL"/>
-			</data>			
-			<combine name="pseudo-isil" value="DBS-${inr}">
-				<data source="inr" />
-			</combine>
-		</choose>
-		
+		<!-- use inr as _id -->
+		<data source="inr" name="_id"/>		
 		<data source="inr" name="inr" />
-		<data source="isil" name="isil">
+		<data source="isil" name="isil">		
 			<not-equals string="NULL"/>
 		</data>
-		
 		<data source="_else">
 			<not-equals string="NULL" />
 		</data>

@@ -4,7 +4,14 @@
 	entityMarker=".">
 	<rules>
 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
-		<data name="_id" source="008H.e" />
+		
+		<!-- Use inr if available, use isil if not -->
+		<choose>
+			<data name="_id" source="008H.b" />
+			<data name="_id" source="008H.e" />
+		</choose>
+		
+		<data name="inr" source="008H.b" />
 		<data name="isil" source="008H.e" />
 		
 		<!-- Different types of addresses -->
