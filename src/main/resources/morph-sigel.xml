@@ -4,11 +4,8 @@
 	entityMarker=".">
 	<rules>
 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
-				
 		<data name="_id" source="008H.e" />
-		
 		<data name="isil" source="008H.e" />		
-	
 		<combine name="postalCodeVisitors" value="${pstCd}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -17,8 +14,6 @@
 			</if>
 			<data source="032P.e" name="pstCd" />
 		</combine>
-					
 		<data source="_else"></data>
-		
 	</rules>
 </metamorph>

@@ -80,23 +80,12 @@
 				</combine>
 			</choose>
 		</group>
-		<group name="isil">
-			<choose>
-				<data source="008H.e" />
-				<data source="isil">
-					<not-equals string="NULL" />
-				</data>
-			</choose>
-		</group>
-		<!-- new-id: isil for Sigel, and Pseudo isil for DBS data that lack isil-->
+		<data source="isil" name="isil"/>
+		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
-			<data source="008H.e" name="\@id">
-				<regexp match="(.*)" format="http://data.lobid.org/organisations/${1}" />
-			</data>
 			<data source="isil" name="\@id">
 				<regexp match="(.*)" format="http://data.lobid.org/organisations/${1}" />
-				<not-equals string="NULL" />
-			</data>	
+			</data>			
 			<combine name="\@id" value="http://data.lobid.org/organisations/DBS-${inr}">
 				<data source="inr" name="inr">
 					<not-equals string="NULL" />
@@ -114,19 +103,24 @@
 		</entity>
 		<!-- address -->
 		<entity name="address" flushWith="record">
-			<data source="streetNumber" name="streetAddress" />
+			<choose>
+				<data source="032P.a" name="streetAddress" />
+				<!-- plz stand for street address in dbs data -->
+				<data source="plz" name="streetAddress">
+					<not-equals string="NULL"/>
+				</data>
+			</choose>			
 			<choose>
 				<data source="032P.b" name="addressLocality" />
 				<data source="ort" name="addressLocality" />
-			</choose>
-			<!-- Postal code not available in DBS -->					
-			<data source="postalCodeVisitors" name="postalCode" />			
-		
-			<!-- Country no available in DBS -->
+			</choose>			
+			<!-- Postal code not available in DBS -->
+			<data source="postalCodeVisitors" name="postalCode" />
+			<!-- Country not available in DBS -->
 			<data source="032P.d" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
-			<data source="streetNumber" name="@type">
+			<data source="032P.*" name="@type">
 				<constant value="http://schema.org/PostalAddress" />
 			</data>
 		</entity>
@@ -162,7 +156,7 @@
 			</data>
 			<data source="032P.b" name="ort" />
 			<data source="postalCodeVisitors" name="plz" />			
-			<data source="streetNumber" name="str" />
+			<data source="032P.a" name="str" />
 		</combine>		
 		<entity name="location" flushWith="record">
 			<choose>

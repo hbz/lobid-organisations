@@ -16,7 +16,7 @@
 		<data source="inr" name="inr" />
 		<data source="isil" name="isil">
 			<not-equals string="NULL"/>
-		</data>		
+		</data>
 		
 		<data source="_else">
 			<not-equals string="NULL" />
