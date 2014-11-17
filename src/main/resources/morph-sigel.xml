@@ -15,7 +15,7 @@
 		<data name="isil" source="008H.e" />
 		
 		<!-- Different types of addresses -->
-		<!-- Main address / address for visitors -->
+		<!-- Main address / address for visitors -->		
 		<combine name="streetAddressVisitor" value="${strAdr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -108,7 +108,7 @@
 			</if>
 			<data source="032P.b" name="loc" />
 		</combine>
-		<combine name="countryMail" value="${cntr}" sameEntity="true">
+		<combine name="countryBill" value="${cntr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
 					<equals string = "R" />
