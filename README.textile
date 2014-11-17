@@ -2,7 +2,7 @@ h1. About
 
 Experimental new data transformation workflows for the lobid-organisations data set based on "Metafacture":https://github.com/culturegraph/metafacture-core/wiki.
 
-Currently transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing. The resulting data is used to build an index in Elasticsearch.
+Currently transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing. Data of two or more entries are merged if the DBS ID (INR) of the entries is identical. The resulting data is used to build an index in Elasticsearch.
 
 _Note: for the currently productive transformations see "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill_
 
@@ -79,13 +79,16 @@ h2. Workflow
 
 The source data sets are the _Sigelverzeichnis_ ('Sigel', format: PicaPlus-XML) and the _Deutsche Bibliotheksstatistik_ ('DBS', format: CSV). The transformation is implemented by a pipeline with 3 logical steps:
 
-* Preprocess Sigel data, use DBS ID as record ID
+* Preprocess Sigel data, use DBS ID as record ID; if no DBS ID is available, use ISIL
 * Preprocess DBS data, use DBS ID as record ID
-* Enrich the DBS data with transformed Sigel data
+* Combine all data from Sigel and DBS:
+** Merge Sigel and DBS entries that have identical DBS IDs
+** Entries with a unique DBS ID or without DBS ID are integrated as well -- they are not merged with any other entry
+** The entries in the resulting data set have a URI with their ISIL as ID (e.g., http://data.lobid.org/organisations/DE-9). If no ISIL is available a Pseudo-ISIL is generated consisting of the string !''DBS-!'' and the DBS ID (e.g., http://data.lobid.org/organisations/DBS-GX848). 
 
 Each of these steps has a corresponding Java class, Morph definition, and output file. 
 
-Finally, the data can be indexed in Elasticsearch using a separate Java class (only works hbz internally).
+Finally, the data can be indexed in Elasticsearch using a separate Java class (only works hbz internally). The ID of an organisation is given as a URI (e.g., http://data.lobid.org/organisations/DE-9). However, when building up the index, the organisations are given the last bit of the URI only (e.g., DE-9). Thus, Elasticsearch-internally, the organisations can be accessed via their ISIL or Pseudo-ISIL.
 
 h2. Downloads
 
@@ -120,13 +123,13 @@ Query the resulting index (only works hbz internally!):
 
 For details on the various options see the "query string syntax documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax.
 
-Get a specific record by DBS ID:
+Get a specific record by DE-9:
 
-* @curl -XGET 'http://weywot2.hbz-nrw.de:9200/organisations/dbs/ZY571'; echo@
+* @curl -XGET 'http://weywot2.hbz-nrw.de:9200/organisations/organisation/DE-9'; echo@
 
 Exclude the metadata (you can paste the resulting document into the "JSON-LD Playground":http://json-ld.org/playground/ for conversion tests etc.):
 
-* @curl -XGET 'http://weywot2.hbz-nrw.de:9200/organisations/dbs/ZY571/_source'; echo@
+* @curl -XGET 'http://weywot2.hbz-nrw.de:9200/organisations/organisation/DE-9/_source'; echo@
 
 For details on the various options see the "GET API documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html.
 
@@ -149,6 +152,8 @@ Load the web application into Eclipse:
 * @Ctrl+D@
 * @eclipse@
 * In Eclipse: @File@ -> @Import...@ -> @Existing Projects into Workspace...@ -> @Next@ -> @Browse...@ -> select root directory: @~/git/lobid-organisations/web@ -> @Finish@
+
+The web application can also be accessed via http://data.lobid.org/organisations/.
 
 h1. License
 
