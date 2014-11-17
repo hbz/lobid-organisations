@@ -56,7 +56,7 @@ public class Enrich {
 	private static void continueWith(StreamToTriples flow,
 			CloseSupressor<Triple> wait) {
 		TripleFilter tripleFilter = new TripleFilter();
-		tripleFilter.setSubjectPattern(".+"); // Remove entries without streetAdress
+		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		Metamorph morph = new Metamorph("src/main/resources/morph-enriched.xml");
 		TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
