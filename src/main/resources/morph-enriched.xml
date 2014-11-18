@@ -84,72 +84,133 @@
 					<not-equals string="NULL" />
 				</data>
 			</combine>
-		</choose>		
-		<entity name="openingHoursSpecification" flushWith="record">
-			<choose>			
-				<data source="032P.i" name="description" />
-				<data source="oef" name="description" />
-			</choose>
-			<data source="032P.i|oef" name="@type">
-				<constant value="http://schema.org/OpeningHoursSpecification" />
-			</data>
-		</entity>
-		<!-- Main address -->
-		<entity name="addressVisitor" flushWith="record">
-			<choose>
-				<data source="streetAddressVisitor" name="streetAddress" />
-				<!-- plz stand for street address in dbs data -->
-				<data source="plz" name="streetAddress">
-					<not-equals string="NULL"/>
-				</data>
-			</choose>			
-			<choose>
-				<data source="localityVisitor" name="addressLocality" />
-				<data source="ort" name="addressLocality" />
-			</choose>
-			<data source="postalCodeVisitor" name="postalCode" />
-			<data source="countryVisitor" name="addressCountry">
-				<lookup in="country-map" />
-			</data>
-			<data source="streetAddressVisitor" name="type">
-				<constant value="http://schema.org/PostalAddress" />
-			</data>
-		</entity>		
-		<!-- Further addresses -->
-		<entity name="addressMail" flushWith="record">			
+		</choose>
+		
+		<entity name="address" flushWith="record">
 			<data source="streetAddressMail" name="streetAddress" />
-			<data source="mailBox" name="mailBox" />
+			<data source="postOfficeBoxNumber" name="postOfficeBoxNumber" />
 			<data source="localityMail" name="addressLocality" />
 			<data source="postalCodeMail" name="postalCode" />
 			<data source="countryMail" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
-			<data source="streetAddressMail" name="@type">
+			<data source="localityMail" name="@type">
 				<constant value="http://schema.org/PostalAddress" />
 			</data>
 		</entity>
-		<entity name="addressBill" flushWith="record">			
-			<data source="streetAddressBill" name="streetAddress" />
-			<data source="localityBill" name="addressLocality" />
-			<data source="postalCodeBill" name="postalCode" />
-			<data source="countryBill" name="addressCountry">
+		
+		<combine name="@geoLookupVisitor" value="${land}/${ort}/${plz}/${str}" flushWith="record">
+			<data source="countryVisitor" name="land">
 				<lookup in="country-map" />
 			</data>
-			<data source="streetAddressBill" name="@type">
-				<constant value="http://schema.org/PostalAddress" />
+			<data source="localityVisitor" name="ort" />
+			<data source="postalCodeVisitor" name="plz" />			
+			<data source="streetAddressVisitor" name="str" />
+		</combine>
+		
+		<combine name="@geoLookupOther" value="${land}/${ort}/${plz}/${str}" flushWith="record">
+			<data source="countryOther" name="land">
+				<lookup in="country-map" />
 			</data>
+			<data source="localityOther" name="ort" />
+			<data source="postalCodeOther" name="plz" />			
+			<data source="streetAddressOther" name="str" />
+		</combine>
+		
+		<!-- Location -->
+		<entity name="location[]" flushWith="record">
+			<entity name="place" flushWith="record">
+				<data source="localityVisitor" name="@type">
+					<regexp match="(.*)" format="http://schema.org/Place" />
+				</data>
+				<data source="descriptionVisitor" name="description" />
+				<entity name="address" flushWith="record">
+					<choose>
+						<data source="streetAddressVisitor" name="streetAddress" />
+						<!-- plz stand for street address in dbs data -->
+						<data source="plz" name="streetAddress">
+							<not-equals string="NULL"/>
+						</data>
+					</choose>			
+					<choose>
+						<data source="localityVisitor" name="addressLocality" />
+						<data source="ort" name="addressLocality" />
+					</choose>
+					<data source="postalCodeVisitor" name="postalCode" />
+					<data source="countryVisitor" name="addressCountry">
+						<lookup in="country-map" />
+					</data>
+					<data source="localityVisitor" name="@type">
+						<constant value="http://schema.org/PostalAddress" />
+					</data>
+				</entity>
+				<entity name="openingHoursSpecification" flushWith="record">					
+					<data source="openingHoursVisitor|oef" name="@type">
+						<constant value="http://schema.org/OpeningHoursSpecification" />
+					</data>
+					<choose>			
+						<data source="openingHoursVisitor" name="description" />
+						<data source="oef" name="description" />
+					</choose>
+					<data source="openingCommentVisitor" name="comment" />
+				</entity>
+				<!-- combine field for look in coordinate maps -->
+				<entity name="geo" flushWith="record">					
+					<choose>
+						<data source="latVisitor" name="lat" />
+						<data source="@geoLookupVisitor" name="lat">
+							<lookup in="geolocation-lat_map" />
+						</data>
+					</choose>
+					<choose>
+						<data source="lonVisitor" name="lon" />
+						<data source="@geoLookupVisitor" name="lon">
+							<lookup in="geolocation-lon_map" />
+						</data>
+					</choose>
+				</entity>
+			</entity>
+			<entity name="place" flushWith="record">
+				<data source="localityOther" name="@type">
+					<regexp match="(.*)" format="http://schema.org/Place" />
+				</data>
+				<data source="descriptionOther" name="description" />
+				<entity name="address" flushWith="record">
+					<data source="streetAddressOther" name="streetAddress" />
+					<data source="localityOther" name="addressLocality" />
+					<data source="postalCodeOther" name="postalCode" />
+					<data source="countryOther" name="addressCountry">
+						<lookup in="country-map" />
+					</data>
+					<data source="localityOther" name="@type">
+						<constant value="http://schema.org/PostalAddress" />
+					</data>
+				</entity>
+				<entity name="openingHoursSpecification" flushWith="record">					
+					<data source="openingHoursOther" name="@type">
+						<constant value="http://schema.org/OpeningHoursSpecification" />
+					</data>						
+					<data source="openingHoursOther" name="description" />
+					<data source="openingCommentOther" name="comment" />
+				</entity>
+				<!-- combine field for look in coordinate maps -->
+				<entity name="geo" flushWith="record">
+					<choose>
+						<data source="latOther" name="lat" />
+						<data source="@geoLookupOther" name="lat">
+							<lookup in="geolocation-lat_map" />
+						</data>
+					</choose>
+					<choose>
+						<data source="lonOther" name="lon" />
+						<data source="@geoLookupOther" name="lon">
+							<lookup in="geolocation-lon_map" />
+						</data>
+					</choose>
+				</entity>
+			</entity>
 		</entity>
-		<entity name="addressOther" flushWith="record">			
-			<data source="streetAddressOther" name="streetAddress" />
-			<data source="localityOther" name="addressLocality" />
-			<data source="postalCodeOther" name="postalCode" />
-			<data source="countryOther" name="addressCountry">
-				<lookup in="country-map" />
-			</data>
-			<data source="streetAddressOther" name="@type">
-				<constant value="http://schema.org/PostalAddress" />
-			</data>
-		</entity>		
+		
 		<entity name="classification" flushWith="record">
 			<data source="035E.f" name="@id">
 				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
@@ -174,30 +235,7 @@
 		</data>
 		<data source="008H.e" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
-		</data>	
-		<!-- combine field for look in coordinate maps -->
-		<combine name="@geo-lookup-field" value="${land}/${ort}/${plz}/${str}">
-			<data source="countryVisitor" name="land">
-				<lookup in="country-map" />
-			</data>
-			<data source="localityVisitor" name="ort" />
-			<data source="postalCodeVisitor" name="plz" />			
-			<data source="streetAddressVisitor" name="str" />
-		</combine>
-		<entity name="location" flushWith="record">
-			<choose>
-				<data source="032P.l" name="lat" />
-				<data source="@geo-lookup-field" name="lat">
-					<lookup in="geolocation-lat_map" />
-				</data>
-			</choose>
-			<choose>
-				<data source="032P.k" name="lon" />
-				<data source="@geo-lookup-field" name="lon">
-					<lookup in="geolocation-lon_map" />
-				</data>
-			</choose>
-		</entity>					
+		</data>
 		<entity name="alternateName[]" flushWith="record">
 			<data source="029@.a" name="altLabel" />
 		</entity>

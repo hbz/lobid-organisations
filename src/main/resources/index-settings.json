@@ -31,7 +31,7 @@
 					"index_analyzer": "autocomplete",
 					"search_analyzer": "lowercasesearch"
 				},
-				"location": {
+				"location.geo": {
 					"type": "geo_point"
 				}
 			}
