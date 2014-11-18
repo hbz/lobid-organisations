@@ -24,7 +24,7 @@
 		<entity name="contact" flushWith="record">
 			<group name="tel">
 				<choose>
-					<combine value="(0${prefix}) ${phonenr}" name="tel" sameEntity="true">
+					<combine value="0${prefix} ${phonenr}" name="tel" sameEntity="true">
 						<data source="tvw" name="prefix">
 							<regexp match="\d*"/>
 						</data>
@@ -32,18 +32,10 @@
 							<not-equals string="NULL" />
 						</data>
 					</combine>
-					<combine value="(0${prefix}) ${phonenr}" name="tel"	sameEntity="true">
+					<combine value="00${countryCode} ${prefix} ${phonenr}" name="tel" sameEntity="true">
+						<data source="035B.d" name="countryCode" />
 						<data source="035B.e" name="prefix" />
 						<data source="035B.f" name="phonenr" />
-					</combine>
-				</choose>
-			</group>
-			<group name="fax">
-				<choose>
-					<data source="fax"></data>
-					<combine value="(0${prefix}) ${faxnr}" name="fax" sameEntity="true">
-						<data source="035B.h" name="prefix" />
-						<data source="035B.i" name="faxnr" />
 					</combine>
 				</choose>
 			</group>
