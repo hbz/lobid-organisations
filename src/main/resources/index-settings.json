@@ -31,8 +31,12 @@
 					"index_analyzer": "autocomplete",
 					"search_analyzer": "lowercasesearch"
 				},
-				"location.geo": {
-					"type": "geo_point"
+				"location": {
+					"properties": {
+						"geo": {
+						"type": "geo_point"
+						}
+					}
 				}
 			}
 		}
