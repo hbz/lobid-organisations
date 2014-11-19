@@ -44,7 +44,7 @@
 			</choose>
 		</group>
 		<data source="isil" name="isil"/>
-		<data source="inr" name="inr"/>
+		<data source="inr" name="dbsID"/>
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
 			<data source="isil" name="\@id">
