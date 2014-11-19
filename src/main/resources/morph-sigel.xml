@@ -48,15 +48,6 @@
 			</if>
 			<data source="032P.e" name="pstCd" />
 		</combine>
-		<combine name="descriptionVisitor" value="${descr1} ${descr2}" sameEntity="true">
-			<if>
-				<data source="032P.2">
-					<equals string = "S" />
-				</data>
-			</if>	
-			<data source="032P.3" name="descr1" />
-			<data source="032P.z" name="descr2" />
-		</combine>
 		<combine name="openingHoursVisitor" value="${opening}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -65,14 +56,14 @@
 			</if>
 			<data source="032P.i" name="opening" />
 		</combine>
-		<combine name="openingCommentVisitor" value="${comment}" sameEntity="true">
-			<if>
-				<data source="032P.2">
-					<equals string = "S" />
-				</data>
-			</if>
-			<data source="032P.j" name="comment" />
-		</combine>
+<!-- 		<combine name="openingCommentVisitor" value="${comment}" sameEntity="true"> -->
+<!-- 			<if> -->
+<!-- 				<data source="032P.2"> -->
+<!-- 					<equals string = "S" /> -->
+<!-- 				</data> -->
+<!-- 			</if> -->
+<!-- 			<data source="032P.j" name="comment" /> -->
+<!-- 		</combine> -->
 		<combine name="latVisitor" value="${lat}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -88,6 +79,22 @@
 				</data>
 			</if>
 			<data source="032P.l" name="lon" />
+		</combine>
+		<combine name="descriptionVisitor" value="${descr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data name="descr" source="032P.3" />
+		</combine>	
+		<combine name="generalDescriptionVisitor" value="${descr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data name="descr" source="032P.z" />
 		</combine>
 		
 		<!-- Other address -->
@@ -123,15 +130,6 @@
 			</if>
 			<data source="032P.e" name="pstCd" />
 		</combine>
-		<combine name="descriptionOther" value="${descr1} ${descr2}" sameEntity="true">
-			<if>
-				<data source="032P.2">
-					<equals string = "W" />
-				</data>
-			</if>	
-			<data source="032P.3" name="descr1" />
-			<data source="032P.z" name="descr2" />
-		</combine>
 		<combine name="openingHoursOther" value="${opening}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -140,14 +138,14 @@
 			</if>
 			<data source="032P.i" name="opening" />
 		</combine>
-		<combine name="openingCommentOther" value="${comment}" sameEntity="true">
-			<if>
-				<data source="032P.2">
-					<equals string = "W" />
-				</data>
-			</if>
-			<data source="032P.j" name="comment" />
-		</combine>
+<!-- 		<combine name="openingCommentOther" value="${comment}" sameEntity="true"> -->
+<!-- 			<if> -->
+<!-- 				<data source="032P.2"> -->
+<!-- 					<equals string = "W" /> -->
+<!-- 				</data> -->
+<!-- 			</if> -->
+<!-- 			<data source="032P.j" name="comment" /> -->
+<!-- 		</combine> -->
 		<combine name="latOther" value="${lat}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -163,6 +161,22 @@
 				</data>
 			</if>
 			<data source="032P.l" name="lon" />
+		</combine>
+		<combine name="descriptionOther" value="${descr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data name="descr" source="032P.3" />
+		</combine>	
+		<combine name="generalDescriptionOther" value="${descr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data name="descr" source="032P.z" />
 		</combine>
 		
 		<!-- Mailing address -->
