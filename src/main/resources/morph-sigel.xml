@@ -15,7 +15,7 @@
 		<data name="isil" source="008H.e" />
 		
 		<!-- Different types of addresses -->
-		<!-- Main address / address for visitors -->		
+		<!-- 1. Main address / address for visitors (type "S") -->		
 		<combine name="streetAddressVisitor" value="${strAdr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -97,7 +97,7 @@
 			<data name="descr" source="032P.z" />
 		</combine>
 		
-		<!-- Other address -->
+		<!-- 2. Other address (type "W")-->
 		<combine name="streetAddressOther" value="${strAdr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -113,7 +113,7 @@
 				</data>
 			</if>
 			<data source="032P.b" name="loc" />
-		</combine>
+		</combine>		
 		<combine name="countryOther" value="${cntr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -179,7 +179,7 @@
 			<data name="descr" source="032P.z" />
 		</combine>
 		
-		<!-- Mailing address -->
+		<!-- 3. Mailing address (type "P") -->
 		<combine name="streetAddressMail" value="${strAdr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
@@ -220,7 +220,40 @@
 			</if>
 			<data source="032P.e" name="pstCd" />
 		</combine>
-			
+		
+		<!-- Phone and email address of type "S" -->
+		<combine name="countryCode" value="${countryCode}" sameEntity="true">
+			<if>
+				<data source="035B.a">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="035B.d" name="countryCode" />
+		</combine>
+		<combine name="prefix" value="${prefix}" sameEntity="true">
+			<if>
+				<data source="035B.a">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="035B.e" name="prefix" />
+		</combine>
+		<combine name="phone" value="${phonenr}" sameEntity="true">
+			<if>
+				<data source="035B.a">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="035B.f" name="phonenr" />
+		</combine>	
+		<combine name="email" value="${mail}" sameEntity="true">
+			<if>
+				<data source="035B.a">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="035B.k" name="mail" />
+		</combine>
 		<data source="_else"></data>
 	</rules>
 </metamorph>

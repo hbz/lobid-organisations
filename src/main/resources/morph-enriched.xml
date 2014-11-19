@@ -20,47 +20,18 @@
 					<replace pattern="\t|\n|\(\s\)\s+" with="" />
 				</data>
 			</choose>
-		</group>
-		<entity name="contact" flushWith="record">
-			<group name="tel">
-				<choose>
-					<combine value="0${prefix} ${phonenr}" name="tel" sameEntity="true">
-						<data source="tvw" name="prefix">
-							<regexp match="\d*"/>
-						</data>
-						<data source="tel" name="phonenr">
-							<not-equals string="NULL" />
-						</data>
-					</combine>
-					<combine value="00${countryCode} ${prefix} ${phonenr}" name="tel" sameEntity="true">
-						<data source="035B.d" name="countryCode" />
-						<data source="035B.e" name="prefix" />
-						<data source="035B.f" name="phonenr" />
-					</combine>
-				</choose>
-			</group>
-			<group name="email">
-				<choose>
-					<data source="ema">
-						<regexp match="(.*)" format="mailto:${1}" />
+		</group>		
+		<group name="url">
+			<choose>
+				<data source="url"></data>
+				<combine value="${hp}" name="url" sameEntity="true">
+					<data source="009Q.u" name="hp" />
+					<data source="009Q.z" name="">
+						<regexp match="A" format="" />
 					</data>
-					<data source="035B.k">
-						<regexp match="(.*)" format="mailto:${1}" />
-					</data>
-				</choose>
-			</group>
-			<group name="url">
-				<choose>
-					<data source="url"></data>
-					<combine value="${hp}" name="url" sameEntity="true">
-						<data source="009Q.u" name="hp" />
-						<data source="009Q.z" name="">
-							<regexp match="A" format="" />
-						</data>
-					</combine>
-				</choose>
-			</group>
-		</entity>
+				</combine>
+			</choose>
+		</group>		
 		<group name="provides">
 			<choose>
 				<data source="opa"></data>
@@ -86,6 +57,32 @@
 			</combine>
 		</choose>
 		
+		<!-- Telephone and email -->		
+		<choose>	
+			<combine value="00${countryCode} ${prefix} ${phonenr}" name="telephone" sameEntity="true">
+				<data source="countryCode" name="countryCode" />
+				<data source="prefix" name="prefix" />
+				<data source="phone" name="phonenr" />
+			</combine>
+			<combine value="0${prefix} ${phonenr}" name="telephone" sameEntity="true">
+				<data source="tvw" name="prefix">
+					<regexp match="\d*"/>
+				</data>
+				<data source="tel" name="phonenr">
+					<not-equals string="NULL" />
+				</data>
+			</combine>
+		</choose>
+		<choose>							
+			<data source="email" name="email">
+				<regexp match="(.*)" format="mailto:${1}" />
+			</data>
+			<data source="ema">
+				<regexp match="(.*)" format="mailto:${1}" />
+			</data>
+		</choose>		
+		
+		<!-- Mailing address -->
 		<entity name="address" flushWith="record">
 			<data source="streetAddressMail" name="streetAddress" />
 			<data source="postOfficeBoxNumber" name="postOfficeBoxNumber" />
@@ -99,6 +96,7 @@
 			</data>
 		</entity>
 		
+		<!-- Lookup fields for visitor and other address -->
 		<combine name="@geoLookupVisitor" value="${land}/${ort}/${plz}/${str}" flushWith="record">
 			<data source="countryVisitor" name="land">
 				<lookup in="country-map" />
@@ -106,8 +104,7 @@
 			<data source="localityVisitor" name="ort" />
 			<data source="postalCodeVisitor" name="plz" />			
 			<data source="streetAddressVisitor" name="str" />
-		</combine>
-		
+		</combine>		
 		<combine name="@geoLookupOther" value="${land}/${ort}/${plz}/${str}" flushWith="record">
 			<data source="countryOther" name="land">
 				<lookup in="country-map" />
@@ -117,7 +114,7 @@
 			<data source="streetAddressOther" name="str" />
 		</combine>
 		
-		<!-- Location -->
+		<!-- Locations -->
 		<entity name="location[]" flushWith="record">
 			<entity name="place" flushWith="record">
 				<data source="localityVisitor" name="@type">
@@ -157,7 +154,6 @@
 					</choose>
 					<data source="openingCommentVisitor" name="comment" />
 				</entity>
-				<!-- combine field for look in coordinate maps -->
 				<entity name="geo" flushWith="record">					
 					<choose>
 						<data source="latVisitor" name="lat" />
@@ -214,10 +210,10 @@
 							<lookup in="geolocation-lon_map" />
 						</data>
 					</choose>
-				</entity>
+				</entity>			
 			</entity>
 		</entity>
-		
+
 		<entity name="classification" flushWith="record">
 			<data source="035E.f" name="@id">
 				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
