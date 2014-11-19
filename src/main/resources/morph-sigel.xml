@@ -70,7 +70,7 @@
 					<equals string = "S" />
 				</data>
 			</if>
-			<data source="032P.k" name="lat" />
+			<data source="032P.l" name="lat" />
 		</combine>
 		<combine name="lonVisitor" value="${lon}" sameEntity="true">
 			<if>
@@ -78,7 +78,7 @@
 					<equals string = "S" />
 				</data>
 			</if>
-			<data source="032P.l" name="lon" />
+			<data source="032P.k" name="lon" />
 		</combine>
 		<combine name="descriptionVisitor" value="${descr}" sameEntity="true">
 			<if>
@@ -152,7 +152,7 @@
 					<equals string = "W" />
 				</data>
 			</if>
-			<data source="032P.k" name="lat" />
+			<data source="032P.l" name="lat" />
 		</combine>
 		<combine name="lonOther" value="${lon}" sameEntity="true">
 			<if>
@@ -160,7 +160,7 @@
 					<equals string = "W" />
 				</data>
 			</if>
-			<data source="032P.l" name="lon" />
+			<data source="032P.k" name="lon" />
 		</combine>
 		<combine name="descriptionOther" value="${descr}" sameEntity="true">
 			<if>

@@ -15,9 +15,9 @@ public class TestGeoSearch extends ElasticsearchTest {
 
 	private static SearchResponse geoSearch(double lon, double lat) {
 		GeoPolygonFilterBuilder geoFilter =
-				FilterBuilders.geoPolygonFilter("location").addPoint(lat - 1, lon - 1)
-						.addPoint(lat - 1, lon + 1).addPoint(lat + 1, lon - 1)
-						.addPoint(lat + 1, lon + 1);
+				FilterBuilders.geoPolygonFilter("location.geo")
+						.addPoint(lat - 1, lon - 1).addPoint(lat - 1, lon + 1)
+						.addPoint(lat + 1, lon - 1).addPoint(lat + 1, lon + 1);
 		FilteredQueryBuilder geoQuery =
 				QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), geoFilter);
 		SearchResponse responseOfSearch =
@@ -33,5 +33,4 @@ public class TestGeoSearch extends ElasticsearchTest {
 		long hits = response.getHits().getTotalHits();
 		assertEquals("Request should return 1 hit", 1, hits);
 	}
-
 }

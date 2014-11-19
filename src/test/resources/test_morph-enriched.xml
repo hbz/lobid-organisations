@@ -23,7 +23,7 @@
 					<record id="de-456">
 						<!--<literal name="inr" value="dbs-id" />-->
 						<entity name="classification">
-							<literal name="@id" value="http://purl.org/lobid/libtype#n60" />
+							<literal name="@id" value="http://schema.org/Library" />
 							<literal name="value" value="Universitätsbibliothek" />
 						</entity>
 						<entity name="fundertype">

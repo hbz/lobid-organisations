@@ -18,7 +18,7 @@ public class TestGeoEnrich extends ElasticsearchTest {
 						.setTypes("organisation")
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
 						.setQuery(
-								QueryBuilders.matchQuery("addressVisitor.streetAddress",
+								QueryBuilders.matchQuery("location.address.streetAddress",
 										addressToSearch)).execute().actionGet();
 		return responseOfSearch;
 	}
@@ -29,6 +29,6 @@ public class TestGeoEnrich extends ElasticsearchTest {
 				searchByAddress("Universitätsstr. 33").getHits().getAt(0);
 		System.out.println(response.getSourceAsString());
 		assertTrue("Response should contain the field location", response
-				.getSourceAsString().contains("location"));
+				.getSourceAsString().contains("geo"));
 	}
 }
