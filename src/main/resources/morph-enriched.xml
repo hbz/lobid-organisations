@@ -216,7 +216,7 @@
 
 		<entity name="classification" flushWith="record">
 			<data source="035E.f" name="@id">
-				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
+				<lookup in="libtype_map" />
 			</data>
 			<data source="typ_text" name="value"></data>
 		</entity>
@@ -286,5 +286,6 @@
 			files="http://test.lobid.org/assets/data/isil2dbpedia-map.csv" />
 		<filemap name="geolocation-lat_map" files="geo-latitude-map.csv"/>		
 		<filemap name="geolocation-lon_map" files="geo-longitude-map.csv"/>
+		<filemap name="libtype_map" files="libtype-map.csv"/>
 	</maps>
 </metamorph>
