@@ -5,12 +5,13 @@
 	<rules>		
 		<data source="nam|029A.a" name="\@context">
 			<constant value="http://data.lobid.org/organisations/context.jsonld" />
-		</data>
-		
-		<data source="nam|029A.a" name="\@type">
-			<constant value="http://schema.org/Organization" />
-		</data>
-			
+		</data>		
+		<combine name="\@type" value="${typeurl}">
+			<data source="nam|029A.a" name="\@type" />
+			<data source="035E.f" name="typeurl">
+				<lookup in="libtype_map" />
+			</data>
+		</combine>
 		<data source="gemeindekennzahl" name="ags"></data>
 		<group name="name">
 			<choose>
@@ -102,7 +103,7 @@
 				<lookup in="country-map" />
 			</data>
 			<data source="localityVisitor" name="ort" />
-			<data source="postalCodeVisitor" name="plz" />			
+			<data source="postalCodeVisitor" name="plz" />
 			<data source="streetAddressVisitor" name="str" />
 		</combine>		
 		<combine name="@geoLookupOther" value="${land}/${ort}/${plz}/${str}" flushWith="record">
@@ -216,9 +217,9 @@
 
 		<entity name="classification" flushWith="record">
 			<data source="035E.f" name="@id">
-				<lookup in="libtype_map" />
+				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
 			</data>
-			<data source="typ_text" name="value"></data>
+			<data source="typ_text" name="value" />
 		</entity>
 		<entity name="fundertype" flushWith="record">
 			<data source="035E.g" name="@id">
