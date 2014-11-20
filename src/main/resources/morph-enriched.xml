@@ -12,7 +12,16 @@
 				<lookup in="libtype_map" />
 			</data>
 		</combine>
-		<data source="gemeindekennzahl" name="ags"></data>
+		
+		<choose>
+			<data source="gemeindekennzahl" name="rs">
+				<regexp match="\\d{11}" format="0${1}"/>
+			</data>
+			<data source="032P.n" name="rs">
+				<lookup in="rs_map" />
+			</data>
+		</choose>
+		
 		<group name="name">
 			<choose>
 				<data source="nam" />
@@ -281,7 +290,7 @@
 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
 			</data>
 		</entity>		
-		<data source="032P.n" name="containedIn" />
+		<!-- <data source="032P.n" name="containedIn" /> -->
 		<entity name="subject[]" flushWith="record">
 			<data source="035G.a" name="subject" />
 		</entity>
@@ -314,5 +323,6 @@
 		<filemap name="geolocation-lat_map" files="geo-latitude-map.csv"/>		
 		<filemap name="geolocation-lon_map" files="geo-longitude-map.csv"/>
 		<filemap name="libtype_map" files="libtype-map.csv"/>
+		<filemap name="rs_map" files="ags-rs-map.csv" />
 	</maps>
 </metamorph>
