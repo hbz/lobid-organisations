@@ -21,23 +21,49 @@
 					<replace pattern="\t|\n|\(\s\)\s+" with="" />
 				</data>
 			</choose>
-		</group>		
+		</group>
+		
+		<!-- url and provides: Handle urls without http:// or https:// -->
 		<group name="url">
 			<choose>
-				<data source="url"></data>
+				<data source="url">
+					<regexp match="http(.*)" />
+				</data>
+				<data source="url">
+					<regexp match="(www(.*))" format="http://${1}"/>
+				</data>
 				<combine value="${hp}" name="url" sameEntity="true">
-					<data source="009Q.u" name="hp" />
+					<choose>
+						<data source="009Q.u" name="hp">
+							<regexp match="http(.*)" />
+						</data>
+						<data source="009Q.u" name="hp">
+							<regexp match="(www(.*))" format="http://${1}"/>
+						</data>
+					</choose>
 					<data source="009Q.z" name="">
 						<regexp match="A" format="" />
 					</data>
 				</combine>
 			</choose>
-		</group>		
+		</group>
 		<group name="provides">
 			<choose>
-				<data source="opa"></data>
-				<combine value="${url}" name="provides" sameEntity="true">
-					<data source="009Q.u" name="url" />
+				<data source="opa">
+					<regexp match="http(.*)" />
+				</data>
+				<data source="opa">
+					<regexp match="(www(.*))" format="http://${1}"/>
+				</data>
+				<combine value="${url}" name="provides" sameEntity="true">					
+					<choose>
+						<data source="009Q.u" name="url">
+							<regexp match="http(.*)" />
+						</data>
+						<data source="009Q.u" name="url">
+							<regexp match="(www(.*))" format="http://${1}"/>
+						</data>
+					</choose>
 					<data source="009Q.z" name="">
 						<regexp match="B" format="" />
 					</data>
