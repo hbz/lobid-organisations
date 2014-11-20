@@ -4,6 +4,7 @@
 		"name": "http://schema.org/name",
 		"alternateName": "http://schema.org/alternateName",
 		"isil": "http://purl.org/lobid/lv#isil",
+		"dbsID": http://purl.org/lobid/lv#dbsID,
 		"ags": "http://purl.org/lobid/lv#ags",
 		"address":  {
 			"@type": "@id",
@@ -13,20 +14,24 @@
 		"addressLocality": "http://schema.org/addressLocality",
 		"postalCode": "http://schema.org/postalCode",
 		"streetAddress": "http://schema.org/streetAddress",
-		"openingHoursSpecification":	{
+		"openingHoursSpecification": {
 			"@type": "@id",
 			"@id": "http://schema.org/openingHoursSpecification"
 		},
 		"description": "http://schema.org/description",
-		"email":    {
+		"email": {
 			"@type": "@id",
 			"@id": "http://schema.org/email"
 		},
-		"url":  {
+		"telephone": {
 			"@type": "@id",
-			"@id": "http://www.w3.org/2006/vcard/ns#url"
+			"@id": "http://schema.org/telephone"
 		},
-		"location":  {
+		"url": {
+			"@type": "@id",
+			"@id": "http://schema.org/url"
+		},
+		"location": {
 			"@type": "@id",
 			"@id": "http://schema.org/geo"
 		},
@@ -44,11 +49,11 @@
 			"@type": "@id",
 			"@id": "http://purl.org/lobid/lv#fundertype"
 		},
-		"stocksize":	{
+		"stocksize": {
 			"@type": "@id",
 			"@id": "http://purl.org/lobid/lv#stocksize"
 		},
-		"classification":   {
+		"classification": {
 			"@type": "@id",
 			"@id": "http://www.w3.org/ns/org#classification"
 		},
@@ -61,7 +66,7 @@
 			"@type": "@id",
 			"@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
 		},
-		"wikipedia":	{
+		"wikipedia": {
 			"@type": "@id",
 			"@id": "http://purl.org/ontology/mo/wikipedia"
 		},
