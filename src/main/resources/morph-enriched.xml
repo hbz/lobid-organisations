@@ -271,11 +271,11 @@
 			</data>
 			<data source="gro_text" name="value"></data>
 		</entity>
-		<data source="008H.e" name="isPrimaryTopicOf">
+		<data source="isil" name="isPrimaryTopicOf">
 			<regexp match="(.*)"
 				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
 		</data>
-		<data source="008H.e" name="@dbpediaMap">
+		<data source="isil" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
 		</data>
 		<entity name="alternateName[]" flushWith="record">
@@ -288,7 +288,7 @@
 			<combine name="sameAs" value="http://dbpedia.org/resource/${titleDbpedia}">
 				<data source="@dbpediaMap" name="titleDbpedia" />
 			</combine>
-			<data source="008H.e" name="sameAs">
+			<data source="isil" name="sameAs">
 				<regexp match="(.*)"
 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
 			</data>
