@@ -4,7 +4,7 @@
 		"name": "http://schema.org/name",
 		"alternateName": "http://schema.org/alternateName",
 		"isil": "http://purl.org/lobid/lv#isil",
-		"dbsID": http://purl.org/lobid/lv#dbsID,
+		"dbsID": "http://purl.org/lobid/lv#dbsID",
 		"ags": "http://purl.org/lobid/lv#ags",
 		"address":  {
 			"@type": "@id",
