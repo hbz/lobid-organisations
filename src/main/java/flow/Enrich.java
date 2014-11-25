@@ -24,6 +24,10 @@ import org.culturegraph.mf.types.Triple;
  */
 public class Enrich {
 
+	private static String sigelDumpLocation =
+			"src/main/resources/input/sigel.xml";
+	private static String sigelDnbRepo = "http://services.d-nb.de/oai/repository";
+
 	/**
 	 * @param args Not used
 	 */
@@ -36,8 +40,6 @@ public class Enrich {
 	}
 
 	static void process() {
-		String sigelDnbRepo = "http://services.d-nb.de/oai/repository";
-		String sigelDumpLocation = "src/main/resources/input/sigel.xml";
 
 		FileOpener openSigelDump = new FileOpener();
 		StreamToTriples streamToTriples1 = new StreamToTriples();
@@ -98,5 +100,27 @@ public class Enrich {
 				.setReceiver(encodeJson)//
 				.setReceiver(esBulk)//
 				.setReceiver(writer);
+	}
+
+	/* For tests */
+	public static void processSample() {
+		FileOpener openSigelDump = new FileOpener();
+		StreamToTriples streamToTriples1 = new StreamToTriples();
+		streamToTriples1.setRedirect(true);
+		StreamToTriples flow1 = //
+				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriples1);
+
+		FileOpener openDbs = new FileOpener();
+		StreamToTriples streamToTriples2 = new StreamToTriples();
+		streamToTriples2.setRedirect(true);
+		StreamToTriples flow2 = //
+				Dbs.morphDbs(openDbs).setReceiver(streamToTriples2);
+
+		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
+		continueWith(flow1, wait);
+		continueWith(flow2, wait);
+
+		Sigel.processSigel(openSigelDump, sigelDumpLocation);
+		Dbs.processDbs(openDbs);
 	}
 }

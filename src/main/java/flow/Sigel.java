@@ -63,8 +63,7 @@ public class Sigel {
 		FileOpener opener = new FileOpener();
 		Metamorph dumpMorph = morphSigel(opener);
 		writeOut(dumpMorph, "src/main/resources/output/sigel-dump.out.json");
-		processSigel(opener,
-				"src/main/resources/input/sigel-picaplus-base-dump.xml");
+		processSigel(opener, "src/main/resources/input/sigel.xml");
 		return dumpMorph;
 	}
 
