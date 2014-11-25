@@ -37,8 +37,7 @@ public class Enrich {
 
 	static void process() {
 		String sigelDnbRepo = "http://services.d-nb.de/oai/repository";
-		String sigelDumpLocation =
-				"src/main/resources/input/sigel-picaplus-base-dump.xml";
+		String sigelDumpLocation = "src/main/resources/input/sigel.xml";
 
 		FileOpener openSigelDump = new FileOpener();
 		StreamToTriples streamToTriples1 = new StreamToTriples();
