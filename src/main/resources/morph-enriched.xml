@@ -67,7 +67,7 @@
 				<data source="opa">
 					<regexp match="(www(.*))" format="http://${1}"/>
 				</data>
-				<combine value="${url}" name="provides" sameEntity="true">					
+				<combine value="${url}" name="provides" sameEntity="true">
 					<choose>
 						<data source="009Q.u" name="url">
 							<regexp match="http(.*)" />
@@ -96,7 +96,7 @@
 			</combine>
 		</choose>
 		
-		<!-- Telephone and email -->		
+		<!-- Telephone and email -->
 		<choose>	
 			<combine value="00${countryCode} ${prefix} ${phonenr}" name="telephone" sameEntity="true">
 				<data source="countryCode" name="countryCode" />
@@ -112,14 +112,14 @@
 				</data>
 			</combine>
 		</choose>
-		<choose>							
+		<choose>
 			<data source="email" name="email">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
 			<data source="ema">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
-		</choose>		
+		</choose>
 		
 		<!-- Mailing address -->
 		<entity name="address" flushWith="record">
@@ -149,7 +149,7 @@
 				<lookup in="country-map" />
 			</data>
 			<data source="localityOther" name="ort" />
-			<data source="postalCodeOther" name="plz" />			
+			<data source="postalCodeOther" name="plz" />
 			<data source="streetAddressOther" name="str" />
 		</combine>
 		
@@ -159,10 +159,7 @@
 				<data source="localityVisitor" name="@type">
 					<regexp match="(.*)" format="http://schema.org/Place" />
 				</data>
-				<concat delimiter=", " name="description">
-					<data source="descriptionVisitor" />
-					<data source="generalDescriptionVisitor" />
-				</concat>
+				<data source="descriptionVisitor" name="description"/>
 				<entity name="address" flushWith="record">
 					<choose>
 						<data source="streetAddressVisitor" name="streetAddress" />
@@ -170,7 +167,7 @@
 						<data source="plz" name="streetAddress">
 							<not-equals string="NULL"/>
 						</data>
-					</choose>			
+					</choose>
 					<choose>
 						<data source="localityVisitor" name="addressLocality" />
 						<data source="ort" name="addressLocality" />
@@ -183,17 +180,17 @@
 						<constant value="http://schema.org/PostalAddress" />
 					</data>
 				</entity>
-				<entity name="openingHoursSpecification" flushWith="record">					
+				<entity name="openingHoursSpecification" flushWith="record">
 					<data source="openingHoursVisitor|oef" name="@type">
 						<constant value="http://schema.org/OpeningHoursSpecification" />
 					</data>
-					<choose>			
+					<choose>
 						<data source="openingHoursVisitor" name="description" />
 						<data source="oef" name="description" />
 					</choose>
 					<data source="openingCommentVisitor" name="comment" />
 				</entity>
-				<entity name="geo" flushWith="record">					
+				<entity name="geo" flushWith="record">
 					<choose>
 						<data source="latVisitor" name="lat" />
 						<data source="@geoLookupVisitor" name="lat">
@@ -211,12 +208,8 @@
 			<entity name="place" flushWith="record">
 				<data source="localityOther" name="@type">
 					<regexp match="(.*)" format="http://schema.org/Place" />
-				</data>
-				<concat delimiter=", " name="description">
-					<data source="descriptionOther" />
-					<data source="generalDescriptionOther" />
-				</concat>
-				<data source="descriptionOther" name="description" />
+				</data>				
+				<data source="descriptionOther" name="description"/>
 				<entity name="address" flushWith="record">
 					<data source="streetAddressOther" name="streetAddress" />
 					<data source="localityOther" name="addressLocality" />
@@ -228,7 +221,7 @@
 						<constant value="http://schema.org/PostalAddress" />
 					</data>
 				</entity>
-				<entity name="openingHoursSpecification" flushWith="record">					
+				<entity name="openingHoursSpecification" flushWith="record">
 					<data source="openingHoursOther" name="@type">
 						<constant value="http://schema.org/OpeningHoursSpecification" />
 					</data>						
@@ -249,7 +242,7 @@
 							<lookup in="geolocation-lon_map" />
 						</data>
 					</choose>
-				</entity>			
+				</entity>
 			</entity>
 		</entity>
 

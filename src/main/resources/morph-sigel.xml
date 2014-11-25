@@ -80,7 +80,7 @@
 			</if>
 			<data source="032P.k" name="lon" />
 		</combine>
-		<combine name="descriptionVisitor" value="${descr}" sameEntity="true">
+		<combine name="@descriptionVisitorField3" value="${descr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
 					<equals string = "S" />
@@ -88,7 +88,7 @@
 			</if>
 			<data name="descr" source="032P.3" />
 		</combine>	
-		<combine name="generalDescriptionVisitor" value="${descr}" sameEntity="true">
+		<combine name="@descriptionVisitorFieldZ" value="${descr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
 					<equals string = "S" />
@@ -96,6 +96,10 @@
 			</if>
 			<data name="descr" source="032P.z" />
 		</combine>
+		<concat delimiter=", " name="descriptionVisitor">
+			<data source="@descriptionVisitorField3" />
+			<data source="@descriptionVisitorFieldZ" />
+		</concat>
 		
 		<!-- 2. Other address (type "W")-->
 		<combine name="streetAddressOther" value="${strAdr}" sameEntity="true">
@@ -162,7 +166,7 @@
 			</if>
 			<data source="032P.k" name="lon" />
 		</combine>
-		<combine name="descriptionOther" value="${descr}" sameEntity="true">
+		<combine name="@descriptionOtherField3" value="${descr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
 					<equals string = "W" />
@@ -170,7 +174,7 @@
 			</if>
 			<data name="descr" source="032P.3" />
 		</combine>	
-		<combine name="generalDescriptionOther" value="${descr}" sameEntity="true">
+		<combine name="@descriptionOtherFieldZ" value="${descr}" sameEntity="true">
 			<if>
 				<data source="032P.2">
 					<equals string = "W" />
@@ -178,6 +182,10 @@
 			</if>
 			<data name="descr" source="032P.z" />
 		</combine>
+		<concat delimiter=", " name="descriptionOther">
+			<data source="@descriptionOtherField3" />
+			<data source="@descriptionOtherFieldZ" />
+		</concat>
 		
 		<!-- 3. Mailing address (type "P") -->
 		<combine name="streetAddressMail" value="${strAdr}" sameEntity="true">
