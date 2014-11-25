@@ -5,7 +5,11 @@
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
 				<records>
 					<record id="1">
-						<literal name="032P.a" value="straße 123" />
+						<literal name="008H.b" value="qvw741" />
+						<literal name="008H.e" value="de-456" />
+					</record>
+					<record id="2">
+						<literal name="008H.e" value="de-456" />
 					</record>
 				</records>
 			</cgxml>
@@ -16,8 +20,13 @@
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
 				<records>
 					<record id="1">
-						<literal name="_id" value="str123" />
-						<literal name="str-hausnr" value="straße 123" />
+						<literal name="inr" value="qvw741" />
+						<literal name="isil" value="de-456" />
+						<literal name="_id" value="qvw741" />
+					</record>
+					<record id="2">
+						<literal name="isil" value="de-456" />
+						<literal name="_id" value="de-456" />
 					</record>
 				</records>
 			</cgxml>

@@ -32,7 +32,11 @@
 					"search_analyzer": "lowercasesearch"
 				},
 				"location": {
-					"type": "geo_point"
+					"properties": {
+						"geo": {
+						"type": "geo_point"
+						}
+					}
 				}
 			}
 		}

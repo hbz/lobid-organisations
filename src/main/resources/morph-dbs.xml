@@ -3,14 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
 	entityMarker=".">
 	<rules>
-		<!-- plz stands for street and number -->
-		<data source="plz" name="_id">
-			<case to="lower" />
-			<replace pattern="[\.\-\s]" with="" />
-			<replace pattern="straße" with="str" />
-			<replace pattern="platz" with="pl" />
-		</data>	
-		<data source="plz" name="str-hausnr" />
+		<!-- use inr as _id -->
+		<data source="inr" name="_id"/>		
+		<data source="inr" name="inr" />
+		<data source="isil" name="isil">		
+			<not-equals string="NULL"/>
+		</data>
 		<data source="_else">
 			<not-equals string="NULL" />
 		</data>

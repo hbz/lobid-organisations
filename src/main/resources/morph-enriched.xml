@@ -5,18 +5,26 @@
 	<rules>		
 		<data source="nam|029A.a" name="\@context">
 			<constant value="http://data.lobid.org/organisations/context.jsonld" />
-		</data>
+		</data>		
+		<combine name="\@type" value="${typeurl}">
+			<data source="nam|029A.a" name="\@type" />
+			<data source="035E.f" name="typeurl">
+				<lookup in="libtype_map" />
+			</data>
+		</combine>
 		
-		<data source="nam|029A.a" name="\@type">
-			<constant value="http://schema.org/Organization" />
-		</data>
+		<choose>
+			<data source="gemeindekennzahl" name="rs">
+				<regexp match="(\d{11})" format="0${1}"/>
+			</data>
+			<data source="gemeindekennzahl" name="rs">
+				<regexp match="\d{12}" />
+			</data>
+			<data source="032P.n" name="rs">
+				<lookup in="rs_map" />
+			</data>
+		</choose>
 		
-		<!-- DBS-only FIELDS -->
-		
-		<data source="gemeindekennzahl" name="ags"></data>
-
-		<!-- DBS+SIGEL choose FIELDS -->
-
 		<group name="name">
 			<choose>
 				<data source="nam" />
@@ -26,119 +34,230 @@
 				</data>
 			</choose>
 		</group>
-		<entity name="contact" flushWith="record">
-			<group name="tel">
-				<choose>
-					<combine value="(0${prefix}) ${phonenr}" name="tel" sameEntity="true">
-						<data source="tvw" name="prefix">
-							<regexp match="\d*"/>
+		
+		<!-- url and provides: Handle urls without http:// or https:// -->
+		<group name="url">
+			<choose>
+				<data source="url">
+					<regexp match="http(.*)" />
+				</data>
+				<data source="url">
+					<regexp match="(www(.*))" format="http://${1}"/>
+				</data>
+				<combine value="${hp}" name="url" sameEntity="true">
+					<choose>
+						<data source="009Q.u" name="hp">
+							<regexp match="http(.*)" />
 						</data>
-						<data source="tel" name="phonenr">
-							<not-equals string="NULL" />
+						<data source="009Q.u" name="hp">
+							<regexp match="(www(.*))" format="http://${1}"/>
 						</data>
-					</combine>
-					<combine value="(0${prefix}) ${phonenr}" name="tel"	sameEntity="true">
-						<data source="035B.e" name="prefix" />
-						<data source="035B.f" name="phonenr" />
-					</combine>
-				</choose>
-			</group>
-			<group name="fax">
-				<choose>
-					<data source="fax"></data>
-					<combine value="(0${prefix}) ${faxnr}" name="fax" sameEntity="true">
-						<data source="035B.h" name="prefix" />
-						<data source="035B.i" name="faxnr" />
-					</combine>
-				</choose>
-			</group>
-			<group name="email">
-				<choose>
-					<data source="ema">
-						<regexp match="(.*)" format="mailto:${1}" />
+					</choose>
+					<data source="009Q.z" name="">
+						<regexp match="A" format="" />
 					</data>
-					<data source="035B.k">
-						<regexp match="(.*)" format="mailto:${1}" />
-					</data>
-				</choose>
-			</group>
-			<group name="url">
-				<choose>
-					<data source="url"></data>
-					<combine value="${hp}" name="url" sameEntity="true">
-						<data source="009Q.u" name="hp" />
-						<data source="009Q.z" name="">
-							<regexp match="A" format="" />
-						</data>
-					</combine>
-				</choose>
-			</group>
-		</entity>
+				</combine>
+			</choose>
+		</group>
 		<group name="provides">
 			<choose>
-				<data source="opa"></data>
-				<combine value="${url}" name="provides" sameEntity="true">
-					<data source="009Q.u" name="url" />
+				<data source="opa">
+					<regexp match="http(.*)" />
+				</data>
+				<data source="opa">
+					<regexp match="(www(.*))" format="http://${1}"/>
+				</data>
+				<combine value="${url}" name="provides" sameEntity="true">					
+					<choose>
+						<data source="009Q.u" name="url">
+							<regexp match="http(.*)" />
+						</data>
+						<data source="009Q.u" name="url">
+							<regexp match="(www(.*))" format="http://${1}"/>
+						</data>
+					</choose>
 					<data source="009Q.z" name="">
 						<regexp match="B" format="" />
 					</data>
 				</combine>
 			</choose>
 		</group>
-		<group name="isil">
-			<choose>
-				<data source="008H.e" />
-				<data source="isil">
-					<not-equals string="NULL" />
-				</data>
-			</choose>
-		</group>
-		<!-- new-id: isil for Sigel, and Pseudo isil for DBS data-->
+		<data source="isil" name="isil"/>
+		<data source="inr" name="dbsID"/>
+		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
-			<data source="008H.e" name="\@id">
+			<data source="isil" name="\@id">
 				<regexp match="(.*)" format="http://data.lobid.org/organisations/${1}" />
-				<not-equals string="NULL" />
-			</data>			
+			</data>
 			<combine name="\@id" value="http://data.lobid.org/organisations/DBS-${inr}">
 				<data source="inr" name="inr">
 					<not-equals string="NULL" />
 				</data>
 			</combine>
-		</choose>		
-		<entity name="openingHoursSpecification" flushWith="record">
-			<choose>			
-				<data source="032P.i" name="description" />
-				<data source="oef" name="description" />
-			</choose>
-			<data source="032P.i|oef" name="@type">
-				<constant value="http://schema.org/OpeningHoursSpecification" />
+		</choose>
+		
+		<!-- Telephone and email -->		
+		<choose>	
+			<combine value="00${countryCode} ${prefix} ${phonenr}" name="telephone" sameEntity="true">
+				<data source="countryCode" name="countryCode" />
+				<data source="prefix" name="prefix" />
+				<data source="phone" name="phonenr" />
+			</combine>
+			<combine value="0${prefix} ${phonenr}" name="telephone" sameEntity="true">
+				<data source="tvw" name="prefix">
+					<regexp match="\d*"/>
+				</data>
+				<data source="tel" name="phonenr">
+					<not-equals string="NULL" />
+				</data>
+			</combine>
+		</choose>
+		<choose>							
+			<data source="email" name="email">
+				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
-		</entity>
-		<!-- address -->
+			<data source="ema">
+				<regexp match="(.*)" format="mailto:${1}" />
+			</data>
+		</choose>		
+		
+		<!-- Mailing address -->
 		<entity name="address" flushWith="record">
-			<data source="str-hausnr" name="streetAddress" />
-			<choose>
-				<data source="032P.b" name="addressLocality" />
-				<data source="ort" name="addressLocality" />
-			</choose>
-			<!-- Postal code not available in DBS -->
-			<data source="032P.e" name="postalCode" />			
-			<!-- Country no available in DBS -->
-			<data source="032P.d" name="addressCountry">
+			<data source="streetAddressMail" name="streetAddress" />
+			<data source="postOfficeBoxNumber" name="postOfficeBoxNumber" />
+			<data source="localityMail" name="addressLocality" />
+			<data source="postalCodeMail" name="postalCode" />
+			<data source="countryMail" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
-			<data source="str-hausnr" name="@type">
+			<data source="localityMail" name="@type">
 				<constant value="http://schema.org/PostalAddress" />
 			</data>
 		</entity>
-
-		<!-- DBS+SIGEL merge FIELDS -->
+		
+		<!-- Lookup fields for visitor and other address -->
+		<combine name="@geoLookupVisitor" value="${land}/${ort}/${plz}/${str}" flushWith="record">
+			<data source="countryVisitor" name="land">
+				<lookup in="country-map" />
+			</data>
+			<data source="localityVisitor" name="ort" />
+			<data source="postalCodeVisitor" name="plz" />
+			<data source="streetAddressVisitor" name="str" />
+		</combine>		
+		<combine name="@geoLookupOther" value="${land}/${ort}/${plz}/${str}" flushWith="record">
+			<data source="countryOther" name="land">
+				<lookup in="country-map" />
+			</data>
+			<data source="localityOther" name="ort" />
+			<data source="postalCodeOther" name="plz" />			
+			<data source="streetAddressOther" name="str" />
+		</combine>
+		
+		<!-- Locations -->
+		<entity name="location[]" flushWith="record">
+			<entity name="place" flushWith="record">
+				<data source="localityVisitor" name="@type">
+					<regexp match="(.*)" format="http://schema.org/Place" />
+				</data>
+				<concat delimiter=", " name="description">
+					<data source="descriptionVisitor" />
+					<data source="generalDescriptionVisitor" />
+				</concat>
+				<entity name="address" flushWith="record">
+					<choose>
+						<data source="streetAddressVisitor" name="streetAddress" />
+						<!-- plz stand for street address in dbs data -->
+						<data source="plz" name="streetAddress">
+							<not-equals string="NULL"/>
+						</data>
+					</choose>			
+					<choose>
+						<data source="localityVisitor" name="addressLocality" />
+						<data source="ort" name="addressLocality" />
+					</choose>
+					<data source="postalCodeVisitor" name="postalCode" />
+					<data source="countryVisitor" name="addressCountry">
+						<lookup in="country-map" />
+					</data>
+					<data source="localityVisitor" name="@type">
+						<constant value="http://schema.org/PostalAddress" />
+					</data>
+				</entity>
+				<entity name="openingHoursSpecification" flushWith="record">					
+					<data source="openingHoursVisitor|oef" name="@type">
+						<constant value="http://schema.org/OpeningHoursSpecification" />
+					</data>
+					<choose>			
+						<data source="openingHoursVisitor" name="description" />
+						<data source="oef" name="description" />
+					</choose>
+					<data source="openingCommentVisitor" name="comment" />
+				</entity>
+				<entity name="geo" flushWith="record">					
+					<choose>
+						<data source="latVisitor" name="lat" />
+						<data source="@geoLookupVisitor" name="lat">
+							<lookup in="geolocation-lat_map" />
+						</data>
+					</choose>
+					<choose>
+						<data source="lonVisitor" name="lon" />
+						<data source="@geoLookupVisitor" name="lon">
+							<lookup in="geolocation-lon_map" />
+						</data>
+					</choose>
+				</entity>
+			</entity>
+			<entity name="place" flushWith="record">
+				<data source="localityOther" name="@type">
+					<regexp match="(.*)" format="http://schema.org/Place" />
+				</data>
+				<concat delimiter=", " name="description">
+					<data source="descriptionOther" />
+					<data source="generalDescriptionOther" />
+				</concat>
+				<data source="descriptionOther" name="description" />
+				<entity name="address" flushWith="record">
+					<data source="streetAddressOther" name="streetAddress" />
+					<data source="localityOther" name="addressLocality" />
+					<data source="postalCodeOther" name="postalCode" />
+					<data source="countryOther" name="addressCountry">
+						<lookup in="country-map" />
+					</data>
+					<data source="localityOther" name="@type">
+						<constant value="http://schema.org/PostalAddress" />
+					</data>
+				</entity>
+				<entity name="openingHoursSpecification" flushWith="record">					
+					<data source="openingHoursOther" name="@type">
+						<constant value="http://schema.org/OpeningHoursSpecification" />
+					</data>						
+					<data source="openingHoursOther" name="description" />
+					<data source="openingCommentOther" name="comment" />
+				</entity>
+				<!-- combine field for look in coordinate maps -->
+				<entity name="geo" flushWith="record">
+					<choose>
+						<data source="latOther" name="lat" />
+						<data source="@geoLookupOther" name="lat">
+							<lookup in="geolocation-lat_map" />
+						</data>
+					</choose>
+					<choose>
+						<data source="lonOther" name="lon" />
+						<data source="@geoLookupOther" name="lon">
+							<lookup in="geolocation-lon_map" />
+						</data>
+					</choose>
+				</entity>			
+			</entity>
+		</entity>
 
 		<entity name="classification" flushWith="record">
 			<data source="035E.f" name="@id">
 				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
 			</data>
-			<data source="typ_text" name="value"></data>
+			<data source="typ_text" name="value" />
 		</entity>
 		<entity name="fundertype" flushWith="record">
 			<data source="035E.g" name="@id">
@@ -152,20 +271,13 @@
 			</data>
 			<data source="gro_text" name="value"></data>
 		</entity>
-
-		<!-- SIGEL-only FIELDS -->
-		
-		<data source="008H.e" name="isPrimaryTopicOf">
+		<data source="isil" name="isPrimaryTopicOf">
 			<regexp match="(.*)"
 				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
 		</data>
-		<data source="008H.e" name="@dbpediaMap">
+		<data source="isil" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
 		</data>
-		<entity name="location" flushWith="record">
-			<data source="032P.k" name="lon" />
-			<data source="032P.l" name="lat" />
-		</entity>
 		<entity name="alternateName[]" flushWith="record">
 			<data source="029@.a" name="altLabel" />
 		</entity>
@@ -176,12 +288,33 @@
 			<combine name="sameAs" value="http://dbpedia.org/resource/${titleDbpedia}">
 				<data source="@dbpediaMap" name="titleDbpedia" />
 			</combine>
-			<data source="008H.e" name="sameAs">
+			<data source="isil" name="sameAs">
 				<regexp match="(.*)"
 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
 			</data>
-		</entity>		
-		<data source="032P.n" name="locatedIn" />
+		</entity>
+		
+		<!-- Prepare "Gemeindeschlüssel" for lookup in geonames map and "ags" -->
+		<choose>
+			<data source="gemeindekennzahl" name="@ags">
+				<regexp match="(\d{5})(\d{4})(\d{3})" format="${1}${3}" />
+			</data>
+			<data source="gemeindekennzahl" name="@ags">
+				<regexp match="(\d{4})(\d{4})(\d{3})" format="${1}${3}" />
+			</data>
+			<data source="032P.n" name="@ags">
+				<regexp match="0(\d{7})" format="${1}" />
+			</data>
+			<data source="032P.n" name="@ags">
+				<regexp match="\d{8}" />
+			</data>
+		</choose>
+		<combine name="containedIn" value="http://www.geonames.org/${geoname}">
+			<data source="@ags" name="geoname">
+				<lookup in="geonames_map" />
+			</data>
+		</combine>
+		<data source="@ags" name="ags" />
 		<entity name="subject[]" flushWith="record">
 			<data source="035G.a" name="subject" />
 		</entity>
@@ -211,5 +344,10 @@
 			files="http://test.lobid.org/assets/data/country-map.csv" />
 		<filemap name="isil2dbpedia_map"
 			files="http://test.lobid.org/assets/data/isil2dbpedia-map.csv" />
+		<filemap name="geolocation-lat_map" files="http://lobid.org/download/lookup-tables/data/geo-latitude-map.csv"/>		
+		<filemap name="geolocation-lon_map" files="http://lobid.org/download/lookup-tables/data/geo-longitude-map.csv"/>
+		<filemap name="libtype_map" files="http://lobid.org/download/lookup-tables/data/libtype-map.csv"/>
+		<filemap name="rs_map" files="http://lobid.org/download/lookup-tables/data/ags-rs-map.csv" />
+		<filemap name="geonames_map" files="http://lobid.org/download/lookup-tables/data/geonames-map.csv" />
 	</maps>
 </metamorph>

@@ -4,14 +4,256 @@
 	entityMarker=".">
 	<rules>
 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
-		<data source="032P.a" name="_id">
-			<case to="lower" />
-			<replace pattern="[\.\-\s]" with="" />
-			<replace pattern="straße" with="str" />
-			<replace pattern="platz" with="pl" />		
-		</data>
-		<data source="032P.a" name="str-hausnr"></data>
 		
+		<!-- Use inr if available, use isil if not -->
+		<choose>
+			<data name="_id" source="008H.b" />
+			<data name="_id" source="008H.e" />
+		</choose>
+		
+		<data name="inr" source="008H.b" />
+		<data name="isil" source="008H.e" />
+		
+		<!-- Different types of addresses -->
+		<!-- 1. Main address / address for visitors (type "S") -->		
+		<combine name="streetAddressVisitor" value="${strAdr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.a" name="strAdr" />
+		</combine>
+		<combine name="localityVisitor" value="${loc}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.b" name="loc" />
+		</combine>
+		<combine name="countryVisitor" value="${cntr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.d" name="cntr" />
+		</combine>
+		<combine name="postalCodeVisitor" value="${pstCd}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.e" name="pstCd" />
+		</combine>
+		<combine name="openingHoursVisitor" value="${opening}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.i" name="opening" />
+		</combine>
+		<combine name="openingCommentVisitor" value="${comment}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.j" name="comment" />
+		</combine>
+		<combine name="latVisitor" value="${lat}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.l" name="lat" />
+		</combine>
+		<combine name="lonVisitor" value="${lon}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="032P.k" name="lon" />
+		</combine>
+		<combine name="descriptionVisitor" value="${descr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data name="descr" source="032P.3" />
+		</combine>	
+		<combine name="generalDescriptionVisitor" value="${descr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data name="descr" source="032P.z" />
+		</combine>
+		
+		<!-- 2. Other address (type "W")-->
+		<combine name="streetAddressOther" value="${strAdr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.a" name="strAdr" />
+		</combine>
+		<combine name="localityOther" value="${loc}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.b" name="loc" />
+		</combine>		
+		<combine name="countryOther" value="${cntr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.d" name="cntr" />
+		</combine>
+		<combine name="postalCodeOther" value="${pstCd}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.e" name="pstCd" />
+		</combine>
+		<combine name="openingHoursOther" value="${opening}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.i" name="opening" />
+		</combine>
+		<combine name="openingCommentOther" value="${comment}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.j" name="comment" />
+		</combine>
+		<combine name="latOther" value="${lat}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.l" name="lat" />
+		</combine>
+		<combine name="lonOther" value="${lon}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data source="032P.k" name="lon" />
+		</combine>
+		<combine name="descriptionOther" value="${descr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data name="descr" source="032P.3" />
+		</combine>	
+		<combine name="generalDescriptionOther" value="${descr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "W" />
+				</data>
+			</if>
+			<data name="descr" source="032P.z" />
+		</combine>
+		
+		<!-- 3. Mailing address (type "P") -->
+		<combine name="streetAddressMail" value="${strAdr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.a" name="strAdr" />
+		</combine>
+		<combine name="postOfficeBoxNumber" value="${mlbx}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.g" name="mlbx" />
+		</combine>
+		<combine name="localityMail" value="${loc}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.b" name="loc" />
+		</combine>
+		<combine name="countryMail" value="${cntr}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.d" name="cntr" />
+		</combine>
+		<combine name="postalCodeMail" value="${pstCd}" sameEntity="true">
+			<if>
+				<data source="032P.2">
+					<equals string = "P" />
+				</data>
+			</if>
+			<data source="032P.e" name="pstCd" />
+		</combine>
+		
+		<!-- Phone and email address of type "S" -->
+		<combine name="countryCode" value="${countryCode}" sameEntity="true">
+			<if>
+				<data source="035B.a">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="035B.d" name="countryCode" />
+		</combine>
+		<combine name="prefix" value="${prefix}" sameEntity="true">
+			<if>
+				<data source="035B.a">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="035B.e" name="prefix" />
+		</combine>
+		<combine name="phone" value="${phonenr}" sameEntity="true">
+			<if>
+				<data source="035B.a">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="035B.f" name="phonenr" />
+		</combine>	
+		<combine name="email" value="${mail}" sameEntity="true">
+			<if>
+				<data source="035B.a">
+					<equals string = "S" />
+				</data>
+			</if>
+			<data source="035B.k" name="mail" />
+		</combine>
 		<data source="_else"></data>
 	</rules>
 </metamorph>

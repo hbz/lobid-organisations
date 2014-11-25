@@ -145,7 +145,7 @@ public class Application extends Controller {
 			double[] lonCoordinates, int from, int size)
 			throws JsonProcessingException, IOException {
 		GeoPolygonFilterBuilder polygonFilter =
-				FilterBuilders.geoPolygonFilter("location");
+				FilterBuilders.geoPolygonFilter("geo");
 		for (int i = 0; i < latCoordinates.length; i++) {
 			polygonFilter.addPoint(latCoordinates[i], lonCoordinates[i]);
 		}
@@ -160,7 +160,7 @@ public class Application extends Controller {
 			double lat, double lon, double distance) throws JsonProcessingException,
 			IOException {
 		GeoDistanceFilterBuilder distanceFilter =
-				FilterBuilders.geoDistanceFilter("location")
+				FilterBuilders.geoDistanceFilter("geo")
 						.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		FilteredQueryBuilder distanceQuery =
 				QueryBuilders.filteredQuery(QueryBuilders.queryString(q),

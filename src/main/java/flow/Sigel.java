@@ -29,7 +29,7 @@ public class Sigel {
 	}
 
 	static Metamorph morphSigel(DirReader open) {
-		open.setRecursive(false);
+		open.setRecursive(true);
 		open.setFilenamePattern(".*\\.xml");
 		FileOpener openFile = new FileOpener();
 		PicaXmlReader readPicaXml = new PicaXmlReader();
@@ -42,6 +42,7 @@ public class Sigel {
 
 	static void processSigel(DirReader open) {
 		open.process("src/main/resources/input/sigel/");
+		// open.process("/files/open_data/closed/lobid-organisation/snapshot/xml");
 		open.closeStream();
 	}
 }
