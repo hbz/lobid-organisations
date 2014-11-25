@@ -48,7 +48,7 @@ public class Enrich {
 				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriples1);
 
 		OaiPmhOpener openSigelUpdates1 =
-				Sigel.createOaiPmhOpener("2013-01-01", "2013-12-01");
+				Sigel.createOaiPmhOpener("2013-06-01", "2013-12-01");
 		StreamToTriples streamToTriples2 = new StreamToTriples();
 		streamToTriples2.setRedirect(true);
 		StreamToTriples flow2 = //
@@ -103,7 +103,7 @@ public class Enrich {
 	}
 
 	/* For tests */
-	public static void processSample() {
+	static void processSample() {
 		FileOpener openSigelDump = new FileOpener();
 		StreamToTriples streamToTriples1 = new StreamToTriples();
 		streamToTriples1.setRedirect(true);
