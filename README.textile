@@ -79,7 +79,7 @@ h2. Workflow
 
 The source data sets are the _Sigelverzeichnis_ ('Sigel', format: PicaPlus-XML) and the _Deutsche Bibliotheksstatistik_ ('DBS', format: CSV). The transformation is implemented by a pipeline with 3 logical steps:
 
-* Preprocess Sigel data, use DBS ID as record ID; if no DBS ID is available, use ISIL
+* Preprocess Sigel data, use DBS ID as record ID; if no DBS ID is available, use ISIL; in this step, updates are downloaded for the time period from base dump creation until today
 * Preprocess DBS data, use DBS ID as record ID
 * Combine all data from Sigel and DBS:
 ** Merge Sigel and DBS entries that have identical DBS IDs
@@ -96,11 +96,7 @@ Optional: replace the sample data with the full input data dumps (only works hbz
 
 * @cd src/main/resources/input/@
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip@
-* @wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.zip; unzip sigel.zip@
-
-Optional: download the latest update of the Sigel data:
-
-* @wget -O sigel/sigel-picaplus-updates-2014.xml http://services.d-nb.de/oai/repository?set=bib&verb=ListRecords&metadataPrefix=PicaPlus-xml&from=2014-01-01&until=2014-12-31@
+* @wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml@
 
 h2. Transform
 

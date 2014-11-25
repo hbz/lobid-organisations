@@ -31,9 +31,7 @@ public class ElasticsearchTest {
 	}
 
 	public static void transformData() {
-		Dbs.main();
-		Sigel.main();
-		Enrich.process();
+		Enrich.processSample();
 	}
 
 	public static void prepareIndexing(Client indexClient) throws IOException {
