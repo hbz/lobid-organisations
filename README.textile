@@ -100,10 +100,17 @@ Optional: replace the sample data with the full input data dumps (only works hbz
 
 h2. Transform
 
-Go to the project root and run the transformation:
+h3. Sample data transformation
 
-* @cd ../../../../@
-* @mvn exec:java -Dexec.mainClass="flow.Enrich"@
+You can run the transformation with the sample data that is included in this repository. To do so, go to the project root and run EnrichSample: 
+@cd ../../../../@
+@mvn exec:java -Dexec.mainClass="flow.EnrichSample"@ 
+
+h3. Full data transformation (only works hbz internally!)
+
+If you run the transformation with the full data (see above for downloads), the application will download additional updates for the Sigel data. These downloads comprise the data from a given date until today. They are split into smaller intervals of several days, you can specify the size of these intervals. Thus, you will have to pass two arguments to the main method of Enrich: (1) the date from which the updates start (usually the date of the base dump creation) and (2) the interval size in days (must not be too large). With the Sigel base dump that is available from the download link above (created in June 2013) and an interval size of 100 days for each update download, you run the following to transform the data:
+@cd ../../../../@
+@mvn exec:java -Dexec.mainClass="flow.Enrich" -Dexec.args="'2013-06-01' '100'"@
 
 h2. Index
 
