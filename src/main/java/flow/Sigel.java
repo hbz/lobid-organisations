@@ -72,7 +72,7 @@ public class Sigel {
 		OaiPmhOpener opener = createOaiPmhOpener(start, end);
 		Metamorph updatesMorph = morphSigel(opener);
 		writeOut(updatesMorph, "src/main/resources/output/" + outputFile);
-		processSigel(opener, "http://services.d-nb.de/oai/repository");
+		processSigel(opener, "http://gnd-proxy.lobid.org/oai/repository");
 		return updatesMorph;
 	}
 

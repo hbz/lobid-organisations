@@ -34,7 +34,8 @@ public class Enrich {
 
 	private static String sigelDumpLocation =
 			"src/main/resources/input/sigel.xml";
-	private static String sigelDnbRepo = "http://services.d-nb.de/oai/repository";
+	private static String sigelDnbRepo =
+			"http://gnd-proxy.lobid.org/oai/repository";
 
 	/**
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
