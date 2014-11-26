@@ -15,6 +15,7 @@ public class EnrichSample {
 
 	private static String sigelDumpLocation =
 			"src/main/resources/input/sigel.xml";
+	private static String dbsLocation = "src/main/resources/input/dbs.csv";
 
 	/**
 	 * @param args not used
@@ -41,6 +42,6 @@ public class EnrichSample {
 		Enrich.continueWith(flow2, wait);
 
 		Sigel.processSigel(openSigelDump, sigelDumpLocation);
-		Dbs.processDbs(openDbs);
+		Dbs.processDbs(openDbs, dbsLocation);
 	}
 }

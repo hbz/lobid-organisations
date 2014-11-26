@@ -36,6 +36,7 @@ public class Enrich {
 			"src/main/resources/input/sigel.xml";
 	private static String sigelDnbRepo =
 			"http://gnd-proxy.lobid.org/oai/repository";
+	private static String dbsLocation = "src/main/resources/input/dbs.csv";
 
 	/**
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
@@ -88,7 +89,7 @@ public class Enrich {
 		Sigel.processSigel(openSigelDump, sigelDumpLocation);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
 			Sigel.processSigel(updateOpener, sigelDnbRepo);
-		Dbs.processDbs(openDbs);
+		Dbs.processDbs(openDbs, dbsLocation);
 	}
 
 	private static String addDays(String start, int intervalSize) {
