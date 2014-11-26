@@ -1,5 +1,13 @@
 package flow;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
@@ -19,68 +27,95 @@ import org.culturegraph.mf.types.Triple;
  * 
  * After enrichment, the result is transformed to JSON for ES indexing.
  * 
- * @author Fabian Steeg (fsteeg)
+ * @author Fabian Steeg (fsteeg), Simon Ritter (SBRitter)
  *
  */
 public class Enrich {
 
-	private static String sigelDumpLocation =
+	static final String SIGEL_DUMP_LOCATION =
 			"src/main/resources/input/sigel.xml";
-	private static String sigelDnbRepo = "http://services.d-nb.de/oai/repository";
+	static final String SIGEL_DNB_REPO =
+			"http://gnd-proxy.lobid.org/oai/repository";
+	static final String DBS_LOCATION = "src/main/resources/input/dbs.csv";
 
 	/**
-	 * @param args Not used
+	 * @param args start date of Sigel updates (date of Sigel base dump) and size
+	 *          of update intervals in days
 	 */
 	public static void main(String... args) {
-		/* Run both preparatory pipelines standalone for debugging, doc etc. */
-		// Dbs.main();
-		// Sigel.main();
-		/* Run the actual enrichment pipeline, which includes the previous: */
-		process();
+		String startOfUpdates = args[0];
+		int intervalSize = Integer.parseInt(args[1]);
+		process(startOfUpdates, intervalSize);
 	}
 
-	static void process() {
+	static void process(String startOfUpdates, int intervalSize) {
+		String start = startOfUpdates;
+		int updateIntervals =
+				calculateIntervals(start, Sigel.getToday(), intervalSize);
+		CloseSupressor<Triple> wait = new CloseSupressor<>(updateIntervals + 2);
 
 		FileOpener openSigelDump = new FileOpener();
-		StreamToTriples streamToTriples1 = new StreamToTriples();
-		streamToTriples1.setRedirect(true);
-		StreamToTriples flow1 = //
-				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriples1);
+		StreamToTriples streamToTriplesDump = new StreamToTriples();
+		streamToTriplesDump.setRedirect(true);
+		StreamToTriples flowSigelDump = //
+				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
+		continueWith(flowSigelDump, wait);
 
-		OaiPmhOpener openSigelUpdates1 =
-				Sigel.createOaiPmhOpener("2013-06-01", "2013-12-01");
-		StreamToTriples streamToTriples2 = new StreamToTriples();
-		streamToTriples2.setRedirect(true);
-		StreamToTriples flow2 = //
-				Sigel.morphSigel(openSigelUpdates1).setReceiver(streamToTriples2);
-
-		OaiPmhOpener openSigelUpdates2 =
-				Sigel.createOaiPmhOpener("2014-01-01", Sigel.getToday());
-		StreamToTriples streamToTriples3 = new StreamToTriples();
-		streamToTriples3.setRedirect(true);
-		StreamToTriples flow3 = //
-				Sigel.morphSigel(openSigelUpdates2).setReceiver(streamToTriples3);
+		String end = addDays(start, intervalSize);
+		ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
+		for (int i = 0; i < updateIntervals; i++) {
+			OaiPmhOpener openSigelUpdates = Sigel.createOaiPmhOpener(start, end);
+			StreamToTriples streamToTriplesUpdates = new StreamToTriples();
+			streamToTriplesUpdates.setRedirect(true);
+			StreamToTriples flowUpdates = //
+					Sigel.morphSigel(openSigelUpdates)
+							.setReceiver(streamToTriplesUpdates);
+			continueWith(flowUpdates, wait);
+			updateOpenerList.add(openSigelUpdates);
+			start = addDays(start, intervalSize);
+			if (i == updateIntervals - 2)
+				end = Sigel.getToday();
+			else
+				end = addDays(end, intervalSize);
+		}
 
 		FileOpener openDbs = new FileOpener();
-		StreamToTriples streamToTriples4 = new StreamToTriples();
-		streamToTriples4.setRedirect(true);
-		StreamToTriples flow4 = //
-				Dbs.morphDbs(openDbs).setReceiver(streamToTriples4);
+		StreamToTriples streamToTriplesDbs = new StreamToTriples();
+		streamToTriplesDbs.setRedirect(true);
+		StreamToTriples flowDbs = //
+				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
+		continueWith(flowDbs, wait);
 
-		CloseSupressor<Triple> wait = new CloseSupressor<>(4);
-		continueWith(flow1, wait);
-		continueWith(flow2, wait);
-		continueWith(flow3, wait);
-		continueWith(flow4, wait);
-
-		Sigel.processSigel(openSigelDump, sigelDumpLocation);
-		Sigel.processSigel(openSigelUpdates1, sigelDnbRepo);
-		Sigel.processSigel(openSigelUpdates2, sigelDnbRepo);
-		Dbs.processDbs(openDbs);
+		Sigel.processSigel(openSigelDump, SIGEL_DUMP_LOCATION);
+		for (OaiPmhOpener updateOpener : updateOpenerList)
+			Sigel.processSigel(updateOpener, SIGEL_DNB_REPO);
+		Dbs.processDbs(openDbs, DBS_LOCATION);
 	}
 
-	private static void continueWith(StreamToTriples flow,
-			CloseSupressor<Triple> wait) {
+	private static String addDays(String start, int intervalSize) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String result = null;
+		try {
+			Date startDate = dateFormat.parse(start);
+			Calendar calender = Calendar.getInstance();
+			calender.setTime(startDate);
+			calender.add(Calendar.DATE, intervalSize);
+			result = dateFormat.format(calender.getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	private static int calculateIntervals(String start, String end,
+			int intervalSize) {
+		LocalDate startDate = LocalDate.parse(start);
+		LocalDate endDate = LocalDate.parse(end);
+		long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
+		return (int) timeSpan / intervalSize;
+	}
+
+	static void continueWith(StreamToTriples flow, CloseSupressor<Triple> wait) {
 		TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		Metamorph morph = new Metamorph("src/main/resources/morph-enriched.xml");
@@ -100,27 +135,5 @@ public class Enrich {
 				.setReceiver(encodeJson)//
 				.setReceiver(esBulk)//
 				.setReceiver(writer);
-	}
-
-	/* For tests */
-	static void processSample() {
-		FileOpener openSigelDump = new FileOpener();
-		StreamToTriples streamToTriples1 = new StreamToTriples();
-		streamToTriples1.setRedirect(true);
-		StreamToTriples flow1 = //
-				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriples1);
-
-		FileOpener openDbs = new FileOpener();
-		StreamToTriples streamToTriples2 = new StreamToTriples();
-		streamToTriples2.setRedirect(true);
-		StreamToTriples flow2 = //
-				Dbs.morphDbs(openDbs).setReceiver(streamToTriples2);
-
-		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
-		continueWith(flow1, wait);
-		continueWith(flow2, wait);
-
-		Sigel.processSigel(openSigelDump, sigelDumpLocation);
-		Dbs.processDbs(openDbs);
 	}
 }

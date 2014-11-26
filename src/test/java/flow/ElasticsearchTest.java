@@ -31,7 +31,7 @@ public class ElasticsearchTest {
 	}
 
 	public static void transformData() {
-		Enrich.processSample();
+		EnrichSample.processSample();
 	}
 
 	public static void prepareIndexing(Client indexClient) throws IOException {
