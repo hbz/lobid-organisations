@@ -32,9 +32,11 @@ import org.culturegraph.mf.types.Triple;
  */
 public class Enrich {
 
-	static String sigelDumpLocation = "src/main/resources/input/sigel.xml";
-	static String sigelDnbRepo = "http://gnd-proxy.lobid.org/oai/repository";
-	static String dbsLocation = "src/main/resources/input/dbs.csv";
+	static final String SIGEL_DUMP_LOCATION =
+			"src/main/resources/input/sigel.xml";
+	static final String SIGEL_DNB_REPO =
+			"http://gnd-proxy.lobid.org/oai/repository";
+	static final String DBS_LOCATION = "src/main/resources/input/dbs.csv";
 
 	/**
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
@@ -84,10 +86,10 @@ public class Enrich {
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
 		continueWith(flowDbs, wait);
 
-		Sigel.processSigel(openSigelDump, sigelDumpLocation);
+		Sigel.processSigel(openSigelDump, SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
-			Sigel.processSigel(updateOpener, sigelDnbRepo);
-		Dbs.processDbs(openDbs, dbsLocation);
+			Sigel.processSigel(updateOpener, SIGEL_DNB_REPO);
+		Dbs.processDbs(openDbs, DBS_LOCATION);
 	}
 
 	private static String addDays(String start, int intervalSize) {

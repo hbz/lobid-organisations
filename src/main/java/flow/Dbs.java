@@ -25,7 +25,7 @@ public class Dbs {
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);
-		processDbs(opener, Enrich.dbsLocation);
+		processDbs(opener, Enrich.DBS_LOCATION);
 	}
 
 	static Metamorph morphDbs(FileOpener opener) {
