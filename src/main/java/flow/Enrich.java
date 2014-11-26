@@ -114,8 +114,7 @@ public class Enrich {
 		return (int) timeSpan / intervalSize;
 	}
 
-	private static void continueWith(StreamToTriples flow,
-			CloseSupressor<Triple> wait) {
+	static void continueWith(StreamToTriples flow, CloseSupressor<Triple> wait) {
 		TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		Metamorph morph = new Metamorph("src/main/resources/morph-enriched.xml");
@@ -135,27 +134,5 @@ public class Enrich {
 				.setReceiver(encodeJson)//
 				.setReceiver(esBulk)//
 				.setReceiver(writer);
-	}
-
-	/* For tests: sample data only, no updates */
-	static void processSample() {
-		FileOpener openSigelDump = new FileOpener();
-		StreamToTriples streamToTriples1 = new StreamToTriples();
-		streamToTriples1.setRedirect(true);
-		StreamToTriples flow1 = //
-				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriples1);
-
-		FileOpener openDbs = new FileOpener();
-		StreamToTriples streamToTriples2 = new StreamToTriples();
-		streamToTriples2.setRedirect(true);
-		StreamToTriples flow2 = //
-				Dbs.morphDbs(openDbs).setReceiver(streamToTriples2);
-
-		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
-		continueWith(flow1, wait);
-		continueWith(flow2, wait);
-
-		Sigel.processSigel(openSigelDump, sigelDumpLocation);
-		Dbs.processDbs(openDbs);
 	}
 }
