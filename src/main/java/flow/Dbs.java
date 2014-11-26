@@ -25,7 +25,7 @@ public class Dbs {
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);
-		processDbs(opener, "src/main/resources/input/dbs.csv");
+		processDbs(opener, Enrich.dbsLocation);
 	}
 
 	static Metamorph morphDbs(FileOpener opener) {

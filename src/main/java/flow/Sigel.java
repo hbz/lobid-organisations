@@ -63,7 +63,7 @@ public class Sigel {
 		FileOpener opener = new FileOpener();
 		Metamorph dumpMorph = morphSigel(opener);
 		writeOut(dumpMorph, "src/main/resources/output/sigel-dump.out.json");
-		processSigel(opener, "src/main/resources/input/sigel.xml");
+		processSigel(opener, Enrich.sigelDumpLocation);
 		return dumpMorph;
 	}
 
@@ -72,7 +72,7 @@ public class Sigel {
 		OaiPmhOpener opener = createOaiPmhOpener(start, end);
 		Metamorph updatesMorph = morphSigel(opener);
 		writeOut(updatesMorph, "src/main/resources/output/" + outputFile);
-		processSigel(opener, "http://gnd-proxy.lobid.org/oai/repository");
+		processSigel(opener, Enrich.sigelDnbRepo);
 		return updatesMorph;
 	}
 

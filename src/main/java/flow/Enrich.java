@@ -32,11 +32,9 @@ import org.culturegraph.mf.types.Triple;
  */
 public class Enrich {
 
-	private static String sigelDumpLocation =
-			"src/main/resources/input/sigel.xml";
-	private static String sigelDnbRepo =
-			"http://gnd-proxy.lobid.org/oai/repository";
-	private static String dbsLocation = "src/main/resources/input/dbs.csv";
+	static String sigelDumpLocation = "src/main/resources/input/sigel.xml";
+	static String sigelDnbRepo = "http://gnd-proxy.lobid.org/oai/repository";
+	static String dbsLocation = "src/main/resources/input/dbs.csv";
 
 	/**
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
