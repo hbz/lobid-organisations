@@ -1,5 +1,13 @@
 package flow;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
@@ -40,43 +48,69 @@ public class Enrich {
 	}
 
 	static void process() {
+		int updateIntervals = calculateIntervals("2013-06-01", Sigel.getToday());
+		CloseSupressor<Triple> wait = new CloseSupressor<>(updateIntervals + 2);
 
 		FileOpener openSigelDump = new FileOpener();
-		StreamToTriples streamToTriples1 = new StreamToTriples();
-		streamToTriples1.setRedirect(true);
-		StreamToTriples flow1 = //
-				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriples1);
+		StreamToTriples streamToTriplesDump = new StreamToTriples();
+		streamToTriplesDump.setRedirect(true);
+		StreamToTriples flowSigelDump = //
+				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
+		continueWith(flowSigelDump, wait);
 
-		OaiPmhOpener openSigelUpdates1 =
-				Sigel.createOaiPmhOpener("2013-06-01", "2013-12-01");
-		StreamToTriples streamToTriples2 = new StreamToTriples();
-		streamToTriples2.setRedirect(true);
-		StreamToTriples flow2 = //
-				Sigel.morphSigel(openSigelUpdates1).setReceiver(streamToTriples2);
-
-		OaiPmhOpener openSigelUpdates2 =
-				Sigel.createOaiPmhOpener("2014-01-01", Sigel.getToday());
-		StreamToTriples streamToTriples3 = new StreamToTriples();
-		streamToTriples3.setRedirect(true);
-		StreamToTriples flow3 = //
-				Sigel.morphSigel(openSigelUpdates2).setReceiver(streamToTriples3);
+		String start = "2013-06-01";
+		String end = addDays(start);
+		ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
+		for (int i = 0; i < updateIntervals; i++) {
+			System.out.println("***" + start + "; " + end);
+			OaiPmhOpener openSigelUpdates = Sigel.createOaiPmhOpener(start, end);
+			StreamToTriples streamToTriplesUpdates = new StreamToTriples();
+			streamToTriplesUpdates.setRedirect(true);
+			StreamToTriples flowUpdates = //
+					Sigel.morphSigel(openSigelUpdates)
+							.setReceiver(streamToTriplesUpdates);
+			continueWith(flowUpdates, wait);
+			updateOpenerList.add(openSigelUpdates);
+			start = addDays(start);
+			if (i == updateIntervals - 2)
+				end = Sigel.getToday();
+			else
+				end = addDays(end);
+		}
 
 		FileOpener openDbs = new FileOpener();
-		StreamToTriples streamToTriples4 = new StreamToTriples();
-		streamToTriples4.setRedirect(true);
-		StreamToTriples flow4 = //
-				Dbs.morphDbs(openDbs).setReceiver(streamToTriples4);
-
-		CloseSupressor<Triple> wait = new CloseSupressor<>(4);
-		continueWith(flow1, wait);
-		continueWith(flow2, wait);
-		continueWith(flow3, wait);
-		continueWith(flow4, wait);
+		StreamToTriples streamToTriplesDbs = new StreamToTriples();
+		streamToTriplesDbs.setRedirect(true);
+		StreamToTriples flowDbs = //
+				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
+		continueWith(flowDbs, wait);
 
 		Sigel.processSigel(openSigelDump, sigelDumpLocation);
-		Sigel.processSigel(openSigelUpdates1, sigelDnbRepo);
-		Sigel.processSigel(openSigelUpdates2, sigelDnbRepo);
+		for (OaiPmhOpener updateOpener : updateOpenerList)
+			Sigel.processSigel(updateOpener, sigelDnbRepo);
 		Dbs.processDbs(openDbs);
+	}
+
+	private static String addDays(String start) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String result = null;
+		try {
+			Date startDate = dateFormat.parse(start);
+			Calendar calender = Calendar.getInstance();
+			calender.setTime(startDate);
+			calender.add(Calendar.DATE, 50);
+			result = dateFormat.format(calender.getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	private static int calculateIntervals(String start, String end) {
+		LocalDate startDate = LocalDate.parse(start);
+		LocalDate endDate = LocalDate.parse(end);
+		long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
+		return (int) timeSpan / 50;
 	}
 
 	private static void continueWith(StreamToTriples flow,
