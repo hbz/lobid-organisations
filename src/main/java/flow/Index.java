@@ -1,8 +1,7 @@
 package flow;
 
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
-
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +18,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
+import org.elasticsearch.node.NodeBuilder;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Index {
 
 	/**
-	 * @param args Not used
+	 * @param args Minimum size of json file to be indexed (in bytes)
 	 * @throws IOException if json file with output cannot be found
 	 * @throws JsonMappingException if json mapping of organisation data cannot be
 	 *           created
@@ -44,21 +44,32 @@ public class Index {
 	 */
 	public static void main(String... args) throws JsonParseException,
 			JsonMappingException, IOException {
-		Settings clientSettings =
-				ImmutableSettings.settingsBuilder()
-						.put("cluster.name", "organisation-cluster")
-						.put("client.transport.sniff", true).build();
-
-		try (Node node = nodeBuilder().local(false).node();
-				TransportClient transportClient = new TransportClient(clientSettings);
-				Client client =
-						transportClient.addTransportAddress(new InetSocketTransportAddress(
-								"weywot2.hbz-nrw.de", 9300));) {
-			createEmptyIndex(client);
-			indexData(client);
-			client.close();
-			node.close();
+		long minimumSize = Long.parseLong(args[0]);
+		if (checkFileSize() >= minimumSize) {
+			Settings clientSettings =
+					ImmutableSettings.settingsBuilder()
+							.put("cluster.name", "organisation-cluster")
+							.put("client.transport.sniff", true).build();
+			try (Node node = NodeBuilder.nodeBuilder().local(false).node();
+					TransportClient transportClient = new TransportClient(clientSettings);
+					Client client =
+							transportClient
+									.addTransportAddress(new InetSocketTransportAddress(
+											"weywot2.hbz-nrw.de", 9300));) {
+				createEmptyIndex(client);
+				indexData(client);
+				client.close();
+				node.close();
+			}
+		} else {
+			System.out.println("File not large enough.");
 		}
+	}
+
+	private static long checkFileSize() {
+		File enrichedData = new File("src/main/resources/output/enriched.out.json");
+		long enrichedLength = enrichedData.length();
+		return enrichedLength;
 	}
 
 	static void createEmptyIndex(Client client) throws IOException {
