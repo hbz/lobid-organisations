@@ -61,23 +61,8 @@ public class Enrich {
 				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
 		continueWith(flowSigelDump, wait);
 
-		String end = addDays(start, intervalSize);
-		ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
-		for (int i = 0; i < updateIntervals; i++) {
-			OaiPmhOpener openSigelUpdates = Sigel.createOaiPmhOpener(start, end);
-			StreamToTriples streamToTriplesUpdates = new StreamToTriples();
-			streamToTriplesUpdates.setRedirect(true);
-			StreamToTriples flowUpdates = //
-					Sigel.morphSigel(openSigelUpdates)
-							.setReceiver(streamToTriplesUpdates);
-			continueWith(flowUpdates, wait);
-			updateOpenerList.add(openSigelUpdates);
-			start = addDays(start, intervalSize);
-			if (i == updateIntervals - 2)
-				end = Sigel.getToday();
-			else
-				end = addDays(end, intervalSize);
-		}
+		ArrayList<OaiPmhOpener> updateOpenerList =
+				buildUpdatePipes(intervalSize, start, updateIntervals, wait);
 
 		FileOpener openDbs = new FileOpener();
 		StreamToTriples streamToTriplesDbs = new StreamToTriples();
@@ -90,6 +75,38 @@ public class Enrich {
 		for (OaiPmhOpener updateOpener : updateOpenerList)
 			Sigel.processSigel(updateOpener, SIGEL_DNB_REPO);
 		Dbs.processDbs(openDbs, DBS_LOCATION);
+	}
+
+	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
+			String startOfUpdates, int updateIntervals, CloseSupressor<Triple> wait) {
+		String start = startOfUpdates;
+		ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
+		String end = addDays(start, intervalSize);
+
+		// There has to be at least one interval
+		int intervals;
+		if (updateIntervals == 0)
+			intervals = 1;
+		else
+			intervals = updateIntervals;
+
+		for (int i = 0; i < intervals; i++) {
+			OaiPmhOpener openSigelUpdates = Sigel.createOaiPmhOpener(start, end);
+			StreamToTriples streamToTriplesUpdates = new StreamToTriples();
+			streamToTriplesUpdates.setRedirect(true);
+			StreamToTriples flowUpdates = //
+					Sigel.morphSigel(openSigelUpdates)
+							.setReceiver(streamToTriplesUpdates);
+			continueWith(flowUpdates, wait);
+			updateOpenerList.add(openSigelUpdates);
+			start = addDays(start, intervalSize);
+			if (i == intervals - 1)
+				end = Sigel.getToday();
+			else
+				end = addDays(end, intervalSize);
+		}
+
+		return updateOpenerList;
 	}
 
 	private static String addDays(String start, int intervalSize) {
