@@ -5,15 +5,23 @@
 	<rules>
 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
 		
-		<!-- Use inr if available, use isil if not -->
+		<!-- Use inr if available, use isil if not -->		
 		<choose>
-			<data name="_id" source="008H.b" />
-			<data name="_id" source="008H.e" />
+			<data name="_id" source="008H.b">
+				<replace  pattern=" "  with=""/>
+			</data>
+			<data name="_id" source="008H.e">
+				<replace  pattern=" "  with=""/>
+			</data>
 		</choose>
-		
-		<data name="inr" source="008H.b" />
-		<data name="isil" source="008H.e" />
-		
+
+		<data name="inr" source="008H.b">
+			<replace  pattern=" "  with=""/>
+		</data>
+		<data name="isil" source="008H.e">
+			<replace  pattern=" "  with=""/>
+		</data>
+				
 		<!-- Different types of addresses -->
 		<!-- 1. Main address / address for visitors (type "S") -->		
 		<combine name="streetAddressVisitor" value="${strAdr}" sameEntity="true">
