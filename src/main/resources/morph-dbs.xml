@@ -4,10 +4,15 @@
 	entityMarker=".">
 	<rules>
 		<!-- use inr as _id -->
-		<data source="inr" name="_id"/>		
-		<data source="inr" name="inr" />
-		<data source="isil" name="isil">		
+		<data source="inr" name="_id">
+			<replace  pattern=" "  with=""/>
+		</data>
+		<data source="inr" name="inr">
+			<replace  pattern=" "  with=""/>
+		</data>
+		<data source="isil" name="isil">
 			<not-equals string="NULL"/>
+			<replace  pattern=" "  with=""/>
 		</data>
 		<data source="_else">
 			<not-equals string="NULL" />
