@@ -6,6 +6,7 @@
 		"isil": "http://purl.org/lobid/lv#isil",
 		"dbsID": "http://purl.org/lobid/lv#dbsID",
 		"ags": "http://purl.org/lobid/lv#ags",
+		"rs": "http://purl.org/lobid/lv#rs",
 		"address":  {
 			"@type": "@id",
 			"@id": "http://schema.org/address"
