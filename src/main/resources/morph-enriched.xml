@@ -4,7 +4,7 @@
 	entityMarker=".">
 	<rules>		
 		<data source="nam|029A.a" name="\@context">
-			<constant value="http://data.lobid.org/organisations/context.jsonld" />
+			<constant value="http://beta.lobid.org/organisations/context.jsonld" />
 		</data>		
 		<combine name="type" value="${typeurl}">
 			<data source="nam|029A.a" name="type" />
@@ -87,9 +87,9 @@
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
 			<data source="isil" name="id">
-				<regexp match="(.*)" format="http://data.lobid.org/organisations/${1}" />
+				<regexp match="(.*)" format="http://beta.lobid.org/organisations/${1}" />
 			</data>
-			<combine name="id" value="http://data.lobid.org/organisations/DBS-${inr}">
+			<combine name="id" value="http://beta.lobid.org/organisations/DBS-${inr}">
 				<data source="inr" name="inr">
 					<not-equals string="NULL" />
 				</data>
