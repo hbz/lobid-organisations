@@ -6,8 +6,8 @@
 		<data source="nam|029A.a" name="\@context">
 			<constant value="http://data.lobid.org/organisations/context.jsonld" />
 		</data>		
-		<combine name="\@type" value="${typeurl}">
-			<data source="nam|029A.a" name="\@type" />
+		<combine name="type" value="${typeurl}">
+			<data source="nam|029A.a" name="type" />
 			<data source="035E.f" name="typeurl">
 				<lookup in="libtype_map" />
 			</data>
@@ -86,10 +86,10 @@
 		<data source="inr" name="dbsID"/>
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
-			<data source="isil" name="\@id">
+			<data source="isil" name="id">
 				<regexp match="(.*)" format="http://data.lobid.org/organisations/${1}" />
 			</data>
-			<combine name="\@id" value="http://data.lobid.org/organisations/DBS-${inr}">
+			<combine name="id" value="http://data.lobid.org/organisations/DBS-${inr}">
 				<data source="inr" name="inr">
 					<not-equals string="NULL" />
 				</data>
@@ -130,7 +130,7 @@
 			<data source="countryMail" name="addressCountry">
 				<lookup in="country-map" />
 			</data>
-			<data source="localityMail" name="@type">
+			<data source="localityMail" name="type">
 				<constant value="http://schema.org/PostalAddress" />
 			</data>
 		</entity>
@@ -156,7 +156,7 @@
 		<!-- Locations -->
 		<entity name="location[]" flushWith="record">
 			<entity name="place" flushWith="record">
-				<data source="localityVisitor" name="@type">
+				<data source="localityVisitor" name="type">
 					<regexp match="(.*)" format="http://schema.org/Place" />
 				</data>
 				<data source="descriptionVisitor" name="description"/>
@@ -176,12 +176,12 @@
 					<data source="countryVisitor" name="addressCountry">
 						<lookup in="country-map" />
 					</data>
-					<data source="localityVisitor" name="@type">
+					<data source="localityVisitor" name="type">
 						<constant value="http://schema.org/PostalAddress" />
 					</data>
 				</entity>
 				<entity name="openingHoursSpecification" flushWith="record">
-					<data source="openingHoursVisitor|oef" name="@type">
+					<data source="openingHoursVisitor|oef" name="type">
 						<constant value="http://schema.org/OpeningHoursSpecification" />
 					</data>
 					<choose>
@@ -206,7 +206,7 @@
 				</entity>
 			</entity>
 			<entity name="place" flushWith="record">
-				<data source="localityOther" name="@type">
+				<data source="localityOther" name="type">
 					<regexp match="(.*)" format="http://schema.org/Place" />
 				</data>				
 				<data source="descriptionOther" name="description"/>
@@ -217,12 +217,12 @@
 					<data source="countryOther" name="addressCountry">
 						<lookup in="country-map" />
 					</data>
-					<data source="localityOther" name="@type">
+					<data source="localityOther" name="type">
 						<constant value="http://schema.org/PostalAddress" />
 					</data>
 				</entity>
 				<entity name="openingHoursSpecification" flushWith="record">
-					<data source="openingHoursOther" name="@type">
+					<data source="openingHoursOther" name="type">
 						<constant value="http://schema.org/OpeningHoursSpecification" />
 					</data>						
 					<data source="openingHoursOther" name="description" />
@@ -247,19 +247,19 @@
 		</entity>
 
 		<entity name="classification" flushWith="record">
-			<data source="035E.f" name="@id">
+			<data source="035E.f" name="id">
 				<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
 			</data>
 			<data source="typ_text" name="value" />
 		</entity>
 		<entity name="fundertype" flushWith="record">
-			<data source="035E.g" name="@id">
+			<data source="035E.g" name="id">
 				<regexp match="(.*)" format="http://purl.org/lobid/fundertype#n${1}" />
 			</data>
 			<data source="utr_text" name="value"></data>
 		</entity>
 		<entity name="stocksize" flushWith="record">
-			<data source="035E.h" name="@id">
+			<data source="035E.h" name="id">
 				<regexp match="(.*)" format="http://purl.org/lobid/stocksize#n${1}" />
 			</data>
 			<data source="gro_text" name="value"></data>
