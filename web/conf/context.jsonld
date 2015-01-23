@@ -1,11 +1,14 @@
 {
 	"@context": {
+		"id": "@id",
+		"type": "@type",
 		"xsd": "http://www.w3.org/2001/XMLSchema#",
 		"name": "http://schema.org/name",
 		"alternateName": "http://schema.org/alternateName",
 		"isil": "http://purl.org/lobid/lv#isil",
 		"dbsID": "http://purl.org/lobid/lv#dbsID",
 		"ags": "http://purl.org/lobid/lv#ags",
+		"rs": "http://purl.org/lobid/lv#rs",
 		"address":  {
 			"@type": "@id",
 			"@id": "http://schema.org/address"
@@ -19,6 +22,7 @@
 			"@id": "http://schema.org/openingHoursSpecification"
 		},
 		"description": "http://schema.org/description",
+		"comment": "http://www.w3.org/2000/01/rdf-schema#comment>",
 		"email": {
 			"@type": "@id",
 			"@id": "http://schema.org/email"
@@ -31,9 +35,13 @@
 			"@type": "@id",
 			"@id": "http://schema.org/url"
 		},
-		"location": {
+		"geo": {
 			"@type": "@id",
 			"@id": "http://schema.org/geo"
+		},
+		"location": {
+			"@type": "@id",
+			"@id": "http://schema.org/location"
 		},
 		"lat": "http://schema.org/latitude",
 		"lon": "http://schema.org/longitude",
