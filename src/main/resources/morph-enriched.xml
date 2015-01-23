@@ -7,7 +7,7 @@
 			<constant value="http://beta.lobid.org/organisations/context.jsonld" />
 		</data>		
 		<combine name="type" value="${typeurl}">
-			<data source="nam|029A.a" name="type" />
+			<data source="nam|029A.a" />
 			<data source="035E.f" name="typeurl">
 				<lookup in="libtype_map" />
 			</data>
