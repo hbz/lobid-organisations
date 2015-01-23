@@ -26,7 +26,7 @@ public class TestJsonLd extends ElasticsearchTest {
 
 	private static String replaceContext(String source) {
 		String newSource =
-				source.replaceAll("http://data.lobid.org/organisations/context.jsonld",
+				source.replaceAll("http://beta.lobid.org/organisations/context.jsonld",
 						"http://schema.org");
 
 		/* For testing with local context */
