@@ -5,14 +5,15 @@
 	<rules>		
 		<data source="nam|029A.a" name="\@context">
 			<constant value="http://beta.lobid.org/organisations/context.jsonld" />
-		</data>		
-		<combine name="type" value="${typeurl}">
-			<data source="nam|029A.a" />
-			<data source="035E.f" name="typeurl">
+		</data>
+		<choose>
+			<data source="035E.f" name="type">
 				<lookup in="libtype_map" />
 			</data>
-		</combine>
-		
+			<data source="inr" name="type">
+				<constant value="http://schema.org/Library" />
+			</data>
+		</choose>
 		<choose>
 			<data source="gemeindekennzahl" name="rs">
 				<regexp match="(\d{11})" format="0${1}"/>
