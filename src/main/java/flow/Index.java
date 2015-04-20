@@ -35,6 +35,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Index {
 
+	private static final String ORGANISATION = "organisation";
+	private static final String ORGANISATIONS = "organisations";
+
 	/**
 	 * @param args Minimum size of json file to be indexed (in bytes)
 	 * @throws IOException if json file with output cannot be found
@@ -48,14 +51,14 @@ public class Index {
 		if (checkFileSize() >= minimumSize) {
 			Settings clientSettings =
 					ImmutableSettings.settingsBuilder()
-							.put("cluster.name", "organisation-cluster")
+							.put("cluster.name", "elasticsearch")
 							.put("client.transport.sniff", true).build();
 			try (Node node = NodeBuilder.nodeBuilder().local(false).node();
 					TransportClient transportClient = new TransportClient(clientSettings);
 					Client client =
 							transportClient
 									.addTransportAddress(new InetSocketTransportAddress(
-											"weywot2.hbz-nrw.de", 9300));) {
+											"localhost", 9300));) {
 				createEmptyIndex(client);
 				indexData(client);
 				client.close();
@@ -78,7 +81,7 @@ public class Index {
 				Files.lines(Paths.get("src/main/resources/index-settings.json"))
 						.collect(Collectors.joining());
 		CreateIndexRequestBuilder cirb =
-				client.admin().indices().prepareCreate("organisations");
+				client.admin().indices().prepareCreate(ORGANISATIONS);
 		cirb.setSource(settingsMappings);
 		cirb.execute().actionGet();
 	}
@@ -113,7 +116,7 @@ public class Index {
 				organisationId = idUriParts[idUriParts.length - 1];
 			} else {
 				organisationData = line;
-				bulkRequest.add(client.prepareIndex("organisations", "organisation",
+				bulkRequest.add(client.prepareIndex(ORGANISATIONS, ORGANISATION,
 						organisationId).setSource(organisationData));
 			}
 			currentLine++;
@@ -121,10 +124,10 @@ public class Index {
 	}
 
 	private static void deleteIndex(Client client) {
-		if (client.admin().indices().prepareExists("organisations").execute()
+		if (client.admin().indices().prepareExists(ORGANISATIONS).execute()
 				.actionGet().isExists()) {
 			DeleteIndexRequest deleteIndexRequest =
-					new DeleteIndexRequest("organisations");
+					new DeleteIndexRequest(ORGANISATIONS);
 			client.admin().indices().delete(deleteIndexRequest);
 		}
 	}

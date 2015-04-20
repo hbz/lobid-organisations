@@ -36,7 +36,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Application extends Controller {
 
-	private static final String ES_SERVER = "http://weywot2.hbz-nrw.de:9200";
+	private static final String SERVER_NAME = "weywot2.hbz-nrw.de";
+	private static final String ES_SERVER = "http://" + SERVER_NAME + ":9200";
 	private static final String ES_INDEX = "organisations";
 	private static final String ES_TYPE = "organisation";
 
@@ -46,7 +47,7 @@ public class Application extends Controller {
 	private static TransportClient transportClient = new TransportClient(
 			clientSettings);
 	private static Client client = transportClient
-			.addTransportAddress(new InetSocketTransportAddress("weywot2.hbz-nrw.de",
+			.addTransportAddress(new InetSocketTransportAddress(SERVER_NAME,
 					9300));
 
 	/**
