@@ -100,7 +100,7 @@ public class Enrich {
 			continueWith(flowUpdates, wait);
 			updateOpenerList.add(openSigelUpdates);
 			start = addDays(start, intervalSize);
-			if (i == intervals - 1)
+			if (i == intervals - 2)
 				end = Sigel.getToday();
 			else
 				end = addDays(end, intervalSize);
