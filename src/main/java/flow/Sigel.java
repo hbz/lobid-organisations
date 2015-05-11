@@ -11,6 +11,9 @@ import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.stream.source.Opener;
+import org.lobid.lodmill.XmlEntitySplitter;
+import org.lobid.lodmill.XmlFilenameWriter;
+import org.lobid.lodmill.XmlTee;
 
 /**
  * Initial simple transformation from Sigel PicaPlus-XML to JSON.
@@ -27,15 +30,32 @@ public class Sigel {
 		morphSigelUpdates("2014-01-01", getToday(), "sigel-updates2014.out.json");
 	}
 
-	static Metamorph morphSigel(Opener opener) {
-		XmlDecoder xmlDecoder = new XmlDecoder();
-		PicaXmlHandler xmlHandler = new PicaXmlHandler();
-		Metamorph morph = new Metamorph("src/main/resources/morph-sigel.xml");
-		Metamorph sigelMorph = opener//
-				.setReceiver(xmlDecoder)//
-				.setReceiver(xmlHandler)//
-				.setReceiver(morph);//
+	static Metamorph morphSigel(final Opener opener,
+			final XmlEntitySplitter aEntitySplitter, String aXPath) {
+		final XmlDecoder xmlDecoder = new XmlDecoder();
+		final XmlTee tee = new XmlTee();
+		final XmlFilenameWriter xmlFilenameWriter =
+				createXmlFilenameWriter(Constants.MAIN_RESOURCES_PATH
+						+ Constants.OUTPUT_PATH, aXPath);
+		aEntitySplitter.setReceiver(xmlFilenameWriter);
+		final PicaXmlHandler xmlHandler = new PicaXmlHandler();
+		final Metamorph morph =
+				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-sigel.xml");
+		opener.setReceiver(xmlDecoder).setReceiver(tee);
+		tee.addReceiver(aEntitySplitter);
+		tee.addReceiver(xmlHandler);
+		final Metamorph sigelMorph = xmlHandler.setReceiver(morph);//
 		return sigelMorph;
+	}
+
+	private static XmlFilenameWriter createXmlFilenameWriter(String aOutputPath,
+			String aXPath) {
+		XmlFilenameWriter xmlFilenameWriter = new XmlFilenameWriter();
+		xmlFilenameWriter.setStartIndex(0);
+		xmlFilenameWriter.setEndIndex(2);
+		xmlFilenameWriter.setTarget(aOutputPath);
+		xmlFilenameWriter.setProperty(aXPath);
+		return xmlFilenameWriter;
 	}
 
 	static OaiPmhOpener createOaiPmhOpener(String start, String end) {
@@ -61,8 +81,14 @@ public class Sigel {
 
 	private static Metamorph morphSigelDump() {
 		FileOpener opener = new FileOpener();
-		Metamorph dumpMorph = morphSigel(opener);
-		writeOut(dumpMorph, "src/main/resources/output/sigel-dump.out.json");
+		XmlEntitySplitter xmlSplitter =
+				new XmlEntitySplitter(Constants.SIGEL_DUMP_TOP_LEVEL_TAG,
+						Constants.SIGEL_DUMP_ENTITY);
+		Metamorph dumpMorph =
+				morphSigel(opener, xmlSplitter, "/"
+						+ Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH);
+		writeOut(dumpMorph, Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH
+				+ "sigel-dump.out.json");
 		processSigel(opener, Enrich.SIGEL_DUMP_LOCATION);
 		return dumpMorph;
 	}
@@ -70,8 +96,15 @@ public class Sigel {
 	private static Metamorph morphSigelUpdates(String start, String end,
 			String outputFile) {
 		OaiPmhOpener opener = createOaiPmhOpener(start, end);
-		Metamorph updatesMorph = morphSigel(opener);
-		writeOut(updatesMorph, "src/main/resources/output/" + outputFile);
+		XmlEntitySplitter xmlSplitter =
+				new XmlEntitySplitter(Constants.SIGEL_UPDATE_TOP_LEVEL_TAG,
+						Constants.SIGEL_UPDATE_ENTITY);
+		Metamorph updatesMorph =
+				morphSigel(opener, xmlSplitter, "/"
+						+ Constants.SIGEL_UPDATE_TOP_LEVEL_TAG + "/"
+						+ Constants.SIGEL_UPDATE_ENTITY + "/" + Constants.SIGEL_XPATH);
+		writeOut(updatesMorph, Constants.MAIN_RESOURCES_PATH
+				+ Constants.OUTPUT_PATH + outputFile);
 		processSigel(opener, Enrich.SIGEL_DNB_REPO);
 		return updatesMorph;
 	}
@@ -80,7 +113,6 @@ public class Sigel {
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter<String> writer = new ObjectWriter<>(path);
-		morph.setReceiver(encodeJson)//
-				.setReceiver(writer);
+		morph.setReceiver(encodeJson).setReceiver(writer);
 	}
 }

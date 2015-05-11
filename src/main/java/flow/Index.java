@@ -35,6 +35,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Index {
 
+	private static final String EINRICHED_OUT_JSON_FILE = Constants.MAIN_RESOURCES_PATH
+			+ Constants.OUTPUT_PATH + "enriched.out.json";
 	private static final String ORGANISATION = "organisation";
 	private static final String ORGANISATIONS = "organisations";
 
@@ -70,7 +72,8 @@ public class Index {
 	}
 
 	private static long checkFileSize() {
-		File enrichedData = new File("src/main/resources/output/enriched.out.json");
+		File enrichedData =
+				new File(EINRICHED_OUT_JSON_FILE);
 		long enrichedLength = enrichedData.length();
 		return enrichedLength;
 	}
@@ -78,7 +81,8 @@ public class Index {
 	static void createEmptyIndex(Client client) throws IOException {
 		deleteIndex(client);
 		String settingsMappings =
-				Files.lines(Paths.get("src/main/resources/index-settings.json"))
+				Files.lines(
+						Paths.get(Constants.MAIN_RESOURCES_PATH + "index-settings.json"))
 						.collect(Collectors.joining());
 		CreateIndexRequestBuilder cirb =
 				client.admin().indices().prepareCreate(ORGANISATIONS);
@@ -89,8 +93,7 @@ public class Index {
 	static void indexData(Client client) throws IOException {
 		BulkRequestBuilder bulkRequest = client.prepareBulk();
 		try (BufferedReader br =
-				new BufferedReader(new FileReader(
-						"src/main/resources/output/enriched.out.json"))) {
+				new BufferedReader(new FileReader(EINRICHED_OUT_JSON_FILE))) {
 			readData(bulkRequest, br, client);
 		}
 		bulkRequest.execute().actionGet();
