@@ -22,6 +22,8 @@ import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
 
+import org.lobid.lodmill.XmlEntitySplitter;
+
 /**
  * Simple enrichment of DBS records with Sigel data based on the DBS ID.
  * 
@@ -32,11 +34,12 @@ import org.culturegraph.mf.types.Triple;
  */
 public class Enrich {
 
-	static final String SIGEL_DUMP_LOCATION =
-			"src/main/resources/input/sigel.xml";
+	static final String SIGEL_DUMP_LOCATION = Constants.MAIN_RESOURCES_PATH
+			+ Constants.INPUT_PATH + "sigel.xml";
 	static final String SIGEL_DNB_REPO =
 			"http://gnd-proxy.lobid.org/oai/repository";
-	static final String DBS_LOCATION = "src/main/resources/input/dbs.csv";
+	static final String DBS_LOCATION = Constants.MAIN_RESOURCES_PATH
+			+ Constants.INPUT_PATH + "/dbs.csv";
 
 	/**
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
@@ -49,21 +52,30 @@ public class Enrich {
 	}
 
 	static void process(String startOfUpdates, int intervalSize) {
-		String start = startOfUpdates;
 		int updateIntervals =
-				calculateIntervals(start, Sigel.getToday(), intervalSize);
-		CloseSupressor<Triple> wait = new CloseSupressor<>(updateIntervals + 2);
+				calculateIntervals(startOfUpdates, Sigel.getToday(), intervalSize);
+		final CloseSupressor<Triple> wait =
+				new CloseSupressor<>(updateIntervals + 2);
 
-		FileOpener openSigelDump = new FileOpener();
-		StreamToTriples streamToTriplesDump = new StreamToTriples();
+		// Sigel Dump
+		final FileOpener openSigelDump = new FileOpener();
+		final StreamToTriples streamToTriplesDump = new StreamToTriples();
 		streamToTriplesDump.setRedirect(true);
+		final String dumpXPath =
+				"/" + Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH;
+		final XmlEntitySplitter xmlSplitter =
+				new XmlEntitySplitter(Constants.SIGEL_DUMP_TOP_LEVEL_TAG,
+						Constants.SIGEL_DUMP_ENTITY);
 		StreamToTriples flowSigelDump = //
-				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
+				Sigel.morphSigel(openSigelDump, xmlSplitter, dumpXPath).setReceiver(
+						streamToTriplesDump);
 		continueWith(flowSigelDump, wait);
 
+		// Sigel Update
 		ArrayList<OaiPmhOpener> updateOpenerList =
-				buildUpdatePipes(intervalSize, start, updateIntervals, wait);
+				buildUpdatePipes(intervalSize, startOfUpdates, updateIntervals, wait);
 
+		// Dbs
 		FileOpener openDbs = new FileOpener();
 		StreamToTriples streamToTriplesDbs = new StreamToTriples();
 		streamToTriplesDbs.setRedirect(true);
@@ -94,8 +106,14 @@ public class Enrich {
 			OaiPmhOpener openSigelUpdates = Sigel.createOaiPmhOpener(start, end);
 			StreamToTriples streamToTriplesUpdates = new StreamToTriples();
 			streamToTriplesUpdates.setRedirect(true);
+			final XmlEntitySplitter xmlSplitter =
+					new XmlEntitySplitter(Constants.SIGEL_UPDATE_TOP_LEVEL_TAG,
+							Constants.SIGEL_UPDATE_ENTITY);
+			final String updateXPath =
+					"/" + Constants.SIGEL_UPDATE_TOP_LEVEL_TAG + "/"
+							+ Constants.SIGEL_UPDATE_ENTITY + "/" + Constants.SIGEL_XPATH;
 			StreamToTriples flowUpdates = //
-					Sigel.morphSigel(openSigelUpdates)
+					Sigel.morphSigel(openSigelUpdates, xmlSplitter, updateXPath)
 							.setReceiver(streamToTriplesUpdates);
 			continueWith(flowUpdates, wait);
 			updateOpenerList.add(openSigelUpdates);
@@ -105,7 +123,6 @@ public class Enrich {
 			else
 				end = addDays(end, intervalSize);
 		}
-
 		return updateOpenerList;
 	}
 
@@ -135,13 +152,15 @@ public class Enrich {
 	static void continueWith(StreamToTriples flow, CloseSupressor<Triple> wait) {
 		TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
-		Metamorph morph = new Metamorph("src/main/resources/morph-enriched.xml");
+		Metamorph morph =
+				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-enriched.xml");
 		TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/main/resources/output/enriched.out.json");
+				new ObjectWriter<>(Constants.MAIN_RESOURCES_PATH
+						+ Constants.OUTPUT_PATH + "enriched.out.json");
 		JsonToElasticsearchBulk esBulk =
 				new JsonToElasticsearchBulk("id", "organisation", "organisations");
 		flow.setReceiver(wait)//

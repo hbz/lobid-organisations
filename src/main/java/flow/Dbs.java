@@ -21,7 +21,8 @@ public class Dbs {
 		JsonEncoder encoder = new JsonEncoder();
 		encoder.setPrettyPrinting(true);
 		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/main/resources/output/dbs.out.json");
+				new ObjectWriter<>(Constants.MAIN_RESOURCES_PATH
+						+ Constants.OUTPUT_PATH + "dbs.out.json");
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);
@@ -33,7 +34,8 @@ public class Dbs {
 		LineReader lines = new LineReader();
 		CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
-		Metamorph morph = new Metamorph("src/main/resources/morph-dbs.xml");
+		Metamorph morph =
+				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-dbs.xml");
 
 		Metamorph morphDbs = opener//
 				.setReceiver(lines)//
