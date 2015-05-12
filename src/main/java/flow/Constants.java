@@ -4,7 +4,6 @@ package flow;
 public class Constants {
 
 	protected static final String MAIN_RESOURCES_PATH = "src/main/resources/";
-	protected static final String TEST_RESOURCES_PATH = "src/main/resources/";
 
 	protected static final String OUTPUT_PATH = "output/";
 	protected static final String INPUT_PATH = "input/";
