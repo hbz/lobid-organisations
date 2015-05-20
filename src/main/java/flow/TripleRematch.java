@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.culturegraph.mf.framework.annotations.Description;
 import org.culturegraph.mf.framework.annotations.In;
@@ -37,8 +35,6 @@ public final class TripleRematch extends AbstractTripleRematch {
 	@Override
 	public void process(final Triple obj) {
 		super.process(obj);
-		Logger.getLogger("process").log(Level.INFO,
-				obj.getSubject() + " " + obj.getPredicate() + " " + obj.getObject());
 	}
 
 	/**
@@ -85,22 +81,8 @@ public final class TripleRematch extends AbstractTripleRematch {
 							// object for the specified re-key predicate. --> the subject of
 							// sameObject is the subject that triple should have
 							mRekeyPairs.put(triple.getSubject(), sameObject.getSubject());
-							Logger.getLogger("identifyRekeyCases").log(Level.INFO,
-									sameObject.getSubject());
 						}
 					}
-
-					/*
-					 * List<Triple> potentialRematchTriples =
-					 * getTriplesByObject(triple.getObject()); for (Triple other :
-					 * potentialRematchTriples) { if
-					 * (!other.getSubject().equals(triple.getSubject())) { // another
-					 * record exists with the same object but another key --> // these
-					 * records need to be merged --> rematch triple
-					 * mRekeyPairs.put(triple.getSubject(), other.getSubject());
-					 * Logger.getLogger("identifyRekeyCases").log(Level.INFO,
-					 * other.getSubject()); } }
-					 */
 				}
 			}
 			return;
@@ -110,32 +92,14 @@ public final class TripleRematch extends AbstractTripleRematch {
 		return;
 	}
 
-	/*
-	 * protected void rematchTriples() { // TODO löschen // --> the re-key cases
-	 * have been identified --> re-key the triples // containing the wrong subject
-	 * for (Map.Entry<String, String> rekey : rekeyPairs.entrySet()) {
-	 * List<Triple> recordToBeRekeyed = getTriplesBySubject(rekey.getKey()); for
-	 * (Triple rekeyTriple : recordToBeRekeyed) { Triple t = new
-	 * Triple(rekey.getValue(), rekeyTriple.getPredicate(),
-	 * rekeyTriple.getObject()); } } }
-	 */
-
 	@Override
 	protected void rematchedTriple(final Triple aTriple) {
 		if (mRekeyPairs.containsKey(aTriple.getSubject())) {
-			Logger.getLogger("rematchedTriple").log(
-					Level.INFO,
-					aTriple.getSubject() + " ==> "
-							+ mRekeyPairs.get(aTriple.getSubject()));
 			getReceiver().process(
 					new Triple(mRekeyPairs.get(aTriple.getSubject()), aTriple
 							.getPredicate(), aTriple.getObject()));
 		} else {
 			getReceiver().process(aTriple);
-			Logger.getLogger("rematchedTriple").log(
-					Level.INFO,
-					aTriple.getSubject() + " " + aTriple.getPredicate() + " "
-							+ aTriple.getObject());
 		}
 	}
 }
