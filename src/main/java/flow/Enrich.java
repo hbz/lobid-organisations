@@ -21,7 +21,6 @@ import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
-
 import org.lobid.lodmill.XmlEntitySplitter;
 
 /**
@@ -34,18 +33,14 @@ import org.lobid.lodmill.XmlEntitySplitter;
  */
 public class Enrich {
 
-	static final String SIGEL_DUMP_LOCATION = Constants.MAIN_RESOURCES_PATH
-			+ Constants.INPUT_PATH + "sigel.xml";
-	static final String SIGEL_DNB_REPO =
-			"http://gnd-proxy.lobid.org/oai/repository";
-	static final String DBS_LOCATION = Constants.MAIN_RESOURCES_PATH
-			+ Constants.INPUT_PATH + "/dbs.csv";
-
 	/**
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
 	 *          of update intervals in days
 	 */
 	public static void main(String... args) {
+		if (args.length == 0) {
+			args = new String[] { "2015-05-01", "100" };
+		}
 		String startOfUpdates = args[0];
 		int intervalSize = Integer.parseInt(args[1]);
 		process(startOfUpdates, intervalSize);
@@ -53,47 +48,47 @@ public class Enrich {
 
 	static void process(String startOfUpdates, int intervalSize) {
 		int updateIntervals =
-				calculateIntervals(startOfUpdates, Sigel.getToday(), intervalSize);
+				calculateIntervals(startOfUpdates, Helpers.getToday(), intervalSize);
 		final CloseSupressor<Triple> wait =
 				new CloseSupressor<>(updateIntervals + 2);
 
-		// Sigel Dump
+		// Setup Sigel Dump
 		final FileOpener openSigelDump = new FileOpener();
-		final StreamToTriples streamToTriplesDump = new StreamToTriples();
-		streamToTriplesDump.setRedirect(true);
+		final StreamToTriples streamToTriplesDump =
+				Helpers.createTripleStream(true);
 		final String dumpXPath =
 				"/" + Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH;
 		final XmlEntitySplitter xmlSplitter =
 				new XmlEntitySplitter(Constants.SIGEL_DUMP_TOP_LEVEL_TAG,
 						Constants.SIGEL_DUMP_ENTITY);
-		StreamToTriples flowSigelDump = //
-				Sigel.morphSigel(openSigelDump, xmlSplitter, dumpXPath).setReceiver(
-						streamToTriplesDump);
-		continueWith(flowSigelDump, wait);
+		final StreamToTriples flowSigelDump = //
+				Sigel.setupSigelMorph(openSigelDump, xmlSplitter, dumpXPath)
+						.setReceiver(streamToTriplesDump);
+		setupTripleStreamToWriter(flowSigelDump, wait);
 
-		// Sigel Update
-		ArrayList<OaiPmhOpener> updateOpenerList =
+		// Setup Sigel Update
+		final ArrayList<OaiPmhOpener> updateOpenerList =
 				buildUpdatePipes(intervalSize, startOfUpdates, updateIntervals, wait);
 
-		// Dbs
-		FileOpener openDbs = new FileOpener();
-		StreamToTriples streamToTriplesDbs = new StreamToTriples();
-		streamToTriplesDbs.setRedirect(true);
-		StreamToTriples flowDbs = //
+		// Setup Dbs
+		final FileOpener openDbs = new FileOpener();
+		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
+		final StreamToTriples flowDbs = //
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
-		continueWith(flowDbs, wait);
+		setupTripleStreamToWriter(flowDbs, wait);
 
-		Sigel.processSigel(openSigelDump, SIGEL_DUMP_LOCATION);
+		// Process all morph chains
+		Dbs.processDbs(openDbs, Constants.DBS_LOCATION);
+		Sigel.processSigel(openSigelDump, Constants.SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
-			Sigel.processSigel(updateOpener, SIGEL_DNB_REPO);
-		Dbs.processDbs(openDbs, DBS_LOCATION);
+			Sigel.processSigel(updateOpener, Constants.SIGEL_DNB_REPO);
 	}
 
 	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
 			String startOfUpdates, int updateIntervals, CloseSupressor<Triple> wait) {
 		String start = startOfUpdates;
-		ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
 		String end = addDays(start, intervalSize);
+		final ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
 
 		// There has to be at least one interval
 		int intervals;
@@ -103,23 +98,24 @@ public class Enrich {
 			intervals = updateIntervals;
 
 		for (int i = 0; i < intervals; i++) {
-			OaiPmhOpener openSigelUpdates = Sigel.createOaiPmhOpener(start, end);
-			StreamToTriples streamToTriplesUpdates = new StreamToTriples();
-			streamToTriplesUpdates.setRedirect(true);
+			final OaiPmhOpener openSigelUpdates =
+					Helpers.createOaiPmhOpener(start, end);
+			final StreamToTriples streamToTriplesUpdates =
+					Helpers.createTripleStream(true);
 			final XmlEntitySplitter xmlSplitter =
 					new XmlEntitySplitter(Constants.SIGEL_UPDATE_TOP_LEVEL_TAG,
 							Constants.SIGEL_UPDATE_ENTITY);
 			final String updateXPath =
 					"/" + Constants.SIGEL_UPDATE_TOP_LEVEL_TAG + "/"
 							+ Constants.SIGEL_UPDATE_ENTITY + "/" + Constants.SIGEL_XPATH;
-			StreamToTriples flowUpdates = //
-					Sigel.morphSigel(openSigelUpdates, xmlSplitter, updateXPath)
+			final StreamToTriples flowUpdates = //
+					Sigel.setupSigelMorph(openSigelUpdates, xmlSplitter, updateXPath)
 							.setReceiver(streamToTriplesUpdates);
-			continueWith(flowUpdates, wait);
+			setupTripleStreamToWriter(flowUpdates, wait);
 			updateOpenerList.add(openSigelUpdates);
 			start = addDays(start, intervalSize);
 			if (i == intervals - 2)
-				end = Sigel.getToday();
+				end = Helpers.getToday();
 			else
 				end = addDays(end, intervalSize);
 		}
@@ -127,11 +123,11 @@ public class Enrich {
 	}
 
 	private static String addDays(String start, int intervalSize) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String result = null;
 		try {
-			Date startDate = dateFormat.parse(start);
-			Calendar calender = Calendar.getInstance();
+			final Date startDate = dateFormat.parse(start);
+			final Calendar calender = Calendar.getInstance();
 			calender.setTime(startDate);
 			calender.add(Calendar.DATE, intervalSize);
 			result = dateFormat.format(calender.getTime());
@@ -143,28 +139,30 @@ public class Enrich {
 
 	private static int calculateIntervals(String start, String end,
 			int intervalSize) {
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
+		final LocalDate startDate = LocalDate.parse(start);
+		final LocalDate endDate = LocalDate.parse(end);
 		long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
 		return (int) timeSpan / intervalSize;
 	}
 
-	static void continueWith(StreamToTriples flow, CloseSupressor<Triple> wait) {
-		TripleFilter tripleFilter = new TripleFilter();
+	static void setupTripleStreamToWriter(StreamToTriples flow,
+			CloseSupressor<Triple> wait) {
+		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
-		Metamorph morph =
+		final Metamorph morph =
 				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-enriched.xml");
-		TripleSort sortTriples = new TripleSort();
+		final TripleRematch rematchTriples = new TripleRematch("isil");
+		final TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
-		JsonEncoder encodeJson = new JsonEncoder();
-		encodeJson.setPrettyPrinting(true);
-		ObjectWriter<String> writer =
+		final JsonEncoder encodeJson = Helpers.createJsonEncoder(true);
+		final ObjectWriter<String> writer =
 				new ObjectWriter<>(Constants.MAIN_RESOURCES_PATH
 						+ Constants.OUTPUT_PATH + "enriched.out.json");
-		JsonToElasticsearchBulk esBulk =
+		final JsonToElasticsearchBulk esBulk =
 				new JsonToElasticsearchBulk("id", "organisation", "organisations");
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
+				.setReceiver(rematchTriples)//
 				.setReceiver(sortTriples)//
 				.setReceiver(new TripleCollect())//
 				.setReceiver(morph)//

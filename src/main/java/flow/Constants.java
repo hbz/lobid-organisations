@@ -16,4 +16,11 @@ public class Constants {
 
 	protected static final String SIGEL_XPATH =
 			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
+
+	protected static final String SIGEL_DUMP_LOCATION =
+			Constants.MAIN_RESOURCES_PATH + Constants.INPUT_PATH + "sigel.xml";
+	protected static final String SIGEL_DNB_REPO =
+			"http://gnd-proxy.lobid.org/oai/repository";
+	protected static final String DBS_LOCATION = Constants.MAIN_RESOURCES_PATH
+			+ Constants.INPUT_PATH + "/dbs.csv";
 }

@@ -17,27 +17,26 @@ public class Dbs {
 
 	/** @param args Not used */
 	public static void main(String... args) {
-		FileOpener opener = new FileOpener();
-		JsonEncoder encoder = new JsonEncoder();
-		encoder.setPrettyPrinting(true);
-		ObjectWriter<String> writer =
+		final FileOpener opener = new FileOpener();
+		final JsonEncoder encoder = Helpers.createJsonEncoder(true);
+		final ObjectWriter<String> writer =
 				new ObjectWriter<>(Constants.MAIN_RESOURCES_PATH
 						+ Constants.OUTPUT_PATH + "dbs.out.json");
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);
-		processDbs(opener, Enrich.DBS_LOCATION);
+		processDbs(opener, Constants.DBS_LOCATION);
 	}
 
 	static Metamorph morphDbs(FileOpener opener) {
 		opener.setEncoding("ISO-8859-1");
-		LineReader lines = new LineReader();
-		CsvDecoder decoder = new CsvDecoder(';');
+		final LineReader lines = new LineReader();
+		final CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
-		Metamorph morph =
+		final Metamorph morph =
 				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-dbs.xml");
 
-		Metamorph morphDbs = opener//
+		final Metamorph morphDbs = opener//
 				.setReceiver(lines)//
 				// .setReceiver(new ObjectLogger<>("Line: "))//
 				.setReceiver(decoder)//
