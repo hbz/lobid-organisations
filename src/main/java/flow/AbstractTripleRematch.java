@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013, 2014 Deutsche Nationalbibliothek
+ *  Copyright 2015 Hochschulbibliothekszentrum Koeln (hbz)
  *
  *  Licensed under the Apache License, Version 2.0 the "License";
  *  you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import org.culturegraph.mf.util.MemoryWarningSystem;
 import org.culturegraph.mf.util.MemoryWarningSystem.Listener;
 
 /**
- * @author philipp v. böselager; based on
+ * @author philipp v. boeselager; based on
  *         org.culturegraph.mf.stream.pipe.sort.AbstractTripleSort by markus
  *         geipel
  */
