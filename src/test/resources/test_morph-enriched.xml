@@ -21,7 +21,7 @@
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
 				<records>
 					<record id="de-456">
-						<!--<literal name="inr" value="dbs-id" />-->
+						<literal name="type" value="http://schema.org/Library" /> 
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n60" />
 							<literal name="value" value="Universitätsbibliothek" />
