@@ -91,9 +91,9 @@
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
 			<data source="isil" name="id">
-				<regexp match="(.*)" format="http://beta.lobid.org/organisations/${1}" />
+				<regexp match="(.*)" format="http://beta.lobid.org/organisations/${1}#!" />
 			</data>
-			<combine name="id" value="http://beta.lobid.org/organisations/DBS-${inr}">
+			<combine name="id" value="http://beta.lobid.org/organisations/DBS-${inr}#!">
 				<data source="inr" name="inr">
 					<not-equals string="NULL" />
 				</data>
