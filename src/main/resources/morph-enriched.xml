@@ -8,11 +8,15 @@
 		</data>		
 		<combine name="type" value="${typeurl}">
 			<data source="nam|029A.a" />
-			<data source="035E.f" name="typeurl">
-				<lookup in="libtype_map" />
-			</data>
+			<choose>
+				<data source="035E.f" name="typeurl">
+					<lookup in="libtype_map" />
+				</data>
+				<data source="nam" name="typeurl">
+					<constant value="http://schema.org/Library" />
+				</data>
+			</choose>
 		</combine>
-		
 		<choose>
 			<data source="gemeindekennzahl" name="rs">
 				<regexp match="(\d{11})" format="0${1}"/>
@@ -156,7 +160,7 @@
 		<!-- Locations -->
 		<entity name="location[]" flushWith="record">
 			<entity name="place" flushWith="record">
-				<data source="localityVisitor" name="type">
+				<data source="localityVisitor|plz" name="type">
 					<regexp match="(.*)" format="http://schema.org/Place" />
 				</data>
 				<data source="descriptionVisitor" name="description"/>
@@ -177,6 +181,10 @@
 						<lookup in="country-map" />
 					</data>
 					<data source="localityVisitor" name="type">
+						<constant value="http://schema.org/PostalAddress" />
+					</data>
+					<data source="plz" name="type">
+						<not-equals string="NULL"/>
 						<constant value="http://schema.org/PostalAddress" />
 					</data>
 				</entity>
