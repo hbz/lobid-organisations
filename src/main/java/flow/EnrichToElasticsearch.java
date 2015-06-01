@@ -28,32 +28,33 @@ public class EnrichToElasticsearch {
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
 	 *          of update intervals in days
 	 */
-	public static void main(String... args) {
+	public static void main(final String... args) {
 		String startOfUpdates = args[0];
 		int intervalSize = Integer.parseInt(args[1]);
 		process(startOfUpdates, intervalSize);
 	}
 
-	static void process(String startOfUpdates, int intervalSize) {
-		String start = startOfUpdates;
+	static void process(final String startOfUpdates, final int intervalSize) {
+		final String start = startOfUpdates;
 		int updateIntervals =
 				calculateIntervals(start, Sigel.getToday(), intervalSize);
-		CloseSupressor<Triple> wait = new CloseSupressor<>(updateIntervals + 2);
+		final CloseSupressor<Triple> wait =
+				new CloseSupressor<>(updateIntervals + 2);
 
-		FileOpener openSigelDump = new FileOpener();
-		StreamToTriples streamToTriplesDump = new StreamToTriples();
+		final FileOpener openSigelDump = new FileOpener();
+		final StreamToTriples streamToTriplesDump = new StreamToTriples();
 		streamToTriplesDump.setRedirect(true);
-		StreamToTriples flowSigelDump = //
+		final StreamToTriples flowSigelDump = //
 				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
 		continueWith(flowSigelDump, wait);
 
-		ArrayList<OaiPmhOpener> updateOpenerList =
+		final ArrayList<OaiPmhOpener> updateOpenerList =
 				buildUpdatePipes(intervalSize, start, updateIntervals, wait);
 
-		FileOpener openDbs = new FileOpener();
-		StreamToTriples streamToTriplesDbs = new StreamToTriples();
+		final FileOpener openDbs = new FileOpener();
+		final StreamToTriples streamToTriplesDbs = new StreamToTriples();
 		streamToTriplesDbs.setRedirect(true);
-		StreamToTriples flowDbs = //
+		final StreamToTriples flowDbs = //
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
 		continueWith(flowDbs, wait);
 
@@ -64,24 +65,26 @@ public class EnrichToElasticsearch {
 		Dbs.processDbs(openDbs, ElasticsearchAuxiliary.DBS_LOCATION);
 	}
 
-	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
-			String startOfUpdates, int updateIntervals, CloseSupressor<Triple> wait) {
+	private static ArrayList<OaiPmhOpener> buildUpdatePipes(
+			final int intervalSize, final String startOfUpdates,
+			final int updateIntervals, final CloseSupressor<Triple> wait) {
 		String start = startOfUpdates;
-		ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
+		final ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
 		String end = addDays(start, intervalSize);
 
 		// There has to be at least one interval
-		int intervals;
+		final int intervals;
 		if (updateIntervals == 0)
 			intervals = 1;
 		else
 			intervals = updateIntervals;
 
 		for (int i = 0; i < intervals; i++) {
-			OaiPmhOpener openSigelUpdates = Sigel.createOaiPmhOpener(start, end);
-			StreamToTriples streamToTriplesUpdates = new StreamToTriples();
+			final OaiPmhOpener openSigelUpdates =
+					Sigel.createOaiPmhOpener(start, end);
+			final StreamToTriples streamToTriplesUpdates = new StreamToTriples();
 			streamToTriplesUpdates.setRedirect(true);
-			StreamToTriples flowUpdates = //
+			final StreamToTriples flowUpdates = //
 					Sigel.morphSigel(openSigelUpdates)
 							.setReceiver(streamToTriplesUpdates);
 			continueWith(flowUpdates, wait);
@@ -96,12 +99,12 @@ public class EnrichToElasticsearch {
 		return updateOpenerList;
 	}
 
-	private static String addDays(String start, int intervalSize) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static String addDays(final String start, final int intervalSize) {
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String result = null;
 		try {
-			Date startDate = dateFormat.parse(start);
-			Calendar calender = Calendar.getInstance();
+			final Date startDate = dateFormat.parse(start);
+			final Calendar calender = Calendar.getInstance();
 			calender.setTime(startDate);
 			calender.add(Calendar.DATE, intervalSize);
 			result = dateFormat.format(calender.getTime());
@@ -111,26 +114,28 @@ public class EnrichToElasticsearch {
 		return result;
 	}
 
-	private static int calculateIntervals(String start, String end,
-			int intervalSize) {
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
-		long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
+	private static int calculateIntervals(final String start, final String end,
+			final int intervalSize) {
+		final LocalDate startDate = LocalDate.parse(start);
+		final LocalDate endDate = LocalDate.parse(end);
+		final long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
 		return (int) timeSpan / intervalSize;
 	}
 
-	static void continueWith(StreamToTriples flow, CloseSupressor<Triple> wait) {
-		TripleFilter tripleFilter = new TripleFilter();
+	static void continueWith(final StreamToTriples flow,
+			final CloseSupressor<Triple> wait) {
+		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
-		Metamorph morph = new Metamorph("src/main/resources/morph-enriched.xml");
-		TripleSort sortTriples = new TripleSort();
+		final Metamorph morph =
+				new Metamorph("src/main/resources/morph-enriched.xml");
+		final TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
-		JsonEncoder encodeJson = new JsonEncoder();
+		final JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
-		JsonToElasticsearchBulk esBulk =
+		final JsonToElasticsearchBulk esBulk =
 				new JsonToElasticsearchBulk("id", ElasticsearchAuxiliary.ES_TYPE,
 						ElasticsearchAuxiliary.ES_INDEX);
-		ElasticsearchIndexer elIndex = new ElasticsearchIndexer("id");
+		final ElasticsearchIndexer elIndex = new ElasticsearchIndexer("id");
 
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
