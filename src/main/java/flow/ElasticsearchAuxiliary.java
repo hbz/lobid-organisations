@@ -23,10 +23,11 @@ public class ElasticsearchAuxiliary {
 	protected static final String ES_CLUSTER = "organisation-cluster";
 	protected static final String ES_INDEX = "organisations";
 	protected static final String ES_TYPE = "organisation";
+	protected static final String SERVER_NAME = "weywot2.hbz-nrw.de";
 
 	// ELASTICSEARCH COMPONENTS
 	protected static final InetSocketTransportAddress NODE_1 =
-			new InetSocketTransportAddress("localhost", 9300);
+			new InetSocketTransportAddress(SERVER_NAME, 9300);
 	protected static final Builder CLIENT_SETTINGS = ImmutableSettings
 			.settingsBuilder().put("cluster.name", ES_CLUSTER)
 			.put("index.name", ES_INDEX);
