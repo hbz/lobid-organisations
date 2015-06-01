@@ -63,7 +63,7 @@ public class Sigel {
 		FileOpener opener = new FileOpener();
 		Metamorph dumpMorph = morphSigel(opener);
 		writeOut(dumpMorph, "src/main/resources/output/sigel-dump.out.json");
-		processSigel(opener, Enrich.SIGEL_DUMP_LOCATION);
+		processSigel(opener, ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
 		return dumpMorph;
 	}
 
@@ -72,7 +72,7 @@ public class Sigel {
 		OaiPmhOpener opener = createOaiPmhOpener(start, end);
 		Metamorph updatesMorph = morphSigel(opener);
 		writeOut(updatesMorph, "src/main/resources/output/" + outputFile);
-		processSigel(opener, Enrich.SIGEL_DNB_REPO);
+		processSigel(opener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
 		return updatesMorph;
 	}
 

@@ -81,6 +81,7 @@ public class Index {
 				client.admin().indices().prepareCreate(ElasticsearchAuxiliary.ES_INDEX);
 		cirb.setSource(settingsMappings);
 		cirb.execute().actionGet();
+		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
 	static void indexData(Client client) throws IOException {

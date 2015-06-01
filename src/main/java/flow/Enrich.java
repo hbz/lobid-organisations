@@ -32,12 +32,6 @@ import org.culturegraph.mf.types.Triple;
  */
 public class Enrich {
 
-	static final String SIGEL_DUMP_LOCATION =
-			"src/main/resources/input/sigel.xml";
-	static final String SIGEL_DNB_REPO =
-			"http://gnd-proxy.lobid.org/oai/repository";
-	static final String DBS_LOCATION = "src/main/resources/input/dbs.csv";
-
 	/**
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
 	 *          of update intervals in days
@@ -71,10 +65,11 @@ public class Enrich {
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
 		continueWith(flowDbs, wait);
 
-		Sigel.processSigel(openSigelDump, SIGEL_DUMP_LOCATION);
+		Sigel.processSigel(openSigelDump,
+				ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
-			Sigel.processSigel(updateOpener, SIGEL_DNB_REPO);
-		Dbs.processDbs(openDbs, DBS_LOCATION);
+			Sigel.processSigel(updateOpener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
+		Dbs.processDbs(openDbs, ElasticsearchAuxiliary.DBS_LOCATION);
 	}
 
 	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
