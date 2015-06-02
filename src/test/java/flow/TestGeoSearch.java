@@ -21,7 +21,8 @@ public class TestGeoSearch extends ElasticsearchTest {
 		FilteredQueryBuilder geoQuery =
 				QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), geoFilter);
 		SearchResponse responseOfSearch =
-				client.prepareSearch("organisations").setTypes("organisation")
+				client.prepareSearch(ElasticsearchAuxiliary.ES_INDEX)
+						.setTypes(ElasticsearchAuxiliary.ES_TYPE)
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setQuery(geoQuery)
 						.execute().actionGet();
 		return responseOfSearch;
