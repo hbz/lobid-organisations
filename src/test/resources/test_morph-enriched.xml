@@ -23,15 +23,15 @@
 					<record id="de-456">
 						<!--<literal name="inr" value="dbs-id" />-->
 						<entity name="classification">
-							<literal name="id" value="http://purl.org/lobid/libtype#n60" />
+							<literal name="@id" value="http://purl.org/lobid/libtype#n60" />
 							<literal name="value" value="Universitätsbibliothek" />
 						</entity>
 						<entity name="fundertype">
-							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
+							<literal name="@id" value="http://purl.org/lobid/fundertype#n02" />
 							<literal name="value" value="Land" />
 						</entity>
 						<entity name="stocksize">
-							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+							<literal name="@id" value="http://purl.org/lobid/stocksize#n10" />
 							<literal name="value" value="1.000.001 und mehr" />
 						</entity>
 					</record>
