@@ -138,7 +138,7 @@ public class Enrich {
 		ObjectWriter<String> writer =
 				new ObjectWriter<>("src/main/resources/output/enriched.out.json");
 		JsonToElasticsearchBulk esBulk =
-				new JsonToElasticsearchBulk("id", ElasticsearchAuxiliary.ES_TYPE,
+				new JsonToElasticsearchBulk("@id", ElasticsearchAuxiliary.ES_TYPE,
 						ElasticsearchAuxiliary.ES_INDEX);
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
