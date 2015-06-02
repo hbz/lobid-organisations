@@ -55,7 +55,7 @@ public class Index {
 					Client client =
 							transportClient
 									.addTransportAddress(new InetSocketTransportAddress(
-											"localhost", 9300));) {
+											ElasticsearchAuxiliary.SERVER_NAME, 9300));) {
 				createEmptyIndex(client);
 				indexData(client);
 				client.close();
