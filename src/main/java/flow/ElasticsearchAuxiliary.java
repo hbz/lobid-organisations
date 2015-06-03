@@ -23,7 +23,7 @@ public class ElasticsearchAuxiliary {
 	protected static final String ES_CLUSTER = "organisation-cluster";
 	protected static final String ES_INDEX = "organisations";
 	protected static final String ES_TYPE = "organisation";
-	protected static final String SERVER_NAME = "weywot2.hbz-nrw.de";
+	protected static final String SERVER_NAME = "localhost";
 
 	// ELASTICSEARCH COMPONENTS
 	protected static final InetSocketTransportAddress NODE_1 =
