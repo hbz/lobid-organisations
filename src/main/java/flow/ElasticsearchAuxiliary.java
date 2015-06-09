@@ -12,10 +12,10 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 public class ElasticsearchAuxiliary {
 
 	// FILES & URIs
-	protected static final String SIGEL_DUMP_LOCATION =
-			"src/main/resources/input/sigel.xml";
-	protected static final String DBS_LOCATION =
-			"src/main/resources/input/dbs.csv";
+	protected static final String MAIN_RESOURCES_PATH = "src/main/resources/";
+	protected static final String TEST_RESOURCES_PATH = "src/test/resources/";
+	protected static final String SIGEL_DUMP_LOCATION = "input/sigel.xml";
+	protected static final String DBS_LOCATION = "input/dbs.csv";
 	protected static final String SIGEL_DNB_REPO =
 			"http://gnd-proxy.lobid.org/oai/repository";
 
@@ -23,7 +23,7 @@ public class ElasticsearchAuxiliary {
 	protected static final String ES_CLUSTER = "organisation-cluster";
 	protected static final String ES_INDEX = "organisations";
 	protected static final String ES_TYPE = "organisation";
-	protected static final String SERVER_NAME = "weywot2.hbz-nrw.de";
+	protected static final String SERVER_NAME = "localhost";
 
 	// ELASTICSEARCH COMPONENTS
 	protected static final InetSocketTransportAddress NODE_1 =

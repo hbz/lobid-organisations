@@ -16,35 +16,36 @@ import org.culturegraph.mf.stream.source.FileOpener;
 public class Dbs {
 
 	/** @param args Not used */
-	public static void main(String... args) {
-		FileOpener opener = new FileOpener();
-		JsonEncoder encoder = new JsonEncoder();
+	public static void main(final String... args) {
+		final FileOpener opener = new FileOpener();
+		final JsonEncoder encoder = new JsonEncoder();
 		encoder.setPrettyPrinting(true);
-		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/main/resources/output/dbs.out.json");
+		final ObjectWriter<String> writer =
+				new ObjectWriter<>(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+						+ "output/dbs.out.json");
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);
 		processDbs(opener, ElasticsearchAuxiliary.DBS_LOCATION);
 	}
 
-	static Metamorph morphDbs(FileOpener opener) {
+	static Metamorph morphDbs(final FileOpener opener) {
 		opener.setEncoding("ISO-8859-1");
-		LineReader lines = new LineReader();
-		CsvDecoder decoder = new CsvDecoder(';');
+		final LineReader lines = new LineReader();
+		final CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
-		Metamorph morph = new Metamorph("src/main/resources/morph-dbs.xml");
+		final Metamorph morph =
+				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+						+ "morph-dbs.xml");
 
-		Metamorph morphDbs = opener//
+		final Metamorph morphDbs = opener//
 				.setReceiver(lines)//
-				// .setReceiver(new ObjectLogger<>("Line: "))//
 				.setReceiver(decoder)//
-				// .setReceiver(new StreamLogger("CSV: "))//
 				.setReceiver(morph);
 		return morphDbs;
 	}
 
-	static void processDbs(FileOpener opener, String source) {
+	static void processDbs(final FileOpener opener, final String source) {
 		opener.process(source);
 		opener.closeStream();
 	}

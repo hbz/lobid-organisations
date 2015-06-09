@@ -34,7 +34,8 @@ public abstract class ElasticsearchTest {
 	}
 
 	public static void transformData() {
-		EnrichSample.processSample();
+		EnrichSample.processSample(ElasticsearchAuxiliary.TEST_RESOURCES_PATH
+				+ "output/enriched.out.json");
 	}
 
 	public static void prepareIndexing(final Client aIndexClient)
@@ -43,7 +44,8 @@ public abstract class ElasticsearchTest {
 	}
 
 	public static void indexData(final Client aIndexClient) throws IOException {
-		Index.indexData(aIndexClient);
+		Index.indexData(aIndexClient, ElasticsearchAuxiliary.TEST_RESOURCES_PATH
+				+ "output/enriched.out.json");
 	}
 
 	public static SearchResponse exactSearch(final String aField,

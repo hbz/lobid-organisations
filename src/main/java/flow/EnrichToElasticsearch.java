@@ -31,10 +31,12 @@ public class EnrichToElasticsearch {
 	public static void main(final String... args) {
 		String startOfUpdates = args[0];
 		int intervalSize = Integer.parseInt(args[1]);
-		process(startOfUpdates, intervalSize);
+		process(startOfUpdates, intervalSize,
+				ElasticsearchAuxiliary.MAIN_RESOURCES_PATH);
 	}
 
-	static void process(final String startOfUpdates, final int intervalSize) {
+	static void process(final String startOfUpdates, final int intervalSize,
+			final String aResourcesPath) {
 		final String start = startOfUpdates;
 		int updateIntervals =
 				calculateIntervals(start, Sigel.getToday(), intervalSize);
@@ -58,8 +60,8 @@ public class EnrichToElasticsearch {
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
 		continueWith(flowDbs, wait);
 
-		Sigel.processSigel(openSigelDump,
-				ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
+		Sigel.processSigel(openSigelDump, aResourcesPath
+				+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
 			Sigel.processSigel(updateOpener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
 		Dbs.processDbs(openDbs, ElasticsearchAuxiliary.DBS_LOCATION);
@@ -127,7 +129,8 @@ public class EnrichToElasticsearch {
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
-				new Metamorph("src/main/resources/morph-enriched.xml");
+				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+						+ "morph-enriched.xml");
 		final TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = new JsonEncoder();

@@ -39,10 +39,12 @@ public class Enrich {
 	public static void main(String... args) {
 		String startOfUpdates = args[0];
 		int intervalSize = Integer.parseInt(args[1]);
-		process(startOfUpdates, intervalSize);
+		process(startOfUpdates, intervalSize,
+				ElasticsearchAuxiliary.MAIN_RESOURCES_PATH);
 	}
 
-	static void process(String startOfUpdates, int intervalSize) {
+	static void process(String startOfUpdates, int intervalSize,
+			final String aResourcesPath) {
 		String start = startOfUpdates;
 		int updateIntervals =
 				calculateIntervals(start, Sigel.getToday(), intervalSize);
@@ -53,27 +55,31 @@ public class Enrich {
 		streamToTriplesDump.setRedirect(true);
 		StreamToTriples flowSigelDump = //
 				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
-		continueWith(flowSigelDump, wait);
+		continueWith(flowSigelDump, wait, aResourcesPath
+				+ "output/enriched.out.json");
 
 		ArrayList<OaiPmhOpener> updateOpenerList =
-				buildUpdatePipes(intervalSize, start, updateIntervals, wait);
+				buildUpdatePipes(intervalSize, start, updateIntervals, wait,
+						aResourcesPath + "output/enriched.out.json");
 
 		FileOpener openDbs = new FileOpener();
 		StreamToTriples streamToTriplesDbs = new StreamToTriples();
 		streamToTriplesDbs.setRedirect(true);
 		StreamToTriples flowDbs = //
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
-		continueWith(flowDbs, wait);
+		continueWith(flowDbs, wait, aResourcesPath + "output/enriched.out.json");
 
-		Sigel.processSigel(openSigelDump,
-				ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
+		Sigel.processSigel(openSigelDump, aResourcesPath
+				+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
 			Sigel.processSigel(updateOpener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
-		Dbs.processDbs(openDbs, ElasticsearchAuxiliary.DBS_LOCATION);
+		Dbs.processDbs(openDbs, aResourcesPath
+				+ ElasticsearchAuxiliary.DBS_LOCATION);
 	}
 
 	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
-			String startOfUpdates, int updateIntervals, CloseSupressor<Triple> wait) {
+			String startOfUpdates, int updateIntervals, CloseSupressor<Triple> wait,
+			final String aOutputPath) {
 		String start = startOfUpdates;
 		ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
 		String end = addDays(start, intervalSize);
@@ -92,7 +98,7 @@ public class Enrich {
 			StreamToTriples flowUpdates = //
 					Sigel.morphSigel(openSigelUpdates)
 							.setReceiver(streamToTriplesUpdates);
-			continueWith(flowUpdates, wait);
+			continueWith(flowUpdates, wait, aOutputPath);
 			updateOpenerList.add(openSigelUpdates);
 			start = addDays(start, intervalSize);
 			if (i == intervals - 2)
@@ -127,17 +133,19 @@ public class Enrich {
 		return (int) timeSpan / intervalSize;
 	}
 
-	static void continueWith(StreamToTriples flow, CloseSupressor<Triple> wait) {
-		TripleFilter tripleFilter = new TripleFilter();
+	static void continueWith(final StreamToTriples flow,
+			final CloseSupressor<Triple> wait, final String aOutputPath) {
+		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
-		Metamorph morph = new Metamorph("src/main/resources/morph-enriched.xml");
-		TripleSort sortTriples = new TripleSort();
+		final Metamorph morph =
+				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+						+ "morph-enriched.xml");
+		final TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
-		JsonEncoder encodeJson = new JsonEncoder();
+		final JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
-		ObjectWriter<String> writer =
-				new ObjectWriter<>("src/main/resources/output/enriched.out.json");
-		JsonToElasticsearchBulk esBulk =
+		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
+		final JsonToElasticsearchBulk esBulk =
 				new JsonToElasticsearchBulk("@id", ElasticsearchAuxiliary.ES_TYPE,
 						ElasticsearchAuxiliary.ES_INDEX);
 		flow.setReceiver(wait)//
