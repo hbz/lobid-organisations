@@ -21,25 +21,27 @@ import org.culturegraph.mf.stream.source.Opener;
 public class Sigel {
 
 	/** @param args Not used */
-	public static void main(String... args) {
-		morphSigelDump();
+	public static void main(final String... args) {
+		morphSigelDump(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH);
 		morphSigelUpdates("2013-01-01", "2013-12-31", "sigel-updates2013.out.json");
 		morphSigelUpdates("2014-01-01", getToday(), "sigel-updates2014.out.json");
 	}
 
-	static Metamorph morphSigel(Opener opener) {
-		XmlDecoder xmlDecoder = new XmlDecoder();
-		PicaXmlHandler xmlHandler = new PicaXmlHandler();
-		Metamorph morph = new Metamorph("src/main/resources/morph-sigel.xml");
-		Metamorph sigelMorph = opener//
+	static Metamorph morphSigel(final Opener opener) {
+		final XmlDecoder xmlDecoder = new XmlDecoder();
+		final PicaXmlHandler xmlHandler = new PicaXmlHandler();
+		final Metamorph morph =
+				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+						+ "morph-sigel.xml");
+		final Metamorph sigelMorph = opener//
 				.setReceiver(xmlDecoder)//
 				.setReceiver(xmlHandler)//
 				.setReceiver(morph);//
 		return sigelMorph;
 	}
 
-	static OaiPmhOpener createOaiPmhOpener(String start, String end) {
-		OaiPmhOpener opener = new OaiPmhOpener();
+	static OaiPmhOpener createOaiPmhOpener(final String start, final String end) {
+		final OaiPmhOpener opener = new OaiPmhOpener();
 		opener.setDateFrom(start);
 		opener.setDateUntil(end);
 		opener.setMetadataPrefix("PicaPlus-xml");
@@ -47,39 +49,42 @@ public class Sigel {
 		return opener;
 	}
 
-	static void processSigel(Opener opener, String source) {
+	static void processSigel(final Opener opener, final String source) {
 		opener.process(source);
 		opener.closeStream();
 	}
 
 	static String getToday() {
-		String dateFormat = "yyyy-MM-dd";
-		Calendar calender = Calendar.getInstance();
-		SimpleDateFormat simpleDate = new SimpleDateFormat(dateFormat);
+		final String dateFormat = "yyyy-MM-dd";
+		final Calendar calender = Calendar.getInstance();
+		final SimpleDateFormat simpleDate = new SimpleDateFormat(dateFormat);
 		return simpleDate.format(calender.getTime());
 	}
 
-	private static Metamorph morphSigelDump() {
-		FileOpener opener = new FileOpener();
-		Metamorph dumpMorph = morphSigel(opener);
-		writeOut(dumpMorph, "src/main/resources/output/sigel-dump.out.json");
-		processSigel(opener, Enrich.SIGEL_DUMP_LOCATION);
+	private static Metamorph morphSigelDump(final String aResourcesPath) {
+		final FileOpener opener = new FileOpener();
+		final Metamorph dumpMorph = morphSigel(opener);
+		writeOut(dumpMorph, ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+				+ "output/sigel-dump.out.json");
+		processSigel(opener, aResourcesPath
+				+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
 		return dumpMorph;
 	}
 
-	private static Metamorph morphSigelUpdates(String start, String end,
-			String outputFile) {
-		OaiPmhOpener opener = createOaiPmhOpener(start, end);
-		Metamorph updatesMorph = morphSigel(opener);
-		writeOut(updatesMorph, "src/main/resources/output/" + outputFile);
-		processSigel(opener, Enrich.SIGEL_DNB_REPO);
+	private static Metamorph morphSigelUpdates(final String start,
+			final String end, String outputFile) {
+		final OaiPmhOpener opener = createOaiPmhOpener(start, end);
+		final Metamorph updatesMorph = morphSigel(opener);
+		writeOut(updatesMorph, ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+				+ "output/" + outputFile);
+		processSigel(opener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
 		return updatesMorph;
 	}
 
-	private static void writeOut(Metamorph morph, String path) {
-		JsonEncoder encodeJson = new JsonEncoder();
+	private static void writeOut(final Metamorph morph, final String path) {
+		final JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
-		ObjectWriter<String> writer = new ObjectWriter<>(path);
+		final ObjectWriter<String> writer = new ObjectWriter<>(path);
 		morph.setReceiver(encodeJson)//
 				.setReceiver(writer);
 	}

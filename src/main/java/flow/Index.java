@@ -35,9 +35,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Index {
 
-	private static final String ORGANISATION = "organisation";
-	private static final String ORGANISATIONS = "organisations";
-
 	/**
 	 * @param args Minimum size of json file to be indexed (in bytes)
 	 * @throws IOException if json file with output cannot be found
@@ -45,22 +42,23 @@ public class Index {
 	 *           created
 	 * @throws JsonParseException if value cannot be read from json mapper
 	 */
-	public static void main(String... args) throws JsonParseException,
+	public static void main(final String... args) throws JsonParseException,
 			JsonMappingException, IOException {
 		long minimumSize = Long.parseLong(args[0]);
+		String aPathToJson = args[1];
 		if (checkFileSize() >= minimumSize) {
 			Settings clientSettings =
 					ImmutableSettings.settingsBuilder()
-							.put("cluster.name", "elasticsearch")
+							.put("cluster.name", ElasticsearchAuxiliary.ES_CLUSTER)
 							.put("client.transport.sniff", true).build();
 			try (Node node = NodeBuilder.nodeBuilder().local(false).node();
 					TransportClient transportClient = new TransportClient(clientSettings);
 					Client client =
 							transportClient
 									.addTransportAddress(new InetSocketTransportAddress(
-											"localhost", 9300));) {
+											ElasticsearchAuxiliary.SERVER_NAME, 9300));) {
 				createEmptyIndex(client);
-				indexData(client);
+				indexData(client, aPathToJson);
 				client.close();
 				node.close();
 			}
@@ -70,37 +68,40 @@ public class Index {
 	}
 
 	private static long checkFileSize() {
-		File enrichedData = new File("src/main/resources/output/enriched.out.json");
+		File enrichedData =
+				new File(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+						+ "output/enriched.out.json");
 		long enrichedLength = enrichedData.length();
 		return enrichedLength;
 	}
 
-	static void createEmptyIndex(Client client) throws IOException {
+	static void createEmptyIndex(final Client client) throws IOException {
 		deleteIndex(client);
 		String settingsMappings =
-				Files.lines(Paths.get("src/main/resources/index-settings.json"))
-						.collect(Collectors.joining());
+				Files.lines(
+						Paths.get(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+								+ "index-settings.json")).collect(Collectors.joining());
 		CreateIndexRequestBuilder cirb =
-				client.admin().indices().prepareCreate(ORGANISATIONS);
+				client.admin().indices().prepareCreate(ElasticsearchAuxiliary.ES_INDEX);
 		cirb.setSource(settingsMappings);
 		cirb.execute().actionGet();
-	}
-
-	static void indexData(Client client) throws IOException {
-		BulkRequestBuilder bulkRequest = client.prepareBulk();
-		try (BufferedReader br =
-				new BufferedReader(new FileReader(
-						"src/main/resources/output/enriched.out.json"))) {
-			readData(bulkRequest, br, client);
-		}
-		bulkRequest.execute().actionGet();
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
-	private static void readData(BulkRequestBuilder bulkRequest,
-			BufferedReader br, Client client) throws IOException, JsonParseException,
-			JsonMappingException {
-		ObjectMapper mapper = new ObjectMapper();
+	static void indexData(final Client aClient, final String aPath)
+			throws IOException {
+		final BulkRequestBuilder bulkRequest = aClient.prepareBulk();
+		try (BufferedReader br = new BufferedReader(new FileReader(aPath))) {
+			readData(bulkRequest, br, aClient);
+		}
+		bulkRequest.execute().actionGet();
+		aClient.admin().indices().refresh(new RefreshRequest()).actionGet();
+	}
+
+	private static void readData(final BulkRequestBuilder bulkRequest,
+			final BufferedReader br, final Client client) throws IOException,
+			JsonParseException, JsonMappingException {
+		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;
 		String organisationData = null;
@@ -113,21 +114,22 @@ public class Index {
 				JsonNode rootNode = mapper.readValue(line, JsonNode.class);
 				JsonNode index = rootNode.get("index");
 				idUriParts = index.findValue("_id").asText().split("/");
-				organisationId = idUriParts[idUriParts.length - 1];
+				organisationId = idUriParts[idUriParts.length - 1].replace("#!", "");
 			} else {
 				organisationData = line;
-				bulkRequest.add(client.prepareIndex(ORGANISATIONS, ORGANISATION,
-						organisationId).setSource(organisationData));
+				bulkRequest.add(client.prepareIndex(ElasticsearchAuxiliary.ES_INDEX,
+						ElasticsearchAuxiliary.ES_TYPE, organisationId).setSource(
+						organisationData));
 			}
 			currentLine++;
 		}
 	}
 
-	private static void deleteIndex(Client client) {
-		if (client.admin().indices().prepareExists(ORGANISATIONS).execute()
-				.actionGet().isExists()) {
-			DeleteIndexRequest deleteIndexRequest =
-					new DeleteIndexRequest(ORGANISATIONS);
+	private static void deleteIndex(final Client client) {
+		if (client.admin().indices().prepareExists(ElasticsearchAuxiliary.ES_INDEX)
+				.execute().actionGet().isExists()) {
+			final DeleteIndexRequest deleteIndexRequest =
+					new DeleteIndexRequest(ElasticsearchAuxiliary.ES_INDEX);
 			client.admin().indices().delete(deleteIndexRequest);
 		}
 	}

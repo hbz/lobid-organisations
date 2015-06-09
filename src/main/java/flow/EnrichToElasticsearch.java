@@ -17,88 +17,79 @@ import org.culturegraph.mf.stream.pipe.TripleFilter;
 import org.culturegraph.mf.stream.pipe.sort.AbstractTripleSort.Compare;
 import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
 import org.culturegraph.mf.stream.pipe.sort.TripleSort;
-import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
 
-/**
- * Simple enrichment of DBS records with Sigel data based on the DBS ID.
- * 
- * After enrichment, the result is transformed to JSON for ES indexing.
- * 
- * @author Fabian Steeg (fsteeg), Simon Ritter (SBRitter)
- *
- */
-public class Enrich {
+@SuppressWarnings("javadoc")
+public class EnrichToElasticsearch {
 
 	/**
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
 	 *          of update intervals in days
 	 */
-	public static void main(String... args) {
+	public static void main(final String... args) {
 		String startOfUpdates = args[0];
 		int intervalSize = Integer.parseInt(args[1]);
 		process(startOfUpdates, intervalSize,
 				ElasticsearchAuxiliary.MAIN_RESOURCES_PATH);
 	}
 
-	static void process(String startOfUpdates, int intervalSize,
+	static void process(final String startOfUpdates, final int intervalSize,
 			final String aResourcesPath) {
-		String start = startOfUpdates;
+		final String start = startOfUpdates;
 		int updateIntervals =
 				calculateIntervals(start, Sigel.getToday(), intervalSize);
-		CloseSupressor<Triple> wait = new CloseSupressor<>(updateIntervals + 2);
+		final CloseSupressor<Triple> wait =
+				new CloseSupressor<>(updateIntervals + 2);
 
-		FileOpener openSigelDump = new FileOpener();
-		StreamToTriples streamToTriplesDump = new StreamToTriples();
+		final FileOpener openSigelDump = new FileOpener();
+		final StreamToTriples streamToTriplesDump = new StreamToTriples();
 		streamToTriplesDump.setRedirect(true);
-		StreamToTriples flowSigelDump = //
+		final StreamToTriples flowSigelDump = //
 				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
-		continueWith(flowSigelDump, wait, aResourcesPath
-				+ "output/enriched.out.json");
+		continueWith(flowSigelDump, wait);
 
-		ArrayList<OaiPmhOpener> updateOpenerList =
-				buildUpdatePipes(intervalSize, start, updateIntervals, wait,
-						aResourcesPath + "output/enriched.out.json");
+		final ArrayList<OaiPmhOpener> updateOpenerList =
+				buildUpdatePipes(intervalSize, start, updateIntervals, wait);
 
-		FileOpener openDbs = new FileOpener();
-		StreamToTriples streamToTriplesDbs = new StreamToTriples();
+		final FileOpener openDbs = new FileOpener();
+		final StreamToTriples streamToTriplesDbs = new StreamToTriples();
 		streamToTriplesDbs.setRedirect(true);
-		StreamToTriples flowDbs = //
+		final StreamToTriples flowDbs = //
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
-		continueWith(flowDbs, wait, aResourcesPath + "output/enriched.out.json");
+		continueWith(flowDbs, wait);
 
 		Sigel.processSigel(openSigelDump, aResourcesPath
 				+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
 			Sigel.processSigel(updateOpener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
-		Dbs.processDbs(openDbs, aResourcesPath
-				+ ElasticsearchAuxiliary.DBS_LOCATION);
+		Dbs.processDbs(openDbs, ElasticsearchAuxiliary.DBS_LOCATION);
 	}
 
-	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
-			String startOfUpdates, int updateIntervals, CloseSupressor<Triple> wait,
-			final String aOutputPath) {
+	private static ArrayList<OaiPmhOpener> buildUpdatePipes(
+			final int intervalSize, final String startOfUpdates,
+			final int updateIntervals, final CloseSupressor<Triple> wait) {
 		String start = startOfUpdates;
-		ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
+		final ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
 		String end = addDays(start, intervalSize);
 
 		// There has to be at least one interval
-		int intervals;
+		final int intervals;
 		if (updateIntervals == 0)
 			intervals = 1;
 		else
 			intervals = updateIntervals;
 
 		for (int i = 0; i < intervals; i++) {
-			OaiPmhOpener openSigelUpdates = Sigel.createOaiPmhOpener(start, end);
-			StreamToTriples streamToTriplesUpdates = new StreamToTriples();
+			final OaiPmhOpener openSigelUpdates =
+					Sigel.createOaiPmhOpener(start, end);
+			final StreamToTriples streamToTriplesUpdates = new StreamToTriples();
 			streamToTriplesUpdates.setRedirect(true);
-			StreamToTriples flowUpdates = //
+			final StreamToTriples flowUpdates = //
 					Sigel.morphSigel(openSigelUpdates)
 							.setReceiver(streamToTriplesUpdates);
-			continueWith(flowUpdates, wait, aOutputPath);
+			continueWith(flowUpdates, wait);
 			updateOpenerList.add(openSigelUpdates);
 			start = addDays(start, intervalSize);
 			if (i == intervals - 2)
@@ -110,12 +101,12 @@ public class Enrich {
 		return updateOpenerList;
 	}
 
-	private static String addDays(String start, int intervalSize) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static String addDays(final String start, final int intervalSize) {
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String result = null;
 		try {
-			Date startDate = dateFormat.parse(start);
-			Calendar calender = Calendar.getInstance();
+			final Date startDate = dateFormat.parse(start);
+			final Calendar calender = Calendar.getInstance();
 			calender.setTime(startDate);
 			calender.add(Calendar.DATE, intervalSize);
 			result = dateFormat.format(calender.getTime());
@@ -125,16 +116,16 @@ public class Enrich {
 		return result;
 	}
 
-	private static int calculateIntervals(String start, String end,
-			int intervalSize) {
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
-		long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
+	private static int calculateIntervals(final String start, final String end,
+			final int intervalSize) {
+		final LocalDate startDate = LocalDate.parse(start);
+		final LocalDate endDate = LocalDate.parse(end);
+		final long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
 		return (int) timeSpan / intervalSize;
 	}
 
 	static void continueWith(final StreamToTriples flow,
-			final CloseSupressor<Triple> wait, final String aOutputPath) {
+			final CloseSupressor<Triple> wait) {
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
@@ -144,10 +135,11 @@ public class Enrich {
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
-		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
 		final JsonToElasticsearchBulk esBulk =
-				new JsonToElasticsearchBulk("@id", ElasticsearchAuxiliary.ES_TYPE,
+				new JsonToElasticsearchBulk("id", ElasticsearchAuxiliary.ES_TYPE,
 						ElasticsearchAuxiliary.ES_INDEX);
+		final ElasticsearchIndexer elIndex = new ElasticsearchIndexer("id");
+
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(sortTriples)//
@@ -155,6 +147,7 @@ public class Enrich {
 				.setReceiver(morph)//
 				.setReceiver(encodeJson)//
 				.setReceiver(esBulk)//
-				.setReceiver(writer);
+				.setReceiver(elIndex);
+
 	}
 }

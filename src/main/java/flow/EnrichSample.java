@@ -13,18 +13,22 @@ import org.culturegraph.mf.types.Triple;
  */
 public class EnrichSample {
 
-	private static String sigelDumpLocation =
-			"src/main/resources/input/sigel.xml";
-	private static String dbsLocation = "src/main/resources/input/dbs.csv";
+	private static String mSigelDumpLocation =
+			ElasticsearchAuxiliary.TEST_RESOURCES_PATH
+					+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION;
+	private static String mDbsLocation =
+			ElasticsearchAuxiliary.TEST_RESOURCES_PATH
+					+ ElasticsearchAuxiliary.DBS_LOCATION;
 
 	/**
 	 * @param args not used
 	 */
 	public static void main(String... args) {
-		processSample();
+		processSample(ElasticsearchAuxiliary.TEST_RESOURCES_PATH
+				+ "output/enriched.out.json");
 	}
 
-	static void processSample() {
+	static void processSample(final String aOutputPath) {
 		FileOpener openSigelDump = new FileOpener();
 		StreamToTriples streamToTriples1 = new StreamToTriples();
 		streamToTriples1.setRedirect(true);
@@ -38,10 +42,10 @@ public class EnrichSample {
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriples2);
 
 		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
-		Enrich.continueWith(flow1, wait);
-		Enrich.continueWith(flow2, wait);
+		Enrich.continueWith(flow1, wait, aOutputPath);
+		Enrich.continueWith(flow2, wait, aOutputPath);
 
-		Sigel.processSigel(openSigelDump, sigelDumpLocation);
-		Dbs.processDbs(openDbs, dbsLocation);
+		Sigel.processSigel(openSigelDump, mSigelDumpLocation);
+		Dbs.processDbs(openDbs, mDbsLocation);
 	}
 }
