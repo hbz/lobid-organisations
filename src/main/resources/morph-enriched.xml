@@ -180,13 +180,15 @@
 					<data source="countryVisitor" name="addressCountry">
 						<lookup in="country-map" />
 					</data>
-					<data source="localityVisitor" name="@type">
-						<constant value="http://schema.org/PostalAddress" />
-					</data>
-					<data source="plz" name="type">
-						<not-equals string="NULL"/>
-						<constant value="http://schema.org/PostalAddress" />
-					</data>
+					<choose>
+						<data source="localityVisitor" name="@type">
+							<constant value="http://schema.org/PostalAddress" />
+						</data>
+						<data source="plz" name="@type">
+							<not-equals string="NULL"/>
+							<constant value="http://schema.org/PostalAddress" />
+						</data>
+					</choose>
 				</entity>
 				<entity name="openingHoursSpecification" flushWith="record">
 					<data source="openingHoursVisitor|oef" name="@type">
