@@ -15,5 +15,10 @@
     <h2>Location based queries</h2>
     @desc("Query with polygon (location: coordinates of polygon points 'lat,lon')", routes.Application.search("fundertype.value:land", "52,12 53,12 53,14 52,14"))
     @desc("Query with distance (location: coordinate of a point and a distance in km 'lat,lon,distance')", routes.Application.search("fundertype.value:land", "52.52,13.39,25"))
+    <h2>Reconciliation</h2>
+    <p>The lobid-organisations service implements the <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API">OpenRefine Reconciliation API</a> for multi query requests.</p>
+    <p>The service supports details from additional columns during <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation">reconciliation</a>, under arbitrary property names.</p>
+    @desc("Reconciliation metadata request (callback: optional JSONP callback to wrap the response into)", routes.Reconcile.meta("jsonp"))
+    @desc("Reconciliation multi query request (POST form data, enter URL below in OpenRefine)", routes.Reconcile.reconcile())
 	</dl>
 }

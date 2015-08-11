@@ -10,6 +10,7 @@ import static play.test.Helpers.running;
 
 import org.junit.Test;
 
+import play.libs.Json;
 import play.mvc.Result;
 import play.twirl.api.Content;
 
@@ -33,6 +34,27 @@ public class ApplicationTest {
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/ld+json");
 			assertThat(header("Access-Control-Allow-Origin", result)).isEqualTo("*");
+		});
+	}
+
+	@Test
+	public void reconcileMetadataRequestNoCallback() {
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET, "/organisations/reconcile"));
+			assertThat(result).isNotNull();
+			assertThat(contentType(result)).isEqualTo("application/json");
+			assertThat(Json.parse(contentAsString(result))).isNotNull();
+		});
+	}
+
+	@Test
+	public void reconcileMetadataRequestWithCallback() {
+		running(fakeApplication(), () -> {
+			Result result =
+					route(fakeRequest(GET, "/organisations/reconcile?callback=jsonp"));
+			assertThat(result).isNotNull();
+			assertThat(contentType(result)).isEqualTo("application/json");
+			assertThat(contentAsString(result)).startsWith("/**/jsonp(");
 		});
 	}
 }

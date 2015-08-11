@@ -170,7 +170,7 @@ public class Application extends Controller {
 		return returnAsJson(queryResponse);
 	}
 
-	private static SearchResponse executeQuery(int from, int size,
+	static SearchResponse executeQuery(int from, int size,
 			FilteredQueryBuilder filteredQuery) {
 		SearchResponse responseOfSearch =
 				client.prepareSearch(ES_INDEX).setTypes(ES_TYPE)
