@@ -1,3 +1,7 @@
+html {
+	font-family: sans;
+}
+
 dt {
     font-weight: bold;
 }
@@ -5,4 +9,20 @@ dt {
 dd {
     margin-left: 0;
     margin-bottom:5px;
+}
+
+#header {
+	width: 100%;
+	background-image: url('http://lobid.org/images/clouds.jpg');
+	background-repeat: repeat-x;
+}
+
+#header #hbz {
+	float: left;
+}
+
+#header #butterfly {
+	display: block;
+	margin-left: auto;
+	padding: 5px;
 }
