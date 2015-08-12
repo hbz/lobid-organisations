@@ -46,7 +46,7 @@ public class Index {
 			JsonMappingException, IOException {
 		long minimumSize = Long.parseLong(args[0]);
 		String aPathToJson = args[1];
-		if (checkFileSize() >= minimumSize) {
+		if (new File(aPathToJson).length() >= minimumSize) {
 			Settings clientSettings =
 					ImmutableSettings.settingsBuilder()
 							.put("cluster.name", ElasticsearchAuxiliary.ES_CLUSTER)
@@ -63,16 +63,8 @@ public class Index {
 				node.close();
 			}
 		} else {
-			System.out.println("File not large enough.");
+			throw new IllegalArgumentException("File not large enough: " + aPathToJson);
 		}
-	}
-
-	private static long checkFileSize() {
-		File enrichedData =
-				new File(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
-						+ "output/enriched.out.json");
-		long enrichedLength = enrichedData.length();
-		return enrichedLength;
 	}
 
 	static void createEmptyIndex(final Client client) throws IOException {

@@ -114,15 +114,15 @@ If you run the transformation with the full data (see above for downloads), the 
 
 h2. Index
 
-The Elasticsearch index is constructed from the output of the transformation. Before building the index, the application will check for the minimum size of the transformation output (file: src/main/resources/output/enriched.out.json). This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified as an argument to the main method of the class Index.
+The Elasticsearch index is constructed from the output of the transformation. Before building the index, the application will check for the minimum size of the transformation output (in src/test/resources/output or src/main/resources/output). This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified as an argument to the main method of the class Index.
 
 Run the indexing and pass a minimum file size in bytes (indexing only works hbz internally!):
 
 * For the sample data:
-@mvn exec:java -Dexec.mainClass="flow.Index" -Dexec.args="5000"@
+@mvn exec:java -Dexec.mainClass="flow.Index" -Dexec.args="5000 src/test/resources/output/enriched.out.json"@
 
 * For the full data:
-@mvn exec:java -Dexec.mainClass="flow.Index" -Dexec.args="25000000"@
+@mvn exec:java -Dexec.mainClass="flow.Index" -Dexec.args="25000000 src/main/resources/output/enriched.out.json"@
 
 h2. Query
 
