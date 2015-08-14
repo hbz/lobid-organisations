@@ -8,9 +8,8 @@
     <h1>@title</h1>
     <p>The lobid-organisations service provides a web API to a comprehensive dataset 
     of library institutions in Germany.</p>
-    <p>The source data sets are the 
-    <i><a href="http://sigel.staatsbibliothek-berlin.de">Sigelverzeichnis</a></i> 
-    and the <i><a href="https://www.hbz-nrw.de/angebote/dbs/">Deutsche Bibliotheksstatistik</a></i>.</p>
+    <p>The source data sets are the <a href="http://sigel.staatsbibliothek-berlin.de">German ISIL registry</a>
+     and the base data from the <a href="https://www.hbz-nrw.de/angebote/dbs/">German Library Statistics (DBS)</a>.</p>
     <p>It is developed as open source software on GitHub, where you can find 
     <a href="https://github.com/hbz/lobid-organisations#about">technical details</a>, 
     <a href="https://github.com/hbz/lobid-organisations/issues/new">report issues</a>, and 
@@ -18,7 +17,8 @@
     <dl>
     <h2>Basics</h2>
     @desc("Get", routes.Application.get("DE-6"))
-    @desc("Query", routes.Application.search("fundertype.value:land"))
+    @desc("Query 'name' field", routes.Application.search("name:stadtbibliothek+berlin"))
+    @desc("Query nested 'fundertype.value' field", routes.Application.search("fundertype.value:land"))
     @desc("Query with from and size", routes.Application.search("fundertype.value:land", from=2, size = 2))
     @desc("Context", routes.Application.context)
     <h2>Location based queries</h2>
