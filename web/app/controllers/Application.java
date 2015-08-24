@@ -170,7 +170,7 @@ public class Application extends Controller {
 		return returnAsJson(queryResponse);
 	}
 
-	private static SearchResponse executeQuery(int from, int size,
+	static SearchResponse executeQuery(int from, int size,
 			FilteredQueryBuilder filteredQuery) {
 		SearchResponse responseOfSearch =
 				client.prepareSearch(ES_INDEX).setTypes(ES_TYPE)
@@ -193,6 +193,7 @@ public class Application extends Controller {
 	public static Promise<Result> get(String id) {
 		String url =
 				String.format("%s/%s/%s/%s/_source", ES_SERVER, ES_INDEX, ES_TYPE, id);
-		return WS.url(url).execute().map(x -> ok(x.asJson()));
+		return WS.url(url).execute().map(x -> x.getStatus() == OK ? ok(x.asJson())
+				: notFound("Not found: " + id));
 	}
 }

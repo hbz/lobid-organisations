@@ -1,6 +1,7 @@
 package flow;
 
 import org.culturegraph.mf.morph.Metamorph;
+import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.xml.PicaXmlHandler;
 import org.culturegraph.mf.stream.converter.xml.XmlDecoder;
 import org.culturegraph.mf.stream.sink.ObjectWriter;
@@ -20,57 +21,58 @@ import org.lobid.lodmill.XmlTee;
 public class Sigel {
 
 	/** @param args Not used */
-	public static void main(String... args) {
-		final FileOpener dumpOpener = setupSigelMorphDump();
-		final OaiPmhOpener update1Opener =
-				setupSigelMorphUpdate("2013-01-01", "2013-12-31",
-						"sigel-updates2013.out.json");
-		final OaiPmhOpener update2Opener =
-				setupSigelMorphUpdate("2014-01-01", "2014-12-31",
-						"sigel-updates2014.out.json");
-		final OaiPmhOpener update3Opener =
-				setupSigelMorphUpdate("2015-01-01", Helpers.getToday(),
-						"sigel-updates2015.out.json");
-
-		processSigel(dumpOpener, Constants.SIGEL_DUMP_LOCATION);
-		processSigel(update1Opener, Constants.SIGEL_DNB_REPO);
-		processSigel(update2Opener, Constants.SIGEL_DNB_REPO);
-		processSigel(update3Opener, Constants.SIGEL_DNB_REPO);
+	public static void main(final String... args) {
+		morphSigelDump(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH);
+		morphSigelUpdates("2013-01-01", "2013-12-31", "sigel-updates2013.out.json");
+		morphSigelUpdates("2014-01-01", Helpers.getToday(),
+				"sigel-updates2014.out.json");
 	}
 
-	private static FileOpener setupSigelMorphDump() {
+	static Metamorph morphSigel(final Opener opener) {
+		final XmlDecoder xmlDecoder = new XmlDecoder();
+		final PicaXmlHandler xmlHandler = new PicaXmlHandler();
+		final Metamorph morph =
+				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+						+ "morph-sigel.xml");
+		final Metamorph sigelMorph = opener//
+				.setReceiver(xmlDecoder)//
+				.setReceiver(xmlHandler)//
+				.setReceiver(morph);//
+		return sigelMorph;
+	}
+
+	static OaiPmhOpener createOaiPmhOpener(final String start, final String end) {
+		final OaiPmhOpener opener = new OaiPmhOpener();
+		opener.setDateFrom(start);
+		opener.setDateUntil(end);
+		opener.setMetadataPrefix("PicaPlus-xml");
+		opener.setSetSpec("bib");
+		return opener;
+	}
+
+	static void processSigel(final Opener opener, final String source) {
+		opener.process(source);
+		opener.closeStream();
+	}
+
+	private static Metamorph morphSigelDump(final String aResourcesPath) {
 		final FileOpener opener = new FileOpener();
-		final XmlEntitySplitter xmlSplitter =
-				new XmlEntitySplitter(Constants.SIGEL_DUMP_TOP_LEVEL_TAG,
-						Constants.SIGEL_DUMP_ENTITY);
-		final Metamorph dumpMorph =
-				setupSigelMorph(opener, xmlSplitter, "/"
-						+ Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH);
-		final String sigelOutPath =
-				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH
-						+ "sigel-dump.out.json";
-		dumpMorph //
-				.setReceiver(Helpers.createJsonEncoder(true)) //
-				.setReceiver(new ObjectWriter<>(sigelOutPath));
-		return opener;
+		final Metamorph dumpMorph = morphSigel(opener);
+		writeOut(dumpMorph, ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+				+ "output/sigel-dump.out.json");
+		processSigel(opener, aResourcesPath
+				+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
+		return dumpMorph;
 	}
 
-	private static OaiPmhOpener setupSigelMorphUpdate(String start, String end,
-			String outputFile) {
-		final OaiPmhOpener opener = Helpers.createOaiPmhOpener(start, end);
-		final XmlEntitySplitter xmlSplitter =
-				new XmlEntitySplitter(Constants.SIGEL_UPDATE_TOP_LEVEL_TAG,
-						Constants.SIGEL_UPDATE_ENTITY);
-		final Metamorph updatesMorph =
-				setupSigelMorph(opener, xmlSplitter, "/"
-						+ Constants.SIGEL_UPDATE_TOP_LEVEL_TAG + "/"
-						+ Constants.SIGEL_UPDATE_ENTITY + "/" + Constants.SIGEL_XPATH);
-		final String sigelUpdatesOutPath =
-				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH + outputFile;
-		updatesMorph //
-				.setReceiver(Helpers.createJsonEncoder(true)) //
-				.setReceiver(new ObjectWriter<>(sigelUpdatesOutPath));
-		return opener;
+	private static Metamorph morphSigelUpdates(final String start,
+			final String end, String outputFile) {
+		final OaiPmhOpener opener = createOaiPmhOpener(start, end);
+		final Metamorph updatesMorph = morphSigel(opener);
+		writeOut(updatesMorph, ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
+				+ "output/" + outputFile);
+		processSigel(opener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
+		return updatesMorph;
 	}
 
 	static Metamorph setupSigelMorph(final Opener opener,
@@ -105,8 +107,11 @@ public class Sigel {
 		return xmlFilenameWriter;
 	}
 
-	static void processSigel(Opener opener, String source) {
-		opener.process(source);
-		opener.closeStream();
+	private static void writeOut(final Metamorph morph, final String path) {
+		final JsonEncoder encodeJson = new JsonEncoder();
+		encodeJson.setPrettyPrinting(true);
+		final ObjectWriter<String> writer = new ObjectWriter<>(path);
+		morph.setReceiver(encodeJson)//
+				.setReceiver(writer);
 	}
 }

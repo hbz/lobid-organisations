@@ -16,7 +16,7 @@ import org.culturegraph.mf.stream.source.FileOpener;
 public class Dbs {
 
 	/** @param args Not used */
-	public static void main(String... args) {
+	public static void main(final String... args) {
 		final FileOpener opener = new FileOpener();
 		final JsonEncoder encoder = Helpers.createJsonEncoder(true);
 		final ObjectWriter<String> writer =
@@ -28,7 +28,7 @@ public class Dbs {
 		processDbs(opener, Constants.DBS_LOCATION);
 	}
 
-	static Metamorph morphDbs(FileOpener opener) {
+	static Metamorph morphDbs(final FileOpener opener) {
 		opener.setEncoding("ISO-8859-1");
 		final LineReader lines = new LineReader();
 		final CsvDecoder decoder = new CsvDecoder(';');
@@ -38,14 +38,12 @@ public class Dbs {
 
 		final Metamorph morphDbs = opener//
 				.setReceiver(lines)//
-				// .setReceiver(new ObjectLogger<>("Line: "))//
 				.setReceiver(decoder)//
-				// .setReceiver(new StreamLogger("CSV: "))//
 				.setReceiver(morph);
 		return morphDbs;
 	}
 
-	static void processDbs(FileOpener opener, String source) {
+	static void processDbs(final FileOpener opener, final String source) {
 		opener.process(source);
 		opener.closeStream();
 	}

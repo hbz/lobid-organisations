@@ -21,8 +21,9 @@ public class TestJsonLd extends ElasticsearchTest {
 
 	private static String getSource(String id) {
 		GetResponse response =
-				client.prepareGet("organisations", "organisation", id).execute()
-						.actionGet();
+				client
+						.prepareGet(ElasticsearchAuxiliary.ES_INDEX,
+								ElasticsearchAuxiliary.ES_TYPE, id).execute().actionGet();
 		String source = response.getSourceAsString();
 		source = replaceContext(source);
 		return source;

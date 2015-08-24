@@ -1,5 +1,6 @@
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.GET;
+import static play.test.Helpers.POST;
 import static play.test.Helpers.HTMLUNIT;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.contentType;
@@ -12,7 +13,10 @@ import static play.test.Helpers.testServer;
 
 import org.junit.Test;
 
+import com.google.common.collect.ImmutableMap;
+
 import play.libs.F.Callback;
+import play.libs.Json;
 import play.mvc.Result;
 import play.test.TestBrowser;
 
@@ -113,5 +117,18 @@ public class IntegrationTest {
 					assertThat(contentType(result)).isEqualTo("application/json");
 					assertThat(contentAsString(result)).contains("Berlin");
 				});
+	}
+
+	@Test
+	public void reconcileRequest() {
+		running(fakeApplication(), () -> {
+			Result result = route(
+					fakeRequest(POST, "/organisations/reconcile").withFormUrlEncodedBody(
+							ImmutableMap.of("queries", "{\"q99\":{\"query\":\"*\"}}")));
+			assertThat(result).isNotNull();
+			assertThat(contentType(result)).isEqualTo("application/json");
+			assertThat(Json.parse(contentAsString(result))).isNotNull();
+			assertThat(contentAsString(result)).contains("q99");
+		});
 	}
 }

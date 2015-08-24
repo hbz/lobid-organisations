@@ -10,6 +10,18 @@
         <script src="@routes.Assets.at("javascripts/hello.js")" type="text/javascript"></script>
     </head>
     <body>
+        <div id="header">
+             <img id="hbz" src="@routes.Assets.at("images/hbz.png")" height="60px"/>
+            <img id="butterfly" src="@routes.Assets.at("images/butterfly.png")" height="50px"/>
+        </div>
         @content
+        <hr/>
+        <div class="footer">
+          <p>
+            lobid-organisations | a LOD service developed and hosted by 
+            <a href="https://www.hbz-nrw.de/angebote/linked_open_data/index_engl_html">
+            hbz — Hochschulbibliothekszentrum des Landes NRW</a> | 
+            <a href="http://www.hbz-nrw.de/impressum">imprint</a> </p>
+        </div>
     </body>
 </html>

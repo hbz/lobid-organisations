@@ -25,33 +25,35 @@ public class EnrichSample {
 	 * @param args not used
 	 */
 	public static void main(String... args) {
-		processSample();
+		processSample(ElasticsearchAuxiliary.TEST_RESOURCES_PATH
+				+ "output/enriched.out.json");
 	}
 
-	static void processSample() {
+	static void processSample(final String aOutputPath) {
 
 		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
 
 		// setup Sigel flow
-		final FileOpener openSigelDump = new FileOpener();
+		FileOpener openSigelDump = new FileOpener();
 		final StreamToTriples streamToTriplesSigel =
 				Helpers.createTripleStream(true);
-		final XmlEntitySplitter xmlSplitter =
+
+		XmlEntitySplitter xmlSplitter =
 				new XmlEntitySplitter(Constants.SIGEL_DUMP_TOP_LEVEL_TAG,
 						Constants.SIGEL_DUMP_ENTITY);
 		final StreamToTriples sigelFlow = //
-				Sigel.setupSigelMorph(openSigelDump, xmlSplitter, DUMP_XPATH)
-						.setReceiver(streamToTriplesSigel);
-		Enrich.setupTripleStreamToWriter(sigelFlow, wait);
+				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesSigel);
 
 		// setup DBS flow
 		final FileOpener openDbs = new FileOpener();
 		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
 		final StreamToTriples dbsFlow = //
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
-		Enrich.setupTripleStreamToWriter(dbsFlow, wait);
 
 		// Process both
+		Enrich.setupTripleStreamToWriter(sigelFlow, wait, aOutputPath);
+		Enrich.setupTripleStreamToWriter(dbsFlow, wait, aOutputPath);
+
 		Sigel.processSigel(openSigelDump, SIGEL_DUMP_LOCATION);
 		Dbs.processDbs(openDbs, DBS_LOCATION);
 	}
