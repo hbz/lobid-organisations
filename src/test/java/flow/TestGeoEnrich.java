@@ -14,8 +14,8 @@ public class TestGeoEnrich extends ElasticsearchTest {
 	private static SearchResponse searchByAddress(String addressToSearch) {
 		SearchResponse responseOfSearch =
 				client
-						.prepareSearch(ElasticsearchAuxiliary.ES_INDEX)
-						.setTypes(ElasticsearchAuxiliary.ES_TYPE)
+						.prepareSearch(Constants.ES_INDEX)
+						.setTypes(Constants.ES_TYPE)
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
 						.setQuery(
 								QueryBuilders.matchQuery("location.address.streetAddress",

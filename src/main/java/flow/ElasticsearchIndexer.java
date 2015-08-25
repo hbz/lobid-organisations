@@ -49,9 +49,9 @@ public class ElasticsearchIndexer extends
 		int retries = 40;
 		while (retries > 0) {
 			try {
-				ElasticsearchAuxiliary.ES_CLIENT
-						.prepareIndex(ElasticsearchAuxiliary.ES_INDEX,
-								ElasticsearchAuxiliary.ES_TYPE, aId).setSource(aJson).execute()
+				Constants.ES_CLIENT
+						.prepareIndex(Constants.ES_INDEX,
+								Constants.ES_TYPE, aId).setSource(aJson).execute()
 						.actionGet();
 				break; // stop retry-while
 			} catch (NoNodeAvailableException e) {

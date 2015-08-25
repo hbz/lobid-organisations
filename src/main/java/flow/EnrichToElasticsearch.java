@@ -31,23 +31,22 @@ public class EnrichToElasticsearch {
 	public static void main(final String... args) {
 		String startOfUpdates = args[0];
 		int intervalSize = Integer.parseInt(args[1]);
-		process(startOfUpdates, intervalSize,
-				ElasticsearchAuxiliary.MAIN_RESOURCES_PATH);
+		process(startOfUpdates, intervalSize, Constants.MAIN_RESOURCES_PATH);
 	}
 
 	static void process(final String startOfUpdates, final int intervalSize,
 			final String aResourcesPath) {
 		final String start = startOfUpdates;
 		int updateIntervals =
-				calculateIntervals(start, Sigel.getToday(), intervalSize);
+				calculateIntervals(start, Helpers.getToday(), intervalSize);
 		final CloseSupressor<Triple> wait =
 				new CloseSupressor<>(updateIntervals + 2);
 
 		final FileOpener openSigelDump = new FileOpener();
 		final StreamToTriples streamToTriplesDump = new StreamToTriples();
 		streamToTriplesDump.setRedirect(true);
-		final StreamToTriples flowSigelDump = //
-				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
+		final StreamToTriples flowSigelDump = null; // TODO:
+																								// Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
 		continueWith(flowSigelDump, wait);
 
 		final ArrayList<OaiPmhOpener> updateOpenerList =
@@ -61,10 +60,10 @@ public class EnrichToElasticsearch {
 		continueWith(flowDbs, wait);
 
 		Sigel.processSigel(openSigelDump, aResourcesPath
-				+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
+				+ Constants.SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
-			Sigel.processSigel(updateOpener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
-		Dbs.processDbs(openDbs, ElasticsearchAuxiliary.DBS_LOCATION);
+			Sigel.processSigel(updateOpener, Constants.SIGEL_DNB_REPO);
+		Dbs.processDbs(openDbs, Constants.DBS_LOCATION);
 	}
 
 	private static ArrayList<OaiPmhOpener> buildUpdatePipes(
@@ -83,17 +82,16 @@ public class EnrichToElasticsearch {
 
 		for (int i = 0; i < intervals; i++) {
 			final OaiPmhOpener openSigelUpdates =
-					Sigel.createOaiPmhOpener(start, end);
+					Helpers.createOaiPmhOpener(start, end);
 			final StreamToTriples streamToTriplesUpdates = new StreamToTriples();
 			streamToTriplesUpdates.setRedirect(true);
-			final StreamToTriples flowUpdates = //
-					Sigel.morphSigel(openSigelUpdates)
-							.setReceiver(streamToTriplesUpdates);
+			final StreamToTriples flowUpdates = null; // TODO:
+																								// Sigel.morphSigel(openSigelUpdates).setReceiver(streamToTriplesUpdates);
 			continueWith(flowUpdates, wait);
 			updateOpenerList.add(openSigelUpdates);
 			start = addDays(start, intervalSize);
 			if (i == intervals - 2)
-				end = Sigel.getToday();
+				end = Helpers.getToday();
 			else
 				end = addDays(end, intervalSize);
 		}
@@ -129,15 +127,13 @@ public class EnrichToElasticsearch {
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
-				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
-						+ "morph-enriched.xml");
+				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-enriched.xml");
 		final TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		final JsonToElasticsearchBulk esBulk =
-				new JsonToElasticsearchBulk("id", ElasticsearchAuxiliary.ES_TYPE,
-						ElasticsearchAuxiliary.ES_INDEX);
+				new JsonToElasticsearchBulk("id", Constants.ES_TYPE, Constants.ES_INDEX);
 		final ElasticsearchIndexer elIndex = new ElasticsearchIndexer("id");
 
 		flow.setReceiver(wait)//
