@@ -15,14 +15,16 @@ import org.culturegraph.mf.stream.source.FileOpener;
  */
 public class Dbs {
 
-	/** @param args Not used */
+	/**
+	 * @param args
+	 *            Not used
+	 */
 	public static void main(final String... args) {
 		final FileOpener opener = new FileOpener();
 		final JsonEncoder encoder = new JsonEncoder();
 		encoder.setPrettyPrinting(true);
-		final ObjectWriter<String> writer =
-				new ObjectWriter<>(Constants.MAIN_RESOURCES_PATH
-						+ Constants.OUTPUT_PATH + "dbs.out.json");
+		final ObjectWriter<String> writer = new ObjectWriter<>(
+				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH + "dbs.out.json");
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);
@@ -34,8 +36,7 @@ public class Dbs {
 		final LineReader lines = new LineReader();
 		final CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
-		final Metamorph morph =
-				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-dbs.xml");
+		final Metamorph morph = new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-dbs.xml");
 
 		final Metamorph morphDbs = opener//
 				.setReceiver(lines)//

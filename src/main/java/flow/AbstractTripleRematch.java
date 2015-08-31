@@ -35,8 +35,8 @@ import org.culturegraph.mf.util.MemoryWarningSystem.Listener;
  *         org.culturegraph.mf.stream.pipe.sort.AbstractTripleSort by markus
  *         geipel
  */
-public abstract class AbstractTripleRematch extends
-		DefaultObjectPipe<Triple, ObjectReceiver<Triple>> implements Listener {
+public abstract class AbstractTripleRematch extends DefaultObjectPipe<Triple, ObjectReceiver<Triple>>
+		implements Listener {
 
 	private final List<Triple> buffer = new ArrayList<>();
 	private final List<File> tempFiles;
@@ -65,8 +65,7 @@ public abstract class AbstractTripleRematch extends
 					nextBatch();
 				}
 			} catch (final IOException e) {
-				throw new MetafactureException(
-						"Error writing to temp file after sorting", e);
+				throw new MetafactureException("Error writing to temp file after sorting", e);
 			} finally {
 				memoryLow = false;
 			}
@@ -78,8 +77,7 @@ public abstract class AbstractTripleRematch extends
 		if (!buffer.isEmpty()) {
 			final File tempFile = File.createTempFile("sort", "namedValues", null);
 			tempFile.deleteOnExit();
-			try (final ObjectOutputStream out =
-					new ObjectOutputStream(new FileOutputStream(tempFile))) {
+			try (final ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(tempFile))) {
 				try {
 					for (final Triple triple : buffer) {
 						triple.write(out);
@@ -142,13 +140,14 @@ public abstract class AbstractTripleRematch extends
 	}
 
 	/**
-	 * @param aSubject defines the subject of all matching triples are to be
-	 *          returned.
+	 * @param aSubject
+	 *            defines the subject of all matching triples are to be
+	 *            returned.
 	 * @return an ArrayList of triples matching
-	 * @throws IOException if
+	 * @throws IOException
+	 *             if
 	 */
-	protected List<Triple> getTriplesBySubject(String aSubject)
-			throws IOException {
+	protected List<Triple> getTriplesBySubject(String aSubject) throws IOException {
 		List<Triple> matchingTriples = new ArrayList<>();
 		nextBatch();
 		List<SortedTripleFileFacade> queue = getTempFilesAsFacadeList();
@@ -165,13 +164,14 @@ public abstract class AbstractTripleRematch extends
 	}
 
 	/**
-	 * @param aPredicate defines the predicate of all matching triples are to be
-	 *          returned.
+	 * @param aPredicate
+	 *            defines the predicate of all matching triples are to be
+	 *            returned.
 	 * @return an ArrayList of triples matching
-	 * @throws IOException if
+	 * @throws IOException
+	 *             if
 	 */
-	protected List<Triple> getTriplesByPredicate(String aPredicate)
-			throws IOException {
+	protected List<Triple> getTriplesByPredicate(String aPredicate) throws IOException {
 		List<Triple> matchingTriples = new ArrayList<>();
 		nextBatch();
 		final List<SortedTripleFileFacade> queue = getTempFilesAsFacadeList();
@@ -188,10 +188,11 @@ public abstract class AbstractTripleRematch extends
 	}
 
 	/**
-	 * @param aObject defines the object of all matching triples are to be
-	 *          returned.
+	 * @param aObject
+	 *            defines the object of all matching triples are to be returned.
 	 * @return an ArrayList of triples matching
-	 * @throws IOException if
+	 * @throws IOException
+	 *             if
 	 */
 	protected List<Triple> getTriplesByObject(String aObject) throws IOException {
 		List<Triple> matchingTriples = new ArrayList<>();
@@ -209,8 +210,7 @@ public abstract class AbstractTripleRematch extends
 		return matchingTriples;
 	}
 
-	private List<SortedTripleFileFacade> getTempFilesAsFacadeList()
-			throws IOException {
+	private List<SortedTripleFileFacade> getTempFilesAsFacadeList() throws IOException {
 		List<SortedTripleFileFacade> queue = new ArrayList<>();
 		for (final File file : tempFiles) {
 			queue.add(new SortedTripleFileFacade(file));
@@ -219,7 +219,8 @@ public abstract class AbstractTripleRematch extends
 	}
 
 	/**
-	 * @param aTriple any triple
+	 * @param aTriple
+	 *            any triple
 	 */
 	protected abstract void rematchedTriple(Triple aTriple);
 }

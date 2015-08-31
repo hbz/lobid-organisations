@@ -24,9 +24,10 @@ public final class TripleRematch extends AbstractTripleRematch {
 	private final Map<String, String> mRekeyPairs = new HashMap<>();
 
 	/**
-	 * @param aRematchPredicate a String defining which predicate of the processed
-	 *          triples is used to check whether a triple has to be rematched
-	 *          ("re-keyed") or not.
+	 * @param aRematchPredicate
+	 *            a String defining which predicate of the processed triples is
+	 *            used to check whether a triple has to be rematched
+	 *            ("re-keyed") or not.
 	 */
 	public TripleRematch(String aRematchPredicate) {
 		mRematchPredicate = aRematchPredicate;
@@ -39,14 +40,14 @@ public final class TripleRematch extends AbstractTripleRematch {
 
 	/**
 	 * 
-	 * @param aTripleSet a Set of Triples that have the same Predicate. The
-	 *          Objects of these Triples might serve as an ID, but they should
-	 *          not, if there is another Subject that owns this Object.
-	 * @return a Map of String, String with the current Triple's Subject as a key
-	 *         and the target Subject as a value.
+	 * @param aTripleSet
+	 *            a Set of Triples that have the same Predicate. The Objects of
+	 *            these Triples might serve as an ID, but they should not, if
+	 *            there is another Subject that owns this Object.
+	 * @return a Map of String, String with the current Triple's Subject as a
+	 *         key and the target Subject as a value.
 	 */
-	public static Map<String, String> findTriplesToBeRenamed(
-			final Set<Triple> aTripleSet) {
+	public static Map<String, String> findTriplesToBeRenamed(final Set<Triple> aTripleSet) {
 		Map<String, String> triplesToBeRekeyed = new HashMap<>();
 		for (Triple triple : aTripleSet) {
 			if (triple.getSubject().equals(triple.getObject())) {
@@ -71,15 +72,18 @@ public final class TripleRematch extends AbstractTripleRematch {
 			List<Triple> predicateTriples = getTriplesByPredicate(mRematchPredicate);
 			for (Triple triple : predicateTriples) {
 				if (triple.getSubject().equals(triple.getObject())) {
-					// --> the object specified by mRematchPredicate has also been used as
-					// subject for this record --> this is a potential re-key case --> see
-					// if there is another triple containing this key as an object
+					// --> the object specified by mRematchPredicate has also
+					// been used as subject for this record --> this is a
+					// potential re-key case -->
+					// see if there is another triple containing this key as an
+					// object
 					for (Triple sameObject : predicateTriples) {
 						if (sameObject.getObject().equals(triple.getObject())
 								&& !sameObject.getSubject().equals(triple.getSubject())) {
-							// sameObject is part of the other record containing the same
-							// object for the specified re-key predicate. --> the subject of
-							// sameObject is the subject that triple should have
+							// sameObject is part of the other record containing
+							// the same object for the specified re-key
+							// predicate. --> the subject of sameObject is the
+							// subject that triple should have
 							mRekeyPairs.put(triple.getSubject(), sameObject.getSubject());
 						}
 					}
@@ -96,11 +100,9 @@ public final class TripleRematch extends AbstractTripleRematch {
 	protected void rematchedTriple(final Triple aTriple) {
 		if (mRekeyPairs.containsKey(aTriple.getSubject())) {
 			getReceiver().process(
-					new Triple(mRekeyPairs.get(aTriple.getSubject()), aTriple
-							.getPredicate(), aTriple.getObject()));
+					new Triple(mRekeyPairs.get(aTriple.getSubject()), aTriple.getPredicate(), aTriple.getObject()));
 		} else {
 			getReceiver().process(aTriple);
-
 		}
 	}
 }
