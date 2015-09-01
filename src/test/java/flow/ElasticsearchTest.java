@@ -34,9 +34,7 @@ public abstract class ElasticsearchTest {
 	}
 
 	public static void transformData() throws IOException {
-		EnrichSample.processSample(Constants.MAIN_RESOURCES_PATH
-				// TODO: Constants.TEST_RESOURCES_PATH ?
-				+ Constants.OUTPUT_PATH + "enriched.out.json");
+		EnrichSample.processSample(Constants.TEST_RESOURCES_PATH + Constants.OUTPUT_PATH + "enriched.out.json");
 	}
 
 	public static void prepareIndexing(final Client aIndexClient) throws IOException {
@@ -44,10 +42,7 @@ public abstract class ElasticsearchTest {
 	}
 
 	public static void indexData(final Client aIndexClient) throws IOException {
-		Index.indexData(aIndexClient,
-				Constants.MAIN_RESOURCES_PATH
-						// TODO: Constants.TEST_RESOURCES_PATH ?
-						+ Constants.OUTPUT_PATH + "enriched.out.json");
+		Index.indexData(aIndexClient, Constants.TEST_RESOURCES_PATH + Constants.OUTPUT_PATH + "enriched.out.json");
 	}
 
 	public static SearchResponse exactSearch(final String aField, final String aValue) {

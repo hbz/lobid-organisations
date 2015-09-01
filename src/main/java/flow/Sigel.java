@@ -21,10 +21,9 @@ import org.lobid.lodmill.XmlFilenameWriter;
 public class Sigel {
 
 	static XmlFilenameWriter setupSigelSplitting(final Opener opener, final XmlEntitySplitter aEntitySplitter,
-			String aXPath) {
+			String aXPath, final String aOutputPath) {
 		final XmlDecoder xmlDecoder = new XmlDecoder();
-		final XmlFilenameWriter xmlFilenameWriter = createXmlFilenameWriter(
-				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH, aXPath);
+		final XmlFilenameWriter xmlFilenameWriter = createXmlFilenameWriter(aOutputPath, aXPath);
 		return opener//
 				.setReceiver(xmlDecoder)//
 				.setReceiver(aEntitySplitter)//

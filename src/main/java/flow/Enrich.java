@@ -62,7 +62,8 @@ public class Enrich {
 		final FileOpener openSigelDump = new FileOpener();
 		final XmlEntitySplitter xmlSplitter = new XmlEntitySplitter(Constants.SIGEL_DUMP_TOP_LEVEL_TAG,
 				Constants.SIGEL_DUMP_ENTITY);
-		Sigel.setupSigelSplitting(openSigelDump, xmlSplitter, DUMP_XPATH);
+		Sigel.setupSigelSplitting(openSigelDump, xmlSplitter, DUMP_XPATH,
+				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH);
 
 		// SETUP SIGEL UPDATE
 		ArrayList<OaiPmhOpener> updateOpenerList = buildUpdatePipes(intervalSize, startOfUpdates, updateIntervals);
@@ -101,7 +102,8 @@ public class Enrich {
 					Constants.SIGEL_UPDATE_ENTITY);
 			final String updateXPath = "/" + Constants.SIGEL_UPDATE_TOP_LEVEL_TAG + "/" + Constants.SIGEL_UPDATE_ENTITY
 					+ "/" + Constants.SIGEL_XPATH;
-			Sigel.setupSigelSplitting(openSigelUpdates, xmlSplitter, updateXPath);
+			Sigel.setupSigelSplitting(openSigelUpdates, xmlSplitter, updateXPath,
+					Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH);
 
 			updateOpenerList.add(openSigelUpdates);
 			start = addDays(start, intervalSize);
