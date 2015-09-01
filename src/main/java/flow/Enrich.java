@@ -146,7 +146,7 @@ public class Enrich {
 		encodeJson.setPrettyPrinting(true);
 		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
 		final JsonToElasticsearchBulk esBulk =
-				new JsonToElasticsearchBulk("@id", ElasticsearchAuxiliary.ES_TYPE,
+				new JsonToElasticsearchBulk("id", ElasticsearchAuxiliary.ES_TYPE,
 						ElasticsearchAuxiliary.ES_INDEX);
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//

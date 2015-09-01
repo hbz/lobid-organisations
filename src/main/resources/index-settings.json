@@ -41,7 +41,7 @@
 						}
 					}
 				}, 
-				"@id": {
+				"id": {
 					"index": "not_analyzed", 
 					"type": "string"
 				}
