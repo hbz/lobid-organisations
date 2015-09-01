@@ -17,5 +17,17 @@
 		<data source="_else">
 			<not-equals string="NULL" />
 		</data>
+		<choose name="addressCountry">
+			<data source="iso">
+				<lookup in="iso3-country-map" />
+			</data>
+			<data source="_id">
+				<constant value="Germany"/>
+			</data>
+		</choose>
 	</rules>
+	<maps>
+		<filemap name="iso3-country-map"
+			files="http://lobid.org/download/lookup-tables/data/iso3-country-map.csv" />
+	</maps>
 </metamorph>
