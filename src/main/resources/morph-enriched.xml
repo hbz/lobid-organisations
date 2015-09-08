@@ -177,9 +177,12 @@
 						<data source="ort" name="addressLocality" />
 					</choose>
 					<data source="postalCodeVisitor" name="postalCode" />
-					<data source="countryVisitor" name="addressCountry">
-						<lookup in="country-map" />
-					</data>
+					<choose>
+						<data source="countryVisitor" name="addressCountry">
+							<lookup in="country-map" />
+						</data>
+						<data source="addressCountry" name="addressCountry"/>
+					</choose>
 					<choose>
 						<data source="localityVisitor" name="@type">
 							<constant value="http://schema.org/PostalAddress" />
