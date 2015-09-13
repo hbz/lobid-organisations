@@ -63,7 +63,8 @@ public class Index {
 				node.close();
 			}
 		} else {
-			throw new IllegalArgumentException("File not large enough: " + aPathToJson);
+			throw new IllegalArgumentException("File not large enough: "
+					+ aPathToJson);
 		}
 	}
 

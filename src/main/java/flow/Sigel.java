@@ -1,8 +1,5 @@
 package flow;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.xml.PicaXmlHandler;
@@ -11,6 +8,9 @@ import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.stream.source.Opener;
+import org.lobid.lodmill.XmlEntitySplitter;
+import org.lobid.lodmill.XmlFilenameWriter;
+import org.lobid.lodmill.XmlTee;
 
 /**
  * Initial simple transformation from Sigel PicaPlus-XML to JSON.
@@ -24,7 +24,8 @@ public class Sigel {
 	public static void main(final String... args) {
 		morphSigelDump(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH);
 		morphSigelUpdates("2013-01-01", "2013-12-31", "sigel-updates2013.out.json");
-		morphSigelUpdates("2014-01-01", getToday(), "sigel-updates2014.out.json");
+		morphSigelUpdates("2014-01-01", Helpers.getToday(),
+				"sigel-updates2014.out.json");
 	}
 
 	static Metamorph morphSigel(final Opener opener) {
@@ -54,13 +55,6 @@ public class Sigel {
 		opener.closeStream();
 	}
 
-	static String getToday() {
-		final String dateFormat = "yyyy-MM-dd";
-		final Calendar calender = Calendar.getInstance();
-		final SimpleDateFormat simpleDate = new SimpleDateFormat(dateFormat);
-		return simpleDate.format(calender.getTime());
-	}
-
 	private static Metamorph morphSigelDump(final String aResourcesPath) {
 		final FileOpener opener = new FileOpener();
 		final Metamorph dumpMorph = morphSigel(opener);
@@ -79,6 +73,38 @@ public class Sigel {
 				+ "output/" + outputFile);
 		processSigel(opener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
 		return updatesMorph;
+	}
+
+	static Metamorph setupSigelMorph(final Opener opener,
+			final XmlEntitySplitter aEntitySplitter, final String aXPath) {
+		final XmlDecoder xmlDecoder = new XmlDecoder();
+		final XmlTee tee = new XmlTee();
+		final XmlFilenameWriter xmlFilenameWriter =
+				createXmlFilenameWriter(Constants.MAIN_RESOURCES_PATH
+						+ Constants.OUTPUT_PATH, aXPath);
+		final PicaXmlHandler xmlHandler = new PicaXmlHandler();
+		final Metamorph morph =
+				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-sigel.xml");
+
+		opener //
+				.setReceiver(xmlDecoder) //
+				.setReceiver(tee);
+		tee.addReceiver(aEntitySplitter);
+		tee.addReceiver(xmlHandler);
+		aEntitySplitter //
+				.setReceiver(xmlFilenameWriter);
+		return xmlHandler //
+				.setReceiver(morph);
+	}
+
+	private static XmlFilenameWriter createXmlFilenameWriter(String aOutputPath,
+			String aXPath) {
+		final XmlFilenameWriter xmlFilenameWriter = new XmlFilenameWriter();
+		xmlFilenameWriter.setStartIndex(0);
+		xmlFilenameWriter.setEndIndex(2);
+		xmlFilenameWriter.setTarget(aOutputPath);
+		xmlFilenameWriter.setProperty(aXPath);
+		return xmlFilenameWriter;
 	}
 
 	private static void writeOut(final Metamorph morph, final String path) {

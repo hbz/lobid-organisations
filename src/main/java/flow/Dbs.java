@@ -18,15 +18,14 @@ public class Dbs {
 	/** @param args Not used */
 	public static void main(final String... args) {
 		final FileOpener opener = new FileOpener();
-		final JsonEncoder encoder = new JsonEncoder();
-		encoder.setPrettyPrinting(true);
+		final JsonEncoder encoder = Helpers.createJsonEncoder(true);
 		final ObjectWriter<String> writer =
-				new ObjectWriter<>(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
-						+ "output/dbs.out.json");
+				new ObjectWriter<>(Constants.MAIN_RESOURCES_PATH
+						+ Constants.OUTPUT_PATH + "dbs.out.json");
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);
-		processDbs(opener, ElasticsearchAuxiliary.DBS_LOCATION);
+		processDbs(opener, Constants.DBS_LOCATION);
 	}
 
 	static Metamorph morphDbs(final FileOpener opener) {
@@ -35,8 +34,7 @@ public class Dbs {
 		final CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
 		final Metamorph morph =
-				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
-						+ "morph-dbs.xml");
+				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-dbs.xml");
 
 		final Metamorph morphDbs = opener//
 				.setReceiver(lines)//

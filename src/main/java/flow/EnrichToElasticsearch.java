@@ -39,7 +39,7 @@ public class EnrichToElasticsearch {
 			final String aResourcesPath) {
 		final String start = startOfUpdates;
 		int updateIntervals =
-				calculateIntervals(start, Sigel.getToday(), intervalSize);
+				calculateIntervals(start, Helpers.getToday(), intervalSize);
 		final CloseSupressor<Triple> wait =
 				new CloseSupressor<>(updateIntervals + 2);
 
@@ -93,7 +93,7 @@ public class EnrichToElasticsearch {
 			updateOpenerList.add(openSigelUpdates);
 			start = addDays(start, intervalSize);
 			if (i == intervals - 2)
-				end = Sigel.getToday();
+				end = Helpers.getToday();
 			else
 				end = addDays(end, intervalSize);
 		}
