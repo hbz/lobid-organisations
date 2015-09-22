@@ -42,37 +42,36 @@ public class Index {
 	 *           created
 	 * @throws JsonParseException if value cannot be read from json mapper
 	 */
-	public static void main(final String... args) throws JsonParseException,
-			JsonMappingException, IOException {
+	public static void main(final String... args)
+			throws JsonParseException, JsonMappingException, IOException {
 		long minimumSize = Long.parseLong(args[0]);
 		String aPathToJson = args[1];
 		if (new File(aPathToJson).length() >= minimumSize) {
-			Settings clientSettings =
-					ImmutableSettings.settingsBuilder()
-							.put("cluster.name", ElasticsearchAuxiliary.ES_CLUSTER)
-							.put("client.transport.sniff", true).build();
+			Settings clientSettings = ImmutableSettings.settingsBuilder()
+					.put("cluster.name", ElasticsearchAuxiliary.ES_CLUSTER)
+					.put("client.transport.sniff", true).build();
 			try (Node node = NodeBuilder.nodeBuilder().local(false).node();
 					TransportClient transportClient = new TransportClient(clientSettings);
-					Client client =
-							transportClient
-									.addTransportAddress(new InetSocketTransportAddress(
-											ElasticsearchAuxiliary.SERVER_NAME, 9300));) {
+					Client client = transportClient.addTransportAddress(
+							new InetSocketTransportAddress(ElasticsearchAuxiliary.SERVER_NAME,
+									9300));) {
 				createEmptyIndex(client);
 				indexData(client, aPathToJson);
 				client.close();
 				node.close();
 			}
 		} else {
-			throw new IllegalArgumentException("File not large enough: " + aPathToJson);
+			throw new IllegalArgumentException(
+					"File not large enough: " + aPathToJson);
 		}
 	}
 
 	static void createEmptyIndex(final Client client) throws IOException {
 		deleteIndex(client);
-		String settingsMappings =
-				Files.lines(
-						Paths.get(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
-								+ "index-settings.json")).collect(Collectors.joining());
+		String settingsMappings = Files
+				.lines(Paths.get(
+						ElasticsearchAuxiliary.MAIN_RESOURCES_PATH + "index-settings.json"))
+				.collect(Collectors.joining());
 		CreateIndexRequestBuilder cirb =
 				client.admin().indices().prepareCreate(ElasticsearchAuxiliary.ES_INDEX);
 		cirb.setSource(settingsMappings);
@@ -91,8 +90,8 @@ public class Index {
 	}
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
-			final BufferedReader br, final Client client) throws IOException,
-			JsonParseException, JsonMappingException {
+			final BufferedReader br, final Client client)
+					throws IOException, JsonParseException, JsonMappingException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;
@@ -109,9 +108,10 @@ public class Index {
 				organisationId = idUriParts[idUriParts.length - 1].replace("#!", "");
 			} else {
 				organisationData = line;
-				bulkRequest.add(client.prepareIndex(ElasticsearchAuxiliary.ES_INDEX,
-						ElasticsearchAuxiliary.ES_TYPE, organisationId).setSource(
-						organisationData));
+				bulkRequest.add(client
+						.prepareIndex(ElasticsearchAuxiliary.ES_INDEX,
+								ElasticsearchAuxiliary.ES_TYPE, organisationId)
+						.setSource(organisationData));
 			}
 			currentLine++;
 		}

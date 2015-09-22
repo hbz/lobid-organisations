@@ -55,8 +55,8 @@ public class Enrich {
 		streamToTriplesDump.setRedirect(true);
 		StreamToTriples flowSigelDump = //
 				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriplesDump);
-		continueWith(flowSigelDump, wait, aResourcesPath
-				+ "output/enriched.out.json");
+		continueWith(flowSigelDump, wait,
+				aResourcesPath + "output/enriched.out.json");
 
 		ArrayList<OaiPmhOpener> updateOpenerList =
 				buildUpdatePipes(intervalSize, start, updateIntervals, wait,
@@ -69,12 +69,12 @@ public class Enrich {
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
 		continueWith(flowDbs, wait, aResourcesPath + "output/enriched.out.json");
 
-		Sigel.processSigel(openSigelDump, aResourcesPath
-				+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
+		Sigel.processSigel(openSigelDump,
+				aResourcesPath + ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
 			Sigel.processSigel(updateOpener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
-		Dbs.processDbs(openDbs, aResourcesPath
-				+ ElasticsearchAuxiliary.DBS_LOCATION);
+		Dbs.processDbs(openDbs,
+				aResourcesPath + ElasticsearchAuxiliary.DBS_LOCATION);
 	}
 
 	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
@@ -137,17 +137,15 @@ public class Enrich {
 			final CloseSupressor<Triple> wait, final String aOutputPath) {
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
-		final Metamorph morph =
-				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
-						+ "morph-enriched.xml");
+		final Metamorph morph = new Metamorph(
+				ElasticsearchAuxiliary.MAIN_RESOURCES_PATH + "morph-enriched.xml");
 		final TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
-		final JsonToElasticsearchBulk esBulk =
-				new JsonToElasticsearchBulk("@id", ElasticsearchAuxiliary.ES_TYPE,
-						ElasticsearchAuxiliary.ES_INDEX);
+		final JsonToElasticsearchBulk esBulk = new JsonToElasticsearchBulk("@id",
+				ElasticsearchAuxiliary.ES_TYPE, ElasticsearchAuxiliary.ES_INDEX);
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(sortTriples)//

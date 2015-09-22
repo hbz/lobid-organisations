@@ -28,11 +28,11 @@ public class ElasticsearchAuxiliary {
 	// ELASTICSEARCH COMPONENTS
 	protected static final InetSocketTransportAddress NODE_1 =
 			new InetSocketTransportAddress(SERVER_NAME, 9300);
-	protected static final Builder CLIENT_SETTINGS = ImmutableSettings
-			.settingsBuilder().put("cluster.name", ES_CLUSTER)
-			.put("index.name", ES_INDEX);
-	private static final TransportClient TC = new TransportClient(CLIENT_SETTINGS
-			.put("client.transport.sniff", false)
-			.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build());
+	protected static final Builder CLIENT_SETTINGS =
+			ImmutableSettings.settingsBuilder().put("cluster.name", ES_CLUSTER)
+					.put("index.name", ES_INDEX);
+	private static final TransportClient TC =
+			new TransportClient(CLIENT_SETTINGS.put("client.transport.sniff", false)
+					.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build());
 	protected static final Client ES_CLIENT = TC.addTransportAddress(NODE_1);
 }

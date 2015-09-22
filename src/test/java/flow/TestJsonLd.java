@@ -16,10 +16,8 @@ import com.github.jsonldjava.utils.JsonUtils;
 public class TestJsonLd extends ElasticsearchTest {
 
 	private static String getSource(String id) {
-		GetResponse response =
-				client
-						.prepareGet(ElasticsearchAuxiliary.ES_INDEX,
-								ElasticsearchAuxiliary.ES_TYPE, id).execute().actionGet();
+		GetResponse response = client.prepareGet(ElasticsearchAuxiliary.ES_INDEX,
+				ElasticsearchAuxiliary.ES_TYPE, id).execute().actionGet();
 		String source = response.getSourceAsString();
 		source = replaceContext(source);
 		return source;
@@ -41,8 +39,8 @@ public class TestJsonLd extends ElasticsearchTest {
 	}
 
 	@Test
-	public void validateJsonLd() throws JsonParseException, IOException,
-			JsonLdError {
+	public void validateJsonLd()
+			throws JsonParseException, IOException, JsonLdError {
 		Object sourceAsJson = JsonUtils.fromString(getSource("DE-1a"));
 		Object sourceAsRdf = JsonLdProcessor.toRDF(sourceAsJson);
 		assertNotNull("Index documents should be parsable as JSON-LD", sourceAsRdf);

@@ -60,8 +60,8 @@ public class EnrichToElasticsearch {
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
 		continueWith(flowDbs, wait);
 
-		Sigel.processSigel(openSigelDump, aResourcesPath
-				+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
+		Sigel.processSigel(openSigelDump,
+				aResourcesPath + ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList)
 			Sigel.processSigel(updateOpener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
 		Dbs.processDbs(openDbs, ElasticsearchAuxiliary.DBS_LOCATION);
@@ -128,16 +128,14 @@ public class EnrichToElasticsearch {
 			final CloseSupressor<Triple> wait) {
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
-		final Metamorph morph =
-				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
-						+ "morph-enriched.xml");
+		final Metamorph morph = new Metamorph(
+				ElasticsearchAuxiliary.MAIN_RESOURCES_PATH + "morph-enriched.xml");
 		final TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
-		final JsonToElasticsearchBulk esBulk =
-				new JsonToElasticsearchBulk("id", ElasticsearchAuxiliary.ES_TYPE,
-						ElasticsearchAuxiliary.ES_INDEX);
+		final JsonToElasticsearchBulk esBulk = new JsonToElasticsearchBulk("id",
+				ElasticsearchAuxiliary.ES_TYPE, ElasticsearchAuxiliary.ES_INDEX);
 		final ElasticsearchIndexer elIndex = new ElasticsearchIndexer("id");
 
 		flow.setReceiver(wait)//

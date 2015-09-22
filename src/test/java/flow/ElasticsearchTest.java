@@ -59,7 +59,8 @@ public abstract class ElasticsearchTest {
 		return responseOfSearch;
 	}
 
-	public static SearchResponse search(final String aField, final String aValue) {
+	public static SearchResponse search(final String aField,
+			final String aValue) {
 		SearchResponse responseOfSearch =
 				client.prepareSearch(ElasticsearchAuxiliary.ES_INDEX)
 						.setTypes(ElasticsearchAuxiliary.ES_TYPE)

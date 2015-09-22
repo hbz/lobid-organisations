@@ -20,7 +20,9 @@ import org.culturegraph.mf.stream.source.Opener;
  */
 public class Sigel {
 
-	/** @param args Not used */
+	/**
+	 * @param args Not used
+	 */
 	public static void main(final String... args) {
 		morphSigelDump(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH);
 		morphSigelUpdates("2013-01-01", "2013-12-31", "sigel-updates2013.out.json");
@@ -30,9 +32,8 @@ public class Sigel {
 	static Metamorph morphSigel(final Opener opener) {
 		final XmlDecoder xmlDecoder = new XmlDecoder();
 		final PicaXmlHandler xmlHandler = new PicaXmlHandler();
-		final Metamorph morph =
-				new Metamorph(ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
-						+ "morph-sigel.xml");
+		final Metamorph morph = new Metamorph(
+				ElasticsearchAuxiliary.MAIN_RESOURCES_PATH + "morph-sigel.xml");
 		final Metamorph sigelMorph = opener//
 				.setReceiver(xmlDecoder)//
 				.setReceiver(xmlHandler)//
@@ -66,8 +67,8 @@ public class Sigel {
 		final Metamorph dumpMorph = morphSigel(opener);
 		writeOut(dumpMorph, ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
 				+ "output/sigel-dump.out.json");
-		processSigel(opener, aResourcesPath
-				+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
+		processSigel(opener,
+				aResourcesPath + ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION);
 		return dumpMorph;
 	}
 
@@ -75,8 +76,8 @@ public class Sigel {
 			final String end, String outputFile) {
 		final OaiPmhOpener opener = createOaiPmhOpener(start, end);
 		final Metamorph updatesMorph = morphSigel(opener);
-		writeOut(updatesMorph, ElasticsearchAuxiliary.MAIN_RESOURCES_PATH
-				+ "output/" + outputFile);
+		writeOut(updatesMorph,
+				ElasticsearchAuxiliary.MAIN_RESOURCES_PATH + "output/" + outputFile);
 		processSigel(opener, ElasticsearchAuxiliary.SIGEL_DNB_REPO);
 		return updatesMorph;
 	}
