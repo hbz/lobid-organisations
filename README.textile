@@ -122,7 +122,7 @@ Run the indexing and pass a minimum file size in bytes (indexing only works hbz 
 @mvn exec:java -Dexec.mainClass="flow.Index" -Dexec.args="5000 src/test/resources/output/enriched.out.json"@
 
 * For the full data:
-@mvn exec:java -Dexec.mainClass="flow.Index" -Dexec.args="25000000 src/main/resources/output/enriched.out.json"@
+@mvn exec:java -Dexec.mainClass="flow.Index" -Dexec.args="15000000 src/main/resources/output/enriched.out.json"@
 
 h2. Query
 
