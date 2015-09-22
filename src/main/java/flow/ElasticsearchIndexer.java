@@ -20,14 +20,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @In(String.class)
 @Out(Void.class)
-public class ElasticsearchIndexer extends
-		DefaultObjectPipe<String, ObjectReceiver<Void>> {
+public class ElasticsearchIndexer extends DefaultObjectPipe<String, ObjectReceiver<Void>> {
 
 	final private ObjectMapper mMapper = new ObjectMapper();
 	final private String mIdKey;
 
 	/**
-	 * @param aIdKey The key of the JSON value to be used as the ID for the record
+	 * @param aIdKey
+	 *            The key of the JSON value to be used as the ID for the record
 	 */
 	public ElasticsearchIndexer(String aIdKey) {
 		mIdKey = aIdKey;
@@ -49,9 +49,7 @@ public class ElasticsearchIndexer extends
 		int retries = 40;
 		while (retries > 0) {
 			try {
-				ElasticsearchAuxiliary.ES_CLIENT
-						.prepareIndex(ElasticsearchAuxiliary.ES_INDEX,
-								ElasticsearchAuxiliary.ES_TYPE, aId).setSource(aJson).execute()
+				Constants.ES_CLIENT.prepareIndex(Constants.ES_INDEX, Constants.ES_TYPE, aId).setSource(aJson).execute()
 						.actionGet();
 				break; // stop retry-while
 			} catch (NoNodeAvailableException e) {
@@ -61,8 +59,7 @@ public class ElasticsearchIndexer extends
 				} catch (InterruptedException x) {
 					x.printStackTrace();
 				}
-				System.err.printf("Retry indexing record %s: %s (%s more retries)\n",
-						aId, e.getMessage(), retries);
+				System.err.printf("Retry indexing record %s: %s (%s more retries)\n", aId, e.getMessage(), retries);
 			}
 		}
 	}

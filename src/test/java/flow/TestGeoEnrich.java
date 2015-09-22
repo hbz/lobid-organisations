@@ -12,23 +12,16 @@ import org.junit.Test;
 public class TestGeoEnrich extends ElasticsearchTest {
 
 	private static SearchResponse searchByAddress(String addressToSearch) {
-		SearchResponse responseOfSearch =
-				client
-						.prepareSearch(ElasticsearchAuxiliary.ES_INDEX)
-						.setTypes(ElasticsearchAuxiliary.ES_TYPE)
-						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
-						.setQuery(
-								QueryBuilders.matchQuery("location.address.streetAddress",
-										addressToSearch)).execute().actionGet();
+		SearchResponse responseOfSearch = client.prepareSearch(Constants.ES_INDEX).setTypes(Constants.ES_TYPE)
+				.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
+				.setQuery(QueryBuilders.matchQuery("location.address.streetAddress", addressToSearch)).execute()
+				.actionGet();
 		return responseOfSearch;
 	}
 
 	@Test
 	public void requestCoordinates() {
-		SearchHit response =
-				searchByAddress("Universit��tsstr. 33").getHits().getAt(0);
-		System.out.println(response.getSourceAsString());
-		assertTrue("Response should contain the field location", response
-				.getSourceAsString().contains("geo"));
+		SearchHit response = searchByAddress("Universit��tsstr. 33").getHits().getAt(0);
+		assertTrue("Response should contain the field location", response.getSourceAsString().contains("geo"));
 	}
 }
