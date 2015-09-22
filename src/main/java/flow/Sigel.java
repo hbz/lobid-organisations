@@ -9,8 +9,8 @@ import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.xml.PicaXmlHandler;
 import org.culturegraph.mf.stream.converter.xml.XmlDecoder;
 import org.culturegraph.mf.stream.source.Opener;
-import org.lobid.lodmill.XmlEntitySplitter;
-import org.lobid.lodmill.XmlFilenameWriter;
+import org.culturegraph.mf.util.xml.XmlEntitySplitter;
+import org.culturegraph.mf.util.xml.XmlFilenameWriter;
 
 /**
  * Initial simple transformation from Sigel PicaPlus-XML to JSON.

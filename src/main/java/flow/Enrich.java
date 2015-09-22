@@ -12,7 +12,7 @@ import java.util.Date;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
-import org.lobid.lodmill.XmlEntitySplitter;
+import org.culturegraph.mf.util.xml.XmlEntitySplitter;
 
 /**
  * Simple enrichment of DBS records with Sigel data based on the DBS ID.

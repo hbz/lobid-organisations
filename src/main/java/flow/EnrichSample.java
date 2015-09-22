@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.source.FileOpener;
-import org.lobid.lodmill.XmlEntitySplitter;
+import org.culturegraph.mf.util.xml.XmlEntitySplitter;
 
 /**
  * @author Simon Ritter (SBRitter)
