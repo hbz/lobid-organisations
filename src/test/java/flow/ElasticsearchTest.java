@@ -33,9 +33,9 @@ public abstract class ElasticsearchTest {
 		node.close();
 	}
 
-	public static void transformData() {
-		EnrichSample.processSample(ElasticsearchAuxiliary.TEST_RESOURCES_PATH
-				+ "output/enriched.out.json");
+	public static void transformData() throws IOException {
+		EnrichSample.processSample(Constants.TEST_RESOURCES_PATH
+				+ Constants.OUTPUT_PATH + "enriched.out.json");
 	}
 
 	public static void prepareIndexing(final Client aIndexClient)
@@ -44,15 +44,14 @@ public abstract class ElasticsearchTest {
 	}
 
 	public static void indexData(final Client aIndexClient) throws IOException {
-		Index.indexData(aIndexClient, ElasticsearchAuxiliary.TEST_RESOURCES_PATH
-				+ "output/enriched.out.json");
+		Index.indexData(aIndexClient, Constants.TEST_RESOURCES_PATH
+				+ Constants.OUTPUT_PATH + "enriched.out.json");
 	}
 
 	public static SearchResponse exactSearch(final String aField,
 			final String aValue) {
 		final SearchResponse responseOfSearch =
-				client.prepareSearch(ElasticsearchAuxiliary.ES_INDEX)
-						.setTypes(ElasticsearchAuxiliary.ES_TYPE)
+				client.prepareSearch(Constants.ES_INDEX).setTypes(Constants.ES_TYPE)
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
 						.setQuery(QueryBuilders.termQuery(aField, aValue)).execute()
 						.actionGet();
@@ -62,8 +61,7 @@ public abstract class ElasticsearchTest {
 	public static SearchResponse search(final String aField,
 			final String aValue) {
 		SearchResponse responseOfSearch =
-				client.prepareSearch(ElasticsearchAuxiliary.ES_INDEX)
-						.setTypes(ElasticsearchAuxiliary.ES_TYPE)
+				client.prepareSearch(Constants.ES_INDEX).setTypes(Constants.ES_TYPE)
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
 						.setQuery(QueryBuilders.matchQuery(aField, aValue)).execute()
 						.actionGet();
