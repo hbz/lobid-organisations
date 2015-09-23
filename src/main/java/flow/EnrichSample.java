@@ -3,7 +3,9 @@ package flow;
 import java.io.IOException;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
+import org.culturegraph.mf.stream.pipe.CloseSupressor;
 import org.culturegraph.mf.stream.source.FileOpener;
+import org.culturegraph.mf.types.Triple;
 import org.culturegraph.mf.util.xml.XmlEntitySplitter;
 
 /**
@@ -37,14 +39,7 @@ public class EnrichSample {
 
 	static void processSample(final String aOutputPath) throws IOException {
 
-		// setup DBS flow
-		final FileOpener openDbs = new FileOpener();
-		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
-		StreamToTriples dbsFlow = //
-				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
-
-		Helpers.setupTripleStreamToWriter(dbsFlow, aOutputPath);
-		Dbs.processDbs(openDbs, DBS_LOCATION);
+		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
 
 		// setup Sigel flow
 		final FileOpener sourceFileOpener = new FileOpener();
@@ -59,7 +54,17 @@ public class EnrichSample {
 				Helpers.createTripleStream(true);
 		Sigel.setupSigelMorph(splitFileOpener).setReceiver(streamToTriplesSigel);
 
-		Helpers.setupTripleStreamToWriter(streamToTriplesSigel, aOutputPath);
+		Helpers.setupTripleStreamToWriter(streamToTriplesSigel, wait, aOutputPath);
 		Sigel.processSigelTriples(splitFileOpener, SIGEL_TEMP_FILES_LOCATION);
+
+		// setup DBS flow
+		final FileOpener openDbs = new FileOpener();
+		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
+		StreamToTriples dbsFlow = //
+				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
+
+		Helpers.setupTripleStreamToWriter(dbsFlow, wait, aOutputPath);
+		Dbs.processDbs(openDbs, DBS_LOCATION);
+
 	}
 }

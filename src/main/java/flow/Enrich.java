@@ -10,8 +10,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
+import org.culturegraph.mf.stream.pipe.CloseSupressor;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
+import org.culturegraph.mf.types.Triple;
 import org.culturegraph.mf.util.xml.XmlEntitySplitter;
 
 /**
@@ -53,16 +55,10 @@ public class Enrich {
 		int updateIntervals =
 				calculateIntervals(startOfUpdates, Helpers.getToday(), intervalSize);
 
+		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
+
 		String sigelTempFilesLocation =
 				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH;
-
-		// SETUP DBS
-		final FileOpener openDbs = new FileOpener();
-		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
-		final StreamToTriples flowDbs = //
-				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
-		Helpers.setupTripleStreamToWriter(flowDbs, aOutputPath);
-		Dbs.processDbs(openDbs, aResourcesPath + Constants.DBS_LOCATION);
 
 		// SETUP SIGEL DUMP
 		final FileOpener openSigelDump = new FileOpener();
@@ -80,7 +76,14 @@ public class Enrich {
 		final StreamToTriples streamToTriplesDump =
 				Helpers.createTripleStream(true);
 		Sigel.setupSigelMorph(splitFileOpener).setReceiver(streamToTriplesDump);
-		Helpers.setupTripleStreamToWriter(streamToTriplesDump, aOutputPath);
+		Helpers.setupTripleStreamToWriter(streamToTriplesDump, wait, aOutputPath);
+
+		// SETUP DBS
+		final FileOpener openDbs = new FileOpener();
+		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
+		final StreamToTriples flowDbs = //
+				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
+		Helpers.setupTripleStreamToWriter(flowDbs, wait, aOutputPath);
 
 		// PROCESS SIGEL
 		Sigel.processSigelSource(openSigelDump,
@@ -90,6 +93,7 @@ public class Enrich {
 		}
 		Sigel.processSigelTriples(splitFileOpener, sigelTempFilesLocation);
 
+		Dbs.processDbs(openDbs, aResourcesPath + Constants.DBS_LOCATION);
 	}
 
 	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,

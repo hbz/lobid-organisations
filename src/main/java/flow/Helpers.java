@@ -7,12 +7,14 @@ import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
+import org.culturegraph.mf.stream.pipe.CloseSupressor;
 import org.culturegraph.mf.stream.pipe.TripleFilter;
 import org.culturegraph.mf.stream.pipe.sort.AbstractTripleSort.Compare;
 import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
 import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
+import org.culturegraph.mf.types.Triple;
 
 /**
  * @author pvb
@@ -65,11 +67,12 @@ public class Helpers {
 	}
 
 	/**
-	 * @param flow
-	 * @param aOutputPath
+	 * @param flow the processing stream that is to be connected to a JSON writer
+	 * @param wait a CloseSupressor, ensuring all pipes are received by the writer
+	 * @param aOutputPath the destination of the written file
 	 */
 	static void setupTripleStreamToWriter(final StreamToTriples flow,
-			final String aOutputPath) {
+			CloseSupressor<Triple> wait, final String aOutputPath) {
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
@@ -80,7 +83,8 @@ public class Helpers {
 		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
 		final JsonToElasticsearchBulk esBulk = new JsonToElasticsearchBulk("@id",
 				Constants.ES_TYPE, Constants.ES_INDEX);
-		flow.setReceiver(tripleFilter)//
+		flow.setReceiver(wait)//
+				.setReceiver(tripleFilter)//
 				.setReceiver(sortTriples)//
 				.setReceiver(new TripleCollect())//
 				.setReceiver(morph)//
