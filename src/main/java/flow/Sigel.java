@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.xml.PicaXmlHandler;
 import org.culturegraph.mf.stream.converter.xml.XmlDecoder;
+import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
+import org.culturegraph.mf.stream.sink.XmlFilenameWriter;
 import org.culturegraph.mf.stream.source.Opener;
-import org.culturegraph.mf.util.xml.XmlEntitySplitter;
-import org.culturegraph.mf.util.xml.XmlFilenameWriter;
 
 /**
  * Initial simple transformation from Sigel PicaPlus-XML to JSON.
@@ -21,7 +21,7 @@ import org.culturegraph.mf.util.xml.XmlFilenameWriter;
 public class Sigel {
 
 	static XmlFilenameWriter setupSigelSplitting(final Opener opener,
-			final XmlEntitySplitter aEntitySplitter, String aXPath,
+			final XmlElementSplitter aEntitySplitter, String aXPath,
 			final String aOutputPath) {
 		final XmlDecoder xmlDecoder = new XmlDecoder();
 		final XmlFilenameWriter xmlFilenameWriter =

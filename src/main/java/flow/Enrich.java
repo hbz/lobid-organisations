@@ -11,10 +11,10 @@ import java.util.Date;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
+import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
-import org.culturegraph.mf.util.xml.XmlEntitySplitter;
 
 /**
  * Simple enrichment of DBS records with Sigel data based on the DBS ID.
@@ -62,7 +62,7 @@ public class Enrich {
 
 		// SETUP SIGEL DUMP
 		final FileOpener openSigelDump = new FileOpener();
-		final XmlEntitySplitter xmlSplitter = new XmlEntitySplitter(
+		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
 				Constants.SIGEL_DUMP_TOP_LEVEL_TAG, Constants.SIGEL_DUMP_ENTITY);
 		Sigel.setupSigelSplitting(openSigelDump, xmlSplitter, DUMP_XPATH,
 				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH);
@@ -112,7 +112,7 @@ public class Enrich {
 		for (int i = 0; i < intervals; i++) {
 			final OaiPmhOpener openSigelUpdates =
 					Helpers.createOaiPmhOpener(start, end);
-			final XmlEntitySplitter xmlSplitter = new XmlEntitySplitter(
+			final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
 					Constants.SIGEL_UPDATE_TOP_LEVEL_TAG, Constants.SIGEL_UPDATE_ENTITY);
 			final String updateXPath = "/" + Constants.SIGEL_UPDATE_TOP_LEVEL_TAG
 					+ "/" + Constants.SIGEL_UPDATE_ENTITY + "/" + Constants.SIGEL_XPATH;

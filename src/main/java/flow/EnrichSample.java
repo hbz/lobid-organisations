@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
+import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
-import org.culturegraph.mf.util.xml.XmlEntitySplitter;
 
 /**
  * @author Simon Ritter (SBRitter)
@@ -43,7 +43,7 @@ public class EnrichSample {
 
 		// setup Sigel flow
 		final FileOpener sourceFileOpener = new FileOpener();
-		final XmlEntitySplitter xmlSplitter = new XmlEntitySplitter(
+		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
 				Constants.SIGEL_DUMP_TOP_LEVEL_TAG, Constants.SIGEL_DUMP_ENTITY);
 		Sigel.setupSigelSplitting(sourceFileOpener, xmlSplitter, DUMP_XPATH,
 				Constants.TEST_RESOURCES_PATH + Constants.OUTPUT_PATH);
