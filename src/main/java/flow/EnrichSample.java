@@ -47,7 +47,7 @@ public class EnrichSample {
 				Constants.SIGEL_DUMP_TOP_LEVEL_TAG, Constants.SIGEL_DUMP_ENTITY);
 		Sigel.setupSigelSplitting(sourceFileOpener, xmlSplitter, DUMP_XPATH,
 				Constants.TEST_RESOURCES_PATH + Constants.OUTPUT_PATH);
-		Sigel.processSigelSource(sourceFileOpener, SIGEL_DUMP_LOCATION);
+		Sigel.processSigelSplitting(sourceFileOpener, SIGEL_DUMP_LOCATION);
 
 		final FileOpener splitFileOpener = new FileOpener();
 		final StreamToTriples streamToTriplesSigel =
@@ -55,7 +55,7 @@ public class EnrichSample {
 		Sigel.setupSigelMorph(splitFileOpener).setReceiver(streamToTriplesSigel);
 
 		Helpers.setupTripleStreamToWriter(streamToTriplesSigel, wait, aOutputPath);
-		Sigel.processSigelTriples(splitFileOpener, SIGEL_TEMP_FILES_LOCATION);
+		Sigel.processSigelMorph(splitFileOpener, SIGEL_TEMP_FILES_LOCATION);
 
 		// setup DBS flow
 		final FileOpener openDbs = new FileOpener();

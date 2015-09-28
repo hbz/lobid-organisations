@@ -86,12 +86,12 @@ public class Enrich {
 		Helpers.setupTripleStreamToWriter(flowDbs, wait, aOutputPath);
 
 		// PROCESS SIGEL
-		Sigel.processSigelSource(openSigelDump,
+		Sigel.processSigelSplitting(openSigelDump,
 				aResourcesPath + Constants.SIGEL_DUMP_LOCATION);
 		for (OaiPmhOpener updateOpener : updateOpenerList) {
-			Sigel.processSigelSource(updateOpener, Constants.SIGEL_DNB_REPO);
+			Sigel.processSigelSplitting(updateOpener, Constants.SIGEL_DNB_REPO);
 		}
-		Sigel.processSigelTriples(splitFileOpener, sigelTempFilesLocation);
+		Sigel.processSigelMorph(splitFileOpener, sigelTempFilesLocation);
 
 		Dbs.processDbs(openDbs, aResourcesPath + Constants.DBS_LOCATION);
 	}

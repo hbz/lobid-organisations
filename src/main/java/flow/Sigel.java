@@ -53,13 +53,13 @@ public class Sigel {
 		return xmlFilenameWriter;
 	}
 
-	static void processSigelSource(final Opener aSourceFileOpener,
+	static void processSigelSplitting(final Opener aSourceFileOpener,
 			final String aSource) {
 		aSourceFileOpener.process(aSource);
 		aSourceFileOpener.closeStream();
 	}
 
-	static void processSigelTriples(final Opener aSplitFileOpener,
+	static void processSigelMorph(final Opener aSplitFileOpener,
 			final String aTempFilesDir) throws IOException {
 		Files.walk(Paths.get(aTempFilesDir))//
 				.filter(Files::isRegularFile)//
