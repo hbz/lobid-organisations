@@ -12,6 +12,7 @@ import java.util.Date;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
 import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
+import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
@@ -56,6 +57,7 @@ public class Enrich {
 				calculateIntervals(startOfUpdates, Helpers.getToday(), intervalSize);
 
 		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
+		TripleSort sortTriples = new TripleSort();
 
 		String sigelTempFilesLocation =
 				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH;
@@ -76,14 +78,15 @@ public class Enrich {
 		final StreamToTriples streamToTriplesDump =
 				Helpers.createTripleStream(true);
 		Sigel.setupSigelMorph(splitFileOpener).setReceiver(streamToTriplesDump);
-		Helpers.setupTripleStreamToWriter(streamToTriplesDump, wait, aOutputPath);
+		Helpers.setupTripleStreamToWriter(streamToTriplesDump, wait, sortTriples,
+				aOutputPath);
 
 		// SETUP DBS
 		final FileOpener openDbs = new FileOpener();
 		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
 		final StreamToTriples flowDbs = //
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
-		Helpers.setupTripleStreamToWriter(flowDbs, wait, aOutputPath);
+		Helpers.setupTripleStreamToWriter(flowDbs, wait, sortTriples, aOutputPath);
 
 		// PROCESS SIGEL
 		Sigel.processSigelSplitting(openSigelDump,
