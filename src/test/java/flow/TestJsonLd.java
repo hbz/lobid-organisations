@@ -1,8 +1,12 @@
 package flow;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.elasticsearch.action.get.GetResponse;
 import org.junit.Test;
@@ -16,8 +20,9 @@ import com.github.jsonldjava.utils.JsonUtils;
 public class TestJsonLd extends ElasticsearchTest {
 
 	private static String getSource(String id) {
-		GetResponse response = client.prepareGet(ElasticsearchAuxiliary.ES_INDEX,
-				ElasticsearchAuxiliary.ES_TYPE, id).execute().actionGet();
+		GetResponse response =
+				client.prepareGet(Constants.ES_INDEX, Constants.ES_TYPE, id).execute()
+						.actionGet();
 		String source = response.getSourceAsString();
 		source = replaceContext(source);
 		return source;
@@ -44,6 +49,16 @@ public class TestJsonLd extends ElasticsearchTest {
 		Object sourceAsJson = JsonUtils.fromString(getSource("DE-1a"));
 		Object sourceAsRdf = JsonLdProcessor.toRDF(sourceAsJson);
 		assertNotNull("Index documents should be parsable as JSON-LD", sourceAsRdf);
+	}
+
+	@Test
+	public void testOverwrite() throws JsonParseException, IOException {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> entries =
+				((HashMap<String, Object>) JsonUtils.fromString(getSource("DE-38")));
+		String name = entries.get("name").toString();
+		assertFalse(name.contains("Stattbibliothek"));
+		assertTrue(name.contains("Stadtbibliothek"));
 	}
 
 }

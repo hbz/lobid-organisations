@@ -48,13 +48,12 @@ public class Index {
 		String aPathToJson = args[1];
 		if (new File(aPathToJson).length() >= minimumSize) {
 			Settings clientSettings = ImmutableSettings.settingsBuilder()
-					.put("cluster.name", ElasticsearchAuxiliary.ES_CLUSTER)
+					.put("cluster.name", Constants.ES_CLUSTER)
 					.put("client.transport.sniff", true).build();
 			try (Node node = NodeBuilder.nodeBuilder().local(false).node();
 					TransportClient transportClient = new TransportClient(clientSettings);
 					Client client = transportClient.addTransportAddress(
-							new InetSocketTransportAddress(ElasticsearchAuxiliary.SERVER_NAME,
-									9300));) {
+							new InetSocketTransportAddress(Constants.SERVER_NAME, 9300));) {
 				createEmptyIndex(client);
 				indexData(client, aPathToJson);
 				client.close();
@@ -68,12 +67,13 @@ public class Index {
 
 	static void createEmptyIndex(final Client client) throws IOException {
 		deleteIndex(client);
-		String settingsMappings = Files
-				.lines(Paths.get(
-						ElasticsearchAuxiliary.MAIN_RESOURCES_PATH + "index-settings.json"))
+		String settingsMappings =
+				Files
+						.lines(Paths
+								.get(Constants.MAIN_RESOURCES_PATH + "index-settings.json"))
 				.collect(Collectors.joining());
 		CreateIndexRequestBuilder cirb =
-				client.admin().indices().prepareCreate(ElasticsearchAuxiliary.ES_INDEX);
+				client.admin().indices().prepareCreate(Constants.ES_INDEX);
 		cirb.setSource(settingsMappings);
 		cirb.execute().actionGet();
 		client.admin().indices().refresh(new RefreshRequest()).actionGet();
@@ -109,8 +109,7 @@ public class Index {
 			} else {
 				organisationData = line;
 				bulkRequest.add(client
-						.prepareIndex(ElasticsearchAuxiliary.ES_INDEX,
-								ElasticsearchAuxiliary.ES_TYPE, organisationId)
+						.prepareIndex(Constants.ES_INDEX, Constants.ES_TYPE, organisationId)
 						.setSource(organisationData));
 			}
 			currentLine++;
@@ -118,10 +117,10 @@ public class Index {
 	}
 
 	private static void deleteIndex(final Client client) {
-		if (client.admin().indices().prepareExists(ElasticsearchAuxiliary.ES_INDEX)
-				.execute().actionGet().isExists()) {
+		if (client.admin().indices().prepareExists(Constants.ES_INDEX).execute()
+				.actionGet().isExists()) {
 			final DeleteIndexRequest deleteIndexRequest =
-					new DeleteIndexRequest(ElasticsearchAuxiliary.ES_INDEX);
+					new DeleteIndexRequest(Constants.ES_INDEX);
 			client.admin().indices().delete(deleteIndexRequest);
 		}
 	}
