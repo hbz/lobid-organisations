@@ -20,8 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @In(String.class)
 @Out(Void.class)
-public class ElasticsearchIndexer extends
-		DefaultObjectPipe<String, ObjectReceiver<Void>> {
+public class ElasticsearchIndexer
+		extends DefaultObjectPipe<String, ObjectReceiver<Void>> {
 
 	final private ObjectMapper mMapper = new ObjectMapper();
 	final private String mIdKey;
@@ -49,10 +49,10 @@ public class ElasticsearchIndexer extends
 		int retries = 40;
 		while (retries > 0) {
 			try {
-				ElasticsearchAuxiliary.ES_CLIENT
-						.prepareIndex(ElasticsearchAuxiliary.ES_INDEX,
-								ElasticsearchAuxiliary.ES_TYPE, aId).setSource(aJson).execute()
-						.actionGet();
+				Constants.ES_CLIENT
+						.prepareIndex(Constants.ES_INDEX,
+								Constants.ES_TYPE, aId)
+						.setSource(aJson).execute().actionGet();
 				break; // stop retry-while
 			} catch (NoNodeAvailableException e) {
 				retries--;

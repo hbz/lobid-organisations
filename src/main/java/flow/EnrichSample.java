@@ -1,7 +1,11 @@
 package flow;
 
+import java.io.IOException;
+
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
+import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
+import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
 
@@ -13,39 +17,56 @@ import org.culturegraph.mf.types.Triple;
  */
 public class EnrichSample {
 
-	private static String mSigelDumpLocation =
-			ElasticsearchAuxiliary.TEST_RESOURCES_PATH
-					+ ElasticsearchAuxiliary.SIGEL_DUMP_LOCATION;
-	private static String mDbsLocation =
-			ElasticsearchAuxiliary.TEST_RESOURCES_PATH
-					+ ElasticsearchAuxiliary.DBS_LOCATION;
+	private static String SIGEL_DUMP_LOCATION =
+			Constants.TEST_RESOURCES_PATH + Constants.INPUT_PATH + "sigel.xml";
+	private static String SIGEL_TEMP_FILES_LOCATION =
+			Constants.TEST_RESOURCES_PATH + Constants.OUTPUT_PATH;
+	private static String DBS_LOCATION =
+			Constants.TEST_RESOURCES_PATH + Constants.INPUT_PATH + "dbs.csv";
+	private static String DUMP_XPATH =
+			"/" + Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH;
+
+	private static TripleSort tripleSort = new TripleSort();
 
 	/**
 	 * @param args not used
 	 */
 	public static void main(String... args) {
-		processSample(ElasticsearchAuxiliary.TEST_RESOURCES_PATH
-				+ "output/enriched.out.json");
+		try {
+			processSample(Constants.TEST_RESOURCES_PATH + Constants.OUTPUT_PATH
+					+ "enriched.out.json");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	static void processSample(final String aOutputPath) {
-		FileOpener openSigelDump = new FileOpener();
-		StreamToTriples streamToTriples1 = new StreamToTriples();
-		streamToTriples1.setRedirect(true);
-		StreamToTriples flow1 = //
-				Sigel.morphSigel(openSigelDump).setReceiver(streamToTriples1);
-
-		FileOpener openDbs = new FileOpener();
-		StreamToTriples streamToTriples2 = new StreamToTriples();
-		streamToTriples2.setRedirect(true);
-		StreamToTriples flow2 = //
-				Dbs.morphDbs(openDbs).setReceiver(streamToTriples2);
+	static void processSample(final String aOutputPath) throws IOException {
 
 		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
-		Enrich.continueWith(flow1, wait, aOutputPath);
-		Enrich.continueWith(flow2, wait, aOutputPath);
+		TripleSort sortTriples = new TripleSort();
 
-		Sigel.processSigel(openSigelDump, mSigelDumpLocation);
-		Dbs.processDbs(openDbs, mDbsLocation);
+		// Sigel Splitting
+		final FileOpener sourceFileOpener = new FileOpener();
+		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
+				Constants.SIGEL_DUMP_TOP_LEVEL_TAG, Constants.SIGEL_DUMP_ENTITY);
+		Sigel.setupSigelSplitting(sourceFileOpener, xmlSplitter, DUMP_XPATH,
+				Constants.TEST_RESOURCES_PATH + Constants.OUTPUT_PATH);
+		Sigel.processSigelSplitting(sourceFileOpener, SIGEL_DUMP_LOCATION);
+
+		// DBS flow
+		final FileOpener openDbs = new FileOpener();
+		StreamToTriples dbsFlow = //
+				Dbs.morphDbs(openDbs).setReceiver(Helpers.createTripleStream(true));
+		Helpers.setupTripleStreamToWriter(dbsFlow, wait, sortTriples, aOutputPath);
+		Dbs.processDbs(openDbs, DBS_LOCATION);
+
+		// Sigel Morph
+		final FileOpener splitFileOpener = new FileOpener();
+		StreamToTriples sigelFlow = Sigel.setupSigelMorph(splitFileOpener)
+				.setReceiver(Helpers.createTripleStream(true));
+		Helpers.setupTripleStreamToWriter(sigelFlow, wait, sortTriples,
+				aOutputPath);
+		Sigel.processSigelMorph(splitFileOpener, SIGEL_TEMP_FILES_LOCATION);
 	}
+
 }
