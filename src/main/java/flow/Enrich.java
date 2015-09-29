@@ -139,6 +139,7 @@ public class Enrich {
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph = new Metamorph(
 				ElasticsearchAuxiliary.MAIN_RESOURCES_PATH + "morph-enriched.xml");
+		final TripleRematch rematchTriples = new TripleRematch("isil");
 		final TripleSort sortTriples = new TripleSort();
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = new JsonEncoder();
@@ -148,6 +149,7 @@ public class Enrich {
 				ElasticsearchAuxiliary.ES_TYPE, ElasticsearchAuxiliary.ES_INDEX);
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
+				.setReceiver(rematchTriples)//
 				.setReceiver(sortTriples)//
 				.setReceiver(new TripleCollect())//
 				.setReceiver(morph)//
