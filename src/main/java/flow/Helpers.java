@@ -78,6 +78,7 @@ public class Helpers {
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
 				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-enriched.xml");
+		final TripleRematch rematchTriples = new TripleRematch("isil");
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = Helpers.createJsonEncoder(true);
 		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
@@ -85,6 +86,7 @@ public class Helpers {
 				Constants.ES_TYPE, Constants.ES_INDEX);
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
+				.setReceiver(rematchTriples)//
 				.setReceiver(sortTriples)//
 				.setReceiver(new TripleCollect())//
 				.setReceiver(morph)//

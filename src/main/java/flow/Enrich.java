@@ -155,4 +155,5 @@ public class Enrich {
 		long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
 		return (int) timeSpan / intervalSize;
 	}
+
 }
