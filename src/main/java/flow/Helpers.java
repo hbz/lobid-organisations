@@ -82,7 +82,7 @@ public class Helpers {
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = Helpers.createJsonEncoder(true);
 		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
-		final JsonToElasticsearchBulk esBulk = new JsonToElasticsearchBulk("@id",
+		final JsonToElasticsearchBulk esBulk = new JsonToElasticsearchBulk("id",
 				Constants.ES_TYPE, Constants.ES_INDEX);
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
