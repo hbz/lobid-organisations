@@ -80,6 +80,7 @@ public class Application extends Controller {
 	 */
 	public static Result search(String q, String location, int from, int size)
 			throws JsonProcessingException, IOException {
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		Status result = null;
 		if (location == null) {
 			result = buildSimpleQuery(q, from, size);
@@ -191,6 +192,7 @@ public class Application extends Controller {
 	 * @return The source of a document as JSON
 	 */
 	public static Promise<Result> get(String id) {
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		String url =
 				String.format("%s/%s/%s/%s/_source", ES_SERVER, ES_INDEX, ES_TYPE, id);
 		return WS.url(url).execute().map(x -> x.getStatus() == OK ? ok(x.asJson())
