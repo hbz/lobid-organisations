@@ -42,8 +42,9 @@ public class EnrichSample {
 
 	static void processSample(final String aOutputPath) throws IOException {
 
-		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
-		TripleSort sortTriples = new TripleSort();
+		final CloseSupressor<Triple> wait = new CloseSupressor<>(2);
+		final TripleSort sortTriples = new TripleSort();
+		final TripleRematch rematchTriples = new TripleRematch("isil");
 
 		// Sigel Splitting
 		final FileOpener sourceFileOpener = new FileOpener();
@@ -57,7 +58,8 @@ public class EnrichSample {
 		final FileOpener openDbs = new FileOpener();
 		StreamToTriples dbsFlow = //
 				Dbs.morphDbs(openDbs).setReceiver(Helpers.createTripleStream(true));
-		Helpers.setupTripleStreamToWriter(dbsFlow, wait, sortTriples, aOutputPath);
+		Helpers.setupTripleStreamToWriter(dbsFlow, wait, sortTriples,
+				rematchTriples, aOutputPath);
 		Dbs.processDbs(openDbs, DBS_LOCATION);
 
 		// Sigel Morph
@@ -65,7 +67,7 @@ public class EnrichSample {
 		StreamToTriples sigelFlow = Sigel.setupSigelMorph(splitFileOpener)
 				.setReceiver(Helpers.createTripleStream(true));
 		Helpers.setupTripleStreamToWriter(sigelFlow, wait, sortTriples,
-				aOutputPath);
+				rematchTriples, aOutputPath);
 		Sigel.processSigelMorph(splitFileOpener, SIGEL_TEMP_FILES_LOCATION);
 	}
 

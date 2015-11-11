@@ -73,12 +73,13 @@ public class Helpers {
 	 */
 	static void setupTripleStreamToWriter(final StreamToTriples flow,
 			CloseSupressor<Triple> wait, TripleSort sortTriples,
-			final String aOutputPath) {
+			final TripleRematch rematchTriples, final String aOutputPath) {
+
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
 				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-enriched.xml");
-		final TripleRematch rematchTriples = new TripleRematch("isil");
+
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = Helpers.createJsonEncoder(true);
 		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
