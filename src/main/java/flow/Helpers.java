@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.culturegraph.mf.morph.Metamorph;
+import org.culturegraph.mf.morph.maps.RestMap;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
@@ -79,6 +80,19 @@ public class Helpers {
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
 				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-enriched.xml");
+
+		// GEO LOOKUP
+		RestMap addDbsLatMap = new RestMap();
+		RestMap addDbsLongMap = new RestMap();
+		RestMap addDbsPostalCodeMap = new RestMap();
+		String server =
+				"http://" + Constants.GEO_SERVER_NAME + ":" + Constants.GEO_SERVER_PORT;
+		addDbsLatMap.setUrl(server + "/lat/${key}");
+		addDbsLongMap.setUrl(server + "/long/${key}");
+		addDbsPostalCodeMap.setUrl(server + "/postcode/${key}");
+		morph.putMap("addLatMap", addDbsLatMap);
+		morph.putMap("addLongMap", addDbsLongMap);
+		morph.putMap("addPostalCodeMap", addDbsPostalCodeMap);
 
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = Helpers.createJsonEncoder(true);

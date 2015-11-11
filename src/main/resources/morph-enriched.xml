@@ -156,6 +156,11 @@
 			<data source="postalCodeOther" name="plz" />
 			<data source="streetAddressOther" name="str" />
 		</combine>
+		<combine name="@geoLookupDbs" value="${plz}/${ort}/${land}" flushWith="record">
+			<data source="addressCountry" name="land" />
+			<data source="plz" name="plz" />
+			<data source="ort" name="ort" />
+		</combine>	
 		
 		<!-- Locations -->
 		<entity name="location[]" flushWith="record">
@@ -209,11 +214,17 @@
 						<data source="@geoLookupVisitor" name="lat">
 							<lookup in="geolocation-lat_map" />
 						</data>
+						<data source="@geoLookupDbs" name="lat">
+							<lookup in="addLatMap" />
+						</data>
 					</choose>
 					<choose>
 						<data source="lonVisitor" name="lon" />
 						<data source="@geoLookupVisitor" name="lon">
 							<lookup in="geolocation-lon_map" />
+						</data>
+						<data source="@geoLookupDbs" name="lon">
+							<lookup in="addLongMap" />
 						</data>
 					</choose>
 				</entity>
