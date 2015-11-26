@@ -13,6 +13,8 @@ import static play.test.Helpers.testServer;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 
 import play.libs.F.Callback;
@@ -61,6 +63,34 @@ public class IntegrationTest {
 					assertThat(contentAsString(result)).contains(
 							"Bayerisches Landesvermessungsamt");
 				});
+	}
+
+	@Test
+	public void prettyGetById() {
+		running(fakeApplication(), () -> {
+			assertPretty(route(fakeRequest(GET, "/organisations/DE-9")));
+		});
+	}
+
+	@Test
+	public void prettyQueryByField() {
+		running(fakeApplication(), () -> {
+			assertPretty(route(fakeRequest(GET,
+					"/organisations/search?q=fundertype.value:land&size=2000")));
+		});
+	}
+
+	private void assertPretty(Result result) {
+		String contentAsString = contentAsString(result);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			JsonNode jsonNode = mapper.readTree(contentAsString);
+			String prettyString =
+					mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
+			assertThat(contentAsString).isEqualTo(prettyString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
