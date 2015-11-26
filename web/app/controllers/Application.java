@@ -182,9 +182,7 @@ public class Application extends Controller {
 
 	private static Status returnAsJson(SearchResponse queryResponse)
 			throws IOException, JsonProcessingException {
-		JsonNode responseAsJson =
-				new ObjectMapper().readTree(queryResponse.toString());
-		return ok(responseAsJson);
+		return prettyJsonOk(new ObjectMapper().readTree(queryResponse.toString()));
 	}
 
 	/**
@@ -195,7 +193,13 @@ public class Application extends Controller {
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		String url =
 				String.format("%s/%s/%s/%s/_source", ES_SERVER, ES_INDEX, ES_TYPE, id);
-		return WS.url(url).execute().map(x -> x.getStatus() == OK ? ok(x.asJson())
-				: notFound("Not found: " + id));
+		return WS.url(url).execute().map(x -> x.getStatus() == OK
+				? prettyJsonOk(x.asJson()) : notFound("Not found: " + id));
+	}
+
+	private static Status prettyJsonOk(JsonNode jsonNode)
+			throws JsonProcessingException {
+		return ok(new ObjectMapper().writerWithDefaultPrettyPrinter()
+				.writeValueAsString(jsonNode)).as("application/json; charset=utf-8");
 	}
 }
