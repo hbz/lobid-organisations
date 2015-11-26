@@ -120,7 +120,7 @@
 			<data source="email" name="email">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
-			<data source="ema">
+			<data source="ema" name="email">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
 		</choose>
