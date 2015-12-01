@@ -21,7 +21,7 @@ public class Constants {
 	protected static final String SIGEL_DUMP_LOCATION = //
 			INPUT_PATH + "sigel.xml";
 	protected static final String DBS_LOCATION = //
-			INPUT_PATH + "dbs.csv";
+			INPUT_PATH + "DBS_20151116_active.csv";
 	protected static final String SIGEL_DNB_REPO =
 			"http://gnd-proxy.lobid.org/oai/repository";
 
@@ -34,10 +34,10 @@ public class Constants {
 			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
 
 	// ELASTICSEARCH SETTINGS
-	protected static final String ES_CLUSTER = "organisation-cluster";
-	protected static final String ES_INDEX = "organisations";
+	protected static final String ES_CLUSTER = "lobid-hbz";
+	protected static final String ES_INDEX = "organisations-20151119-pvb";
 	protected static final String ES_TYPE = "organisation";
-	protected static final String SERVER_NAME = "localhost";
+	protected static final String SERVER_NAME = "quaoar1.hbz-nrw.de";
 
 	// ELASTICSEARCH COMPONENTS
 	protected static final InetSocketTransportAddress NODE_1 =
@@ -51,7 +51,9 @@ public class Constants {
 	protected static final Client ES_CLIENT = TC.addTransportAddress(NODE_1);
 
 	// GEO DATA LOOKUP
-	protected static final String GEO_SERVER_NAME = "localhost";
-	protected static final String GEO_SERVER_PORT = "9001";
+	protected static final String GEO_SERVER_NAME = "gaia.hbz-nrw.de";
+	protected static final String GEO_SERVER_PORT = "7070";
+	protected static final String GEO_INDEX_TEST = "geodata";
+	protected static final String GEO_TYPE = "geodata";
 
 }
