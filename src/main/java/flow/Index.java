@@ -46,7 +46,7 @@ public class Index {
 			throws JsonParseException, JsonMappingException, IOException {
 		long minimumSize = Long.parseLong(args[0]);
 		String pathToJson = args[1];
-		String index = args[2];
+		String index = args.length == 3 ? args[2] : Constants.ES_INDEX;
 		if (new File(pathToJson).length() >= minimumSize) {
 			Settings clientSettings = ImmutableSettings.settingsBuilder()
 					.put("cluster.name", Constants.ES_CLUSTER)

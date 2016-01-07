@@ -21,7 +21,7 @@ public class Constants {
 	protected static final String SIGEL_DUMP_LOCATION = //
 			INPUT_PATH + "sigel.xml";
 	protected static final String DBS_LOCATION = //
-			INPUT_PATH + "DBS_20151116_active.csv";
+			INPUT_PATH + "dbs.csv";
 	protected static final String SIGEL_DNB_REPO =
 			"http://gnd-proxy.lobid.org/oai/repository";
 
