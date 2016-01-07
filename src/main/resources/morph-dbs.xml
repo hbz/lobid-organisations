@@ -19,15 +19,15 @@
 		</data>
 		<choose name="addressCountry">
 			<data source="iso">
-				<lookup in="iso3-country-map" />
+				<lookup in="iso3-iso2-map" />
 			</data>
 			<data source="_id">
-				<constant value="Germany"/>
+				<constant value="DE"/>
 			</data>
 		</choose>
 	</rules>
 	<maps>
-		<filemap name="iso3-country-map"
-			files="http://lobid.org/download/lookup-tables/data/iso3-country-map.csv" />
+		<filemap name="iso3-iso2-map"
+			files="http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv" />
 	</maps>
 </metamorph>
