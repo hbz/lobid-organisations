@@ -124,6 +124,8 @@ public class Index {
 			final DeleteIndexRequest deleteIndexRequest =
 					new DeleteIndexRequest(aIndexName);
 			client.admin().indices().delete(deleteIndexRequest);
+			client.admin().cluster().prepareHealth().setWaitForYellowStatus()
+					.execute().actionGet();
 		}
 	}
 
