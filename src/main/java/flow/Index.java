@@ -45,8 +45,9 @@ public class Index {
 	public static void main(final String... args)
 			throws JsonParseException, JsonMappingException, IOException {
 		long minimumSize = Long.parseLong(args[0]);
-		String aPathToJson = args[1];
-		if (new File(aPathToJson).length() >= minimumSize) {
+		String pathToJson = args[1];
+		String index = args.length == 3 ? args[2] : Constants.ES_INDEX;
+		if (new File(pathToJson).length() >= minimumSize) {
 			Settings clientSettings = ImmutableSettings.settingsBuilder()
 					.put("cluster.name", Constants.ES_CLUSTER)
 					.put("client.transport.sniff", true).build();
@@ -54,43 +55,44 @@ public class Index {
 					TransportClient transportClient = new TransportClient(clientSettings);
 					Client client = transportClient.addTransportAddress(
 							new InetSocketTransportAddress(Constants.SERVER_NAME, 9300));) {
-				createEmptyIndex(client);
-				indexData(client, aPathToJson);
+				createEmptyIndex(client, Constants.ES_INDEX,
+						Constants.MAIN_RESOURCES_PATH + "index-settings.json");
+				indexData(client, pathToJson, index);
 				client.close();
 				node.close();
 			}
 		} else {
 			throw new IllegalArgumentException(
-					"File not large enough: " + aPathToJson);
+					"File not large enough: " + pathToJson);
 		}
 	}
 
-	static void createEmptyIndex(final Client client) throws IOException {
-		deleteIndex(client);
-		String settingsMappings =
-				Files
-						.lines(Paths
-								.get(Constants.MAIN_RESOURCES_PATH + "index-settings.json"))
-				.collect(Collectors.joining());
+	static void createEmptyIndex(final Client aClient, final String aIndexName,
+			final String aPathToIndexSettings) throws IOException {
+		deleteIndex(aClient, aIndexName);
 		CreateIndexRequestBuilder cirb =
-				client.admin().indices().prepareCreate(Constants.ES_INDEX);
-		cirb.setSource(settingsMappings);
+				aClient.admin().indices().prepareCreate(aIndexName);
+		if (aPathToIndexSettings != null) {
+			String settingsMappings = Files.lines(Paths.get(aPathToIndexSettings))
+					.collect(Collectors.joining());
+			cirb.setSource(settingsMappings);
+		}
 		cirb.execute().actionGet();
-		client.admin().indices().refresh(new RefreshRequest()).actionGet();
+		aClient.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
-	static void indexData(final Client aClient, final String aPath)
-			throws IOException {
+	static void indexData(final Client aClient, final String aPath,
+			final String aIndex) throws IOException {
 		final BulkRequestBuilder bulkRequest = aClient.prepareBulk();
 		try (BufferedReader br = new BufferedReader(new FileReader(aPath))) {
-			readData(bulkRequest, br, aClient);
+			readData(bulkRequest, br, aClient, aIndex);
 		}
 		bulkRequest.execute().actionGet();
 		aClient.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
-			final BufferedReader br, final Client client)
+			final BufferedReader br, final Client client, final String aIndex)
 					throws IOException, JsonParseException, JsonMappingException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
@@ -108,20 +110,27 @@ public class Index {
 				organisationId = idUriParts[idUriParts.length - 1].replace("#!", "");
 			} else {
 				organisationData = line;
-				bulkRequest.add(client
-						.prepareIndex(Constants.ES_INDEX, Constants.ES_TYPE, organisationId)
-						.setSource(organisationData));
+				bulkRequest
+						.add(client.prepareIndex(aIndex, Constants.ES_TYPE, organisationId)
+								.setSource(organisationData));
 			}
 			currentLine++;
 		}
 	}
 
-	private static void deleteIndex(final Client client) {
-		if (client.admin().indices().prepareExists(Constants.ES_INDEX).execute()
-				.actionGet().isExists()) {
+	private static void deleteIndex(final Client client,
+			final String aIndexName) {
+		if (indexExists(aIndexName, client)) {
 			final DeleteIndexRequest deleteIndexRequest =
-					new DeleteIndexRequest(Constants.ES_INDEX);
+					new DeleteIndexRequest(aIndexName);
 			client.admin().indices().delete(deleteIndexRequest);
+			client.admin().cluster().prepareHealth().setWaitForYellowStatus()
+					.execute().actionGet();
 		}
+	}
+
+	public static boolean indexExists(final String aIndex, final Client aClient) {
+		return aClient.admin().indices().prepareExists(aIndex).execute().actionGet()
+				.isExists();
 	}
 }

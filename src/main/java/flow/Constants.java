@@ -53,5 +53,7 @@ public class Constants {
 	// GEO DATA LOOKUP
 	protected static final String GEO_SERVER_NAME = "localhost";
 	protected static final String GEO_SERVER_PORT = "9001";
+	protected static final String GEO_INDEX_TEST = "geodata";
+	protected static final String GEO_TYPE = "geodata";
 
 }

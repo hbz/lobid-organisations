@@ -56,7 +56,7 @@ public class EnrichSample {
 
 		// DBS flow
 		final FileOpener openDbs = new FileOpener();
-		StreamToTriples dbsFlow = //
+		final StreamToTriples dbsFlow = //
 				Dbs.morphDbs(openDbs).setReceiver(Helpers.createTripleStream(true));
 		Helpers.setupTripleStreamToWriter(dbsFlow, wait, sortTriples,
 				rematchTriples, aOutputPath);

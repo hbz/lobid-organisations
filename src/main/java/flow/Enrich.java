@@ -39,7 +39,7 @@ public class Enrich {
 	public static void main(String... args)
 			throws IOException, NumberFormatException {
 		if (args.length == 0) {
-			args = new String[] { "2015-05-01", "100" };
+			args = new String[] { "2013-06-01", "100" };
 		}
 		String startOfUpdates = args[0];
 		int intervalSize = Integer.parseInt(args[1]);
