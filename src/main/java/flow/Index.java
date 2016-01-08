@@ -2,8 +2,10 @@ package flow;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
@@ -84,7 +86,9 @@ public class Index {
 	static void indexData(final Client aClient, final String aPath,
 			final String aIndex) throws IOException {
 		final BulkRequestBuilder bulkRequest = aClient.prepareBulk();
-		try (BufferedReader br = new BufferedReader(new FileReader(aPath))) {
+		try (BufferedReader br =
+				new BufferedReader(new InputStreamReader(new FileInputStream(aPath),
+						StandardCharsets.UTF_8))) {
 			readData(bulkRequest, br, aClient, aIndex);
 		}
 		bulkRequest.execute().actionGet();
