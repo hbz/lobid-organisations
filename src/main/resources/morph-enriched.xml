@@ -131,9 +131,7 @@
 			<data source="postOfficeBoxNumber" name="postOfficeBoxNumber" />
 			<data source="localityMail" name="addressLocality" />
 			<data source="postalCodeMail" name="postalCode" />
-			<data source="countryMail" name="addressCountry">
-				<lookup in="country-map" />
-			</data>
+			<data source="countryMail" name="addressCountry"/>
 			<data source="localityMail" name="type">
 				<constant value="http://schema.org/PostalAddress" />
 			</data>
@@ -183,9 +181,7 @@
 					<data source="postalCodeVisitor" name="postalCode" />
 					<data source="plz" name="postalCode" />
 					<choose>
-						<data source="countryVisitor" name="addressCountry">
-							<lookup in="country-map" />
-						</data>
+						<data source="countryVisitor" name="addressCountry"/>
 						<data source="addressCountry" name="addressCountry"/>
 					</choose>
 					<choose>
@@ -238,9 +234,7 @@
 					<data source="streetAddressOther" name="streetAddress" />
 					<data source="localityOther" name="addressLocality" />
 					<data source="postalCodeOther" name="postalCode" />
-					<data source="countryOther" name="addressCountry">
-						<lookup in="country-map" />
-					</data>
+					<data source="countryOther" name="addressCountry" />
 					<data source="localityOther" name="type">
 						<constant value="http://schema.org/PostalAddress" />
 					</data>
