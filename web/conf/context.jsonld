@@ -27,10 +27,7 @@
 			"@type": "@id",
 			"@id": "http://schema.org/email"
 		},
-		"telephone": {
-			"@type": "@id",
-			"@id": "http://schema.org/telephone"
-		},
+		"telephone": "http://schema.org/telephone",
 		"url": {
 			"@type": "@id",
 			"@id": "http://schema.org/url"
