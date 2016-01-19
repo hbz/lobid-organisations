@@ -50,4 +50,10 @@ public class Constants {
 					.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build());
 	protected static final Client ES_CLIENT = TC.addTransportAddress(NODE_1);
 
+	// GEO DATA LOOKUP
+	protected static final String GEO_SERVER_NAME = "localhost";
+	protected static final String GEO_SERVER_PORT = "9001";
+	protected static final String GEO_INDEX_TEST = "geodata";
+	protected static final String GEO_TYPE = "geodata";
+
 }

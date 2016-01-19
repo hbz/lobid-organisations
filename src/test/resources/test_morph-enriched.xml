@@ -12,6 +12,9 @@
 						<literal name="035E.h" value="10" />
 						<literal name="gro_text" value="1.000.001 und mehr" />
 					</record>
+					<record id="de-123">
+						<literal name="ema" value="some.one@example.com" />
+					</record>
 				</records>
 			</cgxml>
 		</input>
@@ -34,6 +37,9 @@
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
 							<literal name="value" value="1.000.001 und mehr" />
 						</entity>
+					</record>
+					<record id="de-123">
+						<literal name="email" value="mailto:some.one@example.com" />
 					</record>
 				</records>
 			</cgxml>

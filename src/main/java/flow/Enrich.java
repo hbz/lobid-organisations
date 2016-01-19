@@ -39,7 +39,7 @@ public class Enrich {
 	public static void main(String... args)
 			throws IOException, NumberFormatException {
 		if (args.length == 0) {
-			args = new String[] { "2015-05-01", "100" };
+			args = new String[] { "2013-06-01", "100" };
 		}
 		String startOfUpdates = args[0];
 		int intervalSize = Integer.parseInt(args[1]);
@@ -56,10 +56,11 @@ public class Enrich {
 		int updateIntervals =
 				calculateIntervals(startOfUpdates, Helpers.getToday(), intervalSize);
 
-		CloseSupressor<Triple> wait = new CloseSupressor<>(2);
-		TripleSort sortTriples = new TripleSort();
+		final CloseSupressor<Triple> wait = new CloseSupressor<>(2);
+		final TripleSort sortTriples = new TripleSort();
+		final TripleRematch rematchTriples = new TripleRematch("isil");
 
-		String sigelTempFilesLocation =
+		final String sigelTempFilesLocation =
 				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH;
 
 		// SETUP SIGEL DUMP
@@ -79,14 +80,15 @@ public class Enrich {
 				Helpers.createTripleStream(true);
 		Sigel.setupSigelMorph(splitFileOpener).setReceiver(streamToTriplesDump);
 		Helpers.setupTripleStreamToWriter(streamToTriplesDump, wait, sortTriples,
-				aOutputPath);
+				rematchTriples, aOutputPath);
 
 		// SETUP DBS
 		final FileOpener openDbs = new FileOpener();
 		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
 		final StreamToTriples flowDbs = //
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
-		Helpers.setupTripleStreamToWriter(flowDbs, wait, sortTriples, aOutputPath);
+		Helpers.setupTripleStreamToWriter(flowDbs, wait, sortTriples,
+				rematchTriples, aOutputPath);
 
 		// PROCESS SIGEL
 		Sigel.processSigelSplitting(openSigelDump,

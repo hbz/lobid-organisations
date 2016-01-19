@@ -120,7 +120,7 @@
 			<data source="email" name="email">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
-			<data source="ema">
+			<data source="ema" name="email">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
 		</choose>
@@ -131,9 +131,7 @@
 			<data source="postOfficeBoxNumber" name="postOfficeBoxNumber" />
 			<data source="localityMail" name="addressLocality" />
 			<data source="postalCodeMail" name="postalCode" />
-			<data source="countryMail" name="addressCountry">
-				<lookup in="country-map" />
-			</data>
+			<data source="countryMail" name="addressCountry"/>
 			<data source="localityMail" name="type">
 				<constant value="http://schema.org/PostalAddress" />
 			</data>
@@ -156,19 +154,23 @@
 			<data source="postalCodeOther" name="plz" />
 			<data source="streetAddressOther" name="str" />
 		</combine>
+		<combine name="@geoLookupDbs" value="${str}/${ort}/${land}" flushWith="record">
+			<data source="addressCountry" name="land" />
+			<data source="str" name="str" />
+			<data source="ort" name="ort" />
+		</combine>	
 		
 		<!-- Locations -->
 		<entity name="location[]" flushWith="record">
 			<entity name="place" flushWith="record">
-				<data source="localityVisitor|plz" name="type">
+				<data source="localityVisitor|str" name="type">
 					<regexp match="(.*)" format="http://schema.org/Place" />
 				</data>
 				<data source="descriptionVisitor" name="description"/>
 				<entity name="address" flushWith="record">
 					<choose>
 						<data source="streetAddressVisitor" name="streetAddress" />
-						<!-- plz stand for street address in dbs data -->
-						<data source="plz" name="streetAddress">
+						<data source="str" name="streetAddress">
 							<not-equals string="NULL"/>
 						</data>
 					</choose>
@@ -177,17 +179,16 @@
 						<data source="ort" name="addressLocality" />
 					</choose>
 					<data source="postalCodeVisitor" name="postalCode" />
+					<data source="plz" name="postalCode" />
 					<choose>
-						<data source="countryVisitor" name="addressCountry">
-							<lookup in="country-map" />
-						</data>
+						<data source="countryVisitor" name="addressCountry"/>
 						<data source="addressCountry" name="addressCountry"/>
 					</choose>
 					<choose>
 						<data source="localityVisitor" name="type">
 							<constant value="http://schema.org/PostalAddress" />
 						</data>
-						<data source="plz" name="type">
+						<data source="str" name="type">
 							<not-equals string="NULL"/>
 							<constant value="http://schema.org/PostalAddress" />
 						</data>
@@ -209,11 +210,17 @@
 						<data source="@geoLookupVisitor" name="lat">
 							<lookup in="geolocation-lat_map" />
 						</data>
+						<data source="@geoLookupDbs" name="lat">
+							<lookup in="addLatMap" />
+						</data>
 					</choose>
 					<choose>
 						<data source="lonVisitor" name="lon" />
 						<data source="@geoLookupVisitor" name="lon">
 							<lookup in="geolocation-lon_map" />
+						</data>
+						<data source="@geoLookupDbs" name="lon">
+							<lookup in="addLongMap" />
 						</data>
 					</choose>
 				</entity>
@@ -227,9 +234,7 @@
 					<data source="streetAddressOther" name="streetAddress" />
 					<data source="localityOther" name="addressLocality" />
 					<data source="postalCodeOther" name="postalCode" />
-					<data source="countryOther" name="addressCountry">
-						<lookup in="country-map" />
-					</data>
+					<data source="countryOther" name="addressCountry" />
 					<data source="localityOther" name="type">
 						<constant value="http://schema.org/PostalAddress" />
 					</data>
