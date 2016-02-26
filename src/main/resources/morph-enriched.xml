@@ -107,6 +107,7 @@
 				<data source="prefix" name="prefix" />
 				<data source="phone" name="phonenr" />
 			</combine>
+			<!-- Disabled for privacy reasons, see https://github.com/hbz/lobid-organisations/issues/111
 			<combine value="0${prefix} ${phonenr}" name="telephone" sameEntity="true">
 				<data source="tvw" name="prefix">
 					<regexp match="\d*"/>
@@ -115,14 +116,17 @@
 					<not-equals string="NULL" />
 				</data>
 			</combine>
+			 -->
 		</choose>
 		<choose>
 			<data source="email" name="email">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
+			<!-- Disabled for privacy reasons, see https://github.com/hbz/lobid-organisations/issues/111
 			<data source="ema" name="email">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
+			 -->
 		</choose>
 		
 		<!-- Mailing address -->

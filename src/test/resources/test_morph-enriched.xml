@@ -14,6 +14,8 @@
 					</record>
 					<record id="de-123">
 						<literal name="ema" value="some.one@example.com" />
+						<literal name="tvw" value="-221" />
+						<literal name="tel" value="123" />
 					</record>
 				</records>
 			</cgxml>
@@ -39,7 +41,10 @@
 						</entity>
 					</record>
 					<record id="de-123">
+						<!-- Disabled for privacy reasons, see https://github.com/hbz/lobid-organisations/issues/111
+						<literal name="telephone" value="0221 123" />
 						<literal name="email" value="mailto:some.one@example.com" />
+						 -->
 					</record>
 				</records>
 			</cgxml>
