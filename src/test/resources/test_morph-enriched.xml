@@ -12,6 +12,16 @@
 						<literal name="035E.h" value="10" />
 						<literal name="gro_text" value="1.000.001 und mehr" />
 					</record>
+					<record id="de-789">
+						<literal name="035E.f" value="33" />
+						<literal name="035E.g" value="02" />
+						<literal name="035E.h" value="10" />
+					</record>
+					<record id="de-10">
+						<literal name="typ_text" value="Öffentliche Bibliothek" />
+						<literal name="utr_text" value="Land" />
+						<literal name="gro_text" value="1.000.001 und mehr" />
+					</record>
 					<record id="de-123">
 						<literal name="ema" value="some.one@example.com" />
 						<literal name="tvw" value="-221" />
@@ -29,7 +39,37 @@
 						<!--<literal name="inr" value="dbs-id" />-->
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n60" />
-							<literal name="value" value="Universitätsbibliothek" />
+							<literal name="value" value="Zentrale Universitätsbibliothek" />
+						</entity>
+						<entity name="fundertype">
+							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
+							<literal name="value" value="Land" />
+						</entity>
+						<entity name="stocksize">
+							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+							<literal name="value" value="1.000.001 und mehr" />
+						</entity>
+					</record>
+					<record id="de-789">
+						<!--<literal name="inr" value="dbs-id" />-->
+						<entity name="classification">
+							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
+							<literal name="value" value="Öffentliche Bibliothek" />
+						</entity>
+						<entity name="fundertype">
+							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
+							<literal name="value" value="Land" />
+						</entity>
+						<entity name="stocksize">
+							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+							<literal name="value" value="1.000.001 und mehr" />
+						</entity>
+					</record>
+					<record id="de-10">
+						<!--<literal name="inr" value="dbs-id" />-->
+						<entity name="classification">
+							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
+							<literal name="value" value="Öffentliche Bibliothek" />
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
