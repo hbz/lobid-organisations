@@ -22,15 +22,12 @@
 			"@id": "http://schema.org/openingHoursSpecification"
 		},
 		"description": "http://schema.org/description",
-		"comment": "http://www.w3.org/2000/01/rdf-schema#comment>",
+		"comment": "http://www.w3.org/2000/01/rdf-schema#comment",
 		"email": {
 			"@type": "@id",
 			"@id": "http://schema.org/email"
 		},
-		"telephone": {
-			"@type": "@id",
-			"@id": "http://schema.org/telephone"
-		},
+		"telephone": "http://schema.org/telephone",
 		"url": {
 			"@type": "@id",
 			"@id": "http://schema.org/url"
