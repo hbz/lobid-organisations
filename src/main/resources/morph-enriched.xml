@@ -18,11 +18,11 @@
 			</choose>
 		</combine>
 		<choose>
-			<data source="gemeindekennzahl" name="rs">
-				<regexp match="(\d{11})" format="0${1}"/>
-			</data>
-			<data source="gemeindekennzahl" name="rs">
+			<data source="stk_2007" name="rs">
 				<regexp match="\d{12}" />
+			</data>
+			<data source="stk_2007" name="rs">
+				<regexp match="(\d{11})" format="0${1}"/>
 			</data>
 			<data source="032P.n" name="rs">
 				<lookup in="rs_map" />

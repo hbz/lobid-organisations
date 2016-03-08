@@ -21,11 +21,13 @@
 						<literal name="typ_text" value="Öffentliche Bibliothek" />
 						<literal name="utr_text" value="Land" />
 						<literal name="gro_text" value="1.000.001 und mehr" />
+						<literal name="stk_2007" value="10510011011" />
 					</record>
 					<record id="de-123">
 						<literal name="ema" value="some.one@example.com" />
 						<literal name="tvw" value="-221" />
 						<literal name="tel" value="123" />
+						<literal name="stk_2007" value="100460000000" />
 					</record>
 				</records>
 			</cgxml>
@@ -67,6 +69,7 @@
 					</record>
 					<record id="de-10">
 						<!--<literal name="inr" value="dbs-id" />-->
+						<literal name="rs" value="010510011011" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
 							<literal name="value" value="Öffentliche Bibliothek" />
@@ -85,6 +88,7 @@
 						<literal name="telephone" value="0221 123" />
 						<literal name="email" value="mailto:some.one@example.com" />
 						 -->
+						 <literal name="rs" value="100460000000" />
 					</record>
 				</records>
 			</cgxml>
