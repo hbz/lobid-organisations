@@ -41,30 +41,30 @@
 						<!--<literal name="inr" value="dbs-id" />-->
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n60" />
-							<literal name="value" value="Zentrale Universitätsbibliothek" />
+							<literal name="label" value="Zentrale Universitätsbibliothek" />
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
-							<literal name="value" value="Land" />
+							<literal name="label" value="Land" />
 						</entity>
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
-							<literal name="value" value="1.000.001 und mehr" />
+							<literal name="label" value="1.000.001 und mehr" />
 						</entity>
 					</record>
 					<record id="de-789">
 						<!--<literal name="inr" value="dbs-id" />-->
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
-							<literal name="value" value="Öffentliche Bibliothek" />
+							<literal name="label" value="Öffentliche Bibliothek" />
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
-							<literal name="value" value="Land" />
+							<literal name="label" value="Land" />
 						</entity>
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
-							<literal name="value" value="1.000.001 und mehr" />
+							<literal name="label" value="1.000.001 und mehr" />
 						</entity>
 					</record>
 					<record id="de-10">
@@ -72,15 +72,15 @@
 						<literal name="rs" value="010510011011" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
-							<literal name="value" value="Öffentliche Bibliothek" />
+							<literal name="label" value="Öffentliche Bibliothek" />
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
-							<literal name="value" value="Land" />
+							<literal name="label" value="Land" />
 						</entity>
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
-							<literal name="value" value="1.000.001 und mehr" />
+							<literal name="label" value="1.000.001 und mehr" />
 						</entity>
 					</record>
 					<record id="de-123">
