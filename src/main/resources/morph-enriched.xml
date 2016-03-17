@@ -278,10 +278,10 @@
 				</data>
 			</choose>
 			<choose>
-				<data source="035E.f" name="value">
+				<data source="035E.f" name="label">
 					<lookup in="libtype_id_to_value_map" />
 				</data>
-				<data source="typ_text" name="value"></data>
+				<data source="typ_text" name="label"></data>
 			</choose>
 		</entity>
 		<entity name="fundertype" flushWith="record">
@@ -294,10 +294,10 @@
 				</data>
 			</choose>
 			<choose>
-				<data source="035E.g" name="value">
+				<data source="035E.g" name="label">
 					<lookup in="fundertype_id_to_value_map" />
 				</data>
-				<data source="utr_text" name="value"></data>
+				<data source="utr_text" name="label"></data>
 			</choose>
 		</entity>
 		<entity name="stocksize" flushWith="record">
@@ -310,10 +310,10 @@
 				</data>
 			</choose>
 			<choose>
-				<data source="035E.h" name="value">
+				<data source="035E.h" name="label">
 					<lookup in="stocksize_id_to_value_map" />
 				</data>
-				<data source="gro_text" name="value"></data>
+				<data source="gro_text" name="label"></data>
 			</choose>
 		</entity>
 		<data source="isil" name="isPrimaryTopicOf">
