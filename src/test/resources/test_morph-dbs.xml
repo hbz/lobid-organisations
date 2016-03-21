@@ -15,7 +15,7 @@
 					</record>
 					<record id="3">
 						<literal name="inr" value="aut001" />
-						<literal name="isil" value="AT-001" />
+						<literal name="isil" value="ÄT/00 1" />
 						<literal name="iso" value="AUT" />
 					</record>
 				</records>
@@ -40,7 +40,7 @@
 					<record id="3">
 						<literal name="_id" value="aut001" />
 						<literal name="inr" value="aut001" />
-						<literal name="isil" value="AT-001" />
+						<literal name="isil" value="%C3%84T-001" />
 						<literal name="addressCountry" value="AT" />
 					</record>
 				</records>
