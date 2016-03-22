@@ -123,18 +123,14 @@ public class Index {
 	}
 
 	private static void deleteIndex(final Client client,
-			final String aIndexName) {
-		if (indexExists(aIndexName, client)) {
+			final String index) {
+		if (client.admin().indices().prepareExists(index).execute().actionGet()
+				.isExists()) {
 			final DeleteIndexRequest deleteIndexRequest =
-					new DeleteIndexRequest(aIndexName);
+					new DeleteIndexRequest(index);
 			client.admin().indices().delete(deleteIndexRequest);
 			client.admin().cluster().prepareHealth().setWaitForYellowStatus()
 					.execute().actionGet();
 		}
-	}
-
-	public static boolean indexExists(final String aIndex, final Client aClient) {
-		return aClient.admin().indices().prepareExists(aIndex).execute().actionGet()
-				.isExists();
 	}
 }
