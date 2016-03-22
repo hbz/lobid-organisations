@@ -1,6 +1,7 @@
 package flow;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
@@ -57,7 +58,7 @@ public class EnrichSample {
 		final StreamToTriples dbsFlow = //
 				Dbs.morphDbs(openDbs).setReceiver(Helpers.createTripleStream(true));
 		Helpers.setupTripleStreamToWriter(dbsFlow, wait, sortTriples,
-				rematchTriples, aOutputPath);
+				rematchTriples, aOutputPath, Optional.empty());
 		Dbs.processDbs(openDbs, DBS_LOCATION);
 
 		// Sigel Morph
@@ -65,7 +66,7 @@ public class EnrichSample {
 		StreamToTriples sigelFlow = Sigel.setupSigelMorph(splitFileOpener)
 				.setReceiver(Helpers.createTripleStream(true));
 		Helpers.setupTripleStreamToWriter(sigelFlow, wait, sortTriples,
-				rematchTriples, aOutputPath);
+				rematchTriples, aOutputPath, Optional.empty());
 		Sigel.processSigelMorph(splitFileOpener, SIGEL_TEMP_FILES_LOCATION);
 	}
 

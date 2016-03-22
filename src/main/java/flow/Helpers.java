@@ -2,6 +2,7 @@ package flow;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Optional;
 
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.morph.maps.RestMap;
@@ -71,29 +72,18 @@ public class Helpers {
 	 * @param flow the processing stream that is to be connected to a JSON writer
 	 * @param wait a CloseSupressor, ensuring all pipes are received by the writer
 	 * @param aOutputPath the destination of the written file
+	 * @param geoLookupServer The geo lookup server, with protocol and port
 	 */
 	static void setupTripleStreamToWriter(final StreamToTriples flow,
 			CloseSupressor<Triple> wait, TripleSort sortTriples,
-			final TripleRematch rematchTriples, final String aOutputPath) {
+			final TripleRematch rematchTriples, final String aOutputPath,
+			Optional<String> geoLookupServer) {
 
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
 				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-enriched.xml");
-
-		// GEO LOOKUP
-		RestMap addDbsLatMap = new RestMap();
-		RestMap addDbsLongMap = new RestMap();
-		RestMap addDbsPostalCodeMap = new RestMap();
-		String server =
-				"http://" + Constants.GEO_SERVER_NAME + ":" + Constants.GEO_SERVER_PORT;
-		addDbsLatMap.setUrl(server + "/lat/${key}");
-		addDbsLongMap.setUrl(server + "/long/${key}");
-		addDbsPostalCodeMap.setUrl(server + "/postcode/${key}");
-		morph.putMap("addLatMap", addDbsLatMap);
-		morph.putMap("addLongMap", addDbsLongMap);
-		morph.putMap("addPostalCodeMap", addDbsPostalCodeMap);
-
+		setupGeoLookup(morph, geoLookupServer);
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = Helpers.createJsonEncoder(true);
 		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
@@ -109,6 +99,21 @@ public class Helpers {
 				.setReceiver(esBulk)//
 				.setReceiver(writer);
 
+	}
+
+	private static void setupGeoLookup(final Metamorph morph,
+			Optional<String> geoLookupServer) {
+		if (geoLookupServer.isPresent()) {
+			RestMap addDbsLatMap = new RestMap();
+			RestMap addDbsLongMap = new RestMap();
+			RestMap addDbsPostalCodeMap = new RestMap();
+			addDbsLatMap.setUrl(geoLookupServer.get() + "/lat/${key}");
+			addDbsLongMap.setUrl(geoLookupServer.get() + "/long/${key}");
+			addDbsPostalCodeMap.setUrl(geoLookupServer.get() + "/postcode/${key}");
+			morph.putMap("addLatMap", addDbsLatMap);
+			morph.putMap("addLongMap", addDbsLongMap);
+			morph.putMap("addPostalCodeMap", addDbsPostalCodeMap);
+		}
 	}
 
 }
