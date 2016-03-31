@@ -162,7 +162,7 @@ Load the web application into Eclipse:
 * @eclipse@
 * In Eclipse: @File@ -> @Import...@ -> @Existing Projects into Workspace...@ -> @Next@ -> @Browse...@ -> select root directory: @~/git/lobid-organisations/web@ -> @Finish@
 
-The web application can also be accessed via http://data.lobid.org/organisations.
+The web application can also be accessed via http://beta.lobid.org/organisations.
 
 h1. License
 
