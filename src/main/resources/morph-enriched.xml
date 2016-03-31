@@ -427,23 +427,33 @@
 			<entry name="15" value="Zentrale Fachbibliothek" />
 			<entry name="21" value="Regionalbibliothek" />
 			<entry name="33" value="Öffentliche Bibliothek" />
+			<entry name="34" value="Mediathek" />
 			<entry name="36" value="Öffentliche Bibliothek für besondere Benutzergruppen" />
 			<entry name="39" value="Fahrbibliothek" />
+			<entry name="51" value="Archiv (staatlich)" />
+			<entry name="52" value="Archiv (kommunal)" />
+			<entry name="53" value="Archiv (kirchlich)" />
+			<entry name="54" value="Archiv (Herrschafts-/Familienarchiv)" />
+			<entry name="55" value="Archiv (Wirtschaft)" />
+			<entry name="56" value="Archiv (Parlament, Partei, Stiftung oder Verband)" />
+			<entry name="57" value="Archiv (Medienarchiv)" />
+			<entry name="58" value="Archiv (Hochschule, Wissenschaft)" />
+			<entry name="59" value="Archiv (Sonstiges)" />
 			<entry name="60" value="Zentrale Universitätsbibliothek" />
 			<entry name="65" value="Abteilungsbibliothek, Fachbereichsbibliothek, Institutsbibliothek (Universität)" />
 			<entry name="70" value="Zentrale Hochschulbibliothek, nicht Universität" />
 			<entry name="73" value="Abteilungsbibliothek, Fachbereichsbibliothek (Hochschule, nicht Universität)" />
 			<entry name="81" value="Wissenschaftliche Spezialbibliothek" />
-			<entry name="85" value="Archiv (nicht Archivbibliothek)" />
+			<entry name="82" value="Einrichtung der Denkmalpflege" />
+			<entry name="84" value="Forschungseinrichtung" />
 			<entry name="86" value="Museum (nicht Museumsbibliothek)" />
 			<entry name="87" value="Verlag" />
 			<entry name="88" value="Sonstige Einrichtung" />
 			<entry name="89" value="Paket elektronischer Ressourcen" />
 			<entry name="91" value="Fachstelle für Bibliotheken" />
 			<entry name="94" value="Regionaler Zentralkatalog / Leihverkehrszentrale" />
-			<entry name="95" value="Fachzentralkatalog" />
+			<entry name="95" value="Virtuelle Bibliothek / Portal" />
 			<entry name="96" value="Verbundsystem/ -kataloge" />
-			<entry name="97" value="Ministerium" />
 			<entry name="98" value="Serviceeinrichtung" />
 		</map>
 		<map name="fundertype_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
