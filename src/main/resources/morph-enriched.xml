@@ -386,14 +386,19 @@
 	</rules>
 	<maps>
 		<filemap name="country-map"
-			files="http://lobid.org/download/lookup-tables/data/country-map.csv" />
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/country-map.csv" />
 		<filemap name="isil2dbpedia_map"
-			files="http://lobid.org/download/lookup-tables/data/isil2dbpedia-map.csv" />
-		<filemap name="geolocation-lat_map" files="http://lobid.org/download/lookup-tables/data/geo-latitude-map.csv"/>		
-		<filemap name="geolocation-lon_map" files="http://lobid.org/download/lookup-tables/data/geo-longitude-map.csv"/>
-		<filemap name="libtype_map" files="http://lobid.org/download/lookup-tables/data/libtype-map.csv"/>
-		<filemap name="rs_map" files="http://lobid.org/download/lookup-tables/data/ags-rs-map.csv" />
-		<filemap name="geonames_map" files="http://lobid.org/download/lookup-tables/data/geonames-map.csv" />
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/isil2dbpedia-map.csv" />
+		<filemap name="geolocation-lat_map"
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geo-latitude-map.csv"/>
+		<filemap name="geolocation-lon_map"
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geo-longitude-map.csv"/>
+		<filemap name="libtype_map"
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/libtype-map.csv"/>
+		<filemap name="rs_map"
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/ags-rs-map.csv" />
+		<filemap name="geonames_map"
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
 		<map name="fundertype_id_to_value_map">
 			<entry name="01" value="Bundesrepublik Deutschland" />
 			<entry name="02" value="Land" />
