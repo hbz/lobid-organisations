@@ -16,6 +16,8 @@ import org.junit.Test;
 @SuppressWarnings("javadoc")
 public class TestGeoEnrich extends ElasticsearchTest {
 
+	private static final String GEO_INDEX_TEST = "geodata";
+
 	private static SearchResponse searchByAddress(final String aIndex,
 			final Client aClient, final String aType, SearchType aSearchType,
 			QueryBuilder aQuery) {
@@ -40,8 +42,7 @@ public class TestGeoEnrich extends ElasticsearchTest {
 
 	private static SearchResponse searchByAddressInGeodata() {
 		QueryStringQueryBuilder query = QueryBuilders.queryString("Grabenstr. 4");
-		return searchByAddress(Constants.GEO_INDEX_TEST, geoClient, null, null,
-				query);
+		return searchByAddress(GEO_INDEX_TEST, geoClient, null, null, query);
 	}
 
 	@Test
@@ -56,8 +57,8 @@ public class TestGeoEnrich extends ElasticsearchTest {
 	public void testDbsGeoEnrichment() throws InterruptedException {
 		// wait for Geo Index to be set up
 		int count = 0;
-		while (!geoClient.admin().indices().prepareExists(Constants.GEO_INDEX_TEST)
-				.execute().actionGet().isExists()) {
+		while (!geoClient.admin().indices().prepareExists(GEO_INDEX_TEST).execute()
+				.actionGet().isExists()) {
 			Thread.sleep(1000);
 			count++;
 			if (count > 30) {
@@ -65,20 +66,9 @@ public class TestGeoEnrich extends ElasticsearchTest {
 			}
 		}
 		SearchHit responseGeoIndex = searchByAddressInGeodata().getHits().getAt(0);
-		assertTrue("Response should contain the field location",
+		assertTrue("Response should contain the geo location field",
 				responseGeoIndex.getSourceAsString().contains("geocode"));
-
-		// check geo information was processed while transforming organisation data
-		/* TODO: currently not set up for clean tests (no geodata service running)
-		SearchHit responseOrganisationsIndex =
-				searchByAddressInOrganisations("Grabenstr. 4").getHits().getAt(0);
-		assertTrue("Response should contain the field location",
-				responseOrganisationsIndex.getSourceAsString().contains("geo"));
-		assertTrue("Response should contain latitude",
-				responseOrganisationsIndex.getSourceAsString().contains("lat"));
-		assertTrue("Response should contain longitude",
-				responseOrganisationsIndex.getSourceAsString().contains("lon"));
-		*/
+		// TODO: test actual content of "geocode" field
 	}
 
 }
