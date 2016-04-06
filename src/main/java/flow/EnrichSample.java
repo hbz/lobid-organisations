@@ -26,8 +26,6 @@ public class EnrichSample {
 	private static String DUMP_XPATH =
 			"/" + Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH;
 
-	private static TripleSort tripleSort = new TripleSort();
-
 	/**
 	 * @param args not used
 	 */

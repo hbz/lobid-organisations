@@ -33,20 +33,19 @@ public class Enrich {
 	/**
 	 * @param args start date of Sigel updates (date of Sigel base dump) and size
 	 *          of update intervals in days
-	 * @throws IOException
-	 * @throws NumberFormatException
 	 */
-	public static void main(String... args)
-			throws IOException, NumberFormatException {
-		if (args.length == 0) {
-			args = new String[] { "2013-06-01", "100" };
+	public static void main(String... args) {
+		try {
+			String startOfUpdates = args.length > 0 ? args[0] : "2013-06-01";
+			String intervalSize = args.length > 1 ? args[1] : "100";
+			String outputPath = Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH
+					+ "enriched.out.json";
+			process(startOfUpdates, Integer.parseInt(intervalSize),
+					Constants.MAIN_RESOURCES_PATH, outputPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
 		}
-		String startOfUpdates = args[0];
-		int intervalSize = Integer.parseInt(args[1]);
-		String outputPath = Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH
-				+ "enriched.out.json";
-		process(startOfUpdates, intervalSize, Constants.MAIN_RESOURCES_PATH,
-				outputPath);
 	}
 
 	static void process(String startOfUpdates, int intervalSize,
