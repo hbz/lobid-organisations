@@ -12,7 +12,9 @@
 		</data>
 		<data source="isil" name="isil">
 			<not-equals string="NULL"/>
-			<replace  pattern=" "  with=""/>
+			<replace  pattern=" " with=""/>
+			<replace  pattern="/" with="-"/>
+			<urlencode/>
 		</data>
 		<data source="_else">
 			<not-equals string="NULL" />

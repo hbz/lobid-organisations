@@ -2,8 +2,6 @@ package flow;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
@@ -40,8 +38,7 @@ public class TestGeoEnrich extends ElasticsearchTest {
 				SearchType.DFS_QUERY_AND_FETCH, query);
 	}
 
-	private static SearchResponse searchByAddressInGeodata(
-			final String addressToSearch, final String aJsonPath) {
+	private static SearchResponse searchByAddressInGeodata() {
 		QueryStringQueryBuilder query = QueryBuilders.queryString("Grabenstr. 4");
 		return searchByAddress(Constants.GEO_INDEX_TEST, geoClient, null, null,
 				query);
@@ -49,30 +46,29 @@ public class TestGeoEnrich extends ElasticsearchTest {
 
 	@Test
 	public void requestCoordinates() {
-		SearchHit response = searchByAddressInOrganisations("Universit��tsstr. 33")
+		SearchHit response = searchByAddressInOrganisations("Universitätsstr. 33")
 				.getHits().getAt(0);
 		assertTrue("Response should contain the field location",
 				response.getSourceAsString().contains("geo"));
 	}
 
 	@Test
-	public void testDbsGeoEnrichment() throws IOException, InterruptedException {
+	public void testDbsGeoEnrichment() throws InterruptedException {
 		// wait for Geo Index to be set up
 		int count = 0;
-		while (!Index.indexExists(Constants.GEO_INDEX_TEST, geoClient)) {
+		while (!geoClient.admin().indices().prepareExists(Constants.GEO_INDEX_TEST)
+				.execute().actionGet().isExists()) {
 			Thread.sleep(1000);
 			count++;
 			if (count > 30) {
 				break;
 			}
 		}
-		SearchHit responseGeoIndex =
-				searchByAddressInGeodata("Grabenstr. 4", "street").getHits().getAt(0);
+		SearchHit responseGeoIndex = searchByAddressInGeodata().getHits().getAt(0);
 		assertTrue("Response should contain the field location",
 				responseGeoIndex.getSourceAsString().contains("geocode"));
 
-		// check geo information was processed while transforming organanisation
-		// data
+		// check geo information was processed while transforming organisation data
 		/* TODO: currently not set up for clean tests (no geodata service running)
 		SearchHit responseOrganisationsIndex =
 				searchByAddressInOrganisations("Grabenstr. 4").getHits().getAt(0);
