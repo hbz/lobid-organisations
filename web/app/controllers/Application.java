@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Application extends Controller {
 
-	private static final String SERVER_NAME = "weywot2.hbz-nrw.de";
+	private static final String SERVER_NAME = "quaoar1.hbz-nrw.de";
 	private static final String ES_SERVER = "http://" + SERVER_NAME + ":9200";
 	private static final String ES_INDEX = "organisations";
 	private static final String ES_TYPE = "organisation";

@@ -8,6 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
@@ -31,29 +32,43 @@ public class Enrich {
 			"/" + Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH;
 
 	/**
-	 * @param args start date of Sigel updates (date of Sigel base dump) and size
-	 *          of update intervals in days
+	 * <p>
+	 * Supports three optional parameters:
+	 * </p>
+	 * <ol>
+	 * <li>start date of Sigel updates (date of Sigel base dump), e.g.
+	 * "2013-06-01"</li>
+	 * <li>size of update intervals in days e.g. "100"</li>
+	 * <li>URL of the geo lookup server, e.g. "http://gaia.hbz-nrw.de:7400"</li>
+	 * </ol>
+	 * <p>
+	 * Pass either 1) nothing, 2) date, 3) date and size, or 4) date, size, and
+	 * server. If no date is given, no updates are pulled. If no size is given, a
+	 * default value is used. If no server is given, no geo lookup is performed.
+	 * </p>
+	 *
+	 * @param args The date, size, and URL parameters
 	 */
 	public static void main(String... args) {
 		try {
-			String startOfUpdates = args.length > 0 ? args[0] : "2013-06-01";
+			Optional<String> startOfUpdates =
+					args.length > 0 ? Optional.of(args[0]) : Optional.empty();
 			String intervalSize = args.length > 1 ? args[1] : "100";
+			Optional<String> geoLookupServer =
+					args.length > 2 ? Optional.of(args[2]) : Optional.empty();
 			String outputPath = Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH
 					+ "enriched.out.json";
 			process(startOfUpdates, Integer.parseInt(intervalSize),
-					Constants.MAIN_RESOURCES_PATH, outputPath);
+					Constants.MAIN_RESOURCES_PATH, outputPath, geoLookupServer);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
 	}
 
-	static void process(String startOfUpdates, int intervalSize,
-			final String aResourcesPath, final String aOutputPath)
-					throws IOException {
-
-		int updateIntervals =
-				calculateIntervals(startOfUpdates, Helpers.getToday(), intervalSize);
+	static void process(Optional<String> startOfUpdates, int intervalSize,
+			final String aResourcesPath, final String aOutputPath,
+			Optional<String> geoLookupServer) throws IOException {
 
 		final CloseSupressor<Triple> wait = new CloseSupressor<>(2);
 		final TripleSort sortTriples = new TripleSort();
@@ -69,17 +84,13 @@ public class Enrich {
 		Sigel.setupSigelSplitting(openSigelDump, xmlSplitter, DUMP_XPATH,
 				Constants.MAIN_RESOURCES_PATH + Constants.OUTPUT_PATH);
 
-		// SETUP SIGEL UPDATE
-		ArrayList<OaiPmhOpener> updateOpenerList =
-				buildUpdatePipes(intervalSize, startOfUpdates, updateIntervals);
-
 		// SETUP PROCESSING OF SPLITTED AND UPDATED SIGEL XML FILES
 		final FileOpener splitFileOpener = new FileOpener();
 		final StreamToTriples streamToTriplesDump =
 				Helpers.createTripleStream(true);
 		Sigel.setupSigelMorph(splitFileOpener).setReceiver(streamToTriplesDump);
 		Helpers.setupTripleStreamToWriter(streamToTriplesDump, wait, sortTriples,
-				rematchTriples, aOutputPath);
+				rematchTriples, aOutputPath, geoLookupServer);
 
 		// SETUP DBS
 		final FileOpener openDbs = new FileOpener();
@@ -87,22 +98,33 @@ public class Enrich {
 		final StreamToTriples flowDbs = //
 				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
 		Helpers.setupTripleStreamToWriter(flowDbs, wait, sortTriples,
-				rematchTriples, aOutputPath);
+				rematchTriples, aOutputPath, geoLookupServer);
 
 		// PROCESS SIGEL
 		Sigel.processSigelSplitting(openSigelDump,
 				aResourcesPath + Constants.SIGEL_DUMP_LOCATION);
-		for (OaiPmhOpener updateOpener : updateOpenerList) {
-			Sigel.processSigelSplitting(updateOpener, Constants.SIGEL_DNB_REPO);
-		}
+		processSigelUpdates(startOfUpdates, intervalSize);
 		Sigel.processSigelMorph(splitFileOpener, sigelTempFilesLocation);
 
 		Dbs.processDbs(openDbs, aResourcesPath + Constants.DBS_LOCATION);
 	}
 
+	private static void processSigelUpdates(Optional<String> startOfUpdates,
+			int intervalSize) {
+		if (startOfUpdates.isPresent()) {
+			int updateIntervals =
+					calculateIntervals(startOfUpdates, Helpers.getToday(), intervalSize);
+			ArrayList<OaiPmhOpener> updateOpenerList =
+					buildUpdatePipes(intervalSize, startOfUpdates, updateIntervals);
+			for (OaiPmhOpener updateOpener : updateOpenerList) {
+				Sigel.processSigelSplitting(updateOpener, Constants.SIGEL_DNB_REPO);
+			}
+		}
+	}
+
 	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
-			String startOfUpdates, int updateIntervals) {
-		String start = startOfUpdates;
+			Optional<String> startOfUpdates, int updateIntervals) {
+		String start = startOfUpdates.get();
 		String end = addDays(start, intervalSize);
 		final ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
 
@@ -149,9 +171,9 @@ public class Enrich {
 		return result;
 	}
 
-	private static int calculateIntervals(String start, String end,
-			int intervalSize) {
-		final LocalDate startDate = LocalDate.parse(start);
+	private static int calculateIntervals(Optional<String> startOfUpdates,
+			String end, int intervalSize) {
+		final LocalDate startDate = LocalDate.parse(startOfUpdates.get());
 		final LocalDate endDate = LocalDate.parse(end);
 		long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
 		return (int) timeSpan / intervalSize;

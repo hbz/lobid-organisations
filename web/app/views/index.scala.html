@@ -18,12 +18,12 @@
     <h2>Basics</h2>
     @desc("Get", routes.Application.get("DE-6"))
     @desc("Query 'name' field", routes.Application.search("name:stadtbibliothek+berlin"))
-    @desc("Query nested 'fundertype.value' field", routes.Application.search("fundertype.value:land"))
-    @desc("Query with from and size", routes.Application.search("fundertype.value:land", from=2, size = 2))
+    @desc("Query nested 'fundertype.label' field", routes.Application.search("fundertype.label:land"))
+    @desc("Query with from and size", routes.Application.search("fundertype.label:land", from=2, size = 2))
     @desc("Context", routes.Application.context)
     <h2>Location based queries</h2>
-    @desc("Query with polygon (location: coordinates of polygon points 'lat,lon')", routes.Application.search("fundertype.value:land", "52,12 53,12 53,14 52,14"))
-    @desc("Query with distance (location: coordinate of a point and a distance in km 'lat,lon,distance')", routes.Application.search("fundertype.value:land", "52.52,13.39,25"))
+    @desc("Query with polygon (location: coordinates of polygon points 'lat,lon')", routes.Application.search("fundertype.label:land", "52,12 53,12 53,14 52,14"))
+    @desc("Query with distance (location: coordinate of a point and a distance in km 'lat,lon,distance')", routes.Application.search("fundertype.label:land", "52.52,13.39,25"))
     <h2>Reconciliation</h2>
     <p>The lobid-organisations service implements the <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API">OpenRefine Reconciliation API</a> for multi query requests.</p>
     <p>The service supports details from additional columns during <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation">reconciliation</a>, under arbitrary property names.</p>
