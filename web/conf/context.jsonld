@@ -83,6 +83,12 @@
 		"sameAs": {
 			"@type": "@id",
 			"@id": "http://schema.org/sameAs"
-		}
+		},
+		"Library": "http://schema.org/Library",
+		"Archive": "http://data.archiveshub.ac.uk/def/Repository",
+		"Museum": "http://schema.org/Museum",
+		"Publisher": "http://vivoweb.org/ontology/core#Publisher",
+		"Organization": "http://schema.org/Organization",
+		"Collection": "http://purl.org/ontology/bibo/Collection"
 	}
 }
