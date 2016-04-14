@@ -131,6 +131,9 @@ Next, start Elasticsearch:
 @cd ../bin@
 @./elasticsearch@
 
+Check whether it is running:
+@curl -X GET http://localhost:9200/@
+
 Go back to the project root directory:
 @cd ../..@
 
