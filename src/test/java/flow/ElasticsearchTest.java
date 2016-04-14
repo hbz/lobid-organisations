@@ -7,6 +7,7 @@ import java.io.IOException;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.node.Node;
 import org.junit.AfterClass;
@@ -22,7 +23,8 @@ public abstract class ElasticsearchTest {
 
 	@BeforeClass
 	public static void makeIndex() throws IOException {
-		node = nodeBuilder().local(true).node();
+		node = nodeBuilder().settings(Settings.builder().put("path.home", "."))
+				.local(true).node();
 		client = node.client();
 		setupLocalGeodataExample();
 		transformData();
@@ -41,7 +43,8 @@ public abstract class ElasticsearchTest {
 	}
 
 	private static void setupLocalGeodataExample() throws IOException {
-		geoNode = nodeBuilder().local(true).node();
+		geoNode = nodeBuilder().local(true)
+				.settings(Settings.builder().put("path.home", ".")).node();
 		geoClient = geoNode.client();
 		String geoIndex = "geodata";
 		prepareIndexing(geoClient, geoIndex, null);
@@ -56,7 +59,7 @@ public abstract class ElasticsearchTest {
 
 	public static void prepareIndexing(final Client aIndexClient,
 			final String aIndex, final String aPathToIndexSettings)
-					throws IOException {
+			throws IOException {
 		Index.createEmptyIndex(aIndexClient, aIndex, aPathToIndexSettings);
 	}
 

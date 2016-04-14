@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,7 +17,6 @@ import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
@@ -50,13 +50,15 @@ public class Index {
 		String pathToJson = args[1];
 		String index = args.length == 3 ? args[2] : Constants.ES_INDEX;
 		if (new File(pathToJson).length() >= minimumSize) {
-			Settings clientSettings = ImmutableSettings.settingsBuilder()
-					.put("cluster.name", Constants.ES_CLUSTER)
-					.put("client.transport.sniff", true).build();
-			try (Node node = NodeBuilder.nodeBuilder().local(false).node();
-					TransportClient transportClient = new TransportClient(clientSettings);
-					Client client = transportClient.addTransportAddress(
-							new InetSocketTransportAddress(Constants.SERVER_NAME, 9300));) {
+			Settings clientSettings =
+					Settings.settingsBuilder().put("cluster.name", Constants.ES_CLUSTER)
+							.put("client.transport.sniff", true).build();
+			try (Node node = NodeBuilder.nodeBuilder().local(false).settings(Settings.builder().put("path.home", "elasticsearch-2.3.1")).node();
+					TransportClient transportClient =
+							TransportClient.builder().settings(clientSettings).build();
+					Client client = transportClient
+							.addTransportAddress(new InetSocketTransportAddress(
+									new InetSocketAddress(Constants.SERVER_NAME, 9300)));) {
 				createEmptyIndex(client, Constants.ES_INDEX,
 						Constants.MAIN_RESOURCES_PATH + "index-settings.json");
 				indexData(client, pathToJson, index);
@@ -97,7 +99,7 @@ public class Index {
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
 			final BufferedReader br, final Client client, final String aIndex)
-					throws IOException, JsonParseException, JsonMappingException {
+			throws IOException, JsonParseException, JsonMappingException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;
@@ -122,8 +124,7 @@ public class Index {
 		}
 	}
 
-	private static void deleteIndex(final Client client,
-			final String index) {
+	private static void deleteIndex(final Client client, final String index) {
 		if (client.admin().indices().prepareExists(index).execute().actionGet()
 				.isExists()) {
 			final DeleteIndexRequest deleteIndexRequest =
