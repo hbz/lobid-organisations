@@ -114,9 +114,32 @@ If you run the transformation with the full data (see above for downloads), the 
 
 h2. Index
 
+Download Elasticsearch and unzip it in the project root directory:
+@wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-2.3.1.zip
+@unzip elasticsearch-2.3.1.zip
+
+Change the configuration file elasticsearch.yml to match the cluster name:
+@cd elasticsearch-2.3.1/config
+@vim elasticsearch.yml
+
+Within that file change the value cluster.name:
+@cluster.name = lobid-hbz
+
+And take care to uncomment the line.
+
+Next, start Elasticsearch:
+@cd ../bin
+@./elasticsearch
+
+Go back to the project root directory:
+@cd ../..
+
+You have to choose your Elasticsearch server before building the project. If you don't want to run on localhost (default) change the following line in class flow.Constants and rebuild:
+@protected static final String SERVER_NAME = "localhost"; // "quaoar1.hbz-nrw.de";
+
 The Elasticsearch index is constructed from the output of the transformation. Before building the index, the application will check for the minimum size of the transformation output (in src/test/resources/output or src/main/resources/output). This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified as an argument to the main method of the class Index.
 
-Run the indexing and pass a minimum file size in bytes (indexing only works hbz internally!):
+Run the indexing and pass a minimum file size in bytes:
 
 * For the sample data:
 @mvn exec:java -Dexec.mainClass="flow.Index" -Dexec.args="5000 src/test/resources/output/enriched.out.json"@
