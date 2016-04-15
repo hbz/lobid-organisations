@@ -118,24 +118,21 @@ Download Elasticsearch and unzip it in the project root directory:
 @wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-2.3.1.zip@
 @unzip elasticsearch-2.3.1.zip@
 
-Change the configuration file elasticsearch.yml to match the cluster name:
-@cd elasticsearch-2.3.1/config@
-@vim elasticsearch.yml@
+Run Elasticsearch in daemon mode (output is logged to logs/elasticsearch.log), and record the process id:
 
-Within that file change the value cluster.name:
-@cluster.name = lobid-hbz@
+@bin/elasticsearch -d -p pid@
 
-And take care to uncomment the line.
+Access your local Elasticsearch server:
 
-Next, start Elasticsearch:
-@cd ../bin@
-@./elasticsearch@
-
-Check whether it is running:
 @curl -X GET http://localhost:9200/@
 
-Go back to the project root directory:
-@cd ../..@
+To shut down the Elasticsearch server, kill the process recorded in the pid file on startup:
+
+@kill `cat pid`@
+
+To continue, leave the server running or restart it, and change back to the project root directory:
+
+@cd ..@
 
 You have to choose your Elasticsearch server before building the project. If you don't want to run on localhost (default) change the following line in class flow.Constants and rebuild:
 @protected static final String SERVER_NAME = "localhost"; // "quaoar1.hbz-nrw.de";@
@@ -154,17 +151,17 @@ h2. Query
 
 Query the resulting index (only works hbz internally!):
 
-* @curl -XGET 'http://weywot2.hbz-nrw.de:9200/organisations/_search?q=name:hbz+OR+altLabel:hbz'; echo@
+* @curl -XGET 'http://localhost:9200/organisations/_search?q=name:hbz+OR+altLabel:hbz'; echo@
 
 For details on the various options see the "query string syntax documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax.
 
 Get a specific record by DE-9:
 
-* @curl -XGET 'http://weywot2.hbz-nrw.de:9200/organisations/organisation/DE-9'; echo@
+* @curl -XGET 'http://localhost:9200/organisations/organisation/DE-9'; echo@
 
 Exclude the metadata (you can paste the resulting document into the "JSON-LD Playground":http://json-ld.org/playground/ for conversion tests etc.):
 
-* @curl -XGET 'http://weywot2.hbz-nrw.de:9200/organisations/organisation/DE-9/_source'; echo@
+* @curl -XGET 'http://localhost:9200/organisations/organisation/DE-9/_source'; echo@
 
 For details on the various options see the "GET API documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html.
 

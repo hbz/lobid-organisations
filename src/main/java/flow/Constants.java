@@ -34,8 +34,8 @@ public class Constants {
 			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
 
 	// ELASTICSEARCH SETTINGS
-	protected static final String ES_CLUSTER = "lobid-hbz";
-	protected static final String ES_INDEX = "organisations-staging";
+	protected static final String ES_CLUSTER = "elasticsearch";
+	protected static final String ES_INDEX = "organisations";
 	protected static final String ES_TYPE = "organisation";
 	protected static final String SERVER_NAME = "localhost"; // "quaoar1.hbz-nrw.de";
 
