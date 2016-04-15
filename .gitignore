@@ -25,3 +25,4 @@ web/data/*
 src/main/resources/input/*
 src/main/resources/output/*
 src/test/resources/output/*
+/elasticsearch*
