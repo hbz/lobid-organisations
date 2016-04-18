@@ -172,10 +172,10 @@ The @web/@ directory contains a basic web app implemented with Play to serve the
 Set up the Play application:
 
 * @cd ~@
-* @wget http://downloads.typesafe.com/typesafe-activator/1.2.10/typesafe-activator-1.2.10-minimal.zip@
-* @unzip typesafe-activator-1.2.10-minimal.zip@
+* @wget http://downloads.typesafe.com/typesafe-activator/1.3.9/typesafe-activator-1.3.9-minimal.zip@
+* @unzip typesafe-activator-1.3.9-minimal.zip@
 * @cd git/lobid-organisations/web@
-* @~/activator-1.2.10-minimal/activator run@
+* @~/activator-1.3.9-minimal/activator run@
 
 Open @http://localhost:9000/organisations@
 
