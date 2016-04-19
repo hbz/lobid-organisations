@@ -57,8 +57,7 @@ public class IntegrationTest {
 					"/organisations/search?q=fundertype.label:land&size=2000"));
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result))
-					.contains("Bayerisches Nationalmuseum");
+			assertThat(contentAsString(result)).contains("Bayerisches");
 		});
 	}
 
