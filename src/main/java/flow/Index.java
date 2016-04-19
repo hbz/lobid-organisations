@@ -19,8 +19,6 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -53,7 +51,7 @@ public class Index {
 			Settings clientSettings =
 					Settings.settingsBuilder().put("cluster.name", Constants.ES_CLUSTER)
 							.put("client.transport.sniff", true).build();
-			try (Node node = NodeBuilder.nodeBuilder().local(false).settings(Settings.builder().put("path.home", "elasticsearch-2.3.1")).node();
+			try (
 					TransportClient transportClient =
 							TransportClient.builder().settings(clientSettings).build();
 					Client client = transportClient
@@ -63,7 +61,6 @@ public class Index {
 						Constants.MAIN_RESOURCES_PATH + "index-settings.json");
 				indexData(client, pathToJson, index);
 				client.close();
-				node.close();
 			}
 		} else {
 			throw new IllegalArgumentException(
@@ -99,7 +96,7 @@ public class Index {
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
 			final BufferedReader br, final Client client, final String aIndex)
-			throws IOException, JsonParseException, JsonMappingException {
+					throws IOException, JsonParseException, JsonMappingException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;
