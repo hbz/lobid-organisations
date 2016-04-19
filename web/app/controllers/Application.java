@@ -44,7 +44,7 @@ public class Application extends Controller {
 					.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build();
 	private static TransportClient transportClient =
 			TransportClient.builder().settings(clientSettings).build();
-	protected static InetSocketTransportAddress node =
+	private static InetSocketTransportAddress node =
 			new InetSocketTransportAddress(new InetSocketAddress(SERVER_NAME, 9300));
 	private static Client client = transportClient.addTransportAddress(node);
 

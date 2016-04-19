@@ -37,6 +37,10 @@ public class Reconcile extends Controller {
 	private static final JsonNode TYPES =
 			Json.toJson(Arrays.asList("lobid-organisation"));
 
+	/**
+	 * @param callback The name of the JSONP function to wrap the response in
+	 * @return OpenRefine reconciliation endpoint meta data, wrapped in `callback`
+	 */
 	public static Result meta(String callback) {
 		ObjectNode result = Json.newObject();
 		result.put("name", "lobid-organisations reconciliation");
@@ -50,6 +54,7 @@ public class Reconcile extends Controller {
 						.as("application/json");
 	}
 
+	/** @return Reconciliation data for the queries in the request */
 	public static Result reconcile() {
 		JsonNode request =
 				Json.parse(request().body().asFormUrlEncoded().get("queries")[0]);

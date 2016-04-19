@@ -77,7 +77,7 @@ public class IntegrationTest {
 		});
 	}
 
-	private void assertPretty(Result result) {
+	private static void assertPretty(Result result) {
 		String contentAsString = contentAsString(result);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
