@@ -1,28 +1,22 @@
 package flow;
 
+import static org.elasticsearch.index.query.QueryBuilders.geoPolygonQuery;
 import static org.junit.Assert.assertEquals;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.FilteredQueryBuilder;
-import org.elasticsearch.index.query.GeoPolygonFilterBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
 public class TestGeoSearch extends ElasticsearchTest {
 
 	private static SearchResponse geoSearch(double lon, double lat) {
-		GeoPolygonFilterBuilder geoFilter =
-				FilterBuilders.geoPolygonFilter("location.geo")
-						.addPoint(lat - 1, lon - 1).addPoint(lat - 1, lon + 1)
-						.addPoint(lat + 1, lon - 1).addPoint(lat + 1, lon + 1);
-		FilteredQueryBuilder geoQuery =
-				QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), geoFilter);
+		QueryBuilder geoQuery = geoPolygonQuery("location.geo")
+				.addPoint(lat - 1, lon - 1).addPoint(lat - 1, lon + 1)
+				.addPoint(lat + 1, lon - 1).addPoint(lat + 1, lon + 1);
 		SearchResponse responseOfSearch =
-				client.prepareSearch(Constants.ES_INDEX)
-						.setTypes(Constants.ES_TYPE)
+				client.prepareSearch(Constants.ES_INDEX).setTypes(Constants.ES_TYPE)
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setQuery(geoQuery)
 						.execute().actionGet();
 		return responseOfSearch;

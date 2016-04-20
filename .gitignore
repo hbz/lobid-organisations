@@ -16,7 +16,7 @@ out
 .classpath
 .project
 RUNNING_PID
-.settings
+org.scala-ide.sdt.core.prefs
 *~
 sigel-*
 data/*
@@ -25,3 +25,4 @@ web/data/*
 src/main/resources/input/*
 src/main/resources/output/*
 src/test/resources/output/*
+/elasticsearch*

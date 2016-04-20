@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,11 +17,8 @@ import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -50,18 +48,19 @@ public class Index {
 		String pathToJson = args[1];
 		String index = args.length == 3 ? args[2] : Constants.ES_INDEX;
 		if (new File(pathToJson).length() >= minimumSize) {
-			Settings clientSettings = ImmutableSettings.settingsBuilder()
-					.put("cluster.name", Constants.ES_CLUSTER)
-					.put("client.transport.sniff", true).build();
-			try (Node node = NodeBuilder.nodeBuilder().local(false).node();
-					TransportClient transportClient = new TransportClient(clientSettings);
+			Settings clientSettings =
+					Settings.settingsBuilder().put("cluster.name", Constants.ES_CLUSTER)
+							.put("client.transport.sniff", true).build();
+			try (
+					TransportClient transportClient =
+							TransportClient.builder().settings(clientSettings).build();
 					Client client = transportClient.addTransportAddress(
-							new InetSocketTransportAddress(Constants.SERVER_NAME, 9300));) {
+							new InetSocketTransportAddress(new InetSocketAddress(
+									Constants.SERVER_NAME, Constants.ES_PORT_TCP)));) {
 				createEmptyIndex(client, Constants.ES_INDEX,
 						Constants.MAIN_RESOURCES_PATH + "index-settings.json");
 				indexData(client, pathToJson, index);
 				client.close();
-				node.close();
 			}
 		} else {
 			throw new IllegalArgumentException(
@@ -122,8 +121,7 @@ public class Index {
 		}
 	}
 
-	private static void deleteIndex(final Client client,
-			final String index) {
+	private static void deleteIndex(final Client client, final String index) {
 		if (client.admin().indices().prepareExists(index).execute().actionGet()
 				.isExists()) {
 			final DeleteIndexRequest deleteIndexRequest =

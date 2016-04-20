@@ -1,21 +1,23 @@
 package controllers;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.DistanceUnit;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.FilteredQueryBuilder;
-import org.elasticsearch.index.query.GeoDistanceFilterBuilder;
-import org.elasticsearch.index.query.GeoPolygonFilterBuilder;
-import org.elasticsearch.index.query.MatchAllFilterBuilder;
+import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.Play;
 import play.libs.F.Promise;
@@ -23,10 +25,6 @@ import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 
@@ -36,19 +34,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Application extends Controller {
 
-	private static final String SERVER_NAME = "quaoar1.hbz-nrw.de";
-	private static final String ES_SERVER = "http://" + SERVER_NAME + ":9200";
+	private static final String SERVER_NAME = "localhost";
 	private static final String ES_INDEX = "organisations";
 	private static final String ES_TYPE = "organisation";
+	private static final int ES_PORT_HTTP = 9200;
+	private static final int ES_PORT_TCP = 9300;
 
-	private static Settings clientSettings = ImmutableSettings.settingsBuilder()
-			.put("cluster.name", "organisation-cluster")
-			.put("client.transport.sniff", true).build();
-	private static TransportClient transportClient = new TransportClient(
-			clientSettings);
-	private static Client client = transportClient
-			.addTransportAddress(new InetSocketTransportAddress(SERVER_NAME,
-					9300));
+	private static Settings clientSettings =
+			Settings.settingsBuilder().put("cluster.name", "elasticsearch")
+					.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build();
+	private static TransportClient transportClient =
+			TransportClient.builder().settings(clientSettings).build();
+	private static InetSocketTransportAddress node =
+			new InetSocketTransportAddress(
+					new InetSocketAddress(SERVER_NAME, ES_PORT_TCP));
+	private static Client client = transportClient.addTransportAddress(node);
 
 	/**
 	 * @return 200 ok response to render index
@@ -103,7 +103,8 @@ public class Application extends Controller {
 	}
 
 	private static Status preparePolygonQuery(String[] coordPairsAsString,
-			String q, int from, int size) throws JsonProcessingException, IOException {
+			String q, int from, int size)
+					throws JsonProcessingException, IOException {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
 		Status result;
@@ -113,14 +114,16 @@ public class Application extends Controller {
 			lonCoordinates[i] = Double.parseDouble(coordinatePair[1]);
 		}
 		if (coordPairsAsString.length < 3) {
-			return badRequest("Not enough points. Polygon requires more than two points.");
+			return badRequest(
+					"Not enough points. Polygon requires more than two points.");
 		}
 		result = buildPolygonQuery(q, latCoordinates, lonCoordinates, from, size);
 		return result;
 	}
 
 	private static Status prepareDistanceQuery(String[] coordPairsAsString,
-			String q, int from, int size) throws JsonProcessingException, IOException {
+			String q, int from, int size)
+					throws JsonProcessingException, IOException {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
@@ -135,48 +138,44 @@ public class Application extends Controller {
 
 	private static Status buildSimpleQuery(String q, int from, int size)
 			throws JsonProcessingException, IOException {
-		MatchAllFilterBuilder matchAllFilter = FilterBuilders.matchAllFilter();
-		FilteredQueryBuilder simpleQuery =
-				QueryBuilders.filteredQuery(QueryBuilders.queryString(q),
-						matchAllFilter);
+		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		SearchResponse queryResponse = executeQuery(from, size, simpleQuery);
 		return returnAsJson(queryResponse);
 	}
 
 	private static Status buildPolygonQuery(String q, double[] latCoordinates,
 			double[] lonCoordinates, int from, int size)
-			throws JsonProcessingException, IOException {
-		GeoPolygonFilterBuilder polygonFilter =
-				FilterBuilders.geoPolygonFilter("geo");
+					throws JsonProcessingException, IOException {
+		GeoPolygonQueryBuilder polygonQuery =
+				QueryBuilders.geoPolygonQuery("location.geo");
 		for (int i = 0; i < latCoordinates.length; i++) {
-			polygonFilter.addPoint(latCoordinates[i], lonCoordinates[i]);
+			polygonQuery.addPoint(latCoordinates[i], lonCoordinates[i]);
 		}
-		FilteredQueryBuilder polygonQuery =
-				QueryBuilders
-						.filteredQuery(QueryBuilders.queryString(q), polygonFilter);
-		SearchResponse queryResponse = executeQuery(from, size, polygonQuery);
+		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
+		QueryBuilder polygonAndSimpleQuery =
+				QueryBuilders.boolQuery().must(polygonQuery).must(simpleQuery);
+		SearchResponse queryResponse =
+				executeQuery(from, size, polygonAndSimpleQuery);
 		return returnAsJson(queryResponse);
 	}
 
 	private static Status buildDistanceQuery(String q, int from, int size,
-			double lat, double lon, double distance) throws JsonProcessingException,
-			IOException {
-		GeoDistanceFilterBuilder distanceFilter =
-				FilterBuilders.geoDistanceFilter("geo")
-						.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
-		FilteredQueryBuilder distanceQuery =
-				QueryBuilders.filteredQuery(QueryBuilders.queryString(q),
-						distanceFilter);
-		SearchResponse queryResponse = executeQuery(from, size, distanceQuery);
+			double lat, double lon, double distance)
+					throws JsonProcessingException, IOException {
+		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery("location.geo")
+				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
+		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
+		QueryBuilder distanceAndSimpleQuery =
+				QueryBuilders.boolQuery().must(distanceQuery).must(simpleQuery);
+		SearchResponse queryResponse =
+				executeQuery(from, size, distanceAndSimpleQuery);
 		return returnAsJson(queryResponse);
 	}
 
-	static SearchResponse executeQuery(int from, int size,
-			FilteredQueryBuilder filteredQuery) {
-		SearchResponse responseOfSearch =
-				client.prepareSearch(ES_INDEX).setTypes(ES_TYPE)
-						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(filteredQuery)
-						.setFrom(from).setSize(size).execute().actionGet();
+	static SearchResponse executeQuery(int from, int size, QueryBuilder query) {
+		SearchResponse responseOfSearch = client.prepareSearch(ES_INDEX)
+				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
+				.setQuery(query).setFrom(from).setSize(size).execute().actionGet();
 		return responseOfSearch;
 	}
 
@@ -191,8 +190,9 @@ public class Application extends Controller {
 	 */
 	public static Promise<Result> get(String id) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
+		String server = "http://" + SERVER_NAME + ":" + ES_PORT_HTTP;
 		String url =
-				String.format("%s/%s/%s/%s/_source", ES_SERVER, ES_INDEX, ES_TYPE, id);
+				String.format("%s/%s/%s/%s/_source", server, ES_INDEX, ES_TYPE, id);
 		return WS.url(url).execute().map(x -> x.getStatus() == OK
 				? prettyJsonOk(x.asJson()) : notFound("Not found: " + id));
 	}

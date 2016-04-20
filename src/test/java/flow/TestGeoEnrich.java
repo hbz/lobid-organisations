@@ -41,7 +41,8 @@ public class TestGeoEnrich extends ElasticsearchTest {
 	}
 
 	private static SearchResponse searchByAddressInGeodata() {
-		QueryStringQueryBuilder query = QueryBuilders.queryString("Grabenstr. 4");
+		QueryStringQueryBuilder query =
+				QueryBuilders.queryStringQuery("Grabenstr. 4");
 		return searchByAddress(GEO_INDEX_TEST, geoClient, null, null, query);
 	}
 

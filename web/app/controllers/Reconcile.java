@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHits;
 
@@ -38,6 +37,10 @@ public class Reconcile extends Controller {
 	private static final JsonNode TYPES =
 			Json.toJson(Arrays.asList("lobid-organisation"));
 
+	/**
+	 * @param callback The name of the JSONP function to wrap the response in
+	 * @return OpenRefine reconciliation endpoint meta data, wrapped in `callback`
+	 */
 	public static Result meta(String callback) {
 		ObjectNode result = Json.newObject();
 		result.put("name", "lobid-organisations reconciliation");
@@ -51,6 +54,7 @@ public class Reconcile extends Controller {
 						.as("application/json");
 	}
 
+	/** @return Reconciliation data for the queries in the request */
 	public static Result reconcile() {
 		JsonNode request =
 				Json.parse(request().body().asFormUrlEncoded().get("queries")[0]);
@@ -88,9 +92,7 @@ public class Reconcile extends Controller {
 		JsonNode limitNode = entry.getValue().get("limit");
 		int limit = limitNode == null ? -1 : limitNode.asInt();
 		SearchResponse response = Application.executeQuery(0, limit,
-				QueryBuilders.filteredQuery(
-						QueryBuilders.matchQuery("_all", queryString),
-						FilterBuilders.matchAllFilter()));
+				QueryBuilders.queryStringQuery(queryString));
 		return response;
 	}
 

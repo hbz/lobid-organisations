@@ -1,11 +1,11 @@
 package flow;
 
+import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.ImmutableSettings.Builder;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
 @SuppressWarnings("javadoc")
@@ -34,20 +34,21 @@ public class Constants {
 			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
 
 	// ELASTICSEARCH SETTINGS
-	protected static final String ES_CLUSTER = "lobid-hbz";
-	protected static final String ES_INDEX = "organisations-staging";
+	protected static final String ES_CLUSTER = "elasticsearch";
+	protected static final String ES_INDEX = "organisations";
 	protected static final String ES_TYPE = "organisation";
-	protected static final String SERVER_NAME = "localhost"; // "quaoar1.hbz-nrw.de";
+	protected static final String SERVER_NAME = "localhost";
+	protected static final int ES_PORT_TCP = 9300;
 
 	// ELASTICSEARCH COMPONENTS
 	protected static final InetSocketTransportAddress NODE_1 =
-			new InetSocketTransportAddress(SERVER_NAME, 9300);
-	protected static final Builder CLIENT_SETTINGS =
-			ImmutableSettings.settingsBuilder().put("cluster.name", ES_CLUSTER)
-					.put("index.name", ES_INDEX);
+			new InetSocketTransportAddress(
+					new InetSocketAddress(SERVER_NAME, ES_PORT_TCP));
+	protected static final Settings CLIENT_SETTINGS =
+			Settings.settingsBuilder().put("cluster.name", ES_CLUSTER)
+					.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build();
 	private static final TransportClient TC =
-			new TransportClient(CLIENT_SETTINGS.put("client.transport.sniff", false)
-					.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build());
+			TransportClient.builder().settings(CLIENT_SETTINGS).build();
 	protected static final Client ES_CLIENT = TC.addTransportAddress(NODE_1);
 
 }

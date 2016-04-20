@@ -9,5 +9,7 @@ scalaVersion := "2.11.1"
 libraryDependencies ++= Seq(
   cache,
   javaWs,
-  "org.elasticsearch" % "elasticsearch" % "1.3.2"
+  "org.elasticsearch" % "elasticsearch" % "2.3.1"
+      // otherwise javaWs won't work
+      exclude ("io.netty", "netty")
 )
