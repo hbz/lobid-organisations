@@ -187,7 +187,7 @@ public class Application extends Controller {
 	 */
 	public static Promise<Result> get(String id) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String server = "http://localhost:" + ES_PORT;
+		String server = "http://localhost:" + ES_PORT_HTTP;
 		String url =
 				String.format("%s/%s/%s/%s/_source", server, ES_INDEX, ES_TYPE, id);
 		return WS.url(url).execute().map(x -> x.getStatus() == OK
