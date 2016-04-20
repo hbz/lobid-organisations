@@ -35,9 +35,10 @@ import views.html.index;
 public class Application extends Controller {
 
 	private static final String SERVER_NAME = "localhost";
-	private static final String ES_SERVER = "http://" + SERVER_NAME + ":9200";
 	private static final String ES_INDEX = "organisations";
 	private static final String ES_TYPE = "organisation";
+	private static final int ES_PORT_HTTP = 9200;
+	private static final int ES_PORT_TCP = 9300;
 
 	private static Settings clientSettings =
 			Settings.settingsBuilder().put("cluster.name", "elasticsearch")
@@ -45,7 +46,8 @@ public class Application extends Controller {
 	private static TransportClient transportClient =
 			TransportClient.builder().settings(clientSettings).build();
 	private static InetSocketTransportAddress node =
-			new InetSocketTransportAddress(new InetSocketAddress(SERVER_NAME, 9300));
+			new InetSocketTransportAddress(
+					new InetSocketAddress(SERVER_NAME, ES_PORT_TCP));
 	private static Client client = transportClient.addTransportAddress(node);
 
 	/**
@@ -188,8 +190,9 @@ public class Application extends Controller {
 	 */
 	public static Promise<Result> get(String id) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
+		String server = "http://" + SERVER_NAME + ":" + ES_PORT_HTTP;
 		String url =
-				String.format("%s/%s/%s/%s/_source", ES_SERVER, ES_INDEX, ES_TYPE, id);
+				String.format("%s/%s/%s/%s/_source", server, ES_INDEX, ES_TYPE, id);
 		return WS.url(url).execute().map(x -> x.getStatus() == OK
 				? prettyJsonOk(x.asJson()) : notFound("Not found: " + id));
 	}

@@ -54,9 +54,9 @@ public class Index {
 			try (
 					TransportClient transportClient =
 							TransportClient.builder().settings(clientSettings).build();
-					Client client = transportClient
-							.addTransportAddress(new InetSocketTransportAddress(
-									new InetSocketAddress(Constants.SERVER_NAME, 9300)));) {
+					Client client = transportClient.addTransportAddress(
+							new InetSocketTransportAddress(new InetSocketAddress(
+									Constants.SERVER_NAME, Constants.ES_PORT_TCP)));) {
 				createEmptyIndex(client, Constants.ES_INDEX,
 						Constants.MAIN_RESOURCES_PATH + "index-settings.json");
 				indexData(client, pathToJson, index);

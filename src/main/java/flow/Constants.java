@@ -37,11 +37,13 @@ public class Constants {
 	protected static final String ES_CLUSTER = "elasticsearch";
 	protected static final String ES_INDEX = "organisations";
 	protected static final String ES_TYPE = "organisation";
-	protected static final String SERVER_NAME = "localhost"; // "quaoar1.hbz-nrw.de";
+	protected static final String SERVER_NAME = "localhost";
+	protected static final int ES_PORT_TCP = 9300;
 
 	// ELASTICSEARCH COMPONENTS
 	protected static final InetSocketTransportAddress NODE_1 =
-			new InetSocketTransportAddress(new InetSocketAddress(SERVER_NAME, 9300));
+			new InetSocketTransportAddress(
+					new InetSocketAddress(SERVER_NAME, ES_PORT_TCP));
 	protected static final Settings CLIENT_SETTINGS =
 			Settings.settingsBuilder().put("cluster.name", ES_CLUSTER)
 					.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build();
