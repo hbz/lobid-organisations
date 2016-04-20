@@ -35,13 +35,14 @@ import views.html.index;
 public class Application extends Controller {
 
 	private static final String SERVER_NAME = "localhost";
+	private static final String ES_CLUSTER = "elasticsearch";
 	private static final String ES_INDEX = "organisations";
 	private static final String ES_TYPE = "organisation";
 	private static final int ES_PORT_HTTP = 9200;
 	private static final int ES_PORT_TCP = 9300;
 
 	private static Settings clientSettings =
-			Settings.settingsBuilder().put("cluster.name", "elasticsearch")
+			Settings.settingsBuilder().put("cluster.name", ES_CLUSTER)
 					.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build();
 	private static TransportClient transportClient =
 			TransportClient.builder().settings(clientSettings).build();
