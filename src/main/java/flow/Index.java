@@ -1,11 +1,12 @@
 package flow;
 
+import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,9 +17,8 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.node.Node;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -50,13 +50,11 @@ public class Index {
 		if (new File(pathToJson).length() >= minimumSize) {
 			Settings clientSettings =
 					Settings.settingsBuilder().put("cluster.name", Constants.ES_CLUSTER)
-							.put("client.transport.sniff", true).build();
+							.put("path.home", ".").put("http.port", Constants.ES_PORT_HTTP)
+							.put("transport.tcp.port", Constants.ES_PORT_TCP).build();
 			try (
-					TransportClient transportClient =
-							TransportClient.builder().settings(clientSettings).build();
-					Client client = transportClient.addTransportAddress(
-							new InetSocketTransportAddress(new InetSocketAddress(
-									Constants.SERVER_NAME, Constants.ES_PORT_TCP)));) {
+					Node node = nodeBuilder().settings(clientSettings).local(true).node();
+					Client client = node.client()) {
 				createEmptyIndex(client, Constants.ES_INDEX,
 						Constants.MAIN_RESOURCES_PATH + "index-settings.json");
 				indexData(client, pathToJson, index);
@@ -96,7 +94,7 @@ public class Index {
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
 			final BufferedReader br, final Client client, final String aIndex)
-					throws IOException, JsonParseException, JsonMappingException {
+			throws IOException, JsonParseException, JsonMappingException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;

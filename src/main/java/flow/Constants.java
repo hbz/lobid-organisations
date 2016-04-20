@@ -1,13 +1,5 @@
 package flow;
 
-import java.net.InetSocketAddress;
-import java.util.concurrent.TimeUnit;
-
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-
 @SuppressWarnings("javadoc")
 public class Constants {
 
@@ -39,16 +31,6 @@ public class Constants {
 	protected static final String ES_TYPE = "organisation";
 	protected static final String SERVER_NAME = "localhost";
 	protected static final int ES_PORT_TCP = 9300;
-
-	// ELASTICSEARCH COMPONENTS
-	protected static final InetSocketTransportAddress NODE_1 =
-			new InetSocketTransportAddress(
-					new InetSocketAddress(SERVER_NAME, ES_PORT_TCP));
-	protected static final Settings CLIENT_SETTINGS =
-			Settings.settingsBuilder().put("cluster.name", ES_CLUSTER)
-					.put("client.transport.ping_timeout", 20, TimeUnit.SECONDS).build();
-	private static final TransportClient TC =
-			TransportClient.builder().settings(CLIENT_SETTINGS).build();
-	protected static final Client ES_CLIENT = TC.addTransportAddress(NODE_1);
+	protected static final int ES_PORT_HTTP = 9200;
 
 }
