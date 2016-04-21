@@ -1,22 +1,20 @@
 package controllers;
 
-import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
-
+import java.io.File;
 import java.io.IOException;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.node.Node;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 import play.Play;
 import play.libs.F.Promise;
@@ -33,19 +31,10 @@ import views.html.index;
  */
 public class Application extends Controller {
 
-	private static final String ES_INDEX = "organisations";
-	private static final String ES_TYPE = "organisation";
-	private static final String ES_CLUSTER = "elasticsearch";
-	private static final int ES_PORT_HTTP = 9200;
-	private static final int ES_PORT_TCP = 9300;
-
-	private static Settings clientSettings =
-			Settings.settingsBuilder().put("path.home", "..")
-					.put("http.port", ES_PORT_HTTP).put("transport.tcp.port", ES_PORT_TCP)
-					.put("cluster.name", ES_CLUSTER).build();
-	private static Node node =
-			nodeBuilder().settings(clientSettings).local(true).node();
-	private static Client client = node.client();
+	private static final Config CONFIG =
+			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
+	private static final String ES_TYPE = CONFIG.getString("index.es.type");
+	private static final String ES_NAME = CONFIG.getString("index.es.name");
 
 	/**
 	 * @return 200 ok response to render index
@@ -170,9 +159,11 @@ public class Application extends Controller {
 	}
 
 	static SearchResponse executeQuery(int from, int size, QueryBuilder query) {
-		SearchResponse responseOfSearch = client.prepareSearch(ES_INDEX)
-				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
-				.setQuery(query).setFrom(from).setSize(size).execute().actionGet();
+		SearchResponse responseOfSearch =
+				Index.CLIENT.prepareSearch(ES_NAME)
+						.setTypes(ES_TYPE)
+						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(query)
+						.setFrom(from).setSize(size).execute().actionGet();
 		return responseOfSearch;
 	}
 
@@ -187,9 +178,10 @@ public class Application extends Controller {
 	 */
 	public static Promise<Result> get(String id) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String server = "http://localhost:" + ES_PORT_HTTP;
-		String url =
-				String.format("%s/%s/%s/%s/_source", server, ES_INDEX, ES_TYPE, id);
+		String server = "http://localhost:" + CONFIG.getString("index.es.httpport");
+		String url = String.format("%s/%s/%s/%s/_source", server,
+				ES_NAME, ES_TYPE,
+				id);
 		return WS.url(url).execute().map(x -> x.getStatus() == OK
 				? prettyJsonOk(x.asJson()) : notFound("Not found: " + id));
 	}
