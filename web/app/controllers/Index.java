@@ -45,8 +45,8 @@ public class Index extends Controller {
 	static Settings clientSettings = Settings.settingsBuilder()
 			.put("cluster.name", CONFIG.getString("index.es.cluster"))
 			.put("path.home", ".")
-			.put("http.port", CONFIG.getString("index.es.httpport"))
-			.put("transport.tcp.port", CONFIG.getString("index.es.tcpport")).build();
+			.put("http.port", CONFIG.getString("index.es.port.http"))
+			.put("transport.tcp.port", CONFIG.getString("index.es.port.tcp")).build();
 	private static Node node =
 			nodeBuilder().settings(clientSettings).local(true).node();
 	/**
@@ -104,7 +104,7 @@ public class Index extends Controller {
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
 			final BufferedReader br, final Client client, final String aIndex)
-			throws IOException, JsonParseException, JsonMappingException {
+					throws IOException, JsonParseException, JsonMappingException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;

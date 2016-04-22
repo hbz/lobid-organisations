@@ -178,7 +178,7 @@ public class Application extends Controller {
 	 */
 	public static Promise<Result> get(String id) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String server = "http://localhost:" + CONFIG.getString("index.es.httpport");
+		String server = "http://localhost:" + CONFIG.getString("index.es.port.http");
 		String url = String.format("%s/%s/%s/%s/_source", server,
 				ES_NAME, ES_TYPE,
 				id);
