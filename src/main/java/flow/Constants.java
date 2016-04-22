@@ -26,11 +26,7 @@ public class Constants {
 			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
 
 	// ELASTICSEARCH SETTINGS
-	protected static final String ES_CLUSTER = "elasticsearch";
 	protected static final String ES_INDEX = "organisations";
 	protected static final String ES_TYPE = "organisation";
-	protected static final String SERVER_NAME = "localhost";
-	protected static final int ES_PORT_TCP = 9300;
-	protected static final int ES_PORT_HTTP = 9200;
 
 }
