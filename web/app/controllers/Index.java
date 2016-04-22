@@ -43,7 +43,6 @@ public class Index extends Controller {
 	private static final Config CONFIG =
 			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
 	static Settings clientSettings = Settings.settingsBuilder()
-			.put("cluster.name", CONFIG.getString("index.es.cluster"))
 			.put("path.home", ".")
 			.put("http.port", CONFIG.getString("index.es.port.http"))
 			.put("transport.tcp.port", CONFIG.getString("index.es.port.tcp")).build();
