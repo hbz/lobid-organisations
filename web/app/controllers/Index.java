@@ -55,13 +55,21 @@ public class Index extends Controller {
 
 	/**
 	 * @throws IOException if json file with output cannot be found
-	 * @throws JsonMappingException if json mapping of organisation data cannot be
-	 *           created
-	 * @throws JsonParseException if value cannot be read from json mapper
-	 * @return 200 ok response
+	 * @return 200 ok or 403 forbidden response depending on ip address of client
 	 */
-	public static Result start()
-			throws JsonParseException, JsonMappingException, IOException {
+	public static Result start() throws IOException {
+		String remote = request().remoteAddress();
+		if (!CONFIG.getStringList("index.remote").contains(remote)) {
+			return forbidden();
+		}
+		initializeIndex();
+		return ok("Started indexing");
+	}
+
+	/**
+	 * @throws IOException if json file cannot be found
+	 */
+	public static void initializeIndex() throws IOException {
 		long minimumSize = Long.parseLong(CONFIG.getString("index.file.minsize"));
 		String pathToJson = CONFIG.getString("index.file.path");
 		String index = CONFIG.getString("index.es.name");
@@ -72,7 +80,6 @@ public class Index extends Controller {
 			throw new IllegalArgumentException(
 					"File not large enough: " + pathToJson);
 		}
-		return ok("Started indexing");
 	}
 
 	static void createEmptyIndex(final Client aClient, final String aIndexName,
@@ -103,7 +110,7 @@ public class Index extends Controller {
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
 			final BufferedReader br, final Client client, final String aIndex)
-					throws IOException, JsonParseException, JsonMappingException {
+			throws IOException, JsonParseException, JsonMappingException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;

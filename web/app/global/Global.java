@@ -13,7 +13,7 @@ public class Global extends GlobalSettings {
 	public void onStart(Application app) {
 		Logger.info("Application has started. Starting indexing now.");
 		try {
-			Index.start();
+			Index.initializeIndex();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
