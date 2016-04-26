@@ -1,0 +1,2 @@
+{"index":{"_index":"organisations-geodata-test","_type":"organisation-geodata","_id":"dummyID_001"}}
+{"street": "Grabenstr. 4", "city": "Hohenahr", "country": "Germany", "geocode": { "latitude": "50.6749177", "longitude": "8.5259494"}, "postalcode": "35644"}

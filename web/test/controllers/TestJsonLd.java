@@ -1,4 +1,4 @@
-package flow;
+package controllers;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -20,9 +20,8 @@ import com.github.jsonldjava.utils.JsonUtils;
 public class TestJsonLd extends ElasticsearchTest {
 
 	private static String getSource(String id) {
-		GetResponse response =
-				client.prepareGet(Constants.ES_INDEX, Constants.ES_TYPE, id).execute()
-						.actionGet();
+		GetResponse response = client.prepareGet(CONFIG.getString("index.es.name"),
+				CONFIG.getString("index.es.type"), id).execute().actionGet();
 		String source = response.getSourceAsString();
 		source = replaceContext(source);
 		return source;

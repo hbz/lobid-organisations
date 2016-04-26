@@ -1,4 +1,4 @@
-package flow;
+package controllers;
 
 import static org.junit.Assert.assertTrue;
 
@@ -36,8 +36,9 @@ public class TestGeoEnrich extends ElasticsearchTest {
 			final String addressToSearch) {
 		MatchQueryBuilder query = QueryBuilders
 				.matchQuery("location.address.streetAddress", addressToSearch);
-		return searchByAddress(Constants.ES_INDEX, client, Constants.ES_TYPE,
-				SearchType.DFS_QUERY_AND_FETCH, query);
+		return searchByAddress(CONFIG.getString("index.es.name"), client,
+				CONFIG.getString("index.es.type"), SearchType.DFS_QUERY_AND_FETCH,
+				query);
 	}
 
 	private static SearchResponse searchByAddressInGeodata() {

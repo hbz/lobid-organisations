@@ -1,4 +1,4 @@
-package flow;
+package controllers;
 
 import static org.elasticsearch.index.query.QueryBuilders.geoPolygonQuery;
 import static org.junit.Assert.assertEquals;
@@ -16,7 +16,8 @@ public class TestGeoSearch extends ElasticsearchTest {
 				.addPoint(lat - 1, lon - 1).addPoint(lat - 1, lon + 1)
 				.addPoint(lat + 1, lon - 1).addPoint(lat + 1, lon + 1);
 		SearchResponse responseOfSearch =
-				client.prepareSearch(Constants.ES_INDEX).setTypes(Constants.ES_TYPE)
+				client.prepareSearch(CONFIG.getString("index.es.name"))
+						.setTypes(CONFIG.getString("index.es.type"))
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setQuery(geoQuery)
 						.execute().actionGet();
 		return responseOfSearch;
