@@ -136,13 +136,12 @@ public class Index extends Controller {
 	}
 
 	private static void deleteIndex(final Client client, final String index) {
+		client.admin().cluster().prepareHealth().setWaitForYellowStatus().execute()
+				.actionGet();
 		if (client.admin().indices().prepareExists(index).execute().actionGet()
 				.isExists()) {
-			final DeleteIndexRequest deleteIndexRequest =
-					new DeleteIndexRequest(index);
-			client.admin().indices().delete(deleteIndexRequest);
-			client.admin().cluster().prepareHealth().setWaitForYellowStatus()
-					.execute().actionGet();
+			client.admin().indices().delete(new DeleteIndexRequest(index))
+					.actionGet();
 		}
 	}
 }
