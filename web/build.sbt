@@ -12,5 +12,5 @@ libraryDependencies ++= Seq(
   "org.elasticsearch" % "elasticsearch" % "2.3.1"
       // otherwise javaWs won't work
       exclude ("io.netty", "netty"),
-  "com.github.jsonld-java" % "jsonld-java" % "0.5.0"
+  "com.github.jsonld-java" % "jsonld-java" % "0.5.0" % Test
 )
