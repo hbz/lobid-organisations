@@ -9,4 +9,4 @@ LOGFILE="logs/$(date "+%Y%m%d").log"
 mvn clean install -DskipTests > $LOGFILE 2>&1
 mvn exec:java -Dexec.mainClass=flow.Enrich -Dexec.args="2013-06-01 100 'http://gaia.hbz-nrw.de:7400'" > $LOGFILE 2>&1
 mvn exec:java -Dexec.mainClass=flow.Index -Dexec.args="'23000000' 'src/main/resources/output/enriched.out.json'" > $LOGFILE 2>&1
-
+curl --verbose -XPOST http://quaoar1.hbz-nrw.de:7200/organisations/index
