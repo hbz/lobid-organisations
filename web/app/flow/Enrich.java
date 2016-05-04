@@ -79,7 +79,9 @@ public class Enrich {
 
 		// PROCESS SIGEL
 		Sigel.processSigelSplitting(openSigelDump, aResourcesPath + "sigel.xml");
-		processSigelUpdates(startOfUpdates, intervalSize);
+		if (!startOfUpdates.isEmpty()) {
+			processSigelUpdates(startOfUpdates, intervalSize);
+		}
 		Sigel.processSigelMorph(splitFileOpener, sigelTempFilesLocation);
 
 		Dbs.processDbs(openDbs, aResourcesPath + "dbs.csv");
