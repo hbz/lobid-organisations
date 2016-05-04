@@ -22,7 +22,7 @@ sigel-*
 data/*
 web/data/*
 *.txt
-src/main/resources/input/*
-src/main/resources/output/*
-src/test/resources/output/*
+web/app/resources/input/*
+web/app/resources/output/*
+web/app/resources/output/*
 /elasticsearch*

@@ -18,3 +18,7 @@ GET     /organisations/public/*file              controllers.Assets.at(path="/pu
 
 # Indexing
 POST    /organisations/index                     controllers.Index.start()
+
+# Transformation    
+POST    /organisations/transform                 controllers.Transformation.startFullTransformation()
+POST    /organisations/transformSample           controllers.Transformation.startSampleTransformation()

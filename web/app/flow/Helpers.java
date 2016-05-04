@@ -2,7 +2,6 @@ package flow;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Optional;
 
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.morph.maps.RestMap;
@@ -77,12 +76,12 @@ public class Helpers {
 	static void setupTripleStreamToWriter(final StreamToTriples flow,
 			CloseSupressor<Triple> wait, TripleSort sortTriples,
 			final TripleRematch rematchTriples, final String aOutputPath,
-			Optional<String> geoLookupServer) {
+			String geoLookupServer) {
 
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
-				new Metamorph(Constants.MAIN_RESOURCES_PATH + "morph-enriched.xml");
+				new Metamorph(Constants.TRANSFORMATION_MORPH + "morph-enriched.xml");
 		setupGeoLookup(morph, geoLookupServer);
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = Helpers.createJsonEncoder(true);
@@ -102,14 +101,14 @@ public class Helpers {
 	}
 
 	private static void setupGeoLookup(final Metamorph morph,
-			Optional<String> geoLookupServer) {
-		if (geoLookupServer.isPresent()) {
+			String geoLookupServer) {
+		if (geoLookupServer != null && !geoLookupServer.isEmpty()) {
 			RestMap addDbsLatMap = new RestMap();
 			RestMap addDbsLongMap = new RestMap();
 			RestMap addDbsPostalCodeMap = new RestMap();
-			addDbsLatMap.setUrl(geoLookupServer.get() + "/lat/${key}");
-			addDbsLongMap.setUrl(geoLookupServer.get() + "/long/${key}");
-			addDbsPostalCodeMap.setUrl(geoLookupServer.get() + "/postcode/${key}");
+			addDbsLatMap.setUrl(geoLookupServer + "/lat/${key}");
+			addDbsLongMap.setUrl(geoLookupServer + "/long/${key}");
+			addDbsPostalCodeMap.setUrl(geoLookupServer + "/postcode/${key}");
 			morph.putMap("addLatMap", addDbsLatMap);
 			morph.putMap("addLongMap", addDbsLongMap);
 			morph.putMap("addPostalCodeMap", addDbsPostalCodeMap);

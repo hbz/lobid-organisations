@@ -32,7 +32,7 @@ public abstract class ElasticsearchTest {
 		setupLocalGeodataExample();
 		prepareIndexing(client, CONFIG.getString("index.es.name"),
 				"conf/index-settings.json");
-		indexData(client, "resources/enriched-test.json",
+		indexData(client, "test/resources/enriched-test.json",
 				CONFIG.getString("index.es.name"));
 	}
 
@@ -49,7 +49,7 @@ public abstract class ElasticsearchTest {
 		geoClient = geoNode.client();
 		String geoIndex = "geodata";
 		prepareIndexing(geoClient, geoIndex, null);
-		indexData(geoClient, "resources/geodata-test.json", geoIndex);
+		indexData(geoClient, "test/resources/geodata-test.json", geoIndex);
 	}
 
 	public static void prepareIndexing(final Client aIndexClient,
