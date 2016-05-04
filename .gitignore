@@ -3,8 +3,8 @@ target/
 *.out.*
 *.zip
 logs
-web/project/project
-web/project/target
+project/project
+project/target
 target
 tmp
 .history
@@ -20,9 +20,6 @@ org.scala-ide.sdt.core.prefs
 *~
 sigel-*
 data/*
-web/data/*
 *.txt
-web/app/resources/input/*
-web/app/resources/output/*
-web/app/resources/output/*
-/elasticsearch*
+app/resources/input/*
+app/resources/output/*
