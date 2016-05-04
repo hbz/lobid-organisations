@@ -159,11 +159,9 @@ public class Application extends Controller {
 	}
 
 	static SearchResponse executeQuery(int from, int size, QueryBuilder query) {
-		SearchResponse responseOfSearch =
-				Index.CLIENT.prepareSearch(ES_NAME)
-						.setTypes(ES_TYPE)
-						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(query)
-						.setFrom(from).setSize(size).execute().actionGet();
+		SearchResponse responseOfSearch = Index.CLIENT.prepareSearch(ES_NAME)
+				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
+				.setQuery(query).setFrom(from).setSize(size).execute().actionGet();
 		return responseOfSearch;
 	}
 
@@ -178,10 +176,10 @@ public class Application extends Controller {
 	 */
 	public static Promise<Result> get(String id) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String server = "http://localhost:" + CONFIG.getString("index.es.port.http");
-		String url = String.format("%s/%s/%s/%s/_source", server,
-				ES_NAME, ES_TYPE,
-				id);
+		String server =
+				"http://localhost:" + CONFIG.getString("index.es.port.http");
+		String url =
+				String.format("%s/%s/%s/%s/_source", server, ES_NAME, ES_TYPE, id);
 		return WS.url(url).execute().map(x -> x.getStatus() == OK
 				? prettyJsonOk(x.asJson()) : notFound("Not found: " + id));
 	}

@@ -11,21 +11,6 @@ public class Constants {
 	private static final Config CONFIG =
 			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
 
-	// FILES & URIs
-	// protected static final String MAIN_RESOURCES_PATH = "app/resources/";
-	// protected static final String TEST_RESOURCES_PATH = "test/resources/";
-
-	// protected static final String OUTPUT_PATH = "output/";
-	// protected static final String INPUT_PATH = "input/";
-
-	// protected static final String SIGEL_DUMP_LOCATION = //
-	// INPUT_PATH + "sigel.xml";
-	//
-	// protected static final String DBS_LOCATION = //
-	// INPUT_PATH + "dbs.csv";
-	// protected static final String SIGEL_DNB_REPO =
-	// "http://gnd-proxy.lobid.org/oai/repository";
-
 	// FILE PATHS
 	protected static final String TRANSFORMATION_INPUT =
 			CONFIG.getString("transformation.input.path");

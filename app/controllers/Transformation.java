@@ -64,8 +64,7 @@ public class Transformation extends Controller {
 	 * @throws IOException If data files cannot be read
 	 */
 	public static Result startSampleTransformation() throws IOException {
-		EnrichSample
-				.processSample(CONFIG.getString("transformation.test.output.path"));
+		EnrichSample.processSample(CONFIG.getString("index.file.path"));
 		return ok("Transforming data");
 	}
 

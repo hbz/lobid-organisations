@@ -90,6 +90,8 @@
   <classpathentry kind="lib" path="/home/simon/.ivy2/cache/org.dspace/oclc-harvester2/jars/oclc-harvester2-0.1.12.jar"/>
   <classpathentry kind="lib" path="/home/simon/.ivy2/cache/xalan/xalan/jars/xalan-2.7.1.jar"/>
   <classpathentry kind="lib" path="/home/simon/.ivy2/cache/xalan/serializer/jars/serializer-2.7.1.jar"/>
+  <classpathentry kind="lib" path="/home/simon/.ivy2/cache/org.slf4j/slf4j-log4j12/jars/slf4j-log4j12-1.7.6.jar"/>
+  <classpathentry kind="lib" path="/home/simon/.ivy2/cache/log4j/log4j/bundles/log4j-1.2.17.jar"/>
   <classpathentry kind="lib" path="/home/simon/.ivy2/cache/com.typesafe.play/play-test_2.11/jars/play-test_2.11-2.3.4.jar"/>
   <classpathentry kind="lib" path="/home/simon/.ivy2/cache/org.specs2/specs2-core_2.11/jars/specs2-core_2.11-2.3.12.jar"/>
   <classpathentry kind="lib" path="/home/simon/.ivy2/cache/org.specs2/specs2-matcher_2.11/jars/specs2-matcher_2.11-2.3.12.jar"/>
@@ -150,6 +152,6 @@
   <classpathentry kind="lib" path="/home/simon/.ivy2/cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.7.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="output" path="bin"/>
-  <classpathentry path="/home/simon/git/lobid-organisations/web/target/scala-2.11/classes_managed" kind="lib"></classpathentry>
+  <classpathentry path="/home/simon/git/lobid-organisations/target/scala-2.11/classes_managed" kind="lib"></classpathentry>
   <classpathentry path="/home/simon/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.1.jar" kind="lib"></classpathentry>
 </classpath>

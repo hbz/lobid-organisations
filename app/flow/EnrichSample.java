@@ -28,7 +28,7 @@ public class EnrichSample {
 	private static String SIGEL_TEMP_FILES_LOCATION =
 			Constants.TRANSFORMATION_OUTPUT;
 	private static String DBS_LOCATION =
-			CONFIG.getString("transformation.test.input.path") + "dbs.csv";
+			Constants.TRANSFORMATION_INPUT + "dbs.csv";
 	private static String DUMP_XPATH =
 			"/" + Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH;
 
@@ -48,7 +48,7 @@ public class EnrichSample {
 		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
 				Constants.SIGEL_DUMP_TOP_LEVEL_TAG, Constants.SIGEL_DUMP_ENTITY);
 		Sigel.setupSigelSplitting(sourceFileOpener, xmlSplitter, DUMP_XPATH,
-				CONFIG.getString("transformation.test.output.path"));
+				Constants.TRANSFORMATION_OUTPUT);
 		Sigel.processSigelSplitting(sourceFileOpener, SIGEL_DUMP_LOCATION);
 
 		// DBS flow

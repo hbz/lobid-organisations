@@ -17,7 +17,8 @@ public class Global extends GlobalSettings {
 
 	@Override
 	public void onStart(Application app) {
-		Logger.info("Application has started. Starting indexing now.");
+		Logger.info(
+				"Application has started. Starting transformation and indexing now.");
 		try {
 			Transformation.transformFullSet();
 			Index.initializeIndex();
