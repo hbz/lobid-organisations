@@ -120,7 +120,7 @@ public class Enrich {
 			final String updateXPath = "/" + Constants.SIGEL_UPDATE_TOP_LEVEL_TAG
 					+ "/" + Constants.SIGEL_UPDATE_ENTITY + "/" + Constants.SIGEL_XPATH;
 			Sigel.setupSigelSplitting(openSigelUpdates, xmlSplitter, updateXPath,
-					Constants.TRANSFORMATION_INPUT);
+					Constants.TRANSFORMATION_OUTPUT);
 
 			updateOpenerList.add(openSigelUpdates);
 			start = addDays(start, intervalSize);
