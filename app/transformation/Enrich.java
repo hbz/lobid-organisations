@@ -31,10 +31,21 @@ import com.typesafe.config.ConfigFactory;
  */
 public class Enrich {
 
-	final static String DUMP_XPATH =
-			"/" + Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH;
 	private static final Config CONFIG =
 			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
+
+	static final String DATA_INPUT_DIR = "app/resources/input/";
+	static final String DATA_OUTPUT_DIR = "app/resources/output/";
+	static final String MORPH_DIR = "app/resources/";
+
+	static final String SIGEL_DUMP_TOP_LEVEL_TAG = "collection";
+	static final String SIGEL_DUMP_ENTITY = "record";
+	static final String SIGEL_UPDATE_TOP_LEVEL_TAG = "harvest";
+	static final String SIGEL_UPDATE_ENTITY = "metadata";
+	static final String SIGEL_XPATH =
+			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
+	static final String DUMP_XPATH =
+			"/" + SIGEL_DUMP_TOP_LEVEL_TAG + "/" + SIGEL_XPATH;
 
 	/**
 	 * @param startOfUpdates Date from which updates should start
@@ -50,14 +61,14 @@ public class Enrich {
 		final TripleSort sortTriples = new TripleSort();
 		final TripleRematch rematchTriples = new TripleRematch("isil");
 
-		final String sigelTempFilesLocation = Constants.TRANSFORMATION_OUTPUT;
+		final String sigelTempFilesLocation = DATA_OUTPUT_DIR;
 
 		// SETUP SIGEL DUMP
 		final FileOpener openSigelDump = new FileOpener();
-		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
-				Constants.SIGEL_DUMP_TOP_LEVEL_TAG, Constants.SIGEL_DUMP_ENTITY);
+		final XmlElementSplitter xmlSplitter =
+				new XmlElementSplitter(SIGEL_DUMP_TOP_LEVEL_TAG, SIGEL_DUMP_ENTITY);
 		Sigel.setupSigelSplitting(openSigelDump, xmlSplitter, DUMP_XPATH,
-				Constants.TRANSFORMATION_OUTPUT);
+				DATA_OUTPUT_DIR);
 
 		// SETUP PROCESSING OF SPLITTED AND UPDATED SIGEL XML FILES
 		final FileOpener splitFileOpener = new FileOpener();
@@ -76,14 +87,13 @@ public class Enrich {
 				rematchTriples, aOutputPath, geoLookupServer);
 
 		// PROCESS SIGEL
-		Sigel.processSigelSplitting(openSigelDump,
-				Constants.TRANSFORMATION_INPUT + "sigel.xml");
+		Sigel.processSigelSplitting(openSigelDump, DATA_INPUT_DIR + "sigel.xml");
 		if (!startOfUpdates.isEmpty()) {
 			processSigelUpdates(startOfUpdates, intervalSize);
 		}
 		Sigel.processSigelMorph(splitFileOpener, sigelTempFilesLocation);
 
-		Dbs.processDbs(openDbs, Constants.TRANSFORMATION_INPUT + "dbs.csv");
+		Dbs.processDbs(openDbs, DATA_INPUT_DIR + "dbs.csv");
 	}
 
 	private static void processSigelUpdates(String startOfUpdates,
@@ -115,11 +125,11 @@ public class Enrich {
 			final OaiPmhOpener openSigelUpdates =
 					Helpers.createOaiPmhOpener(start, end);
 			final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
-					Constants.SIGEL_UPDATE_TOP_LEVEL_TAG, Constants.SIGEL_UPDATE_ENTITY);
-			final String updateXPath = "/" + Constants.SIGEL_UPDATE_TOP_LEVEL_TAG
-					+ "/" + Constants.SIGEL_UPDATE_ENTITY + "/" + Constants.SIGEL_XPATH;
+					SIGEL_UPDATE_TOP_LEVEL_TAG, SIGEL_UPDATE_ENTITY);
+			final String updateXPath = "/" + SIGEL_UPDATE_TOP_LEVEL_TAG + "/"
+					+ SIGEL_UPDATE_ENTITY + "/" + SIGEL_XPATH;
 			Sigel.setupSigelSplitting(openSigelUpdates, xmlSplitter, updateXPath,
-					Constants.TRANSFORMATION_OUTPUT);
+					DATA_OUTPUT_DIR);
 
 			updateOpenerList.add(openSigelUpdates);
 			start = addDays(start, intervalSize);

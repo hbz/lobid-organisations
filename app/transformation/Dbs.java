@@ -23,11 +23,11 @@ public class Dbs {
 		final JsonEncoder encoder = new JsonEncoder();
 		encoder.setPrettyPrinting(true);
 		final ObjectWriter<String> writer =
-				new ObjectWriter<>(Constants.TRANSFORMATION_OUTPUT + "dbs.out.json");
+				new ObjectWriter<>(Enrich.DATA_OUTPUT_DIR + "dbs.out.json");
 		morphDbs(opener)//
 				.setReceiver(encoder)//
 				.setReceiver(writer);
-		processDbs(opener, Constants.TRANSFORMATION_INPUT + "dbs.csv");
+		processDbs(opener, Enrich.DATA_INPUT_DIR + "dbs.csv");
 	}
 
 	static Metamorph morphDbs(final FileOpener opener) {
@@ -36,7 +36,7 @@ public class Dbs {
 		final CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
 		final Metamorph morph =
-				new Metamorph(Constants.TRANSFORMATION_MORPH + "morph-dbs.xml");
+				new Metamorph(Enrich.MORPH_DIR + "morph-dbs.xml");
 		final Metamorph morphDbs = opener//
 				.setReceiver(lines)//
 				.setReceiver(decoder)//

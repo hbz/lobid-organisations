@@ -31,8 +31,10 @@ import views.html.index;
  */
 public class Application extends Controller {
 
-	private static final Config CONFIG =
+	/** The application config. */
+	public static final Config CONFIG =
 			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
+
 	private static final String ES_TYPE = CONFIG.getString("index.es.type");
 	private static final String ES_NAME = CONFIG.getString("index.es.name");
 
@@ -90,7 +92,7 @@ public class Application extends Controller {
 
 	private static Status preparePolygonQuery(String[] coordPairsAsString,
 			String q, int from, int size)
-			throws JsonProcessingException, IOException {
+					throws JsonProcessingException, IOException {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
 		Status result;
@@ -109,7 +111,7 @@ public class Application extends Controller {
 
 	private static Status prepareDistanceQuery(String[] coordPairsAsString,
 			String q, int from, int size)
-			throws JsonProcessingException, IOException {
+					throws JsonProcessingException, IOException {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
@@ -131,7 +133,7 @@ public class Application extends Controller {
 
 	private static Status buildPolygonQuery(String q, double[] latCoordinates,
 			double[] lonCoordinates, int from, int size)
-			throws JsonProcessingException, IOException {
+					throws JsonProcessingException, IOException {
 		GeoPolygonQueryBuilder polygonQuery =
 				QueryBuilders.geoPolygonQuery("location.geo");
 		for (int i = 0; i < latCoordinates.length; i++) {
@@ -147,7 +149,7 @@ public class Application extends Controller {
 
 	private static Status buildDistanceQuery(String q, int from, int size,
 			double lat, double lon, double distance)
-			throws JsonProcessingException, IOException {
+					throws JsonProcessingException, IOException {
 		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery("location.geo")
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);

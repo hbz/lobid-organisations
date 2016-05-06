@@ -17,6 +17,8 @@ import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
 
+import controllers.Application;
+
 /**
  * @author pvb
  */
@@ -81,13 +83,14 @@ public class Helpers {
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph =
-				new Metamorph(Constants.TRANSFORMATION_MORPH + "morph-enriched.xml");
+				new Metamorph(Enrich.MORPH_DIR + "morph-enriched.xml");
 		setupGeoLookup(morph, geoLookupServer);
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = Helpers.createJsonEncoder(true);
 		final ObjectWriter<String> writer = new ObjectWriter<>(aOutputPath);
 		final JsonToElasticsearchBulk esBulk = new JsonToElasticsearchBulk("id",
-				Constants.ES_TYPE, Constants.ES_INDEX);
+				Application.CONFIG.getString("index.es.type"),
+				Application.CONFIG.getString("index.es.name"));
 		flow.setReceiver(wait)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(rematchTriples)//

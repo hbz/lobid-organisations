@@ -17,13 +17,12 @@ import org.culturegraph.mf.types.Triple;
 public class EnrichSample {
 
 	private static String SIGEL_DUMP_LOCATION =
-			Constants.TRANSFORMATION_INPUT + "sigel.xml";
+			Enrich.DATA_INPUT_DIR + "sigel.xml";
 	private static String SIGEL_TEMP_FILES_LOCATION =
-			Constants.TRANSFORMATION_OUTPUT;
-	private static String DBS_LOCATION =
-			Constants.TRANSFORMATION_INPUT + "dbs.csv";
+			Enrich.DATA_OUTPUT_DIR;
+	private static String DBS_LOCATION = Enrich.DATA_INPUT_DIR + "dbs.csv";
 	private static String DUMP_XPATH =
-			"/" + Constants.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Constants.SIGEL_XPATH;
+			"/" + Enrich.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Enrich.SIGEL_XPATH;
 
 	/**
 	 * @param aOutputPath The path to which the output of transform should go
@@ -39,9 +38,9 @@ public class EnrichSample {
 		// Sigel Splitting
 		final FileOpener sourceFileOpener = new FileOpener();
 		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
-				Constants.SIGEL_DUMP_TOP_LEVEL_TAG, Constants.SIGEL_DUMP_ENTITY);
+				Enrich.SIGEL_DUMP_TOP_LEVEL_TAG, Enrich.SIGEL_DUMP_ENTITY);
 		Sigel.setupSigelSplitting(sourceFileOpener, xmlSplitter, DUMP_XPATH,
-				Constants.TRANSFORMATION_OUTPUT);
+				Enrich.DATA_OUTPUT_DIR);
 		Sigel.processSigelSplitting(sourceFileOpener, SIGEL_DUMP_LOCATION);
 
 		// DBS transformation
