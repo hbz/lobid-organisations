@@ -14,9 +14,6 @@ import play.libs.Json;
 import play.mvc.Result;
 import play.twirl.api.Content;
 
-/**
- * Tests without external dependencies. Run in CI.
- */
 @SuppressWarnings("javadoc")
 public class ApplicationTest {
 

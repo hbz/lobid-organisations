@@ -1,5 +1,3 @@
-package controllers;
-
 import static org.junit.Assert.assertTrue;
 
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -9,14 +7,11 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
 public class TestGeoEnrich extends ElasticsearchTest {
-
-	private static final String GEO_INDEX_TEST = "geodata";
 
 	private static SearchResponse searchByAddress(final String aIndex,
 			final Client aClient, final String aType, SearchType aSearchType,
@@ -41,36 +36,11 @@ public class TestGeoEnrich extends ElasticsearchTest {
 				query);
 	}
 
-	private static SearchResponse searchByAddressInGeodata() {
-		QueryStringQueryBuilder query =
-				QueryBuilders.queryStringQuery("Grabenstr. 4");
-		return searchByAddress(GEO_INDEX_TEST, geoClient, null, null, query);
-	}
-
 	@Test
 	public void requestCoordinates() {
 		SearchHit response = searchByAddressInOrganisations("Universitätsstr. 33")
 				.getHits().getAt(0);
 		assertTrue("Response should contain the field location",
-				response.getSourceAsString().contains("geo"));
+				response.getSourceAsString().contains("location"));
 	}
-
-	@Test
-	public void testDbsGeoEnrichment() throws InterruptedException {
-		// wait for Geo Index to be set up
-		int count = 0;
-		while (!geoClient.admin().indices().prepareExists(GEO_INDEX_TEST).execute()
-				.actionGet().isExists()) {
-			Thread.sleep(1000);
-			count++;
-			if (count > 30) {
-				break;
-			}
-		}
-		SearchHit responseGeoIndex = searchByAddressInGeodata().getHits().getAt(0);
-		assertTrue("Response should contain the geo location field",
-				responseGeoIndex.getSourceAsString().contains("geocode"));
-		// TODO: test actual content of "geocode" field
-	}
-
 }
