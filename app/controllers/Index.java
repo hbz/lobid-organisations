@@ -62,16 +62,16 @@ public class Index extends Controller {
 		if (!CONFIG.getStringList("index.remote").contains(remote)) {
 			return forbidden();
 		}
-		initializeIndex();
+		initializeIndex(CONFIG.getString("index.file.path"));
 		return ok("Started indexing");
 	}
 
 	/**
+	 * @param pathToJson Path to the JSON file to index
 	 * @throws IOException if json file cannot be found
 	 */
-	public static void initializeIndex() throws IOException {
+	public static void initializeIndex(String pathToJson) throws IOException {
 		long minimumSize = Long.parseLong(CONFIG.getString("index.file.minsize"));
-		String pathToJson = CONFIG.getString("index.file.path");
 		String index = CONFIG.getString("index.es.name");
 		if (new File(pathToJson).length() >= minimumSize) {
 			createEmptyIndex(CLIENT, index, "conf/index-settings.json");
@@ -110,7 +110,7 @@ public class Index extends Controller {
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
 			final BufferedReader br, final Client client, final String aIndex)
-			throws IOException, JsonParseException, JsonMappingException {
+					throws IOException, JsonParseException, JsonMappingException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;

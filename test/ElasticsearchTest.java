@@ -23,7 +23,7 @@ public abstract class ElasticsearchTest {
 
 	@BeforeClass
 	public static void makeIndex() throws IOException {
-		Index.initializeIndex();
+		Index.initializeIndex("test/resources/enriched-test.json");
 	}
 
 	@AfterClass
