@@ -1,4 +1,4 @@
-package flow;
+package transformation;
 
 import java.io.IOException;
 
@@ -44,7 +44,7 @@ public class EnrichSample {
 				Constants.TRANSFORMATION_OUTPUT);
 		Sigel.processSigelSplitting(sourceFileOpener, SIGEL_DUMP_LOCATION);
 
-		// DBS flow
+		// DBS transformation
 		final FileOpener openDbs = new FileOpener();
 		final StreamToTriples dbsFlow = //
 				Dbs.morphDbs(openDbs).setReceiver(Helpers.createTripleStream(true));

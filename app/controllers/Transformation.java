@@ -6,10 +6,10 @@ import java.io.IOException;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
-import flow.Enrich;
-import flow.EnrichSample;
 import play.mvc.Controller;
 import play.mvc.Result;
+import transformation.Enrich;
+import transformation.EnrichSample;
 
 /**
  * Controller to start the transformation of the data
