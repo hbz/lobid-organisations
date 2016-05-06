@@ -14,7 +14,7 @@ import play.mvc.Result;
 /**
  * Controller to start the transformation of the data
  * 
- * @author simon
+ * @author Simon Ritter, Fabian Steeg
  *
  */
 public class Transformation extends Controller {
@@ -48,10 +48,9 @@ public class Transformation extends Controller {
 					CONFIG.getString("transformation.updates.interval.size");
 			String geoLookupServer =
 					CONFIG.getString("transformation.geo.lookup.server");
-			String inputPath = CONFIG.getString("transformation.input.path");
 			String outputPath = CONFIG.getString("index.file.path");
-			Enrich.process(startOfUpdates, Integer.parseInt(intervalSize), inputPath,
-					outputPath, geoLookupServer);
+			Enrich.process(startOfUpdates, Integer.parseInt(intervalSize), outputPath,
+					geoLookupServer);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return internalServerError("Transformation failed");

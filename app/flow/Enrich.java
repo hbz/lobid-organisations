@@ -39,14 +39,12 @@ public class Enrich {
 	/**
 	 * @param startOfUpdates Date from which updates should start
 	 * @param intervalSize Days to load update for at once
-	 * @param aResourcesPath The path to the data
 	 * @param aOutputPath The path to which the output of transform should go
 	 * @param geoLookupServer The lookup server for geo data
 	 * @throws IOException If dump and temp files cannot be read
 	 */
 	public static void process(String startOfUpdates, int intervalSize,
-			final String aResourcesPath, final String aOutputPath,
-			String geoLookupServer) throws IOException {
+			final String aOutputPath, String geoLookupServer) throws IOException {
 
 		final CloseSupressor<Triple> wait = new CloseSupressor<>(2);
 		final TripleSort sortTriples = new TripleSort();
@@ -78,13 +76,14 @@ public class Enrich {
 				rematchTriples, aOutputPath, geoLookupServer);
 
 		// PROCESS SIGEL
-		Sigel.processSigelSplitting(openSigelDump, aResourcesPath + "sigel.xml");
+		Sigel.processSigelSplitting(openSigelDump,
+				Constants.TRANSFORMATION_INPUT + "sigel.xml");
 		if (!startOfUpdates.isEmpty()) {
 			processSigelUpdates(startOfUpdates, intervalSize);
 		}
 		Sigel.processSigelMorph(splitFileOpener, sigelTempFilesLocation);
 
-		Dbs.processDbs(openDbs, aResourcesPath + "dbs.csv");
+		Dbs.processDbs(openDbs, Constants.TRANSFORMATION_INPUT + "dbs.csv");
 	}
 
 	private static void processSigelUpdates(String startOfUpdates,

@@ -12,12 +12,9 @@ public class Constants {
 			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
 
 	// FILE PATHS
-	protected static final String TRANSFORMATION_INPUT =
-			CONFIG.getString("transformation.input.path");
-	protected static final String TRANSFORMATION_OUTPUT =
-			CONFIG.getString("transformation.output.path");
-	protected static final String TRANSFORMATION_MORPH =
-			CONFIG.getString("transformation.morph.path");
+	static final String TRANSFORMATION_INPUT = "app/resources/input/";
+	static final String TRANSFORMATION_OUTPUT = "app/resources/output/";
+	static final String TRANSFORMATION_MORPH = "app/resources/";
 
 	// DATA STRUCTURE
 	protected static final String SIGEL_DUMP_TOP_LEVEL_TAG = "collection";

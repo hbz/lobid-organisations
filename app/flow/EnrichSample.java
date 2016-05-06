@@ -1,6 +1,5 @@
 package flow;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
@@ -10,19 +9,13 @@ import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.types.Triple;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-
 /**
- * @author Simon Ritter (SBRitter)
+ * For tests: sample data only, no updates.
  * 
- *         For tests: sample data only, no updates
- *
+ * @author Simon Ritter (SBRitter)
  */
 public class EnrichSample {
 
-	private static final Config CONFIG =
-			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
 	private static String SIGEL_DUMP_LOCATION =
 			Constants.TRANSFORMATION_INPUT + "sigel.xml";
 	private static String SIGEL_TEMP_FILES_LOCATION =
