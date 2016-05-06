@@ -11,6 +11,7 @@ import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 import static play.test.Helpers.testServer;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,6 +27,11 @@ import play.test.TestBrowser;
  * Tests with internal dependencies. Run locally.
  */
 @SuppressWarnings("javadoc")
+/*
+ * TODO: set up test data and remove @Ignore to run in CI, see
+ * https://github.com/hbz/lobid-organisations/issues/143
+ */
+@Ignore
 public class IntegrationTest {
 
 	@Test
