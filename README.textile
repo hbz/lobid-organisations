@@ -31,9 +31,12 @@ Build the hbz metafacture-core fork:
 * @mvn clean install -DskipTests@
 * @cd ..@
 
-Get lobid-organisations:
+Get lobid-organisations, set up the Play application, and run the tests:
 
 * @git clone https://github.com/hbz/lobid-organisations.git@
+* @cd ~ ; wget http://downloads.typesafe.com/typesafe-activator/1.3.9/typesafe-activator-1.3.9-minimal.zip@
+* @unzip typesafe-activator-1.3.9-minimal.zip@
+* @cd git/lobid-organisations ; ~/activator-1.3.9-minimal/bin/activator test@
 
 See the @.travis.yml@ file for details on the CI config used by Travis.
 
@@ -97,7 +100,7 @@ h2. Downloads
 
 Optional: replace the sample data with the full input data dumps (only works hbz internally!):
 
-* @cd src/main/resources/input/@
+* @cd app/resources/input/@
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip@
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml@
 
@@ -107,13 +110,7 @@ lobid-organisations is a web app implemented with Play to serve the JSON-LD cont
 
 On start up, the web app will transform the data and build an Elasticsearch index from the output of the transformation. These steps can be triggered separately using HTTP POST when the application is up and running. Before building the index, the application will check for the minimum size of the transformation output. This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified in @conf/application.conf@. In addition, during transformation updates of the Sigel data can be fetched -- you can specify the date (i.e. the date of the dump, e.g. 2013-06-01) from which want the updates to start in @conf/application.conf@. Updates will be downloaded from this date on until today.
 
-Set up the Play application:
-
-* @cd ~@
-* @wget http://downloads.typesafe.com/typesafe-activator/1.3.9/typesafe-activator-1.3.9-minimal.zip@
-* @unzip typesafe-activator-1.3.9-minimal.zip@
-* @cd git/lobid-organisations@
-* @~/activator-1.3.9-minimal/bin/activator run@
+Run the Play application: @~/activator-1.3.9-minimal/bin/activator run@
 
 Open @http://localhost:9000/organisations@
 
@@ -149,17 +146,17 @@ h2. Query
 
 Query the resulting index:
 
-* @curl -XGET 'http://localhost:9200/organisations/_search?q=name:hbz+OR+altLabel:hbz'; echo@
+* @curl -XGET 'http://localhost:7211/organisations/_search?q=*'; echo@
 
 For details on the various options see the "query string syntax documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax.
 
-Get a specific record by DE-9:
+Get a specific record by DE-38:
 
-* @curl -XGET 'http://localhost:9200/organisations/organisation/DE-9'; echo@
+* @curl -XGET 'http://localhost:7211/organisations/organisation/DE-38'; echo@
 
 Exclude the metadata (you can paste the resulting document into the "JSON-LD Playground":http://json-ld.org/playground/ for conversion tests etc.):
 
-* @curl -XGET 'http://localhost:9200/organisations/organisation/DE-9/_source'; echo@
+* @curl -XGET 'http://localhost:7211/organisations/organisation/DE-38/_source'; echo@
 
 For details on the various options see the "GET API documentation":http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html.
 
