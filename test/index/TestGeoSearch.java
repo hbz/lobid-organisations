@@ -1,3 +1,4 @@
+package index;
 import static org.elasticsearch.index.query.QueryBuilders.geoPolygonQuery;
 import static org.junit.Assert.assertEquals;
 

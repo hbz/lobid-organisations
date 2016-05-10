@@ -1,3 +1,4 @@
+package index;
 import static org.junit.Assert.assertTrue;
 
 import org.elasticsearch.action.search.SearchRequestBuilder;

@@ -1,3 +1,4 @@
+
 import org.culturegraph.mf.test.TestSuite;
 import org.culturegraph.mf.test.TestSuite.TestDefinitions;
 import org.junit.runner.RunWith;

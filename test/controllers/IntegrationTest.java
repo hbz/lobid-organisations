@@ -1,3 +1,4 @@
+package controllers;
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.GET;
 import static play.test.Helpers.HTMLUNIT;

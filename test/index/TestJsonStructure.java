@@ -1,3 +1,4 @@
+package index;
 import static org.junit.Assert.assertEquals;
 
 import org.elasticsearch.action.search.SearchResponse;

@@ -1,6 +1,5 @@
 package transformation;
 
-
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
@@ -15,13 +14,6 @@ import org.culturegraph.mf.types.Triple;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import controllers.Application;
-import transformation.Dbs;
-import transformation.Enrich;
-import transformation.Helpers;
-import transformation.Sigel;
-import transformation.TripleRematch;
 
 /**
  * For tests: sample data only, no updates.
@@ -39,8 +31,7 @@ public class EnrichTest {
 	private static final String DBS_LOCATION = Enrich.DATA_INPUT_DIR + "dbs.csv";
 	private static final String DUMP_XPATH =
 			"/" + Enrich.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Enrich.SIGEL_XPATH;
-	private static final String OUTPUT_PATH =
-			Application.CONFIG.getString("index.file.path");
+	private static final String OUTPUT_PATH = "test/resources/enriched-test.json";
 
 	@BeforeClass
 	public static void setUp() {
@@ -60,8 +51,8 @@ public class EnrichTest {
 		final FileOpener splitFileOpener = new FileOpener();
 		StreamToTriples sigelFlow = Sigel.setupSigelMorph(splitFileOpener)
 				.setReceiver(Helpers.createTripleStream(true));
-		Helpers.setupTripleStreamToWriter(sigelFlow, WAIT,
-				new TripleSort(), new TripleRematch("isil"), OUTPUT_PATH, null);
+		Helpers.setupTripleStreamToWriter(sigelFlow, WAIT, new TripleSort(),
+				new TripleRematch("isil"), OUTPUT_PATH, null);
 		Sigel.processSigelMorph(splitFileOpener, SIGEL_TEMP_FILES_LOCATION);
 	}
 
@@ -70,8 +61,8 @@ public class EnrichTest {
 		final FileOpener openDbs = new FileOpener();
 		final StreamToTriples dbsFlow = //
 				Dbs.morphDbs(openDbs).setReceiver(Helpers.createTripleStream(true));
-		Helpers.setupTripleStreamToWriter(dbsFlow, WAIT,
-				new TripleSort(), new TripleRematch("isil"), OUTPUT_PATH, null);
+		Helpers.setupTripleStreamToWriter(dbsFlow, WAIT, new TripleSort(),
+				new TripleRematch("isil"), OUTPUT_PATH, null);
 		Dbs.processDbs(openDbs, DBS_LOCATION);
 	}
 
