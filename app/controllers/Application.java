@@ -2,6 +2,10 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
@@ -13,11 +17,13 @@ import org.elasticsearch.index.query.QueryBuilders;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 import play.Play;
 import play.libs.F.Promise;
+import play.libs.Json;
 import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -169,7 +175,15 @@ public class Application extends Controller {
 
 	private static Status returnAsJson(SearchResponse queryResponse)
 			throws IOException, JsonProcessingException {
-		return prettyJsonOk(new ObjectMapper().readTree(queryResponse.toString()));
+		ImmutableMap<String, Object> meta =
+				ImmutableMap.of("@id", "http://" + request().host() + request().uri(),
+						"http://sindice.com/vocab/search#totalResults",
+						queryResponse.getHits().getTotalHits());
+		List<Map<String, Object>> hits =
+				Arrays.asList(queryResponse.getHits().hits()).stream()
+						.map(hit -> hit.getSource()).collect(Collectors.toList());
+		hits.add(0, meta);
+		return prettyJsonOk(Json.toJson(hits));
 	}
 
 	/**
