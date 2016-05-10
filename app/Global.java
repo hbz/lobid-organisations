@@ -20,7 +20,7 @@ public class Global extends GlobalSettings {
 		Logger.info(
 				"Application has started. Starting transformation and indexing now.");
 		try {
-			Transformation.transformFullSet();
+			Transformation.transformSet();
 			Index.initializeIndex(
 					controllers.Application.CONFIG.getString("index.file.path"));
 		} catch (IOException e) {

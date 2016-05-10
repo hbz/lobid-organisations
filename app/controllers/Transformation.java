@@ -9,7 +9,6 @@ import com.typesafe.config.ConfigFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import transformation.Enrich;
-import transformation.EnrichSample;
 
 /**
  * Controller to start the transformation of the data
@@ -26,12 +25,12 @@ public class Transformation extends Controller {
 	 * @return 200 ok or 403 forbidden response depending on ip address of client
 	 * @throws IOException if data files cannot be read
 	 */
-	public static Result startFullTransformation() throws IOException {
+	public static Result startTransformation() throws IOException {
 		String remote = request().remoteAddress();
 		if (!CONFIG.getStringList("index.remote").contains(remote)) {
 			return forbidden();
 		}
-		transformFullSet();
+		transformSet();
 		return ok("Started transformation");
 	}
 
@@ -41,7 +40,7 @@ public class Transformation extends Controller {
 	 *         depending on ip address of client
 	 * @throws IOException If data files cannot be read
 	 */
-	public static Result transformFullSet() throws IOException {
+	public static Result transformSet() throws IOException {
 		try {
 			String startOfUpdates = CONFIG.getString("transformation.updates.start");
 			String intervalSize =
@@ -56,15 +55,6 @@ public class Transformation extends Controller {
 			return internalServerError("Transformation failed");
 		}
 		return ok("Transforming full data");
-	}
-
-	/**
-	 * @return 200 ok
-	 * @throws IOException If data files cannot be read
-	 */
-	public static Result startSampleTransformation() throws IOException {
-		EnrichSample.processSample(CONFIG.getString("index.file.path"));
-		return ok("Transforming data");
 	}
 
 }
