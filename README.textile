@@ -46,13 +46,13 @@ The build described above executes tests of the Metamorph transformations and th
 
 The Metamorph tests are defined in XML files with a @test_@ prefix corresponding to the tested Metamorph files:
 
-in @app/resources@:
+in @app/transformation@:
 
 @morph-dbs.xml@
 @morph-enriched.xml@
 @morph-sigel.xml@
 
-in @test/resources@:
+in @test/transformation@:
 
 @test_morph-dbs.xml@
 @test_morph-enriched.xml@
@@ -100,7 +100,7 @@ h2. Downloads
 
 Optional: replace the sample data with the full input data dumps (only works hbz internally!):
 
-* @cd app/resources/input/@
+* @cd app/transformation/input/@
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip@
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml@
 
