@@ -22,3 +22,4 @@ sigel-*
 data/*
 *.txt
 app/transformation/output/*/*.xml
+test/transformation/output/*/*.xml

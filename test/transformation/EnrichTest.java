@@ -15,6 +15,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import controllers.Application;
+
 /**
  * For tests: sample data only, no updates.
  * 
@@ -32,7 +34,7 @@ public class EnrichTest {
 	private static final String DUMP_XPATH =
 			"/" + Enrich.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Enrich.SIGEL_XPATH;
 	private static final String OUTPUT_PATH =
-			"test/transformation/enriched-test.json";
+			Application.CONFIG.getString("index.file.path");
 
 	@BeforeClass
 	public static void setUp() {

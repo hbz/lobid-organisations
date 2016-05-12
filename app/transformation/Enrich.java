@@ -29,8 +29,10 @@ import controllers.Application;
  */
 public class Enrich {
 
-	static final String DATA_INPUT_DIR = "app/transformation/input/";
-	static final String DATA_OUTPUT_DIR = "app/transformation/output/";
+	static final String DATA_INPUT_DIR =
+			Application.CONFIG.getString("data.input.dir");
+	static final String DATA_OUTPUT_DIR =
+			Application.CONFIG.getString("data.output.dir");
 	static final String MORPH_DIR = "app/transformation/";
 
 	static final String SIGEL_DUMP_TOP_LEVEL_TAG = "collection";

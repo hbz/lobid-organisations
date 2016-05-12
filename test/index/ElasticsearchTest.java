@@ -24,7 +24,7 @@ public abstract class ElasticsearchTest {
 
 	@BeforeClass
 	public static void makeIndex() throws IOException {
-		Index.initializeIndex("test/transformation/enriched-test.json");
+		Index.initializeIndex(Application.CONFIG.getString("index.file.path"));
 	}
 
 	@AfterClass
