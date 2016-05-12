@@ -34,9 +34,9 @@ Build the hbz metafacture-core fork:
 Get lobid-organisations, set up the Play application, and run the tests:
 
 * @git clone https://github.com/hbz/lobid-organisations.git@
-* @cd ~ ; wget http://downloads.typesafe.com/typesafe-activator/1.3.9/typesafe-activator-1.3.9-minimal.zip@
-* @unzip typesafe-activator-1.3.9-minimal.zip@
-* @cd git/lobid-organisations ; ~/activator-1.3.9-minimal/bin/activator test@
+* @cd ~ ; wget http://downloads.typesafe.com/typesafe-activator/1.3.10/typesafe-activator-1.3.10-minimal.zip@
+* @unzip typesafe-activator-1.3.10-minimal.zip@
+* @cd git/lobid-organisations ; ~/activator-1.3.10-minimal/bin/activator test@
 
 See the @.travis.yml@ file for details on the CI config used by Travis.
 
@@ -110,7 +110,7 @@ lobid-organisations is a web app implemented with Play to serve the JSON-LD cont
 
 On start up, the web app will transform the data and build an Elasticsearch index from the output of the transformation. These steps can be triggered separately using HTTP POST when the application is up and running. Before building the index, the application will check for the minimum size of the transformation output. This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified in @conf/application.conf@. In addition, during transformation updates of the Sigel data can be fetched -- you can specify the date (i.e. the date of the dump, e.g. 2013-06-01) from which want the updates to start in @conf/application.conf@. Updates will be downloaded from this date on until today.
 
-Run the Play application: @~/activator-1.3.9-minimal/bin/activator run@
+Run the Play application: @~/activator-1.3.10-minimal/bin/activator run@
 
 Open @http://localhost:9000/organisations@
 
@@ -118,15 +118,7 @@ The web application can also be accessed via http://beta.lobid.org/organisations
 
 h2. Transform
 
-The transformation is triggered when the application starts but it can also be started separately when the application is running.
-
-h3. Sample data transformation
-
-You can run the transformation with the sample data that is included in this repository:
-
-* @curl -X POST "http://localhost:9000/organisations/transformSample"@
-
-h3. Full data transformation (only works hbz internally!)
+The transformation is triggered when the application starts but it can also be started separately when the application is running (only works hbz internally).
 
 If you run the transformation with the full data (see above for downloads), the application will download additional updates for the Sigel data. These downloads comprise the data from a given date until today. They are split into smaller intervals of several days, you can specify the size of these intervals. 
 

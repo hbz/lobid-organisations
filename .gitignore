@@ -21,5 +21,7 @@ org.scala-ide.sdt.core.prefs
 sigel-*
 data/*
 *.txt
-app/transformation/output/*/*.xml
+app/transformation/input/*.xml
+app/transformation/input/*.csv
+app/transformation/output/*
 test/transformation/output/*/*.xml
