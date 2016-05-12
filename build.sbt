@@ -19,4 +19,4 @@ libraryDependencies ++= Seq(
 
 resolvers += Resolver.mavenLocal
 
-resourceDirectory in Test := baseDirectory.value / "test" / "resources"
+resourceDirectory in Test := baseDirectory.value / "test" / "transformation"

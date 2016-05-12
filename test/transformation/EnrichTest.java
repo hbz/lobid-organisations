@@ -31,7 +31,8 @@ public class EnrichTest {
 	private static final String DBS_LOCATION = Enrich.DATA_INPUT_DIR + "dbs.csv";
 	private static final String DUMP_XPATH =
 			"/" + Enrich.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Enrich.SIGEL_XPATH;
-	private static final String OUTPUT_PATH = "test/resources/enriched-test.json";
+	private static final String OUTPUT_PATH =
+			"test/transformation/enriched-test.json";
 
 	@BeforeClass
 	public static void setUp() {
