@@ -1,6 +1,5 @@
 package index;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.elasticsearch.action.search.SearchResponse;
@@ -10,16 +9,16 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-
+import controllers.Application;
 import controllers.Index;
 
 @SuppressWarnings("javadoc")
 public abstract class ElasticsearchTest {
 
-	public static final Config CONFIG =
-			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
+	static {
+		System.setProperty("config.resource", "test.conf");
+		System.out.println("Using CONFIG from " + Application.CONFIG.origin());
+	}
 
 	protected static Client client = Index.CLIENT;
 
@@ -36,8 +35,8 @@ public abstract class ElasticsearchTest {
 	public static SearchResponse exactSearch(final String aField,
 			final String aValue) {
 		final SearchResponse responseOfSearch =
-				client.prepareSearch(CONFIG.getString("index.es.name"))
-						.setTypes(CONFIG.getString("index.es.type"))
+				client.prepareSearch(Application.CONFIG.getString("index.es.name"))
+						.setTypes(Application.CONFIG.getString("index.es.type"))
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
 						.setQuery(QueryBuilders.termQuery(aField, aValue)).execute()
 						.actionGet();
@@ -47,8 +46,8 @@ public abstract class ElasticsearchTest {
 	public static SearchResponse search(final String aField,
 			final String aValue) {
 		SearchResponse responseOfSearch =
-				client.prepareSearch(CONFIG.getString("index.es.name"))
-						.setTypes(CONFIG.getString("index.es.type"))
+				client.prepareSearch(Application.CONFIG.getString("index.es.name"))
+						.setTypes(Application.CONFIG.getString("index.es.type"))
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
 						.setQuery(QueryBuilders.matchQuery(aField, aValue)).execute()
 						.actionGet();

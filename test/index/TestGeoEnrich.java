@@ -1,4 +1,5 @@
 package index;
+
 import static org.junit.Assert.assertTrue;
 
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -10,6 +11,8 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.junit.Test;
+
+import controllers.Application;
 
 @SuppressWarnings("javadoc")
 public class TestGeoEnrich extends ElasticsearchTest {
@@ -32,9 +35,9 @@ public class TestGeoEnrich extends ElasticsearchTest {
 			final String addressToSearch) {
 		MatchQueryBuilder query = QueryBuilders
 				.matchQuery("location.address.streetAddress", addressToSearch);
-		return searchByAddress(CONFIG.getString("index.es.name"), client,
-				CONFIG.getString("index.es.type"), SearchType.DFS_QUERY_AND_FETCH,
-				query);
+		return searchByAddress(Application.CONFIG.getString("index.es.name"),
+				client, Application.CONFIG.getString("index.es.type"),
+				SearchType.DFS_QUERY_AND_FETCH, query);
 	}
 
 	@Test

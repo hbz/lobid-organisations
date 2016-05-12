@@ -1,6 +1,5 @@
 package controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -38,8 +37,7 @@ import views.html.index;
 public class Application extends Controller {
 
 	/** The application config. */
-	public static final Config CONFIG =
-			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
+	public static final Config CONFIG = ConfigFactory.load();
 
 	private static final String ES_TYPE = CONFIG.getString("index.es.type");
 	private static final String ES_NAME = CONFIG.getString("index.es.name");

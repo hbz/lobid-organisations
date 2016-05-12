@@ -1,10 +1,6 @@
 package controllers;
 
-import java.io.File;
 import java.io.IOException;
-
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -18,16 +14,13 @@ import transformation.Enrich;
  */
 public class Transformation extends Controller {
 
-	private static final Config CONFIG =
-			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
-
 	/**
 	 * @return 200 ok or 403 forbidden response depending on ip address of client
 	 * @throws IOException if data files cannot be read
 	 */
 	public static Result startTransformation() throws IOException {
 		String remote = request().remoteAddress();
-		if (!CONFIG.getStringList("index.remote").contains(remote)) {
+		if (!Application.CONFIG.getStringList("index.remote").contains(remote)) {
 			return forbidden();
 		}
 		transformSet();
@@ -42,12 +35,13 @@ public class Transformation extends Controller {
 	 */
 	public static Result transformSet() throws IOException {
 		try {
-			String startOfUpdates = CONFIG.getString("transformation.updates.start");
+			String startOfUpdates =
+					Application.CONFIG.getString("transformation.updates.start");
 			String intervalSize =
-					CONFIG.getString("transformation.updates.interval.size");
+					Application.CONFIG.getString("transformation.updates.interval.size");
 			String geoLookupServer =
-					CONFIG.getString("transformation.geo.lookup.server");
-			String outputPath = CONFIG.getString("index.file.path");
+					Application.CONFIG.getString("transformation.geo.lookup.server");
+			String outputPath = Application.CONFIG.getString("index.file.path");
 			Enrich.process(startOfUpdates, Integer.parseInt(intervalSize), outputPath,
 					geoLookupServer);
 		} catch (Exception e) {

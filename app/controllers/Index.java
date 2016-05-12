@@ -24,8 +24,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -40,12 +38,12 @@ import play.mvc.Result;
  */
 public class Index extends Controller {
 
-	private static final Config CONFIG =
-			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
-	static Settings clientSettings = Settings.settingsBuilder()
-			.put("path.home", ".")
-			.put("http.port", CONFIG.getString("index.es.port.http"))
-			.put("transport.tcp.port", CONFIG.getString("index.es.port.tcp")).build();
+	static Settings clientSettings =
+			Settings.settingsBuilder().put("path.home", ".")
+					.put("http.port", Application.CONFIG.getString("index.es.port.http"))
+					.put("transport.tcp.port",
+							Application.CONFIG.getString("index.es.port.tcp"))
+					.build();
 	private static Node node =
 			nodeBuilder().settings(clientSettings).local(true).node();
 	/**
@@ -59,10 +57,10 @@ public class Index extends Controller {
 	 */
 	public static Result start() throws IOException {
 		String remote = request().remoteAddress();
-		if (!CONFIG.getStringList("index.remote").contains(remote)) {
+		if (!Application.CONFIG.getStringList("index.remote").contains(remote)) {
 			return forbidden();
 		}
-		initializeIndex(CONFIG.getString("index.file.path"));
+		initializeIndex(Application.CONFIG.getString("index.file.path"));
 		return ok("Started indexing");
 	}
 
@@ -71,8 +69,9 @@ public class Index extends Controller {
 	 * @throws IOException if json file cannot be found
 	 */
 	public static void initializeIndex(String pathToJson) throws IOException {
-		long minimumSize = Long.parseLong(CONFIG.getString("index.file.minsize"));
-		String index = CONFIG.getString("index.es.name");
+		long minimumSize =
+				Long.parseLong(Application.CONFIG.getString("index.file.minsize"));
+		String index = Application.CONFIG.getString("index.es.name");
 		if (new File(pathToJson).length() >= minimumSize) {
 			createEmptyIndex(CLIENT, index, "conf/index-settings.json");
 			indexData(CLIENT, pathToJson, index);
@@ -127,9 +126,9 @@ public class Index extends Controller {
 				organisationId = idUriParts[idUriParts.length - 1].replace("#!", "");
 			} else {
 				organisationData = line;
-				bulkRequest
-						.add(client.prepareIndex(aIndex, CONFIG.getString("index.es.type"),
-								organisationId).setSource(organisationData));
+				bulkRequest.add(client.prepareIndex(aIndex,
+						Application.CONFIG.getString("index.es.type"), organisationId)
+						.setSource(organisationData));
 			}
 			currentLine++;
 		}

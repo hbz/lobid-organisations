@@ -1,6 +1,5 @@
 package transformation;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,8 +17,7 @@ import org.culturegraph.mf.stream.source.FileOpener;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+import controllers.Application;
 
 /**
  * Simple enrichment of DBS records with Sigel data based on the DBS ID.
@@ -30,9 +28,6 @@ import com.typesafe.config.ConfigFactory;
  *
  */
 public class Enrich {
-
-	private static final Config CONFIG =
-			ConfigFactory.parseFile(new File("conf/application.conf")).resolve();
 
 	static final String DATA_INPUT_DIR = "app/resources/input/";
 	static final String DATA_OUTPUT_DIR = "app/resources/output/";
@@ -104,7 +99,7 @@ public class Enrich {
 				buildUpdatePipes(intervalSize, startOfUpdates, updateIntervals);
 		for (OaiPmhOpener updateOpener : updateOpenerList) {
 			Sigel.processSigelSplitting(updateOpener,
-					CONFIG.getString("transformation.sigel.repository"));
+					Application.CONFIG.getString("transformation.sigel.repository"));
 		}
 	}
 

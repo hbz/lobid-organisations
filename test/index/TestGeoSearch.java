@@ -1,4 +1,5 @@
 package index;
+
 import static org.elasticsearch.index.query.QueryBuilders.geoPolygonQuery;
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +7,8 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.junit.Test;
+
+import controllers.Application;
 
 @SuppressWarnings("javadoc")
 public class TestGeoSearch extends ElasticsearchTest {
@@ -15,8 +18,8 @@ public class TestGeoSearch extends ElasticsearchTest {
 				.addPoint(lat - 1, lon - 1).addPoint(lat - 1, lon + 1)
 				.addPoint(lat + 1, lon - 1).addPoint(lat + 1, lon + 1);
 		SearchResponse responseOfSearch =
-				client.prepareSearch(CONFIG.getString("index.es.name"))
-						.setTypes(CONFIG.getString("index.es.type"))
+				client.prepareSearch(Application.CONFIG.getString("index.es.name"))
+						.setTypes(Application.CONFIG.getString("index.es.type"))
 						.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setQuery(geoQuery)
 						.execute().actionGet();
 		return responseOfSearch;
