@@ -5,6 +5,7 @@ import controllers.Transformation;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
+import transformation.Enrich;
 
 /**
  * Application global settings.
@@ -21,8 +22,7 @@ public class Global extends GlobalSettings {
 				"Application has started. Starting transformation and indexing now.");
 		try {
 			Transformation.transformSet();
-			Index.initializeIndex(
-					controllers.Application.CONFIG.getString("index.file.path"));
+			Index.initializeIndex(Enrich.DATA_OUTPUT_FILE);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

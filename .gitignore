@@ -23,5 +23,4 @@ data/*
 *.txt
 app/transformation/input/*.xml
 app/transformation/input/*.csv
-app/transformation/output/*
 test/transformation/output/*/*.xml

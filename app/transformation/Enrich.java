@@ -29,10 +29,17 @@ import controllers.Application;
  */
 public class Enrich {
 
+	/** The output directory. If not set in config, system temp is used. */
+	public static final String DATA_OUTPUT_DIR =
+			Application.CONFIG.hasPath("data.output.dir")
+					? Application.CONFIG.getString("data.output.dir")
+					: System.getProperty("java.io.tmpdir");
+	/** The output file path. */
+	public static final String DATA_OUTPUT_FILE = DATA_OUTPUT_DIR + "/"
+			+ controllers.Application.CONFIG.getString("index.file.name");
+
 	static final String DATA_INPUT_DIR =
 			Application.CONFIG.getString("data.input.dir");
-	static final String DATA_OUTPUT_DIR =
-			Application.CONFIG.getString("data.output.dir");
 	static final String MORPH_DIR = "app/transformation/";
 
 	static final String SIGEL_DUMP_TOP_LEVEL_TAG = "collection";

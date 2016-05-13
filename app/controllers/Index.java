@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.mvc.Controller;
 import play.mvc.Result;
+import transformation.Enrich;
 
 /**
  * Indexing of the transformed data in elasticsearch
@@ -60,7 +61,7 @@ public class Index extends Controller {
 		if (!Application.CONFIG.getStringList("index.remote").contains(remote)) {
 			return forbidden();
 		}
-		initializeIndex(Application.CONFIG.getString("index.file.path"));
+		initializeIndex(Enrich.DATA_OUTPUT_FILE);
 		return ok("Started indexing");
 	}
 

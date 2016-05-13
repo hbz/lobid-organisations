@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 
 import controllers.Application;
 import controllers.Index;
+import transformation.Enrich;
 
 @SuppressWarnings("javadoc")
 public abstract class ElasticsearchTest {
@@ -24,7 +25,7 @@ public abstract class ElasticsearchTest {
 
 	@BeforeClass
 	public static void makeIndex() throws IOException {
-		Index.initializeIndex(Application.CONFIG.getString("index.file.path"));
+		Index.initializeIndex(Enrich.DATA_OUTPUT_FILE);
 	}
 
 	@AfterClass

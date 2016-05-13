@@ -41,7 +41,7 @@ public class Transformation extends Controller {
 					Application.CONFIG.getString("transformation.updates.interval.size");
 			String geoLookupServer =
 					Application.CONFIG.getString("transformation.geo.lookup.server");
-			String outputPath = Application.CONFIG.getString("index.file.path");
+			String outputPath = Enrich.DATA_OUTPUT_FILE;
 			Enrich.process(startOfUpdates, Integer.parseInt(intervalSize), outputPath,
 					geoLookupServer);
 		} catch (Exception e) {

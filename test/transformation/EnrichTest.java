@@ -15,8 +15,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controllers.Application;
-
 /**
  * For tests: sample data only, no updates.
  * 
@@ -28,24 +26,20 @@ public class EnrichTest {
 	private static final CloseSupressor<Triple> WAIT = new CloseSupressor<>(2);
 	private static final String SIGEL_DUMP_LOCATION =
 			Enrich.DATA_INPUT_DIR + "sigel.xml";
-	private static final String SIGEL_TEMP_FILES_LOCATION =
-			Enrich.DATA_OUTPUT_DIR;
 	private static final String DBS_LOCATION = Enrich.DATA_INPUT_DIR + "dbs.csv";
 	private static final String DUMP_XPATH =
 			"/" + Enrich.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Enrich.SIGEL_XPATH;
-	private static final String OUTPUT_PATH =
-			Application.CONFIG.getString("index.file.path");
 
 	@BeforeClass
 	public static void setUp() {
-		File output = new File(OUTPUT_PATH);
+		File output = new File(Enrich.DATA_OUTPUT_FILE);
 		assertThat(!output.exists() || output.delete()).as("no output file")
 				.isTrue();
 	}
 
 	@AfterClass
 	public static void tearDown() {
-		File output = new File(OUTPUT_PATH);
+		File output = new File(Enrich.DATA_OUTPUT_FILE);
 		assertThat(output.length()).as("output file size").isGreaterThan(0);
 	}
 
@@ -55,8 +49,8 @@ public class EnrichTest {
 		StreamToTriples sigelFlow = Sigel.setupSigelMorph(splitFileOpener)
 				.setReceiver(Helpers.createTripleStream(true));
 		Helpers.setupTripleStreamToWriter(sigelFlow, WAIT, new TripleSort(),
-				new TripleRematch("isil"), OUTPUT_PATH, null);
-		Sigel.processSigelMorph(splitFileOpener, SIGEL_TEMP_FILES_LOCATION);
+				new TripleRematch("isil"), Enrich.DATA_OUTPUT_FILE, null);
+		Sigel.processSigelMorph(splitFileOpener, Enrich.DATA_OUTPUT_DIR);
 	}
 
 	@Test
@@ -65,7 +59,7 @@ public class EnrichTest {
 		final StreamToTriples dbsFlow = //
 				Dbs.morphDbs(openDbs).setReceiver(Helpers.createTripleStream(true));
 		Helpers.setupTripleStreamToWriter(dbsFlow, WAIT, new TripleSort(),
-				new TripleRematch("isil"), OUTPUT_PATH, null);
+				new TripleRematch("isil"), Enrich.DATA_OUTPUT_FILE, null);
 		Dbs.processDbs(openDbs, DBS_LOCATION);
 	}
 
