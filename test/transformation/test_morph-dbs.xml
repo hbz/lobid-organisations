@@ -1,0 +1,50 @@
+<metamorph-test version="1.0"
+	xmlns="http://www.culturegraph.org/metamorph-test">
+	<test-case name="DbsMorph">
+		<input type="text/x-cg+xml">
+			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
+				<records>
+					<record id="1">
+						<literal name="inr" value="abc123" />
+						<literal name="isil" value="NULL" />
+					</record>
+					<record id="2">
+						<literal name="inr" value="xyz456" />
+						<literal name="isil" value="de-789" />
+						<literal name="iso" value="DEU" />
+					</record>
+					<record id="3">
+						<literal name="inr" value="aut001" />
+						<literal name="isil" value="ÄT/00 1" />
+						<literal name="iso" value="AUT" />
+					</record>
+				</records>
+			</cgxml>
+		</input>
+		<transformation type="text/x-metamorph+xml" src="app/transformation/morph-dbs.xml">
+		</transformation>
+		<result type="text/x-cg+xml">
+			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
+				<records>
+					<record id="1">
+						<literal name="_id" value="abc123" />
+						<literal name="inr" value="abc123" />
+						<literal name="addressCountry" value="DE" />
+					</record>
+					<record id="2">
+						<literal name="_id" value="xyz456" />
+						<literal name="inr" value="xyz456" />
+						<literal name="isil" value="de-789" />
+						<literal name="addressCountry" value="DE" />
+					</record>
+					<record id="3">
+						<literal name="_id" value="aut001" />
+						<literal name="inr" value="aut001" />
+						<literal name="isil" value="%C3%84T-001" />
+						<literal name="addressCountry" value="AT" />
+					</record>
+				</records>
+			</cgxml>
+		</result>
+	</test-case>
+</metamorph-test>

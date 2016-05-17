@@ -1,0 +1,23 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+#OpenRefine reconciliation endpoint
+GET     /organisations/reconcile                 controllers.Reconcile.meta(callback ?= "")
+POST    /organisations/reconcile                 controllers.Reconcile.reconcile()
+
+# Home page
+GET     /organisations                           controllers.Application.index()
+GET     /organisations/context.jsonld            controllers.Application.context()
+GET     /organisations/search                    controllers.Application.search(q, location ?= null, from: Int ?= 0, size: Int ?= 10)
+GET     /organisations/:id                       controllers.Application.get(id)
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /organisations/public/*file              controllers.Assets.at(path="/public", file)
+
+# Indexing
+POST    /organisations/index                     controllers.Index.start()
+
+# Transformation    
+POST    /organisations/transform                 controllers.Transformation.startTransformation()
