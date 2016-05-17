@@ -40,6 +40,22 @@ Get lobid-organisations, set up the Play application, and run the tests:
 
 See the @.travis.yml@ file for details on the CI config used by Travis.
 
+h1. Deployment
+
+_Short instructions for clean deployment, includes hbz-internal instructions that won't work outside the hbz network. Find detailed developer documentation further below._
+
+After the build steps above, edit @conf/application.conf@ as required (e.g. ports to be used by the embedded Elasticsearch), download the full data dumps, and start the application:
+
+* @cd app/transformation/input/@
+* @wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip@
+* @wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml@
+* @cd ../../..@
+* @~/activator-1.3.10-minimal/bin/activator "start 7201"@
+
+When startup is complete (@Listening for HTTP on /0.0.0.0:7201@), exit with @Ctrl+D@, output will be logged to @target/universal/stage/logs/application.log@.
+
+For monitoring config on @quaoar1@, see @/etc/monit/conf.d/play-instances.rc@. Monit logs to @/var/log/monit.log@. Check status with @sudo monit status@, reload config changes with @sudo monit reload@, for more see @man monit@.
+
 h2. Tests
 
 The build described above executes tests of the Metamorph transformations and the Elasticsearch indexing.
@@ -95,14 +111,6 @@ Each of these steps has a corresponding Java class, Morph definition, and output
 Finally, the data is indexed in Elasticsearch. The ID of an organisation is represented as a URI (e.g., http://beta.lobid.org/organisations/DE-9). However, when building up the index, the organisations are given the last bit of this URI only as Elasticsearch IDs (e.g., DE-9). Thus, Elasticsearch-internally, the organisations can be accessed via their ISIL or Pseudo-ISIL.
 
 Transformation and indexing are done automatically when starting the application. However, both processes can be triggered separately, see below.
-
-h2. Downloads
-
-Optional: replace the sample data with the full input data dumps (only works hbz internally!):
-
-* @cd app/transformation/input/@
-* @wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip@
-* @wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml@
 
 h2. Start web app
 
