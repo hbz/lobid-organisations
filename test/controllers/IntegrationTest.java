@@ -1,4 +1,5 @@
 package controllers;
+
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.GET;
 import static play.test.Helpers.HTMLUNIT;
@@ -12,28 +13,20 @@ import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 import static play.test.Helpers.testServer;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 
+import index.ElasticsearchTest;
 import play.libs.F.Callback;
 import play.libs.Json;
 import play.mvc.Result;
 import play.test.TestBrowser;
 
-/**
- * Tests with internal dependencies. Run locally.
- */
 @SuppressWarnings("javadoc")
-/*
- * TODO: set up test data and remove @Ignore to run in CI, see
- * https://github.com/hbz/lobid-organisations/issues/143
- */
-@Ignore
-public class IntegrationTest {
+public class IntegrationTest extends ElasticsearchTest {
 
 	@Test
 	public void testMainPage() {
@@ -50,36 +43,36 @@ public class IntegrationTest {
 	@Test
 	public void getById() {
 		running(fakeApplication(), () -> {
-			Result result = route(fakeRequest(GET, "/organisations/DE-9"));
+			Result result = route(fakeRequest(GET, "/organisations/DE-38"));
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result)).contains("Greifswald");
+			assertThat(contentAsString(result)).contains("Köln");
 		});
 	}
 
 	@Test
 	public void queryByField() {
 		running(fakeApplication(), () -> {
-			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:land&size=2000"));
+			Result result = route(
+					fakeRequest(GET, "/organisations/search?q=fundertype.label:land"));
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result)).contains("Bayerisches");
+			assertThat(contentAsString(result)).contains("Köln");
 		});
 	}
 
 	@Test
 	public void prettyGetById() {
 		running(fakeApplication(), () -> {
-			assertPretty(route(fakeRequest(GET, "/organisations/DE-9")));
+			assertPretty(route(fakeRequest(GET, "/organisations/DE-38")));
 		});
 	}
 
 	@Test
 	public void prettyQueryByField() {
 		running(fakeApplication(), () -> {
-			assertPretty(route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.value:land&size=2000")));
+			assertPretty(route(
+					fakeRequest(GET, "/organisations/search?q=fundertype.value:land")));
 		});
 	}
 
@@ -100,7 +93,7 @@ public class IntegrationTest {
 	public void rectangleSearch() {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:land&location=52,12+53,12+53,14+52,14"));
+					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13+52,14+53,14+53,13"));
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
 			assertThat(contentAsString(result)).contains("Berlin");
@@ -111,9 +104,10 @@ public class IntegrationTest {
 	public void triangleSearch() {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:land&location=54,15+56,14+56,12"));
+					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13.5+53,13+53,14"));
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
+			assertThat(contentAsString(result)).contains("Berlin");
 		});
 	}
 
@@ -121,9 +115,10 @@ public class IntegrationTest {
 	public void hexagonSearch() {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:land&location=54,15+56,14+56,12+54,10+52,11+53,14"));
+					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13+52,14+53,14+53,13+52.5,12+52.5,15"));
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
+			assertThat(contentAsString(result)).contains("Berlin");
 		});
 	}
 
@@ -131,7 +126,7 @@ public class IntegrationTest {
 	public void distanceSearch() {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:land&location=52.52,13.39,25"));
+					"/organisations/search?q=fundertype.label:Körperschaft&location=52.5,13.3,25"));
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
 			assertThat(contentAsString(result)).contains("Berlin");
