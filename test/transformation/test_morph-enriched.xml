@@ -16,18 +16,24 @@
 						<literal name="035E.f" value="33" />
 						<literal name="035E.g" value="02" />
 						<literal name="035E.h" value="10" />
+						<literal name="009Q.u" value="http: //example.org /opac" />
+						<literal name="009Q.z" value="B" />
 					</record>
 					<record id="de-10">
 						<literal name="typ_text" value="Öffentliche Bibliothek" />
 						<literal name="utr_text" value="Land" />
 						<literal name="gro_text" value="1.000.001 und mehr" />
 						<literal name="stk_2007" value="10510011011" />
+						<literal name="url" value="http: //example.org" />
+						<literal name="opa" value="http://example.org/ opac" />
 					</record>
 					<record id="de-123">
 						<literal name="ema" value="some.one@example.com" />
 						<literal name="tvw" value="-221" />
 						<literal name="tel" value="123" />
 						<literal name="stk_2007" value="100460000000" />
+						<literal name="009Q.u" value="http://example.org " />
+						<literal name="009Q.z" value="A" />
 					</record>
 				</records>
 			</cgxml>
@@ -54,6 +60,7 @@
 					</record>
 					<record id="de-789">
 						<!--<literal name="inr" value="dbs-id" />-->
+						<literal name="provides" value="http://example.org/opac" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
 							<literal name="label" value="Öffentliche Bibliothek" />
@@ -70,6 +77,8 @@
 					<record id="de-10">
 						<!--<literal name="inr" value="dbs-id" />-->
 						<literal name="rs" value="010510011011" />
+						<literal name="url" value="http://example.org" />
+						<literal name="provides" value="http://example.org/opac" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
 							<literal name="label" value="Öffentliche Bibliothek" />
@@ -89,6 +98,7 @@
 						<literal name="email" value="mailto:some.one@example.com" />
 						 -->
 						 <literal name="rs" value="100460000000" />
+						 <literal name="url" value="http://example.org" />
 					</record>
 				</records>
 			</cgxml>

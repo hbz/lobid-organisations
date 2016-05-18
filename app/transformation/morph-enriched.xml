@@ -2,6 +2,38 @@
 <metamorph xmlns="http://www.culturegraph.org/metamorph"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
 	entityMarker=".">
+	<macros>
+		<!-- url and provides: Handle urls without http:// or https:// and remove blanks -->
+		<macro name="url-group">
+			<group name="$[group_name]">
+				<choose>
+					<data source="$[dbs_field]">
+						<regexp match="http(.*)" />
+						<replace pattern="\s+" with=""/>
+					</data>
+					<data source="$[dbs_field]">
+						<regexp match="(www(.*))" format="http://${1}"/>
+						<replace pattern="\s+" with=""/>
+					</data>
+					<combine value="${hp}" name="$[group_name]" sameEntity="true">
+						<choose>
+							<data source="009Q.u" name="hp">
+								<regexp match="http(.*)" />
+								<replace pattern="\s+" with=""/>
+							</data>
+							<data source="009Q.u" name="hp">
+								<regexp match="(www(.*))" format="http://${1}"/>
+								<replace pattern="\s+" with=""/>
+							</data>
+						</choose>
+						<data source="009Q.z" name="">
+							<regexp match="$[sigel_code]" format="" />
+						</data>
+					</combine>
+				</choose>
+			</group>
+		</macro>
+	</macros>
 	<rules>		
 		<data source="nam|029A.a" name="\@context">
 			<constant value="http://beta.lobid.org/organisations/context.jsonld" />
@@ -39,53 +71,9 @@
 			</choose>
 		</group>
 		
-		<!-- url and provides: Handle urls without http:// or https:// -->
-		<group name="url">
-			<choose>
-				<data source="url">
-					<regexp match="http(.*)" />
-				</data>
-				<data source="url">
-					<regexp match="(www(.*))" format="http://${1}"/>
-				</data>
-				<combine value="${hp}" name="url" sameEntity="true">
-					<choose>
-						<data source="009Q.u" name="hp">
-							<regexp match="http(.*)" />
-						</data>
-						<data source="009Q.u" name="hp">
-							<regexp match="(www(.*))" format="http://${1}"/>
-						</data>
-					</choose>
-					<data source="009Q.z" name="">
-						<regexp match="A" format="" />
-					</data>
-				</combine>
-			</choose>
-		</group>
-		<group name="provides">
-			<choose>
-				<data source="opa">
-					<regexp match="http(.*)" />
-				</data>
-				<data source="opa">
-					<regexp match="(www(.*))" format="http://${1}"/>
-				</data>
-				<combine value="${url}" name="provides" sameEntity="true">
-					<choose>
-						<data source="009Q.u" name="url">
-							<regexp match="http(.*)" />
-						</data>
-						<data source="009Q.u" name="url">
-							<regexp match="(www(.*))" format="http://${1}"/>
-						</data>
-					</choose>
-					<data source="009Q.z" name="">
-						<regexp match="B" format="" />
-					</data>
-				</combine>
-			</choose>
-		</group>
+		<call-macro name="url-group" group_name="url" dbs_field="url" sigel_code="A"/>
+		<call-macro name="url-group" group_name="provides" dbs_field="opa" sigel_code="B"/>
+		
 		<data source="isil" name="isil"/>
 		<data source="inr" name="dbsID"/>
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
