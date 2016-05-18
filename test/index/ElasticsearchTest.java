@@ -25,7 +25,7 @@ public abstract class ElasticsearchTest {
 
 	@BeforeClass
 	public static void makeIndex() throws IOException {
-		Index.initializeIndex(Enrich.DATA_OUTPUT_FILE);
+		Index.initialize(Enrich.DATA_OUTPUT_FILE);
 	}
 
 	@AfterClass
