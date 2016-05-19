@@ -44,9 +44,7 @@ public class IntegrationTest extends ElasticsearchTest {
 	public void getById() {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET, "/organisations/DE-38"));
-			assertThat(result).isNotNull();
-			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result)).contains("Köln");
+			assertContains(result, "Köln");
 		});
 	}
 
@@ -55,9 +53,25 @@ public class IntegrationTest extends ElasticsearchTest {
 		running(fakeApplication(), () -> {
 			Result result = route(
 					fakeRequest(GET, "/organisations/search?q=fundertype.label:land"));
-			assertThat(result).isNotNull();
-			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result)).contains("Köln");
+			assertContains(result, "Köln");
+		});
+	}
+
+	@Test
+	public void queryByFieldIdWildcard() {
+		running(fakeApplication(), () -> {
+			Result result =
+					route(fakeRequest(GET, "/organisations/search?q=id:*DE-3*"));
+			assertContains(result, "Köln");
+		});
+	}
+
+	@Test
+	public void queryByFieldIsilWildcard() {
+		running(fakeApplication(), () -> {
+			Result result =
+					route(fakeRequest(GET, "/organisations/search?q=isil:DE-3*"));
+			assertContains(result, "Köln");
 		});
 	}
 
@@ -76,6 +90,52 @@ public class IntegrationTest extends ElasticsearchTest {
 		});
 	}
 
+	@Test
+	public void rectangleSearch() {
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET,
+					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13+52,14+53,14+53,13"));
+			assertContains(result, "Berlin");
+		});
+	}
+
+	@Test
+	public void triangleSearch() {
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET,
+					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13.5+53,13+53,14"));
+			assertContains(result, "Berlin");
+		});
+	}
+
+	@Test
+	public void hexagonSearch() {
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET,
+					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13+52,14+53,14+53,13+52.5,12+52.5,15"));
+			assertContains(result, "Berlin");
+		});
+	}
+
+	@Test
+	public void distanceSearch() {
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET,
+					"/organisations/search?q=fundertype.label:Körperschaft&location=52.5,13.3,25"));
+			assertContains(result, "Berlin");
+		});
+	}
+
+	@Test
+	public void reconcileRequest() {
+		running(fakeApplication(), () -> {
+			Result result = route(
+					fakeRequest(POST, "/organisations/reconcile").withFormUrlEncodedBody(
+							ImmutableMap.of("queries", "{\"q99\":{\"query\":\"*\"}}")));
+			assertContains(result, "q99");
+		});
+	}
+
 	private static void assertPretty(Result result) {
 		String contentAsString = contentAsString(result);
 		ObjectMapper mapper = new ObjectMapper();
@@ -89,60 +149,10 @@ public class IntegrationTest extends ElasticsearchTest {
 		}
 	}
 
-	@Test
-	public void rectangleSearch() {
-		running(fakeApplication(), () -> {
-			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13+52,14+53,14+53,13"));
-			assertThat(result).isNotNull();
-			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result)).contains("Berlin");
-		});
-	}
-
-	@Test
-	public void triangleSearch() {
-		running(fakeApplication(), () -> {
-			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13.5+53,13+53,14"));
-			assertThat(result).isNotNull();
-			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result)).contains("Berlin");
-		});
-	}
-
-	@Test
-	public void hexagonSearch() {
-		running(fakeApplication(), () -> {
-			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13+52,14+53,14+53,13+52.5,12+52.5,15"));
-			assertThat(result).isNotNull();
-			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result)).contains("Berlin");
-		});
-	}
-
-	@Test
-	public void distanceSearch() {
-		running(fakeApplication(), () -> {
-			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:Körperschaft&location=52.5,13.3,25"));
-			assertThat(result).isNotNull();
-			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(contentAsString(result)).contains("Berlin");
-		});
-	}
-
-	@Test
-	public void reconcileRequest() {
-		running(fakeApplication(), () -> {
-			Result result = route(
-					fakeRequest(POST, "/organisations/reconcile").withFormUrlEncodedBody(
-							ImmutableMap.of("queries", "{\"q99\":{\"query\":\"*\"}}")));
-			assertThat(result).isNotNull();
-			assertThat(contentType(result)).isEqualTo("application/json");
-			assertThat(Json.parse(contentAsString(result))).isNotNull();
-			assertThat(contentAsString(result)).contains("q99");
-		});
+	private static void assertContains(Result result, String content) {
+		assertThat(result).isNotNull();
+		assertThat(contentType(result)).isEqualTo("application/json");
+		assertThat(Json.parse(contentAsString(result))).isNotNull();
+		assertThat(contentAsString(result)).contains(content);
 	}
 }

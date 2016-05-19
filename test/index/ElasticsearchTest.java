@@ -33,17 +33,6 @@ public abstract class ElasticsearchTest {
 		client.close();
 	}
 
-	public static SearchResponse exactSearch(final String aField,
-			final String aValue) {
-		final SearchResponse responseOfSearch =
-				client.prepareSearch(Application.CONFIG.getString("index.es.name"))
-						.setTypes(Application.CONFIG.getString("index.es.type"))
-						.setSearchType(SearchType.DFS_QUERY_AND_FETCH)
-						.setQuery(QueryBuilders.termQuery(aField, aValue)).execute()
-						.actionGet();
-		return responseOfSearch;
-	}
-
 	public static SearchResponse search(final String aField,
 			final String aValue) {
 		SearchResponse responseOfSearch =

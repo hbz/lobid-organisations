@@ -11,6 +11,10 @@
 					"lowercasesearch": {
 						"tokenizer": "standard", 
 						"filter": "lowercase"
+					},
+					"id": {
+						"tokenizer": "keyword",
+						"filter": "lowercase"
 					}
 				}, 
 				"tokenizer": {
@@ -43,7 +47,11 @@
 					}
 				}, 
 				"id": {
-					"index": "not_analyzed", 
+					"analyzer": "id",
+					"type": "string"
+				},
+				"isil": {
+					"analyzer": "id",
 					"type": "string"
 				}
 			}
