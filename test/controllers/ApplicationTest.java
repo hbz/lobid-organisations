@@ -1,4 +1,5 @@
 package controllers;
+
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.GET;
 import static play.test.Helpers.contentAsString;
@@ -11,12 +12,13 @@ import static play.test.Helpers.running;
 
 import org.junit.Test;
 
+import index.ElasticsearchTest;
 import play.libs.Json;
 import play.mvc.Result;
 import play.twirl.api.Content;
 
 @SuppressWarnings("javadoc")
-public class ApplicationTest {
+public class ApplicationTest extends ElasticsearchTest {
 
 	@Test
 	public void renderIndexTemplate() {

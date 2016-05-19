@@ -61,7 +61,7 @@ public class Index extends Controller {
 		if (!Application.CONFIG.getStringList("index.remote").contains(remote)) {
 			return forbidden();
 		}
-		initializeIndex(Enrich.DATA_OUTPUT_FILE);
+		initialize(Enrich.DATA_OUTPUT_FILE);
 		return ok("Started indexing");
 	}
 
@@ -69,7 +69,7 @@ public class Index extends Controller {
 	 * @param pathToJson Path to the JSON file to index
 	 * @throws IOException if json file cannot be found
 	 */
-	public static void initializeIndex(String pathToJson) throws IOException {
+	public static void initialize(String pathToJson) throws IOException {
 		long minimumSize =
 				Long.parseLong(Application.CONFIG.getString("index.file.minsize"));
 		String index = Application.CONFIG.getString("index.es.name");
@@ -80,6 +80,11 @@ public class Index extends Controller {
 			throw new IllegalArgumentException(
 					"File not large enough: " + pathToJson);
 		}
+	}
+
+	/** Close the embedded Elasticsearch index. */
+	public static void close() {
+		node.close();
 	}
 
 	static void createEmptyIndex(final Client aClient, final String aIndexName,
