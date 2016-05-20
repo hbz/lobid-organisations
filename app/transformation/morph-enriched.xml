@@ -319,11 +319,14 @@
 		</combine>
 		<entity name="sameAs[]" flushWith="record">
 			<combine name="sameAs" value="http://dbpedia.org/resource/${titleDbpedia}">
-				<data source="@dbpediaMap" name="titleDbpedia" />
+				<data source="@dbpediaMap" name="titleDbpedia">
+					<occurrence only="1" />
+				</data>
 			</combine>
 			<data source="isil" name="sameAs">
 				<regexp match="(.*)"
 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
+				<occurrence only="1" />
 			</data>
 		</entity>
 		
