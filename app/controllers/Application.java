@@ -65,32 +65,43 @@ public class Application extends Controller {
 	 *          single point plus distance)
 	 * @param from From parameter for Elasticsearch query
 	 * @param size Size parameter for Elasitcsearch query
+	 * @param format The response format ('html' for HTML, else JSON)
 	 * @return Result of search as ok() or badRequest()
 	 * @throws JsonProcessingException Is thrown if response of search cannot be
 	 *           processed as JsonNode
 	 * @throws IOException Is thrown if response of search cannot be processed as
 	 *           JsonNode
 	 */
-	public static Result search(String q, String location, int from, int size)
-			throws JsonProcessingException, IOException {
-		if (q == null) {
-			return ok(search.render("lobid-organisations"))
-					.as("text/html; charset=utf-8");
+	public static Result search(String q, String location, int from, int size,
+			String format) throws JsonProcessingException, IOException {
+		try {
+			if (q == null) {
+				return ok(search.render("lobid-organisations", "", "[{}]"))
+						.as("text/html; charset=utf-8");
+			}
+			String result = null;
+			if (location == null) {
+				result = buildSimpleQuery(q, from, size);
+			} else {
+				result = prepareLocationQuery(location, q, from, size);
+			}
+			if (format != null && format.equals("html")) {
+				play.Logger.debug("Result: {}", result);
+				return ok(search.render("lobid-organisations", q, result))
+						.as("text/html; charset=utf-8");
+			}
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			return ok(result).as("application/json; charset=utf-8");
+		} catch (IllegalArgumentException x) {
+			x.printStackTrace();
+			return badRequest("Bad request: " + x.getMessage());
 		}
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		Status result = null;
-		if (location == null) {
-			result = buildSimpleQuery(q, from, size);
-		} else {
-			result = prepareLocationQuery(location, q, from, size);
-		}
-		return result;
 	}
 
-	private static Status prepareLocationQuery(String location, String q,
+	private static String prepareLocationQuery(String location, String q,
 			int from, int size) throws JsonProcessingException, IOException {
 		String[] coordPairsAsString = location.split(" ");
-		Status result;
+		String result;
 		if (coordPairsAsString[0].split(",").length > 2) {
 			result = prepareDistanceQuery(coordPairsAsString, q, from, size);
 		} else {
@@ -99,48 +110,49 @@ public class Application extends Controller {
 		return result;
 	}
 
-	private static Status preparePolygonQuery(String[] coordPairsAsString,
+	private static String preparePolygonQuery(String[] coordPairsAsString,
 			String q, int from, int size)
 			throws JsonProcessingException, IOException {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
-		Status result;
+		String result;
 		for (int i = 0; i < coordPairsAsString.length; i++) {
 			String[] coordinatePair = coordPairsAsString[i].split(",");
 			latCoordinates[i] = Double.parseDouble(coordinatePair[0]);
 			lonCoordinates[i] = Double.parseDouble(coordinatePair[1]);
 		}
 		if (coordPairsAsString.length < 3) {
-			return badRequest(
+			throw new IllegalArgumentException(
 					"Not enough points. Polygon requires more than two points.");
 		}
 		result = buildPolygonQuery(q, latCoordinates, lonCoordinates, from, size);
 		return result;
 	}
 
-	private static Status prepareDistanceQuery(String[] coordPairsAsString,
+	private static String prepareDistanceQuery(String[] coordPairsAsString,
 			String q, int from, int size)
 			throws JsonProcessingException, IOException {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
 		double distance = Double.parseDouble(coordinatePair[2]);
-		Status result;
+		String result;
 		if (distance < 0) {
-			return badRequest("Distance must not be smaller than 0.");
+			throw new IllegalArgumentException(
+					"Distance must not be smaller than 0.");
 		}
 		result = buildDistanceQuery(q, from, size, lat, lon, distance);
 		return result;
 	}
 
-	private static Status buildSimpleQuery(String q, int from, int size)
+	private static String buildSimpleQuery(String q, int from, int size)
 			throws JsonProcessingException, IOException {
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		SearchResponse queryResponse = executeQuery(from, size, simpleQuery);
 		return returnAsJson(queryResponse);
 	}
 
-	private static Status buildPolygonQuery(String q, double[] latCoordinates,
+	private static String buildPolygonQuery(String q, double[] latCoordinates,
 			double[] lonCoordinates, int from, int size)
 			throws JsonProcessingException, IOException {
 		GeoPolygonQueryBuilder polygonQuery =
@@ -156,7 +168,7 @@ public class Application extends Controller {
 		return returnAsJson(queryResponse);
 	}
 
-	private static Status buildDistanceQuery(String q, int from, int size,
+	private static String buildDistanceQuery(String q, int from, int size,
 			double lat, double lon, double distance)
 			throws JsonProcessingException, IOException {
 		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery("location.geo")
@@ -176,7 +188,7 @@ public class Application extends Controller {
 		return responseOfSearch;
 	}
 
-	private static Status returnAsJson(SearchResponse queryResponse)
+	private static String returnAsJson(SearchResponse queryResponse)
 			throws IOException, JsonProcessingException {
 		ImmutableMap<String, Object> meta =
 				ImmutableMap.of("@id", "http://" + request().host() + request().uri(),
@@ -199,13 +211,15 @@ public class Application extends Controller {
 				"http://localhost:" + CONFIG.getString("index.es.port.http");
 		String url =
 				String.format("%s/%s/%s/%s/_source", server, ES_NAME, ES_TYPE, id);
-		return WS.url(url).execute().map(x -> x.getStatus() == OK
-				? prettyJsonOk(x.asJson()) : notFound("Not found: " + id));
+		return WS.url(url).execute()
+				.map(x -> x.getStatus() == OK
+						? ok(prettyJsonOk(x.asJson())).as("application/json; charset=utf-8")
+						: notFound("Not found: " + id));
 	}
 
-	private static Status prettyJsonOk(JsonNode jsonNode)
+	private static String prettyJsonOk(JsonNode jsonNode)
 			throws JsonProcessingException {
-		return ok(new ObjectMapper().writerWithDefaultPrettyPrinter()
-				.writeValueAsString(jsonNode)).as("application/json; charset=utf-8");
+		return new ObjectMapper().writerWithDefaultPrettyPrinter()
+				.writeValueAsString(jsonNode);
 	}
 }

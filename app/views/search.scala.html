@@ -1,9 +1,24 @@
-@(title: String)
+@(title: String, q: String, json: String)
+
+@import play.api.libs.json._
 
 @main(title) {
  <h1>@title</h1>
  <form action="@routes.Application.search()" method="GET">
-  <input type="text" name="q" />
+  <input type="text" autofocus name="q" @if(!q.isEmpty){ value="@q" }/>
+  <input type="hidden" name="format" value="html"/>
   <input type="submit" />
  </form>
+ <p>
+ <table>
+ @for(org <- Json.parse(json).as[Seq[JsValue]].tail) {
+  <tr>
+   <td>
+    <a href='@((org\"id").asOpt[String].getOrElse(""))'>
+    @((org\"name").asOpt[String].getOrElse("*no name*"))</a>
+   </td>
+  </tr>
+ }
+ </table>
+ </p>
 }

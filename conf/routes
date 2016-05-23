@@ -9,7 +9,7 @@ POST    /organisations/reconcile                 controllers.Reconcile.reconcile
 # Home page
 GET     /organisations                           controllers.Application.index()
 GET     /organisations/context.jsonld            controllers.Application.context()
-GET     /organisations/search                    controllers.Application.search(q ?= null, location ?= null, from: Int ?= 0, size: Int ?= 10)
+GET     /organisations/search                    controllers.Application.search(q ?= null, location ?= null, from: Int ?= 0, size: Int ?= 10, format ?= null)
 GET     /organisations/:id                       controllers.Application.get(id)
 
 
