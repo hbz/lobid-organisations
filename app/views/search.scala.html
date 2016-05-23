@@ -1,0 +1,9 @@
+@(title: String)
+
+@main(title) {
+ <h1>@title</h1>
+ <form action="@routes.Application.search()" method="GET">
+  <input type="text" name="q" />
+  <input type="submit" />
+ </form>
+}
