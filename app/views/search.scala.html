@@ -14,10 +14,12 @@
  @defining(Json.parse(json).as[Seq[JsValue]]) { orgs =>
   @if(!orgs.isEmpty) {
    <table>
-    @for(org <- orgs.tail) {
+    @for(org <- orgs.tail;
+         uri = (org\"id").asOpt[String].getOrElse("");
+         link = uri.split("#")(0) + "?format=html") {
      <tr>
       <td>
-       <a href='@((org\"id").asOpt[String].getOrElse(""))'>
+       <a href='@link'>
        @((org\"name").asOpt[String].getOrElse("*no name*"))</a>
       </td>
      </tr>
