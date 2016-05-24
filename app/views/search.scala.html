@@ -1,4 +1,4 @@
-@(title: String, q: String, json: String)
+@(title: String, q: String, json: String, from: Int, size: Int)
 
 @import play.api.libs.json._
 
@@ -12,7 +12,15 @@
  </form>
  <p>
  @defining(Json.parse(json).as[Seq[JsValue]]) { orgs =>
-  @if(!orgs.isEmpty) {
+  @if(orgs.size > 1) {
+   <p>
+    @defining((orgs.head \ "http://sindice.com/vocab/search#totalResults").as[Int]) { totalResults =>
+     Total results: @(totalResults) |
+     @if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, format="html")'>&LeftArrow; prev</a>}
+     @(from+1)&mdash;@(Math.min(totalResults, from+size))
+     @if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, format="html")'>next &RightArrow;</a>}
+    }
+   </p>
    <table>
     @for(org <- orgs.tail;
          uri = (org\"id").asOpt[String].getOrElse("");

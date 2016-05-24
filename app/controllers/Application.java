@@ -76,7 +76,7 @@ public class Application extends Controller {
 			String format) throws JsonProcessingException, IOException {
 		try {
 			if (q == null) {
-				return ok(search.render("lobid-organisations", "", "[]"))
+				return ok(search.render("lobid-organisations", "", "[]", from, size))
 						.as("text/html; charset=utf-8");
 			}
 			String result = null;
@@ -87,7 +87,7 @@ public class Application extends Controller {
 			}
 			if (format != null && format.equals("html")) {
 				play.Logger.debug("Result: {}", result);
-				return ok(search.render("lobid-organisations", q, result))
+				return ok(search.render("lobid-organisations", q, result, from, size))
 						.as("text/html; charset=utf-8");
 			}
 			response().setHeader("Access-Control-Allow-Origin", "*");

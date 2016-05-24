@@ -22,7 +22,7 @@ public class ApplicationTest extends ElasticsearchTest {
 
 	@Test
 	public void renderIndexTemplate() {
-		Content html = views.html.search.render("Page title", "", "[]");
+		Content html = views.html.search.render("Page title", "", "[]", 0, 20);
 		assertThat(contentType(html)).isEqualTo("text/html");
 		assertThat(contentAsString(html)).contains("Page title");
 	}
