@@ -26,7 +26,7 @@ import play.libs.Json;
 import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
+import views.html.api;
 import views.html.search;
 
 /**
@@ -44,10 +44,10 @@ public class Application extends Controller {
 	private static final String ES_NAME = CONFIG.getString("index.es.name");
 
 	/**
-	 * @return 200 ok response to render index
+	 * @return 200 ok response to render api documentation
 	 */
-	public static Result index() {
-		return ok(index.render("lobid-organisations"));
+	public static Result api() {
+		return ok(api.render("lobid-organisations"));
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class Application extends Controller {
 			String format) throws JsonProcessingException, IOException {
 		try {
 			if (q == null) {
-				return ok(search.render("lobid-organisations", "", "[{}]"))
+				return ok(search.render("lobid-organisations", "", "[]"))
 						.as("text/html; charset=utf-8");
 			}
 			String result = null;

@@ -4,21 +4,27 @@
 
 @main(title) {
  <h1>@title</h1>
+ <p>The lobid-organisations service provides access to a comprehensive dataset of library institutions in Germany.</p>
  <form action="@routes.Application.search()" method="GET">
-  <input type="text" autofocus name="q" @if(!q.isEmpty){ value="@q" }/>
+  <input type="text" autofocus name="q" @if(!q.isEmpty) {value="@q"} />
   <input type="hidden" name="format" value="html"/>
-  <input type="submit" />
+  <input type="submit" value="Search"/>
  </form>
  <p>
- <table>
- @for(org <- Json.parse(json).as[Seq[JsValue]].tail) {
-  <tr>
-   <td>
-    <a href='@((org\"id").asOpt[String].getOrElse(""))'>
-    @((org\"name").asOpt[String].getOrElse("*no name*"))</a>
-   </td>
-  </tr>
+ @defining(Json.parse(json).as[Seq[JsValue]]) { orgs =>
+  @if(!orgs.isEmpty) {
+   <table>
+    @for(org <- orgs.tail) {
+     <tr>
+      <td>
+       <a href='@((org\"id").asOpt[String].getOrElse(""))'>
+       @((org\"name").asOpt[String].getOrElse("*no name*"))</a>
+      </td>
+     </tr>
+    }
+   </table>
+  }
  }
- </table>
  </p>
+ <p>You can also access this data using our <a href="@routes.Application.api()">API</a>.</p>
 }
