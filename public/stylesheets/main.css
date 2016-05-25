@@ -3,12 +3,12 @@ html {
 }
 
 dt {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 dd {
-    margin-left: 0;
-    margin-bottom:5px;
+	margin-left: 0;
+	margin-bottom: 5px;
 }
 
 #header {
@@ -37,4 +37,12 @@ td.label {
 
 td.value {
 	width: 85%;
+}
+
+select {
+	max-width: 125px;
+}
+
+input#search {
+	width: 750px;
 }

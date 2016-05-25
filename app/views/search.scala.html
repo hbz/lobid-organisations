@@ -2,17 +2,34 @@
 
 @import play.api.libs.json._
 
+@facet(queryMetadata: JsValue, key: String) = {
+ <select onchange="location = '@routes.Application.search()?format=html&from=@from&size=@size&q=@q.trim+AND+' + this.value;">
+ <option value="">@key.split("\\.")(0).capitalize</option>
+ @for(bucket <- (queryMetadata \ "aggregations" \ key \ "buckets").as[Seq[JsValue]];
+      term = (bucket \ "key").as[String];
+      count = (bucket \ "doc_count").as[Int]) {
+  <option value="@key:@term">@term (@count)</option>
+ }
+ </select>
+}
+
 @main(title) {
  <h1>@title</h1>
  <p>The lobid-organisations service provides access to a comprehensive dataset of library institutions in Germany.</p>
  <form action="@routes.Application.search()" method="GET">
-  <input type="text" autocomplete="off" autofocus name="q" @if(!q.isEmpty) {value="@q"} />
+  <input id="search" type="text" autocomplete="off" autofocus name="q" @if(!q.isEmpty) {value="@q"} />
   <input type="hidden" name="format" value="html"/>
   <input type="submit" value="Search"/>
  </form>
  <p>
  @defining(Json.parse(json).as[Seq[JsValue]]) { orgs =>
   @if(orgs.size > 1) {
+   Filter by: 
+   @facet(orgs(0), "type")
+   @facet(orgs(0), "classification.label")
+   @facet(orgs(0), "fundertype.label")
+   @facet(orgs(0), "stocksize.label")
+   <a href='@routes.Application.search(q=q.split("AND")(0).trim, from=from, size=size, format="html")'>Reset all filters</a>
    <p>
     @defining((orgs.head \ "http://sindice.com/vocab/search#totalResults").as[Int]) { totalResults =>
      Total results: @(totalResults) |
