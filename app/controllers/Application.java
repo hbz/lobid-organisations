@@ -27,6 +27,7 @@ import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
+import views.html.organisation;
 
 /**
  * 
@@ -96,7 +97,7 @@ public class Application extends Controller {
 
 	private static Status preparePolygonQuery(String[] coordPairsAsString,
 			String q, int from, int size)
-					throws JsonProcessingException, IOException {
+			throws JsonProcessingException, IOException {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
 		Status result;
@@ -115,7 +116,7 @@ public class Application extends Controller {
 
 	private static Status prepareDistanceQuery(String[] coordPairsAsString,
 			String q, int from, int size)
-					throws JsonProcessingException, IOException {
+			throws JsonProcessingException, IOException {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
@@ -137,7 +138,7 @@ public class Application extends Controller {
 
 	private static Status buildPolygonQuery(String q, double[] latCoordinates,
 			double[] lonCoordinates, int from, int size)
-					throws JsonProcessingException, IOException {
+			throws JsonProcessingException, IOException {
 		GeoPolygonQueryBuilder polygonQuery =
 				QueryBuilders.geoPolygonQuery("location.geo");
 		for (int i = 0; i < latCoordinates.length; i++) {
@@ -153,7 +154,7 @@ public class Application extends Controller {
 
 	private static Status buildDistanceQuery(String q, int from, int size,
 			double lat, double lon, double distance)
-					throws JsonProcessingException, IOException {
+			throws JsonProcessingException, IOException {
 		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery("location.geo")
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
@@ -188,12 +189,20 @@ public class Application extends Controller {
 	 * @param id The id of a document in the Elasticsearch index
 	 * @return The source of a document as JSON
 	 */
-	public static Promise<Result> get(String id) {
+	public static Promise<Result> get(String id, String format) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		String server =
 				"http://localhost:" + CONFIG.getString("index.es.port.http");
 		String url =
 				String.format("%s/%s/%s/%s/_source", server, ES_NAME, ES_TYPE, id);
+
+		if (format != null && format.equals("html")) {
+			System.out.println("hello");
+			return WS.url(url).execute().map(
+					x -> x.getStatus() == OK ? ok(organisation.render(id, x.asJson()))
+							: notFound("Not found: " + id));
+		}
+
 		return WS.url(url).execute().map(x -> x.getStatus() == OK
 				? prettyJsonOk(x.asJson()) : notFound("Not found: " + id));
 	}
