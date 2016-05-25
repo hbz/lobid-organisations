@@ -45,7 +45,7 @@
 					<lookup in="libtype_map" />
 				</data>
 				<data source="nam" name="typeurl">
-					<constant value="http://schema.org/Library" />
+					<constant value="Library" />
 				</data>
 			</choose>
 		</combine>
