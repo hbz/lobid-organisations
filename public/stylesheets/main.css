@@ -3,12 +3,12 @@ html {
 }
 
 dt {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 dd {
-    margin-left: 0;
-    margin-bottom:5px;
+	margin-left: 0;
+	margin-bottom: 5px;
 }
 
 #header {
@@ -25,4 +25,12 @@ dd {
 	display: block;
 	margin-left: auto;
 	padding: 5px;
+}
+
+select {
+	max-width: 125px;
+}
+
+input#search {
+	width: 750px;
 }
