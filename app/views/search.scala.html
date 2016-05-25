@@ -8,7 +8,7 @@
  @for(bucket <- (queryMetadata \ "aggregations" \ key \ "buckets").as[Seq[JsValue]];
       term = (bucket \ "key").as[String];
       count = (bucket \ "doc_count").as[Int]) {
-  <option value="@key:@term">@term (@count)</option>
+  <option value='@key:"@term"'>@term (@count)</option>
  }
  </select>
 }
