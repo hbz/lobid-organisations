@@ -1,0 +1,71 @@
+@(id: String, content: com.fasterxml.jackson.databind.JsonNode)
+
+@import play.api.libs.json._
+@import play.api.libs.functional.syntax._
+
+@main(id) {
+    <h1>@id</h1>
+    
+    @defining(Json.parse(content.toString())) { parsedContent =>
+        <table>
+            @produceRow("Name", parsedContent \ "name", false)            
+            @produceRow("ISIL", parsedContent \ "isil", false)          
+            @produceRow("DBS ID", parsedContent \ "dbsID", false)
+            @produceRow("Wikipedia", parsedContent \ "wikipedia", true)
+            @produceRow("URL", parsedContent \ "url", true)            
+            @produceRow("Telefon", parsedContent \ "telephone", false)
+            @produceRow("Email", parsedContent \ "email", true)
+            @produceRow("Typ", parsedContent \ "type", false)
+            @produceRow("Bibliothekstyp", parsedContent \ "classification" \ "label", false)
+            @produceRow("Träger", parsedContent \ "fundertype" \ "label", false)
+            @produceRow("Bestandsgröße", parsedContent \ "stocksize" \ "label", false)
+            
+            @for(alternateName <- (parsedContent \ "alternateName").as[Seq[JsValue]]) {
+                 @produceRow("Anderer Name", alternateName, false)
+            }
+            
+        </table>
+        
+        <h3>Addresse(n)</h3>
+        <table>
+            @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
+            @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
+            @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)    
+        </table>
+        
+        @for(location <- (parsedContent \ "location").as[Seq[JsValue]]) {
+            @produceTable(location)
+        }
+    }
+}
+
+@produceRow(name: String, value: JsValue, link: Boolean) = {
+    @if(!value.isInstanceOf[JsUndefined]){
+        @defining(value.as[String].substring(0,value.as[String].length())) { valueAsString =>
+            <tr>
+                <td>
+                    @name
+                </td>
+                <td>
+                    @if(!link) {
+                        @valueAsString
+                    } else {
+                        <a href="@valueAsString">@valueAsString</a>
+                    }
+                </td>
+            </tr>
+        }
+    }
+}
+
+@produceTable(location: JsValue) = {
+    <p>
+        <table>
+            @produceRow("Straße, Hausnr.", (location \ "address" \ "streetAddress"), false)
+            @produceRow("Postleitzahl", (location \ "address" \ "postalCode"), false)
+            @produceRow("Stadt", (location \ "address" \ "addressLocality"), false)
+            @produceRow("Land", (location \ "address" \ "addressCountry"), false)
+            @produceRow("Öffnungzeiten", (location \ "openingHoursSpecification" \ "description"), false)
+        </table>
+    </p>
+}
