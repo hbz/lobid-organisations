@@ -20,26 +20,28 @@
             @produceRow("Träger", parsedContent \ "fundertype" \ "label", false)
             @produceRow("Bestandsgröße", parsedContent \ "stocksize" \ "label", false)
             
-            @for(alternateName <- (parsedContent \ "alternateName").as[Seq[JsValue]]) {
+            @for(alternateName <- (parsedContent \ "alternateName").asOpt[Seq[JsValue]].getOrElse(Seq())) {
                  @produceRow("Anderer Name", alternateName, false)
             }
             
         </table>
         
-        <h3>Postanschrift</h3>
-        <table>
+        @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
+         <h3>Postanschrift</h3>
+         <table>
             @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
             @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
             @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)    
-        </table>
-        
-        @defining((parsedContent \ "location").as[Seq[JsValue]]) { locations =>
+         </table>
+        }
+        @defining((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq())) { locations =>
          <h3>Standort@if(locations.size>1){e}</h3>
          @for(location <- locations) {
             @produceTable(location)
          }
         }
     }
+    <p>You can also access <a href='@routes.Application.get(id=id, format="json")'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
 }
 
 @produceRow(name: String, value: JsValue, link: Boolean) = {
