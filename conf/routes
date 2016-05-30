@@ -13,7 +13,7 @@ GET     /organisations/search                    controllers.Application.search(
 GET     /organisations                           controllers.Application.search(q ?= null, location ?= null, from: Int ?= 0, size: Int ?= 20, format ?= null)
 GET     /organisations/api                       controllers.Application.api()
 GET     /organisations/context.jsonld            controllers.Application.context()
-GET     /organisations/:id                       controllers.Application.get(id)
+GET     /organisations/:id                       controllers.Application.get(id, format ?= null)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /organisations/public/*file              controllers.Assets.at(path="/public", file)

@@ -28,6 +28,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.api;
 import views.html.search;
+import views.html.organisation;
 
 /**
  * 
@@ -203,18 +204,24 @@ public class Application extends Controller {
 
 	/**
 	 * @param id The id of a document in the Elasticsearch index
+	 * @param format The response format ('html' for HTML, else JSON)
 	 * @return The source of a document as JSON
 	 */
-	public static Promise<Result> get(String id) {
+	public static Promise<Result> get(String id, String format) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		String server =
 				"http://localhost:" + CONFIG.getString("index.es.port.http");
 		String url =
 				String.format("%s/%s/%s/%s/_source", server, ES_NAME, ES_TYPE, id);
-		return WS.url(url).execute()
-				.map(x -> x.getStatus() == OK
-						? ok(prettyJsonOk(x.asJson())).as("application/json; charset=utf-8")
-						: notFound("Not found: " + id));
+		return WS.url(url).execute().map(x -> x.getStatus() == OK
+				? resultFor(id, x.asJson(), format) : notFound("Not found: " + id));
+	}
+
+	private static Status resultFor(String id, JsonNode json, String format)
+			throws JsonProcessingException {
+		return format != null && format.equals("html")
+				? ok(organisation.render(id, json))
+				: ok(prettyJsonOk(json)).as("application/json; charset=utf-8");
 	}
 
 	private static String prettyJsonOk(JsonNode jsonNode)

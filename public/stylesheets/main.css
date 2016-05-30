@@ -26,3 +26,15 @@ dd {
 	margin-left: auto;
 	padding: 5px;
 }
+
+table {
+	width: 100%;
+}
+
+td.label {
+	width: 15%;
+}
+
+td.value {
+	width: 85%;
+}
