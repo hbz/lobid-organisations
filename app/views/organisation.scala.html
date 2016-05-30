@@ -26,15 +26,18 @@
             
         </table>
         
-        <h3>Addresse(n)</h3>
+        <h3>Postanschrift</h3>
         <table>
             @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
             @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
             @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)    
         </table>
         
-        @for(location <- (parsedContent \ "location").as[Seq[JsValue]]) {
+        @defining((parsedContent \ "location").as[Seq[JsValue]]) { locations =>
+         <h3>Standort@if(locations.size>1){e}</h3>
+         @for(location <- locations) {
             @produceTable(location)
+         }
         }
     }
 }
