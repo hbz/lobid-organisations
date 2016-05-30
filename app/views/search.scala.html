@@ -1,0 +1,42 @@
+@(title: String, q: String, json: String, from: Int, size: Int)
+
+@import play.api.libs.json._
+
+@main(title) {
+ <h1>@title</h1>
+ <p>The lobid-organisations service provides access to a comprehensive dataset of library institutions in Germany.</p>
+ <form action="@routes.Application.search()" method="GET">
+  <input type="text" autocomplete="off" autofocus name="q" @if(!q.isEmpty) {value="@q"} />
+  <input type="hidden" name="format" value="html"/>
+  <input type="submit" value="Search"/>
+ </form>
+ <p>
+ @defining(Json.parse(json).as[Seq[JsValue]]) { orgs =>
+  @if(orgs.size > 1) {
+   <p>
+    @defining((orgs.head \ "http://sindice.com/vocab/search#totalResults").as[Int]) { totalResults =>
+     Total results: @(totalResults) |
+     @if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, format="html")'>&LeftArrow; prev</a>}
+     @(from+1)&mdash;@(Math.min(totalResults, from+size))
+     @if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, format="html")'>next &RightArrow;</a>}
+    }
+   </p>
+   <table>
+    @for(org <- orgs.tail;
+         uri = (org\"id").asOpt[String].getOrElse("");
+         link = uri.split("#")(0) + "?format=html") {
+     <tr>
+      <td>
+       <a href='@link'>
+       @((org\"name").asOpt[String].getOrElse("*no name*"))</a>
+      </td>
+     </tr>
+    }
+   </table>
+  } else {
+   @if(!q.isEmpty) {<p>No results.</p>}
+  }
+ }
+ </p>
+ <p>You can also access <a href='@routes.Application.search(q=(if(!q.isEmpty) q else "*"), from=from, format="json")'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
+}

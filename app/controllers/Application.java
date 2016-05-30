@@ -26,7 +26,9 @@ import play.libs.Json;
 import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
+import views.html.api;
+import views.html.search;
+import views.html.organisation;
 
 /**
  * 
@@ -43,10 +45,10 @@ public class Application extends Controller {
 	private static final String ES_NAME = CONFIG.getString("index.es.name");
 
 	/**
-	 * @return 200 ok response to render index
+	 * @return 200 ok response to render api documentation
 	 */
-	public static Result index() {
-		return ok(index.render("lobid-organisations"));
+	public static Result api() {
+		return ok(api.render("lobid-organisations"));
 	}
 
 	/**
@@ -64,28 +66,43 @@ public class Application extends Controller {
 	 *          single point plus distance)
 	 * @param from From parameter for Elasticsearch query
 	 * @param size Size parameter for Elasitcsearch query
+	 * @param format The response format ('html' for HTML, else JSON)
 	 * @return Result of search as ok() or badRequest()
 	 * @throws JsonProcessingException Is thrown if response of search cannot be
 	 *           processed as JsonNode
 	 * @throws IOException Is thrown if response of search cannot be processed as
 	 *           JsonNode
 	 */
-	public static Result search(String q, String location, int from, int size)
-			throws JsonProcessingException, IOException {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		Status result = null;
-		if (location == null) {
-			result = buildSimpleQuery(q, from, size);
-		} else {
-			result = prepareLocationQuery(location, q, from, size);
+	public static Result search(String q, String location, int from, int size,
+			String format) throws JsonProcessingException, IOException {
+		try {
+			if (q == null) {
+				return ok(search.render("lobid-organisations", "", "[]", from, size))
+						.as("text/html; charset=utf-8");
+			}
+			String result = null;
+			if (location == null) {
+				result = buildSimpleQuery(q, from, size);
+			} else {
+				result = prepareLocationQuery(location, q, from, size);
+			}
+			if (format != null && format.equals("html")) {
+				play.Logger.debug("Result: {}", result);
+				return ok(search.render("lobid-organisations", q, result, from, size))
+						.as("text/html; charset=utf-8");
+			}
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			return ok(result).as("application/json; charset=utf-8");
+		} catch (IllegalArgumentException x) {
+			x.printStackTrace();
+			return badRequest("Bad request: " + x.getMessage());
 		}
-		return result;
 	}
 
-	private static Status prepareLocationQuery(String location, String q,
+	private static String prepareLocationQuery(String location, String q,
 			int from, int size) throws JsonProcessingException, IOException {
 		String[] coordPairsAsString = location.split(" ");
-		Status result;
+		String result;
 		if (coordPairsAsString[0].split(",").length > 2) {
 			result = prepareDistanceQuery(coordPairsAsString, q, from, size);
 		} else {
@@ -94,50 +111,51 @@ public class Application extends Controller {
 		return result;
 	}
 
-	private static Status preparePolygonQuery(String[] coordPairsAsString,
+	private static String preparePolygonQuery(String[] coordPairsAsString,
 			String q, int from, int size)
-					throws JsonProcessingException, IOException {
+			throws JsonProcessingException, IOException {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
-		Status result;
+		String result;
 		for (int i = 0; i < coordPairsAsString.length; i++) {
 			String[] coordinatePair = coordPairsAsString[i].split(",");
 			latCoordinates[i] = Double.parseDouble(coordinatePair[0]);
 			lonCoordinates[i] = Double.parseDouble(coordinatePair[1]);
 		}
 		if (coordPairsAsString.length < 3) {
-			return badRequest(
+			throw new IllegalArgumentException(
 					"Not enough points. Polygon requires more than two points.");
 		}
 		result = buildPolygonQuery(q, latCoordinates, lonCoordinates, from, size);
 		return result;
 	}
 
-	private static Status prepareDistanceQuery(String[] coordPairsAsString,
+	private static String prepareDistanceQuery(String[] coordPairsAsString,
 			String q, int from, int size)
-					throws JsonProcessingException, IOException {
+			throws JsonProcessingException, IOException {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
 		double distance = Double.parseDouble(coordinatePair[2]);
-		Status result;
+		String result;
 		if (distance < 0) {
-			return badRequest("Distance must not be smaller than 0.");
+			throw new IllegalArgumentException(
+					"Distance must not be smaller than 0.");
 		}
 		result = buildDistanceQuery(q, from, size, lat, lon, distance);
 		return result;
 	}
 
-	private static Status buildSimpleQuery(String q, int from, int size)
+	private static String buildSimpleQuery(String q, int from, int size)
 			throws JsonProcessingException, IOException {
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		SearchResponse queryResponse = executeQuery(from, size, simpleQuery);
 		return returnAsJson(queryResponse);
 	}
 
-	private static Status buildPolygonQuery(String q, double[] latCoordinates,
+	private static String buildPolygonQuery(String q, double[] latCoordinates,
 			double[] lonCoordinates, int from, int size)
-					throws JsonProcessingException, IOException {
+			throws JsonProcessingException, IOException {
 		GeoPolygonQueryBuilder polygonQuery =
 				QueryBuilders.geoPolygonQuery("location.geo");
 		for (int i = 0; i < latCoordinates.length; i++) {
@@ -151,9 +169,9 @@ public class Application extends Controller {
 		return returnAsJson(queryResponse);
 	}
 
-	private static Status buildDistanceQuery(String q, int from, int size,
+	private static String buildDistanceQuery(String q, int from, int size,
 			double lat, double lon, double distance)
-					throws JsonProcessingException, IOException {
+			throws JsonProcessingException, IOException {
 		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery("location.geo")
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
@@ -171,7 +189,7 @@ public class Application extends Controller {
 		return responseOfSearch;
 	}
 
-	private static Status returnAsJson(SearchResponse queryResponse)
+	private static String returnAsJson(SearchResponse queryResponse)
 			throws IOException, JsonProcessingException {
 		ImmutableMap<String, Object> meta =
 				ImmutableMap.of("@id", "http://" + request().host() + request().uri(),
@@ -186,21 +204,29 @@ public class Application extends Controller {
 
 	/**
 	 * @param id The id of a document in the Elasticsearch index
+	 * @param format The response format ('html' for HTML, else JSON)
 	 * @return The source of a document as JSON
 	 */
-	public static Promise<Result> get(String id) {
+	public static Promise<Result> get(String id, String format) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		String server =
 				"http://localhost:" + CONFIG.getString("index.es.port.http");
 		String url =
 				String.format("%s/%s/%s/%s/_source", server, ES_NAME, ES_TYPE, id);
 		return WS.url(url).execute().map(x -> x.getStatus() == OK
-				? prettyJsonOk(x.asJson()) : notFound("Not found: " + id));
+				? resultFor(id, x.asJson(), format) : notFound("Not found: " + id));
 	}
 
-	private static Status prettyJsonOk(JsonNode jsonNode)
+	private static Status resultFor(String id, JsonNode json, String format)
 			throws JsonProcessingException {
-		return ok(new ObjectMapper().writerWithDefaultPrettyPrinter()
-				.writeValueAsString(jsonNode)).as("application/json; charset=utf-8");
+		return format != null && format.equals("html")
+				? ok(organisation.render(id, json))
+				: ok(prettyJsonOk(json)).as("application/json; charset=utf-8");
+	}
+
+	private static String prettyJsonOk(JsonNode jsonNode)
+			throws JsonProcessingException {
+		return new ObjectMapper().writerWithDefaultPrettyPrinter()
+				.writeValueAsString(jsonNode);
 	}
 }
