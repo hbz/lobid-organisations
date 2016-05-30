@@ -187,6 +187,7 @@ public class Application extends Controller {
 
 	/**
 	 * @param id The id of a document in the Elasticsearch index
+	 * @param format The response format ('html' for HTML, else JSON)
 	 * @return The source of a document as JSON
 	 */
 	public static Promise<Result> get(String id, String format) {
@@ -195,16 +196,14 @@ public class Application extends Controller {
 				"http://localhost:" + CONFIG.getString("index.es.port.http");
 		String url =
 				String.format("%s/%s/%s/%s/_source", server, ES_NAME, ES_TYPE, id);
-
-		if (format != null && format.equals("html")) {
-			System.out.println("hello");
-			return WS.url(url).execute().map(
-					x -> x.getStatus() == OK ? ok(organisation.render(id, x.asJson()))
-							: notFound("Not found: " + id));
-		}
-
 		return WS.url(url).execute().map(x -> x.getStatus() == OK
-				? prettyJsonOk(x.asJson()) : notFound("Not found: " + id));
+				? resultFor(id, x.asJson(), format) : notFound("Not found: " + id));
+	}
+
+	private static Status resultFor(String id, JsonNode json, String format)
+			throws JsonProcessingException {
+		return format != null && format.equals("html")
+				? ok(organisation.render(id, json)) : prettyJsonOk(json);
 	}
 
 	private static Status prettyJsonOk(JsonNode jsonNode)
