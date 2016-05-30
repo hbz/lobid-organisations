@@ -45,7 +45,7 @@
 }
 
 @produceRow(name: String, value: JsValue, link: Boolean) = {
-    @if(!value.isInstanceOf[JsUndefined]){
+    @if(value.asOpt[JsObject].isDefined){
         @defining(value.as[String].substring(0,value.as[String].length())) { valueAsString =>
             <tr>
                 <td class="label">
