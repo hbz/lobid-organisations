@@ -43,10 +43,10 @@
     @if(!value.isInstanceOf[JsUndefined]){
         @defining(value.as[String].substring(0,value.as[String].length())) { valueAsString =>
             <tr>
-                <td>
+                <td class="label">
                     @name
                 </td>
-                <td>
+                <td class="value">
                     @if(!link) {
                         @valueAsString
                     } else {
