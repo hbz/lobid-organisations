@@ -188,12 +188,12 @@ public class Application extends Controller {
 				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
 				.setQuery(query).setFrom(from).setSize(size);
 		searchRequest =
-				withAggragations(searchRequest, "type.raw", "classification.label.raw",
+				withAggregations(searchRequest, "type.raw", "classification.label.raw",
 						"fundertype.label.raw", "stocksize.label.raw");
 		return searchRequest.execute().actionGet();
 	}
 
-	private static SearchRequestBuilder withAggragations(
+	private static SearchRequestBuilder withAggregations(
 			final SearchRequestBuilder searchRequest, String... fields) {
 		Arrays.asList(fields).forEach(field -> {
 			searchRequest
