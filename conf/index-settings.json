@@ -42,7 +42,13 @@
 				"location": {
 					"properties": {
 						"geo": {
-							"type": "geo_point"
+							"type": "geo_point",
+							"fields": {
+								"raw": {
+									"type": "string",
+									"index": "not_analyzed"
+								}
+							}
 						}
 					}
 				}, 

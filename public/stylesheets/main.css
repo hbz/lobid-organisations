@@ -46,3 +46,9 @@ select {
 input#search {
 	width: 750px;
 }
+
+#facet-map {
+	float: none;
+	width: 50%;
+	height: 275px;
+}

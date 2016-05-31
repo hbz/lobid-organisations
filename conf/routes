@@ -7,10 +7,10 @@ GET     /organisations/reconcile                 controllers.Reconcile.meta(call
 POST    /organisations/reconcile                 controllers.Reconcile.reconcile()
 
 # TODO: remove `search` route, replaced by `organisations`, but used as beta API
-GET     /organisations/search                    controllers.Application.search(q ?= null, location ?= null, from: Int ?= 0, size: Int ?= 20, format ?= null)
+GET     /organisations/search                    controllers.Application.search(q ?= null, location ?= null, from: Int ?= 0, size: Int ?= 10, format ?= null)
 
 # Home page
-GET     /organisations                           controllers.Application.search(q ?= null, location ?= null, from: Int ?= 0, size: Int ?= 20, format ?= null)
+GET     /organisations                           controllers.Application.search(q ?= null, location ?= null, from: Int ?= 0, size: Int ?= 10, format ?= null)
 GET     /organisations/api                       controllers.Application.api()
 GET     /organisations/context.jsonld            controllers.Application.context()
 GET     /organisations/:id                       controllers.Application.get(id, format ?= null)

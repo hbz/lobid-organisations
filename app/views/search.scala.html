@@ -1,9 +1,10 @@
-@(title: String, q: String, json: String, from: Int, size: Int)
+@(title: String, q: String, location: String, json: String, from: Int, size: Int)
 
 @import play.api.libs.json._
+@import tags._
 
 @facet(queryMetadata: JsValue, key: String) = {
- <select onchange="location = '@routes.Application.search()?format=html&from=@from&size=@size&q=@q.trim+AND+' + this.value;">
+ <select onchange="location = '@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+' + this.value;">
  <option value="">@key.split("\\.")(0).capitalize</option>
  @for(bucket <- (queryMetadata \ "aggregations" \ key \ "buckets").as[Seq[JsValue]];
       term = (bucket \ "key").as[String];
@@ -19,6 +20,7 @@
  <form action="@routes.Application.search()" method="GET">
   <input id="search" type="text" autocomplete="off" autofocus name="q" @if(!q.isEmpty) {value="@q"} />
   <input type="hidden" name="format" value="html"/>
+  <input type="hidden" name="location" value="@location"/>
   <input type="submit" value="Search"/>
  </form>
  <p>
@@ -30,6 +32,7 @@
    @facet(orgs(0), "fundertype.label")
    @facet(orgs(0), "stocksize.label")
    <a href='@routes.Application.search(q=q.split("AND")(0).trim, from=from, size=size, format="html")'>Reset all filters</a>
+   @facet_map(orgs(0), q, location,from,size)
    <p>
     @defining((orgs.head \ "http://sindice.com/vocab/search#totalResults").as[Int]) { totalResults =>
      Total results: @(totalResults) |

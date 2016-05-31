@@ -29,8 +29,8 @@ import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.api;
-import views.html.search;
 import views.html.organisation;
+import views.html.search;
 
 /**
  * 
@@ -78,9 +78,8 @@ public class Application extends Controller {
 	public static Result search(String q, String location, int from, int size,
 			String format) throws JsonProcessingException, IOException {
 		try {
-			if (q == null) {
-				return ok(search.render("lobid-organisations", "", "[]", from, size))
-						.as("text/html; charset=utf-8");
+			if (q == null || q.isEmpty()) {
+				return search("*", location, from, size, "html");
 			}
 			String result = null;
 			if (location == null) {
@@ -89,8 +88,9 @@ public class Application extends Controller {
 				result = prepareLocationQuery(location, q, from, size);
 			}
 			if (format != null && format.equals("html")) {
-				return ok(search.render("lobid-organisations", q, result, from, size))
-						.as("text/html; charset=utf-8");
+				return ok(search.render("lobid-organisations", q,
+						location == null ? "" : location, result, from, size))
+								.as("text/html; charset=utf-8");
 			}
 			response().setHeader("Access-Control-Allow-Origin", "*");
 			return ok(result).as("application/json; charset=utf-8");
@@ -189,7 +189,7 @@ public class Application extends Controller {
 				.setQuery(query).setFrom(from).setSize(size);
 		searchRequest =
 				withAggregations(searchRequest, "type.raw", "classification.label.raw",
-						"fundertype.label.raw", "stocksize.label.raw");
+						"fundertype.label.raw", "stocksize.label.raw", "location.geo.raw");
 		return searchRequest.execute().actionGet();
 	}
 
