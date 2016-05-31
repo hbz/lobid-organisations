@@ -82,7 +82,7 @@ public class Application extends Controller {
 				return search("*", location, from, size, "html");
 			}
 			String result = null;
-			if (location == null) {
+			if (location == null || location.isEmpty()) {
 				result = buildSimpleQuery(q, from, size);
 			} else {
 				result = prepareLocationQuery(location, q, from, size);
