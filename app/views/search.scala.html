@@ -32,7 +32,7 @@
    @facet(orgs(0), "fundertype.label")
    @facet(orgs(0), "stocksize.label")
    <a href='@routes.Application.search(q=q.split("AND")(0).trim, from=from, size=size, format="html")'>Reset all filters</a>
-   @facet_map(orgs(0), q, location,from,size)
+   <div id="facet-map"></div>
    <p>
     @defining((orgs.head \ "http://sindice.com/vocab/search#totalResults").as[Int]) { totalResults =>
      Total results: @(totalResults) |
@@ -53,6 +53,7 @@
      </tr>
     }
    </table>
+   @facet_map(orgs(0), q, location,from,size)
   } else {
    @if(!q.isEmpty) {<p>No results.</p>}
   }
