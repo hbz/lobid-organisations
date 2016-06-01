@@ -65,7 +65,7 @@ function areaSearch(hull) {
   });
   var polygon = [result.length];
   for ( var i = 0; i < result.length; i++ ) {
-    polygon[i] = result[i].lat+','+result[i].lng;
+    polygon[i] = result[i].lat.toFixed(5) + ',' + result[i].lng.toFixed(5);
   }
   var polygonQueryParam = polygon.join('+');
   console.log(polygonQueryParam);
