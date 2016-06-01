@@ -3,10 +3,9 @@
 @import play.api.libs.json._
 @import play.api.libs.functional.syntax._
 
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<link rel="stylesheet" href="@controllers.routes.Assets.at("stylesheets/leaflet.css")" />
+<script src="@controllers.routes.Assets.at("javascripts/leaflet.js")"></script>
 <script src="@controllers.routes.Assets.at("javascripts/Leaflet.MakiMarkers.js")"></script>
-<script src="@controllers.routes.Assets.at("javascripts/test.js")"></script>
 
 @main(id) {
     <h1>@id</h1>
@@ -41,14 +40,7 @@
          </table>
         }
         
-        @defining((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq())) { locations =>
-            <h3>Standort@if(locations.size>1){e}</h3>
-            @for(location <- locations) {
-                @produceTable(location)
-            }
-            
-            @makeMap(locations)
-        }
+        @makeMap((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq())(0))
     
     }
     
@@ -56,33 +48,7 @@
     
 }
 
-@makeMap(locations: Seq[JsValue]) = {
-    
-    <div id="organisations-map" style="width: 600px; height: 400px"></div>
-    
-    
-    <table id="table"></table>
-
-    <script>                  
-        var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-            subdomains: '1234'
-        });    
-        var center = new L.LatLng(50, 10)            
-        var map = new L.Map("organisations-map", {
-            center: center,
-            zoom: 5,
-            scrollWheelZoom: true,
-            attributionControl: false,
-            zoomControl: false
-        }); 
-        new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);            
-        var markerCount = 0;
-        var markers = {};
-        var locationDetails = '';
-        @markers(locations)
-        map.addLayer(layer);
-    </script>
-}
+@string(value: JsValue) = { @value.asOpt[String].getOrElse("--") }
 
 @produceRow(name: String, value: JsValue, link: Boolean) = {
     @if(value.asOpt[JsValue].isDefined){
@@ -103,77 +69,71 @@
     }
 }
 
-@produceTable(location: JsValue) = {
-    <p>
-        <table>
-            @produceRow("Straße, Hausnr.", (location \ "address" \ "streetAddress"), false)
-            @produceRow("Postleitzahl", (location \ "address" \ "postalCode"), false)
-            @produceRow("Stadt", (location \ "address" \ "addressLocality"), false)
-            @produceRow("Land", (location \ "address" \ "addressCountry"), false)
-            @produceRow("Öffnungzeiten", (location \ "openingHoursSpecification" \ "description"), false)
-        </table>
-    </p>
+@makeMap(location: JsValue) = {
+    
+    <div id="organisations-map" style="width: 600px; height: 400px"></div>
+    
+    <table id="table"></table>
+
+    <script>                  
+        var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+            subdomains: '1234'
+        });    
+        var center = new L.LatLng(50, 10)            
+        var map = new L.Map("organisations-map", {
+            center: center,
+            zoom: 5,
+            scrollWheelZoom: true,
+            attributionControl: false,
+            zoomControl: false
+        }); 
+        new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);            
+        @markers(location)
+        map.addLayer(layer);
+    </script>
 }
 
-@string(value: JsValue) = { @value.asOpt[String].getOrElse("--") }
+@markers(location: JsValue) = {
 
-@markers(locations: Seq[JsValue]) = {
-
-    @for((location, id) <- locations.zipWithIndex) {
-    
-        @if((location \ "geo" \ "lon").asOpt[String].isDefined &&
-            (location \ "geo" \ "lat").asOpt[String].isDefined) {
+    @if((location \ "geo" \ "lon").asOpt[String].isDefined &&
+        (location \ "geo" \ "lat").asOpt[String].isDefined) {
             
-            var lat = @string((location \ "geo" \ "lat"))
-            var lon = @string((location \ "geo" \ "lon"))
-            var latlng@(id) = L.latLng(lat, lon);
-            var icon@(id) = L.MakiMarkers.icon({icon: "library", color: "#FF333B", size: "m"});
-            var marker@(id) = L.marker([lat, lon],{
-                title: "test",
-                icon: icon@(id)
-            });
-            
-            markers[latlng@(id).toString()] = marker@(id);
-            
-            marker@(id).bindPopup("bla");
-            
-            marker@(id).on('click', function(e) {
-                zoomDetails@(id)();
-            });
-           
-            locationDetails = "<table>" 
-                + "<tr><td>@string((location \ "address" \ "streetAddress"))</td></tr>" 
-                + "<tr><td>@string((location \ "address" \ "postalCode"))</td></tr>"
-                + "<tr><td>@string((location \ "address" \ "addressLocality"))</td></tr>"
-                + "<tr><td>@string((location \ "openingHoursSpecification" \ "description"))</td></tr>"
-                + "</table>";
-            
-            bindPopup@(id)(locationDetails);
-            
-            marker@(id).on('popupclose', function(e) {
-                map.setView(nrw, 7);
-            });
-            
-            marker@(id).addTo(map);
-            markerCount++;
-            
-            if(@locations.size == 1){
-                bindPopup@(id)(locationDetails);
-                zoomDetails@(id)();
-            }
-
-            function bindPopup@(id)(content) {
-                marker@(id).bindPopup(
-                    content,
-                {
-                    keepInView: true
-                });
-            }
-            
-            function zoomDetails@(id)() {
-                map.setView(latlng@(id), 16);
-                marker@(id).openPopup();
-            }
-        }  
+        var lat = @string((location \ "geo" \ "lat"))
+        var lon = @string((location \ "geo" \ "lon"))
+        var latlng = L.latLng(lat, lon);
+        var icon = L.MakiMarkers.icon({icon: "library", color: "#FF333B", size: "m"});
+        var marker = L.marker([lat, lon],{
+            title: "test",
+            icon: icon
+        });        
+        marker.on('click', function(e) {
+            zoomDetails();
+        });        
+        locationDetails = "<table style='width:350px'>" 
+            + "<tr><td>Straße</td><td>@string((location \ "address" \ "streetAddress"))</td></tr>" 
+            + "<tr><td>Postleitzahl</td><td>@string((location \ "address" \ "postalCode"))</td></tr>"
+            + "<tr><td>Stadt</td><td>@string((location \ "address" \ "addressLocality"))</td></tr>"
+            + "<tr><td>Land</td><td>@string((location \ "address" \ "addressCountry"))</td></tr>"
+            + "<tr><td>Öffnungzeiten</td><td>@string((location \ "openingHoursSpecification" \ "description"))</td></tr>"
+            + "</table>";                
+        bindPopup(locationDetails);
+        marker.on('popupclose', function(e) {
+            map.setView(nrw, 7);
+        });
+        marker.addTo(map);         
+        bindPopup(locationDetails);
+        zoomDetails();
+        
+        function bindPopup(content) {
+           marker.bindPopup(
+               content,
+           {
+               keepInView: true
+           });
+        }            
+        function zoomDetails() {
+            map.setView(latlng, 16);
+            marker.openPopup();
+        }          
     }    
 }
