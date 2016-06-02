@@ -2,13 +2,14 @@
 
 @import play.api.libs.json._
 
-<link rel="stylesheet" href="@controllers.routes.Assets.at("stylesheets/leaflet.css")" />
-<script src="@controllers.routes.Assets.at("javascripts/leaflet.js")"></script>
-<script src="@controllers.routes.Assets.at("javascripts/Leaflet.MakiMarkers.js")"></script>
 
-@main(id) {
+
+@main("") {
     <h1>@id</h1>
     @defining(Json.parse(content.toString())) { parsedContent =>
+    <div class="row">
+      <div class="col-md-6">
+        <p>
         <table>
             @produceRow("Name", parsedContent \ "name", false)
             @produceRow("ISIL", parsedContent \ "isil", false)
@@ -26,18 +27,22 @@
                  @produceRow("Anderer Name", alternateName, false)
             }
         </table>
-
+        </p>
         @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
          <h3>Postanschrift</h3>
+         <p>
          <table>
             @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
             @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
             @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)    
          </table>
+         </p>
         }
-        
+      </div>
+      <div class="col-md-6">
         @makeMap((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq())(0), (parsedContent \ "name"))
-    
+      </div>
+    </div>
     }
     
     <p>You can also access <a href='@routes.Application.get(id=id, format="json")'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
@@ -66,7 +71,9 @@
 }
 
 @makeMap(location: JsValue, name: JsValue) = {
-    
+    <link rel="stylesheet" href="@controllers.routes.Assets.at("stylesheets/leaflet.css")" />
+    <script src="@controllers.routes.Assets.at("javascripts/leaflet.js")"></script>
+    <script src="@controllers.routes.Assets.at("javascripts/Leaflet.MakiMarkers.js")"></script>
     <div id="organisations-map"></div>
 
     <script>

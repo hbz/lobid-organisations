@@ -32,11 +32,11 @@ table {
 }
 
 td.field-label {
-	width: 15%;
+	width: 25%;
 }
 
 td.field-value {
-	width: 85%;
+	width: 75%;
 }
 
 #organisations-map {
