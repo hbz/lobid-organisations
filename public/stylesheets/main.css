@@ -39,6 +39,10 @@ td.field-value {
 	width: 85%;
 }
 
+#organisations-map {
+	width: 600px;
+	height: 400px
+}
 select {
 	max-width: 110px;
 }
