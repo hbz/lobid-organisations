@@ -31,18 +31,28 @@ table {
 	width: 100%;
 }
 
-td.label {
-	width: 15%;
+td.field-label {
+	width: 25%;
 }
 
-td.value {
-	width: 85%;
+td.field-value {
+	width: 75%;
 }
 
+#organisations-map {
+	width: 600px;
+	height: 400px
+}
 select {
-	max-width: 125px;
+	max-width: 110px;
 }
 
 input#search {
-	width: 750px;
+	width: 800px;
+}
+
+#facet-map {
+	float: none;
+	width: 100%;
+	height: 275px;
 }

@@ -1,18 +1,21 @@
 @(id: String, content: com.fasterxml.jackson.databind.JsonNode)
 
 @import play.api.libs.json._
-@import play.api.libs.functional.syntax._
 
-@main(id) {
+
+
+@main("") {
     <h1>@id</h1>
-    
     @defining(Json.parse(content.toString())) { parsedContent =>
+    <div class="row">
+      <div class="col-md-6">
+        <p>
         <table>
-            @produceRow("Name", parsedContent \ "name", false)            
-            @produceRow("ISIL", parsedContent \ "isil", false)          
+            @produceRow("Name", parsedContent \ "name", false)
+            @produceRow("ISIL", parsedContent \ "isil", false)
             @produceRow("DBS ID", parsedContent \ "dbsID", false)
             @produceRow("Wikipedia", parsedContent \ "wikipedia", true)
-            @produceRow("URL", parsedContent \ "url", true)            
+            @produceRow("URL", parsedContent \ "url", true)
             @produceRow("Telefon", parsedContent \ "telephone", false)
             @produceRow("Email", parsedContent \ "email", true)
             @produceRow("Typ", parsedContent \ "type", false)
@@ -23,35 +26,39 @@
             @for(alternateName <- (parsedContent \ "alternateName").asOpt[Seq[JsValue]].getOrElse(Seq())) {
                  @produceRow("Anderer Name", alternateName, false)
             }
-            
         </table>
-        
+        </p>
         @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
          <h3>Postanschrift</h3>
+         <p>
          <table>
             @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
             @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
             @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)    
          </table>
+         </p>
         }
-        @defining((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq())) { locations =>
-         <h3>Standort@if(locations.size>1){e}</h3>
-         @for(location <- locations) {
-            @produceTable(location)
-         }
-        }
+      </div>
+      <div class="col-md-6">
+        @makeMap((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq())(0), (parsedContent \ "name"))
+      </div>
+    </div>
     }
+    
     <p>You can also access <a href='@routes.Application.get(id=id, format="json")'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
+    
 }
 
+@string(value: JsValue) = { @value.asOpt[String].getOrElse("--") }
+
 @produceRow(name: String, value: JsValue, link: Boolean) = {
-    @if(!value.isInstanceOf[JsUndefined]){
+    @if(value.asOpt[JsValue].isDefined){
         @defining(value.as[String].substring(0,value.as[String].length())) { valueAsString =>
             <tr>
-                <td class="label">
+                <td class="field-label">
                     @name
                 </td>
-                <td class="value">
+                <td class="field-value">
                     @if(!link) {
                         @valueAsString
                     } else {
@@ -63,14 +70,63 @@
     }
 }
 
-@produceTable(location: JsValue) = {
-    <p>
-        <table>
-            @produceRow("Straße, Hausnr.", (location \ "address" \ "streetAddress"), false)
-            @produceRow("Postleitzahl", (location \ "address" \ "postalCode"), false)
-            @produceRow("Stadt", (location \ "address" \ "addressLocality"), false)
-            @produceRow("Land", (location \ "address" \ "addressCountry"), false)
-            @produceRow("Öffnungzeiten", (location \ "openingHoursSpecification" \ "description"), false)
-        </table>
-    </p>
+@makeMap(location: JsValue, name: JsValue) = {
+    <link rel="stylesheet" href="@controllers.routes.Assets.at("stylesheets/leaflet.css")" />
+    <script src="@controllers.routes.Assets.at("javascripts/leaflet.js")"></script>
+    <script src="@controllers.routes.Assets.at("javascripts/Leaflet.MakiMarkers.js")"></script>
+    <div id="organisations-map"></div>
+
+    <script>
+        var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+            subdomains: '1234'
+        });    
+        var center = new L.LatLng(50, 10)
+        var map = new L.Map("organisations-map", {
+            center: center,
+            zoom: 5,
+            scrollWheelZoom: true,
+            attributionControl: false,
+            zoomControl: true
+        });
+        @if((location \ "geo" \ "lon").asOpt[String].isDefined &&
+        (location \ "geo" \ "lat").asOpt[String].isDefined) {
+
+        var lat = @string((location \ "geo" \ "lat"))
+        var lon = @string((location \ "geo" \ "lon"))
+        var latlng = L.latLng(lat, lon);
+        var icon = L.MakiMarkers.icon({icon: "library", color: "#FF333B", size: "m"});
+        var marker = L.marker([lat, lon],{
+            title: "@string(name)",
+            icon: icon
+        });
+
+        locationDetails = "<table style='width:350px'>" 
+            + "<tr><td>Straße</td><td>@string((location \ "address" \ "streetAddress"))</td></tr>"
+            + "<tr><td>Postleitzahl</td><td>@string((location \ "address" \ "postalCode"))</td></tr>"
+            + "<tr><td>Stadt</td><td>@string((location \ "address" \ "addressLocality"))</td></tr>"
+            + "<tr><td>Land</td><td>@string((location \ "address" \ "addressCountry"))</td></tr>"
+            + "<tr><td>Öffnungzeiten</td><td>@string((location \ "openingHoursSpecification" \ "description"))</td></tr>"
+            + "</table>";
+        bindPopup(locationDetails);
+        marker.addTo(map);
+        bindPopup(locationDetails);
+        zoomDetails();
+        marker.on('click', function(e) {
+            zoomDetails();
+        });
+
+        function bindPopup(content) {
+           marker.bindPopup(
+               content,
+           {
+               keepInView: true
+           });
+        }
+        function zoomDetails() {
+            map.setView(latlng, 16);
+            marker.openPopup();
+        }
+    }
+        map.addLayer(layer);
+    </script>
 }

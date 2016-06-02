@@ -4,7 +4,7 @@
  <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":").replace("%2C",",")</a></dd>
 }
 
-@main(title) {
+@main("*") {
     <h1>@title</h1>
     <p>The lobid-organisations service provides access to a comprehensive dataset of library institutions in Germany.</p>
     <p>You can also access this data using our <a href="@routes.Application.search()">simple search interface</a>.</p>
