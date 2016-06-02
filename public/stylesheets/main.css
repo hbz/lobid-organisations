@@ -31,24 +31,24 @@ table {
 	width: 100%;
 }
 
-td.label {
+td.field-label {
 	width: 15%;
 }
 
-td.value {
+td.field-value {
 	width: 85%;
 }
 
 select {
-	max-width: 125px;
+	max-width: 110px;
 }
 
 input#search {
-	width: 750px;
+	width: 800px;
 }
 
 #facet-map {
 	float: none;
-	width: 50%;
+	width: 100%;
 	height: 275px;
 }
