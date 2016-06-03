@@ -98,17 +98,34 @@ public class Application extends Controller {
 		}
 	}
 
+	/**
+	 * @param q The search string
+	 * @param location The geographical location to search in (polygon points or
+	 *          single point plus distance)
+	 * @param from From parameter for Elasticsearch query
+	 * @param size Size parameter for Elasitcsearch query
+	 * @return Javascript to create a facet map for the search as ok(), or
+	 *         internalServerError() if something went wrong
+	 */
+	public static Result facetMap(String q, String location, int from, int size) {
+		try {
+			String result = searchQueryResult(q, location, from, size);
+			String queryMetadata = Json.parse(result).iterator().next().toString();
+			return ok(
+					views.js.facet_map.render(queryMetadata, q, location, from, size))
+							.as("text/javascript utf-8");
+		} catch (Exception x) {
+			x.printStackTrace();
+			return internalServerError("Error: " + x.getMessage());
+		}
+	}
+
 	private static Result searchResult(String q, String location, int from,
 			int size, String format) throws JsonProcessingException, IOException {
 		if (q == null || q.isEmpty()) {
 			return search("*", location, from, size, "html");
 		}
-		String result = null;
-		if (location == null || location.isEmpty()) {
-			result = buildSimpleQuery(q, from, size);
-		} else {
-			result = prepareLocationQuery(location, q, from, size);
-		}
+		String result = searchQueryResult(q, location, from, size);
 		if (format != null && format.equals("html")) {
 			return ok(search.render("lobid-organisations", q,
 					location == null ? "" : location, result, from, size))
@@ -116,6 +133,17 @@ public class Application extends Controller {
 		}
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		return ok(result).as("application/json; charset=utf-8");
+	}
+
+	private static String searchQueryResult(String q, String location, int from,
+			int size) throws JsonProcessingException, IOException {
+		String result = null;
+		if (location == null || location.isEmpty()) {
+			result = buildSimpleQuery(q, from, size);
+		} else {
+			result = prepareLocationQuery(location, q, from, size);
+		}
+		return result;
 	}
 
 	private static String prepareLocationQuery(String location, String q,

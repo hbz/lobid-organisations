@@ -1,7 +1,6 @@
 @(title: String, q: String, location: String, json: String, from: Int, size: Int)
 
 @import play.api.libs.json._
-@import tags._
 
 @facet(queryMetadata: JsValue, key: String) = {
 	<select onchange="location = '@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+' + this.value;">
@@ -14,11 +13,19 @@
 	</select>
 }
 
-@defining(Json.parse(json).as[Seq[JsValue]]) { orgs =>
-@main(q, facet_map(orgs(0), q, location,from,size)) {
+@facetMap() = {
+<link rel="stylesheet" href='@controllers.routes.Assets.at("stylesheets/leaflet.css")' />
+<link rel="stylesheet" type="text/css" href='@controllers.routes.Assets.at("stylesheets/MarkerCluster.css")' />
+<script src='@controllers.routes.Assets.at("javascripts/leaflet.js")'></script>
+<script type='text/javascript' src='@controllers.routes.Assets.at("javascripts/leaflet.markercluster.js")'></script>
+<script type='text/javascript' src='@controllers.routes.Assets.at("javascripts/offset.min.js")'></script>
+<script async type='text/javascript' src='@routes.Application.facetMap(q, location, from, size)'></script>
+}
+
+@main(q, facetMap()) {
 	<h1>@title</h1>
 	<p>The lobid-organisations service provides access to a comprehensive dataset of library institutions in Germany.</p>
-	@if(orgs.size > 1) {
+	@defining(Json.parse(json).as[Seq[JsValue]]) { orgs => @if(orgs.size > 1) {
 	<div class="row">
 		<div class="col-md-6">
 			<p>

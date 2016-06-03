@@ -1,17 +1,9 @@
 @* Copyright 2016 Fabian Steeg, hbz. Licensed under the GPLv2 *@
 
-@(queryMetadata: play.api.libs.json.JsValue, q: String, location: String, from: Int, size: Int)
+@(queryMetadata: String, q: String, location: String, from: Int, size: Int)
 
-@import helper._
 @import play.api.libs.json._
 
-<link rel="stylesheet" href='@controllers.routes.Assets.at("stylesheets/leaflet.css")' />
-<link rel="stylesheet" type="text/css" href='@controllers.routes.Assets.at("stylesheets/MarkerCluster.css")' />
-<script src='@controllers.routes.Assets.at("javascripts/leaflet.js")'></script>
-<script type='text/javascript' src='@controllers.routes.Assets.at("javascripts/leaflet.markercluster.js")'></script>
-<script type='text/javascript' src='@controllers.routes.Assets.at("javascripts/offset.min.js")'></script>
-
-<script>
 var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', { subdomains: '1234' });
 var kassel = new L.LatLng(51.19, 9.30)
 var map = new L.Map("facet-map", {
@@ -44,7 +36,7 @@ var markers = new L.MarkerClusterGroup({
   singleMarkerMode: true
 });
 
-var queryParams = '&q=@urlEncode(q)&format=html';
+var queryParams = '&q=@views.html.helper.urlEncode(q)&format=html';
 
 var lastLayer;
 var label;
@@ -76,7 +68,7 @@ map.addLayer(layer);
 window.onload = addMarkerLayer;
 
 function addMarkerLayer(){
-	@for(bucket <- (queryMetadata \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
+	@for(bucket <- (Json.parse(queryMetadata) \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
 			latLon = (bucket \ "key").as[String];
 			freq = (bucket \ "doc_count").as[JsNumber]) {
 	   addMarker('/organisations?location='+'@latLon'+',1'+queryParams, '@latLon', '@freq');
@@ -93,5 +85,3 @@ function addMarkerLayer(){
 	 markers.addLayer(marker);
 	}
 }
-
-</script>
