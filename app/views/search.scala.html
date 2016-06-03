@@ -14,10 +14,11 @@
 	</select>
 }
 
-@main(q) {
+@defining(Json.parse(json).as[Seq[JsValue]]) { orgs =>
+@main(q, facet_map(orgs(0), q, location,from,size)) {
 	<h1>@title</h1>
 	<p>The lobid-organisations service provides access to a comprehensive dataset of library institutions in Germany.</p>
-	@defining(Json.parse(json).as[Seq[JsValue]]) { orgs => @if(orgs.size > 1) {
+	@if(orgs.size > 1) {
 	<div class="row">
 		<div class="col-md-6">
 			<p>
@@ -52,7 +53,6 @@
 				<a href='@routes.Application.search(q=q.split("AND")(0).trim, from=from, size=size, format="html")'>Reset all filters</a>
 			</p>
 			<div id="facet-map"></div>
-			@facet_map(orgs(0), q, location,from,size)
 		</div>
 	</div>
 	<p>You can also access <a href='@routes.Application.search(q=(if(!q.isEmpty) q else "*"), from=from, format="json", location=location)'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>

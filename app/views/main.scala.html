@@ -1,4 +1,4 @@
-@(q: String)(content: Html)
+@(q: String, scripts: Html = Html(""))(content: Html)
 
 <!DOCTYPE html>
 
@@ -48,5 +48,6 @@
 	</div>
 	<script src='@controllers.routes.Assets.at("javascripts/jquery-1.10.2.min.js")'></script>
 	<script src='@controllers.routes.Assets.at("javascripts/bootstrap.min.js")'></script>
+	@scripts
 </body>
 </html>
