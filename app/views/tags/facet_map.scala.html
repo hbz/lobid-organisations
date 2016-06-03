@@ -72,21 +72,26 @@ function areaSearch(hull) {
   }
 }
 
-@for(bucket <- (queryMetadata \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
-     latLon = (bucket \ "key").as[String];
-     freq = (bucket \ "doc_count").as[JsNumber]) {
-  addMarker('/organisations?location='+'@latLon'+',1'+queryParams, '@latLon', '@freq');
+map.addLayer(layer);
+window.onload = addMarkerLayer;
+
+function addMarkerLayer(){
+	@for(bucket <- (queryMetadata \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
+			latLon = (bucket \ "key").as[String];
+			freq = (bucket \ "doc_count").as[JsNumber]) {
+	   addMarker('/organisations?location='+'@latLon'+',1'+queryParams, '@latLon', '@freq');
+	}
+	map.addLayer(markers);
+
+	function addMarker(link, latLon, freq){
+	 var lat = latLon.split(",")[0];
+	 var lon = latLon.split(",")[1];
+	 var marker = L.marker([lat,lon],{});
+	 marker.on('click', function(e) {
+	  location.href = link;
+	 });
+	 markers.addLayer(marker);
+	}
 }
 
-function addMarker(link, latLon, freq){
-  var lat = latLon.split(",")[0];
-  var lon = latLon.split(",")[1];
-  var marker = L.marker([lat,lon],{});
-  marker.on('click', function(e) {
-   location.href = link;
-  });
-  markers.addLayer(marker);
-}
-map.addLayer(markers);
-map.addLayer(layer);
 </script>
