@@ -1,6 +1,5 @@
 package controllers;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -75,13 +74,9 @@ public class Application extends Controller {
 	 * @param size Size parameter for Elasitcsearch query
 	 * @param format The response format ('html' for HTML, else JSON)
 	 * @return Result of search as ok() or badRequest()
-	 * @throws JsonProcessingException Is thrown if response of search cannot be
-	 *           processed as JsonNode
-	 * @throws IOException Is thrown if response of search cannot be processed as
-	 *           JsonNode
 	 */
 	public static Result search(String q, String location, int from, int size,
-			String format) throws JsonProcessingException, IOException {
+			String format) {
 		try {
 			String cacheKey =
 					String.format("q=%s,location=%s,from=%s,size=%s,format=%s", q,
@@ -102,7 +97,7 @@ public class Application extends Controller {
 	}
 
 	private static Result searchResult(String q, String location, int from,
-			int size, String format) throws JsonProcessingException, IOException {
+			int size, String format) {
 		if (q == null || q.isEmpty()) {
 			return search("*", location, from, size, "html");
 		}
@@ -130,7 +125,7 @@ public class Application extends Controller {
 	}
 
 	private static String searchQueryResult(String q, String location, int from,
-			int size) throws JsonProcessingException, IOException {
+			int size) {
 		String result = null;
 		if (location == null || location.isEmpty()) {
 			result = buildSimpleQuery(q, from, size);
@@ -141,7 +136,7 @@ public class Application extends Controller {
 	}
 
 	private static String prepareLocationQuery(String location, String q,
-			int from, int size) throws JsonProcessingException, IOException {
+			int from, int size) {
 		String[] coordPairsAsString = location.split(" ");
 		String result;
 		if (coordPairsAsString[0].split(",").length > 2) {
@@ -153,8 +148,7 @@ public class Application extends Controller {
 	}
 
 	private static String preparePolygonQuery(String[] coordPairsAsString,
-			String q, int from, int size)
-					throws JsonProcessingException, IOException {
+			String q, int from, int size) {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
 		String result;
@@ -172,8 +166,7 @@ public class Application extends Controller {
 	}
 
 	private static String prepareDistanceQuery(String[] coordPairsAsString,
-			String q, int from, int size)
-					throws JsonProcessingException, IOException {
+			String q, int from, int size) {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
@@ -187,16 +180,14 @@ public class Application extends Controller {
 		return result;
 	}
 
-	private static String buildSimpleQuery(String q, int from, int size)
-			throws JsonProcessingException, IOException {
+	private static String buildSimpleQuery(String q, int from, int size) {
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		SearchResponse queryResponse = executeQuery(from, size, simpleQuery);
 		return returnAsJson(queryResponse);
 	}
 
 	private static String buildPolygonQuery(String q, double[] latCoordinates,
-			double[] lonCoordinates, int from, int size)
-					throws JsonProcessingException, IOException {
+			double[] lonCoordinates, int from, int size) {
 		GeoPolygonQueryBuilder polygonQuery =
 				QueryBuilders.geoPolygonQuery("location.geo");
 		for (int i = 0; i < latCoordinates.length; i++) {
@@ -211,8 +202,7 @@ public class Application extends Controller {
 	}
 
 	private static String buildDistanceQuery(String q, int from, int size,
-			double lat, double lon, double distance)
-					throws JsonProcessingException, IOException {
+			double lat, double lon, double distance) {
 		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery("location.geo")
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
@@ -243,8 +233,7 @@ public class Application extends Controller {
 		return searchRequest;
 	}
 
-	private static String returnAsJson(SearchResponse queryResponse)
-			throws IOException, JsonProcessingException {
+	private static String returnAsJson(SearchResponse queryResponse) {
 		List<Map<String, Object>> hits =
 				Arrays.asList(queryResponse.getHits().hits()).stream()
 						.map(hit -> hit.getSource()).collect(Collectors.toList());
@@ -278,16 +267,19 @@ public class Application extends Controller {
 				? resultFor(id, x.asJson(), format) : notFound("Not found: " + id));
 	}
 
-	private static Status resultFor(String id, JsonNode json, String format)
-			throws JsonProcessingException {
+	private static Status resultFor(String id, JsonNode json, String format) {
 		return format != null && format.equals("html")
 				? ok(organisation.render(id, json))
 				: ok(prettyJsonOk(json)).as("application/json; charset=utf-8");
 	}
 
-	private static String prettyJsonOk(JsonNode jsonNode)
-			throws JsonProcessingException {
-		return new ObjectMapper().writerWithDefaultPrettyPrinter()
-				.writeValueAsString(jsonNode);
+	private static String prettyJsonOk(JsonNode jsonNode) {
+		try {
+			return new ObjectMapper().writerWithDefaultPrettyPrinter()
+					.writeValueAsString(jsonNode);
+		} catch (JsonProcessingException x) {
+			x.printStackTrace();
+			return null;
+		}
 	}
 }
