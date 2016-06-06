@@ -22,7 +22,9 @@ import com.google.common.collect.ImmutableMap;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+import play.Logger;
 import play.Play;
+import play.cache.Cache;
 import play.libs.F.Promise;
 import play.libs.Json;
 import play.libs.ws.WS;
@@ -78,26 +80,70 @@ public class Application extends Controller {
 	public static Result search(String q, String location, int from, int size,
 			String format) throws JsonProcessingException, IOException {
 		try {
-			if (q == null || q.isEmpty()) {
-				return search("*", location, from, size, "html");
+			String cacheKey =
+					String.format("q=%s,location=%s,from=%s,size=%s,format=%s", q,
+							location, from, size, format);
+			Result cachedResult = (Result) Cache.get(cacheKey);
+			if (cachedResult != null) {
+				return cachedResult;
 			}
-			String result = null;
-			if (location == null || location.isEmpty()) {
-				result = buildSimpleQuery(q, from, size);
-			} else {
-				result = prepareLocationQuery(location, q, from, size);
-			}
-			if (format != null && format.equals("html")) {
-				return ok(search.render("lobid-organisations", q,
-						location == null ? "" : location, result, from, size))
-								.as("text/html; charset=utf-8");
-			}
-			response().setHeader("Access-Control-Allow-Origin", "*");
-			return ok(result).as("application/json; charset=utf-8");
+			Result searchResult = searchResult(q, location, from, size, format);
+			int oneDay = 60 * 60 * 24;
+			Logger.debug("Caching search result for request: {}", cacheKey);
+			Cache.set(cacheKey, searchResult, oneDay);
+			return searchResult;
 		} catch (IllegalArgumentException x) {
 			x.printStackTrace();
 			return badRequest("Bad request: " + x.getMessage());
 		}
+	}
+
+	/**
+	 * @param q The search string
+	 * @param location The geographical location to search in (polygon points or
+	 *          single point plus distance)
+	 * @param from From parameter for Elasticsearch query
+	 * @param size Size parameter for Elasitcsearch query
+	 * @return Javascript to create a facet map for the search as ok(), or
+	 *         internalServerError() if something went wrong
+	 */
+	public static Result facetMap(String q, String location, int from, int size) {
+		try {
+			String result = searchQueryResult(q, location, from, size);
+			String queryMetadata = Json.parse(result).iterator().next().toString();
+			return ok(
+					views.js.facet_map.render(queryMetadata, q, location, from, size))
+							.as("text/javascript utf-8");
+		} catch (Exception x) {
+			x.printStackTrace();
+			return internalServerError("Error: " + x.getMessage());
+		}
+	}
+
+	private static Result searchResult(String q, String location, int from,
+			int size, String format) throws JsonProcessingException, IOException {
+		if (q == null || q.isEmpty()) {
+			return search("*", location, from, size, "html");
+		}
+		String result = searchQueryResult(q, location, from, size);
+		if (format != null && format.equals("html")) {
+			return ok(search.render("lobid-organisations", q,
+					location == null ? "" : location, result, from, size))
+							.as("text/html; charset=utf-8");
+		}
+		response().setHeader("Access-Control-Allow-Origin", "*");
+		return ok(result).as("application/json; charset=utf-8");
+	}
+
+	private static String searchQueryResult(String q, String location, int from,
+			int size) throws JsonProcessingException, IOException {
+		String result = null;
+		if (location == null || location.isEmpty()) {
+			result = buildSimpleQuery(q, from, size);
+		} else {
+			result = prepareLocationQuery(location, q, from, size);
+		}
+		return result;
 	}
 
 	private static String prepareLocationQuery(String location, String q,
