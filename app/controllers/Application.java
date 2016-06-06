@@ -34,7 +34,6 @@ import play.mvc.Result;
 import play.twirl.api.Html;
 import play.twirl.api.JavaScript;
 import views.html.api;
-import views.html.organisation;
 
 /**
  * 
@@ -267,10 +266,16 @@ public class Application extends Controller {
 				? resultFor(id, x.asJson(), format) : notFound("Not found: " + id));
 	}
 
-	private static Status resultFor(String id, JsonNode json, String format) {
-		return format != null && format.equals("html")
-				? ok(organisation.render(id, json))
-				: ok(prettyJsonOk(json)).as("application/json; charset=utf-8");
+	private static Result resultFor(String id, JsonNode json, String format) {
+		Map<String, Supplier<Result>> results = new HashMap<>();
+		results.put("html", () -> ok(views.html.organisation.render(id, json))
+				.as("text/html; charset=utf-8"));
+		results.put("js", () -> ok(views.js.details_map.render(json.toString()))
+				.as("application/javascript; charset=utf-8"));
+		Supplier<Result> jsonSupplier =
+				() -> ok(prettyJsonOk(json)).as("application/json; charset=utf-8");
+		Supplier<Result> resultSupplier = results.get(format);
+		return resultSupplier == null ? jsonSupplier.get() : resultSupplier.get();
 	}
 
 	private static String prettyJsonOk(JsonNode jsonNode) {
