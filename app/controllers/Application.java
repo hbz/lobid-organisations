@@ -2,8 +2,10 @@ package controllers;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -30,9 +32,10 @@ import play.libs.Json;
 import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.twirl.api.Html;
+import play.twirl.api.JavaScript;
 import views.html.api;
 import views.html.organisation;
-import views.html.search;
 
 /**
  * 
@@ -98,41 +101,32 @@ public class Application extends Controller {
 		}
 	}
 
-	/**
-	 * @param q The search string
-	 * @param location The geographical location to search in (polygon points or
-	 *          single point plus distance)
-	 * @param from From parameter for Elasticsearch query
-	 * @param size Size parameter for Elasitcsearch query
-	 * @return Javascript to create a facet map for the search as ok(), or
-	 *         internalServerError() if something went wrong
-	 */
-	public static Result facetMap(String q, String location, int from, int size) {
-		try {
-			String result = searchQueryResult(q, location, from, size);
-			String queryMetadata = Json.parse(result).iterator().next().toString();
-			return ok(
-					views.js.facet_map.render(queryMetadata, q, location, from, size))
-							.as("text/javascript utf-8");
-		} catch (Exception x) {
-			x.printStackTrace();
-			return internalServerError("Error: " + x.getMessage());
-		}
-	}
-
 	private static Result searchResult(String q, String location, int from,
 			int size, String format) throws JsonProcessingException, IOException {
 		if (q == null || q.isEmpty()) {
 			return search("*", location, from, size, "html");
 		}
-		String result = searchQueryResult(q, location, from, size);
-		if (format != null && format.equals("html")) {
-			return ok(search.render("lobid-organisations", q,
-					location == null ? "" : location, result, from, size))
-							.as("text/html; charset=utf-8");
-		}
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		return ok(result).as("application/json; charset=utf-8");
+		String queryResultString = searchQueryResult(q, location, from, size);
+		Map<String, Supplier<Result>> results = new HashMap<>();
+		results.put("html", () -> {
+			String loc = location == null ? "" : location;
+			Html html = views.html.search.render("lobid-organisations", q, loc,
+					queryResultString, from, size);
+			return ok(html).as("text/html; charset=utf-8");
+		});
+		results.put("js", () -> {
+			String queryMetadata =
+					Json.parse(queryResultString).iterator().next().toString();
+			JavaScript script =
+					views.js.facet_map.render(queryMetadata, q, location, from, size);
+			return ok(script).as("application/javascript; charset=utf-8");
+		});
+		Supplier<Result> json = () -> {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			return ok(queryResultString).as("application/json; charset=utf-8");
+		};
+		Supplier<Result> resultSupplier = results.get(format);
+		return resultSupplier == null ? json.get() : resultSupplier.get();
 	}
 
 	private static String searchQueryResult(String q, String location, int from,

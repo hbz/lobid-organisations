@@ -2,8 +2,6 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /organisations/facet-map.js              controllers.Application.facetMap(q, location, from: Int, size: Int)
-
 #OpenRefine reconciliation endpoint
 GET     /organisations/reconcile                 controllers.Reconcile.meta(callback ?= "")
 POST    /organisations/reconcile                 controllers.Reconcile.reconcile()
