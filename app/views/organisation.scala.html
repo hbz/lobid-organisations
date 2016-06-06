@@ -34,13 +34,14 @@
          <table>
             @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
             @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
-            @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)    
+            @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)
          </table>
          </p>
         }
       </div>
       <div class="col-md-6">
-        @makeMap((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq())(0), (parsedContent \ "name"))
+          @makeMap((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq())(0), (parsedContent \ "name"),
+              (parsedContent \ "classification" \ "id").as[String].takeRight(2).toInt)
       </div>
     </div>
     }
@@ -48,7 +49,6 @@
     <p>You can also access <a href='@routes.Application.get(id=id, format="json")'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
     
 }
-
 @string(value: JsValue) = { @value.asOpt[String].getOrElse("--") }
 
 @produceRow(name: String, value: JsValue, link: Boolean) = {
@@ -70,7 +70,7 @@
     }
 }
 
-@makeMap(location: JsValue, name: JsValue) = {
+@makeMap(location: JsValue, name: JsValue, classCode: Integer) = {
     <link rel="stylesheet" href="@controllers.routes.Assets.at("stylesheets/leaflet.css")" />
     <script src="@controllers.routes.Assets.at("javascripts/leaflet.js")"></script>
     <script src="@controllers.routes.Assets.at("javascripts/Leaflet.MakiMarkers.js")"></script>
@@ -79,7 +79,7 @@
     <script>
         var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
             subdomains: '1234'
-        });    
+        });
         var center = new L.LatLng(50, 10)
         var map = new L.Map("organisations-map", {
             center: center,
@@ -94,7 +94,23 @@
         var lat = @string((location \ "geo" \ "lat"))
         var lon = @string((location \ "geo" \ "lon"))
         var latlng = L.latLng(lat, lon);
-        var icon = L.MakiMarkers.icon({icon: "library", color: "#FF333B", size: "m"});
+
+        var icon = "library"
+        if(@classCode == 34) {
+            icon = "music"
+        } else if (@classCode == 39) {
+            icon = "bus"
+        } else if (@classCode == 60 || @classCode == 65 || @classCode == 73 || @classCode == 81 || @classCode == 84) {
+            icon = "college"
+        } else if (@classCode > 50 && @classCode < 60) {
+            icon = "town-hall"
+        } else if (@classCode == 82) {
+            icon = "monument"
+        } else if (@classCode == 86) {
+            icon = "museum"
+        }
+
+        var icon = L.MakiMarkers.icon({icon: icon, color: "#FF333B", size: "m"});
         var marker = L.marker([lat, lon],{
             title: "@string(name)",
             icon: icon
