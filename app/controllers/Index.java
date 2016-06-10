@@ -10,8 +10,11 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.elasticsearch.Version;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
@@ -19,9 +22,10 @@ import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
+import org.elasticsearch.node.internal.InternalSettingsPreparer;
+import org.elasticsearch.plugins.Plugin;
+import org.elasticsearch.script.groovy.GroovyPlugin;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,19 +38,28 @@ import transformation.Enrich;
  * 
  * Settings and mappings are chosen such as to allow ngram search
  * 
- * @author Simon Ritter (SBRitter)
+ * @author Simon Ritter (SBRitter), Fabian Steeg (fsteeg)
  *
  */
 public class Index extends Controller {
+
+	private static class ConfigurableNode extends Node {
+		public ConfigurableNode(Settings settings,
+				Collection<Class<? extends Plugin>> classpathPlugins) {
+			super(InternalSettingsPreparer.prepareEnvironment(settings, null),
+					Version.CURRENT, classpathPlugins);
+		}
+	}
 
 	static Settings clientSettings =
 			Settings.settingsBuilder().put("path.home", ".")
 					.put("http.port", Application.CONFIG.getString("index.es.port.http"))
 					.put("transport.tcp.port",
 							Application.CONFIG.getString("index.es.port.tcp"))
-					.build();
-	private static Node node =
-			nodeBuilder().settings(clientSettings).local(true).node();
+			.put("script.engine.groovy.inline.aggs", true).build();
+	private static Node node = new ConfigurableNode(
+			nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
+			Arrays.asList(GroovyPlugin.class)).start();
 	/**
 	 * The Elasticsearch client to be used by all parts of the application
 	 */
@@ -115,7 +128,7 @@ public class Index extends Controller {
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
 			final BufferedReader br, final Client client, final String aIndex)
-					throws IOException, JsonParseException, JsonMappingException {
+					throws IOException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;

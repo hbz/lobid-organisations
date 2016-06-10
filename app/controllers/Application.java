@@ -14,6 +14,7 @@ import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.script.Script;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -218,7 +219,7 @@ public class Application extends Controller {
 				.setQuery(query).setFrom(from).setSize(size);
 		searchRequest =
 				withAggregations(searchRequest, "type.raw", "classification.label.raw",
-						"fundertype.label.raw", "stocksize.label.raw", "location.geo.raw");
+						"fundertype.label.raw", "stocksize.label.raw");
 		return searchRequest.execute().actionGet();
 	}
 
@@ -229,6 +230,13 @@ public class Application extends Controller {
 					.addAggregation(AggregationBuilders.terms(field.replace(".raw", ""))
 							.field(field).size(Integer.MAX_VALUE));
 		});
+		searchRequest.addAggregation(AggregationBuilders.terms("location.geo")
+				.script(new Script( // @formatter:off
+						  "doc['isil'].value + ';;;' + "
+						+ "doc['location.geo.raw'].value + ';;;' + "
+						+ "doc['name.raw'].value + ';;;' + "
+						+ "doc['classification.id'].value"))// @formatter:on
+				.size(Integer.MAX_VALUE));
 		return searchRequest;
 	}
 

@@ -1,0 +1,6 @@
+grant {
+	permission org.elasticsearch.script.ClassPermission "org.codehaus.groovy.*";
+	permission org.elasticsearch.script.ClassPermission "groovy.*";
+	permission org.elasticsearch.script.ClassPermission "java.lang.*";
+	permission org.elasticsearch.script.ClassPermission "sun.reflect.*";
+};
