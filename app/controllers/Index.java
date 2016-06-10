@@ -24,7 +24,6 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.internal.InternalSettingsPreparer;
 import org.elasticsearch.plugins.Plugin;
-import org.elasticsearch.script.groovy.GroovyPlugin;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,10 +55,10 @@ public class Index extends Controller {
 					.put("http.port", Application.CONFIG.getString("index.es.port.http"))
 					.put("transport.tcp.port",
 							Application.CONFIG.getString("index.es.port.tcp"))
-			.put("script.engine.groovy.inline.aggs", true).build();
+			.put("script.default_lang", "native").build();
 	private static Node node = new ConfigurableNode(
 			nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
-			Arrays.asList(GroovyPlugin.class)).start();
+			Arrays.asList(LocationAggregation.class)).start();
 	/**
 	 * The Elasticsearch client to be used by all parts of the application
 	 */

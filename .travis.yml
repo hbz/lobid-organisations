@@ -11,4 +11,4 @@ before_install:
   - wget http://downloads.typesafe.com/typesafe-activator/${ACTIVATOR_VERSION}/typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
   - unzip typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
 script:
-  - activator-${ACTIVATOR_VERSION}-minimal/bin/activator test -Djava.security.policy=security.policy
+  - activator-${ACTIVATOR_VERSION}-minimal/bin/activator test

@@ -231,12 +231,7 @@ public class Application extends Controller {
 							.field(field).size(Integer.MAX_VALUE));
 		});
 		searchRequest.addAggregation(AggregationBuilders.terms("location.geo")
-				.script(new Script( // @formatter:off
-						  "doc['isil'].value + ';;;' + "
-						+ "doc['location.geo.raw'].value + ';;;' + "
-						+ "doc['name.raw'].value + ';;;' + "
-						+ "doc['classification.id'].value"))// @formatter:on
-				.size(Integer.MAX_VALUE));
+				.script(new Script("location-aggregation")).size(Integer.MAX_VALUE));
 		return searchRequest;
 	}
 
