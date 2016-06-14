@@ -56,3 +56,7 @@ input#search {
 	width: 100%;
 	height: 275px;
 }
+
+#facets {
+	text-align: right;
+}
