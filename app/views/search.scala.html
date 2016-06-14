@@ -2,15 +2,23 @@
 
 @import play.api.libs.json._
 
-@facet(queryMetadata: JsValue, key: String) = {
-	<select onchange="location = '@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+' + this.value;">
-	<option value="">@key.split("\\.")(0).capitalize</option>
-	@for(bucket <- (queryMetadata \ "aggregations" \ key \ "buckets").as[Seq[JsValue]];
-			term = (bucket \ "key").as[String];
-			count = (bucket \ "doc_count").as[Int]) {
-		<option value='@key:"@term"'>@term (@count)</option>
+@links(buckets: Seq[JsValue], key: String) = {
+	@for(bucket <- buckets; term = (bucket \ "key").as[String]; count = (bucket \ "doc_count").as[Int]) {
+		<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@term (@count)</a><br/>
 	}
-	</select>
+}
+
+@facet(queryMetadata: JsValue, key: String) = {
+	@defining((key.replace('.','_'), (queryMetadata \ "aggregations" \ key \ "buckets").as[Seq[JsValue]])) { case (jsKey, buckets) =>
+		<h4>@key.split("\\.")(0).capitalize</h4>
+		@links(buckets.take(10), key)
+		@if(buckets.size>10){
+			<a id='more-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").show(); $("#more-@jsKey-link").hide();'>Show all</a>
+			<div id='more-@jsKey' style="display: none;">
+			@links(buckets.drop(10), key)
+			</div>
+		}
+	}
 }
 
 @facetMap() = {
@@ -51,16 +59,16 @@
 				</table>
 			</p>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-6" id="facets">
 			<p>
-				Filter by: 
+				Filter by (<a href='@routes.Application.search(q=q.split("AND")(0).trim, from=from, size=size, format="html")'>reset all filters</a>):
+				<h4>Location</h4>
+				<div id="facet-map"></div>
 				@facet(orgs(0), "type")
 				@facet(orgs(0), "classification.label")
 				@facet(orgs(0), "fundertype.label")
 				@facet(orgs(0), "stocksize.label")
-				<a href='@routes.Application.search(q=q.split("AND")(0).trim, from=from, size=size, format="html")'>Reset all filters</a>
 			</p>
-			<div id="facet-map"></div>
 		</div>
 	</div>
 	<p>You can also access <a href='@routes.Application.search(q=(if(!q.isEmpty) q else "*"), from=from, format="json", location=location)'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
