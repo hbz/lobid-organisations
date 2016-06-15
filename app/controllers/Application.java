@@ -1,9 +1,10 @@
 package controllers;
 
-import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -30,9 +31,9 @@ import play.libs.Json;
 import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.twirl.api.Html;
+import play.twirl.api.JavaScript;
 import views.html.api;
-import views.html.organisation;
-import views.html.search;
 
 /**
  * 
@@ -72,13 +73,9 @@ public class Application extends Controller {
 	 * @param size Size parameter for Elasitcsearch query
 	 * @param format The response format ('html' for HTML, else JSON)
 	 * @return Result of search as ok() or badRequest()
-	 * @throws JsonProcessingException Is thrown if response of search cannot be
-	 *           processed as JsonNode
-	 * @throws IOException Is thrown if response of search cannot be processed as
-	 *           JsonNode
 	 */
 	public static Result search(String q, String location, int from, int size,
-			String format) throws JsonProcessingException, IOException {
+			String format) {
 		try {
 			String cacheKey =
 					String.format("q=%s,location=%s,from=%s,size=%s,format=%s", q,
@@ -98,45 +95,36 @@ public class Application extends Controller {
 		}
 	}
 
-	/**
-	 * @param q The search string
-	 * @param location The geographical location to search in (polygon points or
-	 *          single point plus distance)
-	 * @param from From parameter for Elasticsearch query
-	 * @param size Size parameter for Elasitcsearch query
-	 * @return Javascript to create a facet map for the search as ok(), or
-	 *         internalServerError() if something went wrong
-	 */
-	public static Result facetMap(String q, String location, int from, int size) {
-		try {
-			String result = searchQueryResult(q, location, from, size);
-			String queryMetadata = Json.parse(result).iterator().next().toString();
-			return ok(
-					views.js.facet_map.render(queryMetadata, q, location, from, size))
-							.as("text/javascript utf-8");
-		} catch (Exception x) {
-			x.printStackTrace();
-			return internalServerError("Error: " + x.getMessage());
-		}
-	}
-
 	private static Result searchResult(String q, String location, int from,
-			int size, String format) throws JsonProcessingException, IOException {
+			int size, String format) {
 		if (q == null || q.isEmpty()) {
 			return search("*", location, from, size, "html");
 		}
-		String result = searchQueryResult(q, location, from, size);
-		if (format != null && format.equals("html")) {
-			return ok(search.render("lobid-organisations", q,
-					location == null ? "" : location, result, from, size))
-							.as("text/html; charset=utf-8");
-		}
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		return ok(result).as("application/json; charset=utf-8");
+		String queryResultString = searchQueryResult(q, location, from, size);
+		Map<String, Supplier<Result>> results = new HashMap<>();
+		results.put("html", () -> {
+			String loc = location == null ? "" : location;
+			Html html = views.html.search.render("lobid-organisations", q, loc,
+					queryResultString, from, size);
+			return ok(html).as("text/html; charset=utf-8");
+		});
+		results.put("js", () -> {
+			String queryMetadata =
+					Json.parse(queryResultString).iterator().next().toString();
+			JavaScript script =
+					views.js.facet_map.render(queryMetadata, q, location, from, size);
+			return ok(script).as("application/javascript; charset=utf-8");
+		});
+		Supplier<Result> json = () -> {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			return ok(queryResultString).as("application/json; charset=utf-8");
+		};
+		Supplier<Result> resultSupplier = results.get(format);
+		return resultSupplier == null ? json.get() : resultSupplier.get();
 	}
 
 	private static String searchQueryResult(String q, String location, int from,
-			int size) throws JsonProcessingException, IOException {
+			int size) {
 		String result = null;
 		if (location == null || location.isEmpty()) {
 			result = buildSimpleQuery(q, from, size);
@@ -147,7 +135,7 @@ public class Application extends Controller {
 	}
 
 	private static String prepareLocationQuery(String location, String q,
-			int from, int size) throws JsonProcessingException, IOException {
+			int from, int size) {
 		String[] coordPairsAsString = location.split(" ");
 		String result;
 		if (coordPairsAsString[0].split(",").length > 2) {
@@ -159,8 +147,7 @@ public class Application extends Controller {
 	}
 
 	private static String preparePolygonQuery(String[] coordPairsAsString,
-			String q, int from, int size)
-					throws JsonProcessingException, IOException {
+			String q, int from, int size) {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
 		String result;
@@ -178,8 +165,7 @@ public class Application extends Controller {
 	}
 
 	private static String prepareDistanceQuery(String[] coordPairsAsString,
-			String q, int from, int size)
-					throws JsonProcessingException, IOException {
+			String q, int from, int size) {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
@@ -193,16 +179,14 @@ public class Application extends Controller {
 		return result;
 	}
 
-	private static String buildSimpleQuery(String q, int from, int size)
-			throws JsonProcessingException, IOException {
+	private static String buildSimpleQuery(String q, int from, int size) {
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		SearchResponse queryResponse = executeQuery(from, size, simpleQuery);
 		return returnAsJson(queryResponse);
 	}
 
 	private static String buildPolygonQuery(String q, double[] latCoordinates,
-			double[] lonCoordinates, int from, int size)
-					throws JsonProcessingException, IOException {
+			double[] lonCoordinates, int from, int size) {
 		GeoPolygonQueryBuilder polygonQuery =
 				QueryBuilders.geoPolygonQuery("location.geo");
 		for (int i = 0; i < latCoordinates.length; i++) {
@@ -217,8 +201,7 @@ public class Application extends Controller {
 	}
 
 	private static String buildDistanceQuery(String q, int from, int size,
-			double lat, double lon, double distance)
-					throws JsonProcessingException, IOException {
+			double lat, double lon, double distance) {
 		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery("location.geo")
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
@@ -249,8 +232,7 @@ public class Application extends Controller {
 		return searchRequest;
 	}
 
-	private static String returnAsJson(SearchResponse queryResponse)
-			throws IOException, JsonProcessingException {
+	private static String returnAsJson(SearchResponse queryResponse) {
 		List<Map<String, Object>> hits =
 				Arrays.asList(queryResponse.getHits().hits()).stream()
 						.map(hit -> hit.getSource()).collect(Collectors.toList());
@@ -284,16 +266,25 @@ public class Application extends Controller {
 				? resultFor(id, x.asJson(), format) : notFound("Not found: " + id));
 	}
 
-	private static Status resultFor(String id, JsonNode json, String format)
-			throws JsonProcessingException {
-		return format != null && format.equals("html")
-				? ok(organisation.render(id, json))
-				: ok(prettyJsonOk(json)).as("application/json; charset=utf-8");
+	private static Result resultFor(String id, JsonNode json, String format) {
+		Map<String, Supplier<Result>> results = new HashMap<>();
+		results.put("html", () -> ok(views.html.organisation.render(id, json))
+				.as("text/html; charset=utf-8"));
+		results.put("js", () -> ok(views.js.details_map.render(json.toString()))
+				.as("application/javascript; charset=utf-8"));
+		Supplier<Result> jsonSupplier =
+				() -> ok(prettyJsonOk(json)).as("application/json; charset=utf-8");
+		Supplier<Result> resultSupplier = results.get(format);
+		return resultSupplier == null ? jsonSupplier.get() : resultSupplier.get();
 	}
 
-	private static String prettyJsonOk(JsonNode jsonNode)
-			throws JsonProcessingException {
-		return new ObjectMapper().writerWithDefaultPrettyPrinter()
-				.writeValueAsString(jsonNode);
+	private static String prettyJsonOk(JsonNode jsonNode) {
+		try {
+			return new ObjectMapper().writerWithDefaultPrettyPrinter()
+					.writeValueAsString(jsonNode);
+		} catch (JsonProcessingException x) {
+			x.printStackTrace();
+			return null;
+		}
 	}
 }
