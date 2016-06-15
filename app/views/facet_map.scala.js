@@ -60,7 +60,7 @@ function areaSearch(hull) {
   var polygonQueryParam = polygon.join('+');
   console.log(polygonQueryParam);
   if(polygonQueryParam.length > 0) {
-    location.href='/organisations?location=' + polygonQueryParam + queryParams;
+    location.href='/organisations/search?location=' + polygonQueryParam + queryParams;
   }
 }
 

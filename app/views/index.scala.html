@@ -1,0 +1,24 @@
+@()
+
+@main("") {
+<div class="row">
+<div class="col-md-7">
+<h3>Data access</h3>
+<p>You can access this data using our <a href="@routes.Application.index()">simple search interface</a>, 
+our <a href="@routes.Application.api()">application programming interface</a> or 
+<a href="@routes.Application.search()">explore the full organizations directory</a>.</p>
+<h3>Data sources</h3>
+<p>The source data sets for this service are the <a href="http://sigel.staatsbibliothek-berlin.de">German ISIL registry</a>
+ and the base data from the <a href="https://www.hbz-nrw.de/produkte/bibliotheksstatistik">German Library Statistics (DBS)</a>.</p>
+<h3>Development</h3>
+<p>This service is developed as open source software on GitHub, where you can find 
+<a href="https://github.com/hbz/lobid-organisations#about">technical details</a>, 
+<a href="https://github.com/hbz/lobid-organisations/issues/new">report issues</a>, and 
+<a href="https://github.com/hbz/lobid-organisations/graphs/contributors">contribute</a> to the service.
+</p>
+</div>
+<div class="col-md-5">
+<a href="http://lobid.org"><img src='@routes.Assets.at("images/lobid.png")' style="float:right" height="250px"/></a>
+</div>
+</div>
+}

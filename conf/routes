@@ -11,7 +11,7 @@ GET     /organisations/search                    controllers.Application.search(
 
 
 # Home page
-GET     /organisations                           controllers.Application.search(q ?= null, location ?= null, from: Int ?= 0, size: Int ?= 60, format ?= null)
+GET     /organisations                           controllers.Application.index()
 GET     /organisations/api                       controllers.Application.api()
 GET     /organisations/context.jsonld            controllers.Application.context()
 GET     /organisations/:id                       controllers.Application.get(id, format ?= null)

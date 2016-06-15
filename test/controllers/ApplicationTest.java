@@ -17,16 +17,17 @@ import org.junit.Test;
 import index.ElasticsearchTest;
 import play.libs.Json;
 import play.mvc.Result;
-import play.twirl.api.Content;
 
 @SuppressWarnings("javadoc")
 public class ApplicationTest extends ElasticsearchTest {
 
 	@Test
 	public void renderIndexTemplate() {
-		Content html = views.html.search.render("Page title", "", "", "[]", 0, 20);
-		assertThat(contentType(html)).isEqualTo("text/html");
-		assertThat(contentAsString(html)).contains("Page title");
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET, "/organisations"));
+			assertThat(contentType(result)).isEqualTo("text/html");
+			assertThat(contentAsString(result)).contains("lobid-organisations");
+		});
 	}
 
 	@Test

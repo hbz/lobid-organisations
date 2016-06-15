@@ -32,8 +32,6 @@
 }
 
 @main(q, facetMap()) {
-	<h1>@title</h1>
-	<p>The lobid-organisations service provides access to a comprehensive dataset of library institutions in Germany.</p>
 	@defining(Json.parse(json).as[Seq[JsValue]]) { orgs => @if(orgs.size > 1) {
 	<div class="row">
 		<div class="col-md-6">
