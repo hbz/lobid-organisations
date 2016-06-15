@@ -21,7 +21,7 @@
               @produceRow("Bibliothekstyp", parsedContent \ "classification" \ "label", false)
               @produceRow("Träger", parsedContent \ "fundertype" \ "label", false)
               @produceRow("Bestandsgröße", parsedContent \ "stocksize" \ "label", false)
-            
+
               @for(alternateName <- (parsedContent \ "alternateName").asOpt[Seq[JsValue]].getOrElse(Seq())) {
                    @produceRow("Anderer Name", alternateName, false)
               }

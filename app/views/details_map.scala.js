@@ -27,7 +27,7 @@ var map = new L.Map("organisations-map", {
     var lat = @string((location \ "geo" \ "lat"))
     var lon = @string((location \ "geo" \ "lon"))
     var latlng = L.latLng(lat, lon);
-    
+
     var icon = "library"
     if(@classCode == 34) {
         icon = "music"
@@ -42,13 +42,13 @@ var map = new L.Map("organisations-map", {
     } else if (@classCode == 86) {
         icon = "museum"
     }
-    
+
     var icon = L.MakiMarkers.icon({icon: icon, color: "#FF333B", size: "m"});
     var marker = L.marker([lat, lon],{
         title: "@string(name)",
         icon: icon
     });
-    
+
     locationDetails = "<table class='table table-striped'>" 
         + "<tr><td>Straße</td><td>@string((location \ "address" \ "streetAddress"))</td></tr>"
         + "<tr><td>Postleitzahl</td><td>@string((location \ "address" \ "postalCode"))</td></tr>"
