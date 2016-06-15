@@ -5,42 +5,44 @@
 @main("", makeMap()) {
     <h1>@id</h1>
     @defining(Json.parse(content.toString())) { parsedContent =>
-    <div class="row">
-      <div class="col-md-6">
-        <p>
-        <table>
-            @produceRow("Name", parsedContent \ "name", false)
-            @produceRow("ISIL", parsedContent \ "isil", false)
-            @produceRow("DBS ID", parsedContent \ "dbsID", false)
-            @produceRow("Wikipedia", parsedContent \ "wikipedia", true)
-            @produceRow("URL", parsedContent \ "url", true)
-            @produceRow("Telefon", parsedContent \ "telephone", false)
-            @produceRow("Email", parsedContent \ "email", true)
-            @produceRow("Typ", parsedContent \ "type", false)
-            @produceRow("Bibliothekstyp", parsedContent \ "classification" \ "label", false)
-            @produceRow("Träger", parsedContent \ "fundertype" \ "label", false)
-            @produceRow("Bestandsgröße", parsedContent \ "stocksize" \ "label", false)
+    <p>
+      <div class="row">
+        <div class="col-md-6">
+          <p>
+          <table class='table table-striped'>
+              @produceRow("Name", parsedContent \ "name", false)
+              @produceRow("ISIL", parsedContent \ "isil", false)
+              @produceRow("DBS ID", parsedContent \ "dbsID", false)
+              @produceRow("Wikipedia", parsedContent \ "wikipedia", true)
+              @produceRow("URL", parsedContent \ "url", true)
+              @produceRow("Telefon", parsedContent \ "telephone", false)
+              @produceRow("Email", parsedContent \ "email", true)
+              @produceRow("Typ", parsedContent \ "type", false)
+              @produceRow("Bibliothekstyp", parsedContent \ "classification" \ "label", false)
+              @produceRow("Träger", parsedContent \ "fundertype" \ "label", false)
+              @produceRow("Bestandsgröße", parsedContent \ "stocksize" \ "label", false)
             
-            @for(alternateName <- (parsedContent \ "alternateName").asOpt[Seq[JsValue]].getOrElse(Seq())) {
-                 @produceRow("Anderer Name", alternateName, false)
-            }
-        </table>
-        </p>
-        @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
-         <h3>Postanschrift</h3>
-         <p>
-         <table>
-            @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
-            @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
-            @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)
-         </table>
-         </p>
-        }
+              @for(alternateName <- (parsedContent \ "alternateName").asOpt[Seq[JsValue]].getOrElse(Seq())) {
+                   @produceRow("Anderer Name", alternateName, false)
+              }
+          </table>
+          </p>
+          @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
+           <h3>Postanschrift</h3>
+           <p>
+           <table class='table table-striped'>
+              @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
+              @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
+              @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)
+           </table>
+           </p>
+          }
+        </div>
+        <div class="col-md-6">
+            <div id="organisations-map"></div>
+        </div>
       </div>
-      <div class="col-md-6">
-          <div id="organisations-map"></div>
-      </div>
-    </div>
+    </p>
     }
     
     <p>You can also access <a href='@routes.Application.get(id=id, format="json")'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>

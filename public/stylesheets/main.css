@@ -28,7 +28,7 @@ dd {
 }
 
 table {
-	width: 100%;
+	width: 100%;	
 }
 
 td.field-label {
@@ -59,4 +59,9 @@ input#search {
 
 #facets {
 	text-align: right;
+}
+
+.table-striped {
+	margin-top: 20px;
+}
 }
