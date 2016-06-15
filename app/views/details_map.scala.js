@@ -49,7 +49,7 @@ var map = new L.Map("organisations-map", {
         icon: icon
     });
 
-    locationDetails = "<table class='table table-striped'>" 
+    locationDetails = "<table class='table table-striped table-condensed'>" 
         + "<tr><td>Straße</td><td>@string((location \ "address" \ "streetAddress"))</td></tr>"
         + "<tr><td>Postleitzahl</td><td>@string((location \ "address" \ "postalCode"))</td></tr>"
         + "<tr><td>Stadt</td><td>@string((location \ "address" \ "addressLocality"))</td></tr>"
