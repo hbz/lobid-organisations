@@ -55,11 +55,12 @@
 				@for(org <- orgs.tail;
 						uri = (org\"id").asOpt[String].getOrElse("");
 						link = "/organisations/" + uri.split("#")(0).split("/").last + "?format=html";
-						city = (org\\"addressLocality")(0).asOpt[String].getOrElse("*no city*");
-						name = (org\"name").asOpt[String].getOrElse("*no name*").replace(city, "").trim()) {
+						name = (org\"name").asOpt[String].getOrElse("--");
+						cities = (org\\"addressLocality");
+						city = if(cities.size > 0){cities(0).asOpt[String].getOrElse("--")}else{"--"}) {
 					<tr>
 						<td>
-							<a href='@link'>@name</a>
+							<a href='@link'>@name.replace(city, "").trim()</a>
 						</td>
 						<td style="text-align: right">@city</td>
 					</tr>
