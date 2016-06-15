@@ -33,7 +33,7 @@ if (pointsParam.length > 0) {
 var markers = new L.MarkerClusterGroup({
   maxClusterRadius: 50,
   zoomToBoundsOnClick: false,
-  singleMarkerMode: true
+  singleMarkerMode: false
 });
 
 var queryParams = '&q=@views.html.helper.urlEncode(q)&format=html';
@@ -69,16 +69,34 @@ window.onload = addMarkerLayer;
 
 function addMarkerLayer(){
 	@for(bucket <- (Json.parse(queryMetadata) \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
-			latLon = (bucket \ "key").as[String];
+			Array(isil, latLon, name, classification, _*) = (bucket \ "key").as[String].split(";;;");
+			if isil != "null" && latLon != "null" && name != "null" && classification != "null";
 			freq = (bucket \ "doc_count").as[JsNumber]) {
-	   addMarker('/organisations?location='+'@latLon'+',1'+queryParams, '@latLon', '@freq');
+	   addMarker('/organisations/@isil.toUpperCase?format=html', '@latLon', '@freq', '@name', @classification.takeRight(2));
 	}
 	map.addLayer(markers);
 
-	function addMarker(link, latLon, freq){
+	function addMarker(link, latLon, freq, name, code){
 	 var lat = latLon.split(",")[0];
 	 var lon = latLon.split(",")[1];
-	 var marker = L.marker([lat,lon],{});
+	 var icon = "library"
+	if(code === 34) {
+	    icon = "music"
+	} else if (code === 39) {
+	    icon = "bus"
+	} else if (code === 60 || code === 65 || code === 73 || code === 81 || code === 84) {
+	    icon = "college"
+	} else if (code > 50 && code < 60) {
+	    icon = "town-hall"
+	} else if (code === 82) {
+	    icon = "monument"
+	} else if (code === 86) {
+	    icon = "museum"
+	}
+	 var marker = L.marker([lat,lon],{
+		 title : name,
+		 icon : L.MakiMarkers.icon({icon: icon, color: "#FF333B", size: "m"})
+	 });
 	 marker.on('click', function(e) {
 	  location.href = link;
 	 });
