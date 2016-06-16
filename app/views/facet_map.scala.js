@@ -3,6 +3,7 @@
 @(queryMetadata: String, q: String, location: String, from: Int, size: Int)
 
 @import play.api.libs.json._
+@import com.typesafe.config._
 
 var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', { subdomains: '1234' });
 var kassel = new L.LatLng(51.19, 9.30)
@@ -72,30 +73,17 @@ function addMarkerLayer(){
 			Array(isil, latLon, name, classification, _*) = (bucket \ "key").as[String].split(";;;");
 			if isil != "null" && latLon != "null" && name != "null" && classification != "null";
 			freq = (bucket \ "doc_count").as[JsNumber]) {
-	   addMarker('/organisations/@isil.toUpperCase?format=html', '@latLon', '@freq', '@name', @classification.takeRight(2));
+	   var iconLabel = '@Application.CONFIG.getObject("organisation.icons").getOrDefault(classification, ConfigValueFactory.fromAnyRef("library")).unwrapped()';
+	   addMarker('/organisations/@isil.toUpperCase?format=html', '@latLon', '@freq', '@name', iconLabel);
 	}
 	map.addLayer(markers);
 
-	function addMarker(link, latLon, freq, name, code){
+	function addMarker(link, latLon, freq, name, iconLabel){
 	 var lat = latLon.split(",")[0];
 	 var lon = latLon.split(",")[1];
-	 var icon = "library"
-	if(code === 34) {
-	    icon = "music"
-	} else if (code === 39) {
-	    icon = "bus"
-	} else if (code === 60 || code === 65 || code === 73 || code === 81 || code === 84) {
-	    icon = "college"
-	} else if (code > 50 && code < 60) {
-	    icon = "town-hall"
-	} else if (code === 82) {
-	    icon = "monument"
-	} else if (code === 86) {
-	    icon = "museum"
-	}
 	 var marker = L.marker([lat,lon],{
 		 title : name,
-		 icon : L.MakiMarkers.icon({icon: icon, color: "#FF333B", size: "m"})
+		 icon : L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"})
 	 });
 	 marker.on('click', function(e) {
 	  location.href = link;
