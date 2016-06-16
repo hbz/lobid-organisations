@@ -4,7 +4,14 @@
 
 @links(buckets: Seq[JsValue], key: String) = {
 	@for(bucket <- buckets; term = (bucket \ "key").as[String]; count = (bucket \ "doc_count").as[Int]) {
-		<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@term (@count)</a><br/>
+		@if(q.contains(key+":\""+term+"\"")){
+		@term
+		<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.replace("AND "+key+":\""+term+"\"","").trim'>
+		<span class="badge">Remove Filter <span class="glyphicon glyphicon-remove"></span></span>
+		</a>
+		} else {
+		<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@term (@count)</a>
+		}<br/>
 	}
 }
 
@@ -36,7 +43,11 @@
 	<p>
 	<div class="row">
 		<div class="col-md-2">
-		<h4>Location</h4>
+		<h4>Location @if(!location.isEmpty){
+		<a href='@routes.Application.search()?format=html&from=@from&size=@size&q=@q'>
+		<span class="badge">Remove Filter <span class="glyphicon glyphicon-remove"></span></span>
+		</a>
+		}</h4>
 		<div id="facet-map"></div>
 		@facet(orgs(0), "type")
 		@facet(orgs(0), "stocksize.label")
@@ -48,7 +59,7 @@
 				@if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, format="html", location=location)'>&LeftArrow; prev</a>}
 				@(from+1)&mdash;@(Math.min(totalResults, from+size))
 				@if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, format="html", location=location)'>next &RightArrow;</a>}
-			} | <a href='@routes.Application.search(q=q.split("AND")(0).trim, from=from, size=size, format="html")'>reset all filters</a>
+			}
 			</p>
 			<p>
 				<table class="table table-striped table-condensed">
