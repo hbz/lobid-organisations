@@ -72,7 +72,7 @@ function addMarkerLayer(){
 			Array(isil, latLon, name, classification, _*) = (bucket \ "key").as[String].split(";;;");
 			if isil != "null" && latLon != "null" && name != "null" && classification != "null";
 			freq = (bucket \ "doc_count").as[JsNumber]) {
-	   addMarker('/organisations/@isil.toUpperCase?format=html', '@latLon', '@freq', '@name', @classification.takeRight(2));
+		addMarker('/organisations/@isil?format=html', '@latLon', '@freq', '@name', @classification.takeRight(2));
 	}
 	map.addLayer(markers);
 
