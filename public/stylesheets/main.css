@@ -60,3 +60,8 @@ input#search {
 #facets {
 	text-align: right;
 }
+
+.table-striped {
+	margin-top: 20px;
+}
+}
