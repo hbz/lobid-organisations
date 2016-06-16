@@ -51,6 +51,13 @@ public class Application extends Controller {
 	private static final String ES_NAME = CONFIG.getString("index.es.name");
 
 	/**
+	 * @return 200 ok response to render the index page
+	 */
+	public static Result index() {
+		return ok(views.html.index.render());
+	}
+
+	/**
 	 * @return 200 ok response to render api documentation
 	 */
 	public static Result api() {

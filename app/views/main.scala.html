@@ -16,28 +16,39 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid" id="header">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="@routes.Application.search()">
+				<a class="navbar-brand" href="@routes.Application.index()">
 					<img id="hbz" src='@routes.Assets.at("images/hbz.png")' height="25px" />
 				</a>
 			</div>
-			<form class="navbar-form navbar-left" role="search" action="@routes.Application.search()" method="GET">
-				<div class="form-group">
-					<input id="search" type="text" class="form-control" autocomplete="off"
-						placeholder="Search lobid-organisations" autofocus name="q" @if(!q.isEmpty && q!="*") {value="@q"} >
-					<input type="hidden" name="format" value="html" />
-				</div>
-				<button type="submit" class="btn btn-default">Search</button>
-			</form>
+			<ul class="nav navbar-nav navbar-left">
+				<li @if(request.uri.toString() == routes.Application.index().toString()){ class="active" } title='Simple search interface'><a href="@routes.Application.index()">Search</a></li>
+				<li @if(request.uri.toString() == routes.Application.search().toString()){ class="active" } title='Browse the full organizations directory'><a href="@routes.Application.search()">Browse</a></li>
+				<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='Application programming interface'><a href="@routes.Application.api()">API</a></li>
+			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="@routes.Application.api()">API</a></li>
 				<li><a href="http://lobid.org/about">About</a></li>
 				<li><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></li>
 			</ul>
 		</div>
 	</nav>
 	<div class="container-fluid">
+		<h1>lobid-organisations<small> &mdash; A comprehensive directory of German library institutions</small></h1>
+		<p>
+		<form action="@routes.Application.search()" method="GET">
+			<div class="input-group">
+				<input style="width:100%" id="search" type="text" class="form-control" autocomplete="off" placeholder="Search lobid-organisations" autofocus name="q"  @if(!q.isEmpty && q!="*") {value="@q"}>
+				<input type="hidden" name="format" value="html" />
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="submit">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</span>
+			</div>
+		</form>
+		</p>
 		@content
 		<div class="footer">
+			<hr/>
 			<p>
 				lobid-organisations | a LOD service developed and hosted by 
 				<a href="https://www.hbz-nrw.de/angebote/linked_open_data/index_engl_html"> 

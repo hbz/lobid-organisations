@@ -11,11 +11,11 @@
 @facet(queryMetadata: JsValue, key: String) = {
 	@defining((key.replace('.','_'), (queryMetadata \ "aggregations" \ key \ "buckets").as[Seq[JsValue]])) { case (jsKey, buckets) =>
 		<h4>@key.split("\\.")(0).capitalize</h4>
-		@links(buckets.take(10), key)
-		@if(buckets.size>10){
+		@links(buckets.take(12), key)
+		@if(buckets.size>12){
 			<a id='more-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").show(); $("#more-@jsKey-link").hide();'>Show all</a>
 			<div id='more-@jsKey' style="display: none;">
-			@links(buckets.drop(10), key)
+			@links(buckets.drop(12), key)
 			</div>
 		}
 	}
@@ -32,45 +32,50 @@
 }
 
 @main(q, facetMap()) {
-	<h1>@title</h1>
-	<p>The lobid-organisations service provides access to a comprehensive dataset of library institutions in Germany.</p>
 	@defining(Json.parse(json).as[Seq[JsValue]]) { orgs => @if(orgs.size > 1) {
+	<p>
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-2">
+		<h4>Location</h4>
+		<div id="facet-map"></div>
+		@facet(orgs(0), "type")
+		@facet(orgs(0), "stocksize.label")
+		</div>
+		<div class="col-md-8">
 			<p>
 			@defining((orgs.head \ "http://sindice.com/vocab/search#totalResults").as[Int]) { totalResults =>
 				Total results: @(totalResults) |
 				@if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, format="html", location=location)'>&LeftArrow; prev</a>}
 				@(from+1)&mdash;@(Math.min(totalResults, from+size))
 				@if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, format="html", location=location)'>next &RightArrow;</a>}
-			}
+			} | <a href='@routes.Application.search(q=q.split("AND")(0).trim, from=from, size=size, format="html")'>reset all filters</a>
 			</p>
 			<p>
-				<table>
+				<table class="table table-striped table-condensed">
 				@for(org <- orgs.tail;
 						uri = (org\"id").asOpt[String].getOrElse("");
-						link = "/organisations/" + uri.split("#")(0).split("/").last + "?format=html") {
+						link = "/organisations/" + uri.split("#")(0).split("/").last + "?format=html";
+						name = (org\"name").asOpt[String].getOrElse("--");
+						cities = (org\\"addressLocality");
+						city = if(cities.size > 0){cities(0).asOpt[String].getOrElse("--")}else{"--"}) {
 					<tr>
 						<td>
-							<a href='@link'>@((org\"name").asOpt[String].getOrElse("*no name*"))</a>
+							<a href='@link'>@name</a>
 						</td>
+						<td style="text-align: right">@city</td>
 					</tr>
 				}
 				</table>
 			</p>
 		</div>
-		<div class="col-md-6" id="facets">
+		<div class="col-md-2" id="facets">
 			<p>
-				Filter by (<a href='@routes.Application.search(q=q.split("AND")(0).trim, from=from, size=size, format="html")'>reset all filters</a>):
-				<h4>Location</h4>
-				<div id="facet-map"></div>
-				@facet(orgs(0), "type")
 				@facet(orgs(0), "classification.label")
 				@facet(orgs(0), "fundertype.label")
-				@facet(orgs(0), "stocksize.label")
 			</p>
 		</div>
 	</div>
+	</p>
 	<p>You can also access <a href='@routes.Application.search(q=(if(!q.isEmpty) q else "*"), from=from, format="json", location=location)'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
 	} else { @if(!q.isEmpty) {<p>No results for <code>@q</code>.</p>} } }
 }

@@ -5,17 +5,6 @@
 }
 
 @main("*") {
-    <h1>@title</h1>
-    <p>The lobid-organisations service provides access to a comprehensive dataset of library institutions in Germany.</p>
-    <p>You can also access this data using our <a href="@routes.Application.search()">simple search interface</a>.</p>
-    <h2>About</h2>
-    <p>The source data sets for this service are the <a href="http://sigel.staatsbibliothek-berlin.de">German ISIL registry</a>
-     and the base data from the <a href="https://www.hbz-nrw.de/angebote/dbs/">German Library Statistics (DBS)</a>.</p>
-    <p>It is developed as open source software on GitHub, where you can find 
-    <a href="https://github.com/hbz/lobid-organisations#about">technical details</a>, 
-    <a href="https://github.com/hbz/lobid-organisations/issues/new">report issues</a>, and 
-    <a href="https://github.com/hbz/lobid-organisations/graphs/contributors">contribute</a> to the service.
-    </p>
     <h2>API basics</h2>
     <dl>
     @desc("Get", routes.Application.get("DE-6"))

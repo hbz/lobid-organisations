@@ -47,14 +47,10 @@ select {
 	max-width: 110px;
 }
 
-input#search {
-	width: 800px;
-}
-
 #facet-map {
 	float: none;
 	width: 100%;
-	height: 275px;
+	height: 200px;
 }
 
 #facets {
