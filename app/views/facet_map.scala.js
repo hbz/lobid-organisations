@@ -67,6 +67,7 @@ function areaSearch(hull) {
 
 map.addLayer(layer);
 window.onload = addMarkerLayer;
+var added = [];
 
 function addMarkerLayer(){
 	@for(bucket <- (Json.parse(queryMetadata) \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
@@ -79,15 +80,18 @@ function addMarkerLayer(){
 	map.addLayer(markers);
 
 	function addMarker(link, latLon, freq, name, iconLabel){
-	 var lat = latLon.split(",")[0];
-	 var lon = latLon.split(",")[1];
-	 var marker = L.marker([lat,lon],{
-		 title : name,
-		 icon : L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"})
-	 });
-	 marker.on('click', function(e) {
-	  location.href = link;
-	 });
-	 markers.addLayer(marker);
+		if(added.indexOf(latLon) == -1) {
+		 var lat = latLon.split(",")[0];
+		 var lon = latLon.split(",")[1];
+		 var marker = L.marker([lat,lon],{
+			 title : name,
+			 icon : L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"})
+		 });
+		 marker.on('click', function(e) {
+		  location.href = link;
+		 });
+		 markers.addLayer(marker);
+		 added.push(latLon);
+		}
 	}
 }
