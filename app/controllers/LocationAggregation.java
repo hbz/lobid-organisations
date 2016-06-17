@@ -59,9 +59,13 @@ public class LocationAggregation extends Plugin {
 						(HashMap<?, ?>) ((ArrayList<?>) source().get("location")).get(0);
 				HashMap<?, ?> geo = (HashMap<?, ?>) location.get("geo");
 				String latLon = String.format("%s,%s", geo.get("lat"), geo.get("lon"));
-				Object id = ((HashMap<?, ?>) source().get("classification")).get("id");
-				return String.format("%s;;;%s;;;%s;;;%s", source().get("isil"), latLon,
-						source().get("name"), id);
+				Object classificationId =
+						((HashMap<?, ?>) source().get("classification")).get("id");
+				Object id = ((String) source().get("id"))
+						.replaceAll("http://([^.]+.)?lobid.org/organisations/", "")
+						.replace("#!", "");
+				return String.format("%s;;;%s;;;%s;;;%s", id, latLon,
+						source().get("name"), classificationId);
 			} catch (NullPointerException e) {
 				// We need all four fields, if any is missing, we can set all to null
 				return "null;;;null;;;null;;;null";
