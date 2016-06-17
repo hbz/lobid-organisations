@@ -278,8 +278,9 @@ public class Application extends Controller {
 
 	private static Result resultFor(String id, JsonNode json, String format) {
 		Map<String, Supplier<Result>> results = new HashMap<>();
-		results.put("html", () -> ok(views.html.organisation.render(id, json))
-				.as("text/html; charset=utf-8"));
+		results.put("html", () -> ok(
+				views.html.organisation.render(id, json, json.findValue("geo") != null))
+						.as("text/html; charset=utf-8"));
 		results.put("js", () -> ok(views.js.details_map.render(json.toString()))
 				.as("application/javascript; charset=utf-8"));
 		Supplier<Result> jsonSupplier =
