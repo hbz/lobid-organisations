@@ -3,13 +3,15 @@
 @(json: String)
 
 @import play.api.libs.json._
+@import com.typesafe.config._
 
 @string(value: JsValue) = { @value.asOpt[String].getOrElse("--") }
 
 @defining(Json.parse(json)) { parsedContent =>
 @defining(((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq())(0), 
            (parsedContent \ "name"),
-           (parsedContent \ "classification" \ "id").as[String].takeRight(2).toInt)) { case(location, name, classCode)  => 
+           (parsedContent \ "classification" \ "id").as[String],
+           Application.CONFIG.getObject("organisation.icons"))) { case(location, name, classification, icons)  =>
 
 var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
     subdomains: '1234'
@@ -27,23 +29,8 @@ var map = new L.Map("organisations-map", {
     var lat = @string((location \ "geo" \ "lat"))
     var lon = @string((location \ "geo" \ "lon"))
     var latlng = L.latLng(lat, lon);
-
-    var icon = "library"
-    if(@classCode == 34) {
-        icon = "music"
-    } else if (@classCode == 39) {
-        icon = "bus"
-    } else if (@classCode == 60 || @classCode == 65 || @classCode == 73 || @classCode == 81 || @classCode == 84) {
-        icon = "college"
-    } else if (@classCode > 50 && @classCode < 60) {
-        icon = "town-hall"
-    } else if (@classCode == 82) {
-        icon = "monument"
-    } else if (@classCode == 86) {
-        icon = "museum"
-    }
-
-    var icon = L.MakiMarkers.icon({icon: icon, color: "#FF333B", size: "m"});
+    var iconLabel = '@icons.getOrDefault(classification, ConfigValueFactory.fromAnyRef("library")).unwrapped()';
+    var icon = L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"});
     var marker = L.marker([lat, lon],{
         title: "@string(name)",
         icon: icon
