@@ -39,7 +39,7 @@
 <script async type='text/javascript' src='@routes.Application.search(q, location, from, size, "js")'></script>
 }
 
-@main(q, facetMap()) {
+@main(q, location, facetMap()) {
 	@defining(Json.parse(json).as[Seq[JsValue]]) { orgs => @if(orgs.size > 1) {
 	<p>
 	<div class="row">
