@@ -1,6 +1,7 @@
 @(title: String, q: String, location: String, json: String, from: Int, size: Int)
 
 @import play.api.libs.json._
+@import com.typesafe.config._
 
 @links(buckets: Seq[JsValue], key: String) = {
 	@for(bucket <- buckets; term = (bucket \ "key").as[String]; count = (bucket \ "doc_count").as[Int]) {
@@ -76,9 +77,14 @@
 						uri = (org\"id").asOpt[String].getOrElse("");
 						link = "/organisations/" + uri.split("#")(0).split("/").last + "?format=html";
 						name = (org\"name").asOpt[String].getOrElse("--");
+						classification = (org\"classification"\"id").asOpt[String].getOrElse("--");
+						icon = Application.CONFIG.getObject("organisation.icons").getOrDefault(classification, ConfigValueFactory.fromAnyRef("library")).unwrapped();
 						cities = (org\\"addressLocality");
 						city = if(cities.size > 0){cities(0).asOpt[String].getOrElse("--")}else{"--"}) {
 					<tr>
+						<td>
+							<span style='color: gray' class='maki maki-lg maki-@icon'></span>
+						</td>
 						<td>
 							<a href='@link'>@name</a>
 						</td>
