@@ -67,9 +67,9 @@ function areaSearch(hull) {
 
 map.addLayer(layer);
 window.onload = addMarkerLayer;
-var added = [];
 
 function addMarkerLayer(){
+	var added = [];
 	@for(bucket <- (Json.parse(queryMetadata) \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
 			Array(isil, latLon, name, classification, _*) = (bucket \ "key").as[String].split(";;;");
 			if isil != "null" && latLon != "null" && name != "null" && classification != "null";
@@ -78,6 +78,12 @@ function addMarkerLayer(){
 	   addMarker('/organisations/@isil?format=html', '@latLon', '@freq', '@name', iconLabel);
 	}
 	map.addLayer(markers);
+
+	$("#location-facet-loading").hide();
+	if(added.length > 0){
+		$("#location-facet").show();
+		map.invalidateSize();
+	}
 
 	function addMarker(link, latLon, freq, name, iconLabel){
 		if(added.indexOf(latLon) == -1) {

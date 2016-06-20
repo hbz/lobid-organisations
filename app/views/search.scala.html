@@ -17,6 +17,7 @@
 
 @facet(queryMetadata: JsValue, key: String) = {
 	@defining((key.replace('.','_'), (queryMetadata \ "aggregations" \ key \ "buckets").as[Seq[JsValue]])) { case (jsKey, buckets) =>
+		@if(!buckets.isEmpty) {
 		<h4>@key.split("\\.")(0).capitalize</h4>
 		@links(buckets.take(12), key)
 		@if(buckets.size>12){
@@ -24,7 +25,7 @@
 			<div id='more-@jsKey' style="display: none;">
 			@links(buckets.drop(12), key)
 			</div>
-		}
+		}}
 	}
 }
 
@@ -43,12 +44,15 @@
 	<p>
 	<div class="row">
 		<div class="col-md-2">
+		<div id='location-facet-loading'><span class="label label-info">Loading locations...</span></div>
+		<div style='display:none;' id='location-facet'>
 		<h4>Location @if(!location.isEmpty){
 		<a href='@routes.Application.search()?format=html&from=@from&size=@size&q=@q'>
 		<span class="badge">Remove Filter <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		}</h4>
 		<div id="facet-map"></div>
+		</div>
 		@facet(orgs(0), "type")
 		@facet(orgs(0), "stocksize.label")
 		</div>
