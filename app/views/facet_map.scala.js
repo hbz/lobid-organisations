@@ -10,7 +10,7 @@ var kassel = new L.LatLng(51.19, 9.30)
 var map = new L.Map("facet-map", {
   center: kassel,
   zoom: 5,
-  minZoom: 1,
+  minZoom: 0,
   maxZoom: 15,
   scrollWheelZoom: true,
   attributionControl: false,
@@ -69,7 +69,8 @@ map.addLayer(layer);
 window.onload = addMarkerLayer;
 
 function addMarkerLayer(){
-	var added = [];
+	var addedLocations = [];
+	var latLngObjects = [];
 	@for(bucket <- (Json.parse(queryMetadata) \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
 			Array(isil, latLon, name, classification, _*) = (bucket \ "key").as[String].split(";;;");
 			if isil != "null" && latLon != "null" && name != "null" && classification != "null";
@@ -80,13 +81,14 @@ function addMarkerLayer(){
 	map.addLayer(markers);
 
 	$("#location-facet-loading").hide();
-	if(added.length > 0){
+	if(addedLocations.length > 0){
 		$("#location-facet").show();
 		map.invalidateSize();
+		map.fitBounds(latLngObjects, {reset: true});
 	}
 
 	function addMarker(link, latLon, freq, name, iconLabel){
-		if(added.indexOf(latLon) == -1) {
+		if(addedLocations.indexOf(latLon) == -1) {
 		 var lat = latLon.split(",")[0];
 		 var lon = latLon.split(",")[1];
 		 var marker = L.marker([lat,lon],{
@@ -97,7 +99,8 @@ function addMarkerLayer(){
 		  location.href = link;
 		 });
 		 markers.addLayer(marker);
-		 added.push(latLon);
+		 addedLocations.push(latLon);
+		 latLngObjects.push(marker.getLatLng());
 		}
 	}
 }
