@@ -21,10 +21,15 @@
 		<h4>@key.split("\\.")(0).capitalize</h4>
 		@links(buckets.take(12), key)
 		@if(buckets.size>12){
-			<a id='more-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").show(); $("#more-@jsKey-link").hide();'>Show all</a>
+			<a id='more-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").show(); $("#more-@jsKey-link").hide(); $("#less-@jsKey-link").show();'>
+			<span class='glyphicon glyphicon-plus-sign'></span>&nbsp;Show all
+			</a>
 			<div id='more-@jsKey' style="display: none;">
 			@links(buckets.drop(12), key)
 			</div>
+			<a id='less-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").hide(); $("#less-@jsKey-link").hide(); $("#more-@jsKey-link").show();' style='display:none;'>
+			<span class='glyphicon glyphicon-minus-sign'></span>&nbsp;Show less
+			</a>
 		}}
 	}
 }
