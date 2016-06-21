@@ -84,7 +84,9 @@
 						city = if(cities.size > 0){cities(0).asOpt[String].getOrElse("--")}else{"--"}) {
 					<tr>
 						<td>
-							<span style='color: gray' class='maki maki-lg maki-@icon' title='@classificationLabel'></span>
+							<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+classification.label:"@classificationLabel"'>
+								<span style='opacity: 0.75;' class='maki maki-lg maki-@icon' title='@classificationLabel'></span>
+							</a>
 						</td>
 						<td>
 							<a href='@link'>@name</a>
