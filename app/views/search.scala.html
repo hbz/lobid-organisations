@@ -77,13 +77,14 @@
 						uri = (org\"id").asOpt[String].getOrElse("");
 						link = "/organisations/" + uri.split("#")(0).split("/").last + "?format=html";
 						name = (org\"name").asOpt[String].getOrElse("--");
-						classification = (org\"classification"\"id").asOpt[String].getOrElse("--");
-						icon = Application.CONFIG.getObject("organisation.icons").getOrDefault(classification, ConfigValueFactory.fromAnyRef("library")).unwrapped();
+						classificationId = (org\"classification"\"id").asOpt[String].getOrElse("--");
+						classificationLabel = (org\"classification"\"label").asOpt[String].getOrElse("--");
+						icon = Application.CONFIG.getObject("organisation.icons").getOrDefault(classificationId, ConfigValueFactory.fromAnyRef("library")).unwrapped();
 						cities = (org\\"addressLocality");
 						city = if(cities.size > 0){cities(0).asOpt[String].getOrElse("--")}else{"--"}) {
 					<tr>
 						<td>
-							<span style='color: gray' class='maki maki-lg maki-@icon'></span>
+							<span style='color: gray' class='maki maki-lg maki-@icon' title='@classificationLabel'></span>
 						</td>
 						<td>
 							<a href='@link'>@name</a>
