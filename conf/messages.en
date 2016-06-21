@@ -1,5 +1,26 @@
-main.toggle_language.link = Deutsch
-main.toggle_language.title = Sprache auf Deutsch umschalten
+#main
+
+main.subtitle = A comprehensive directory of German library institutions
+main.placeholder = Search lobid-organisations
+
+main.navbar.toggle_language.link = Deutsch
+main.navbar.toggle_language.title = Sprache auf Deutsch umschalten
+
+main.navbar.search.link = Search
+main.navbar.search.title = Simple search interface
+
+main.navbar.browse.link = Browse
+main.navbar.browse.title = Browse the full organizations directory
+
+main.navbar.api.link = API
+main.navbar.api.title = Application programming interface
+
+main.navbar.about = About
+
+main.footer.text = a LOD service by <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
+main.footer.imprint = imprint
+
+# index
 
 index.data_access.header = Data access
 index.data_access.text = You can access this data using our <a href="{0}">simple search interface</a>, our <a href="{1}">application programming interface</a> or <a href="{2}">explore the full organizations directory</a>.
