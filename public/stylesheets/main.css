@@ -43,6 +43,7 @@ td.field-value {
 	width: 100%;
 	height: 400px
 }
+
 select {
 	max-width: 110px;
 }
@@ -59,5 +60,4 @@ select {
 
 .table-striped {
 	margin-top: 20px;
-}
 }

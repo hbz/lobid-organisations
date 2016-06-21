@@ -3,7 +3,6 @@
 @import play.api.libs.json._
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 @main("", if(hasGeoData){makeMap()}else{Html("")}) {
     <h1>@id</h1>
@@ -30,41 +29,55 @@
               }
           </table>
           </p>
-          @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
-           <h3>Postanschrift</h3>
-           <p>
-           <table class='table table-striped table-condensed'>
-              @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
-              @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
-              @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)
-           </table>
-           </p>
-          }
         </div>
         @if(hasGeoData){
           <div class="col-md-6">
-            @if((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length > 1) {
               <ul class="nav nav-tabs">
-                @for(i <- 0 to (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length-1) {
-                  @if(i == 0) {
-                    <li class="active"><a href="#organisations-map@i">Standort @(i+1)</a></li>
-                  } else {
-                    <li><a href="#organisations-map@i">Standort @(i+1)</a></li>
+                @if((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length > 1
+                  || ((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length == 1
+                     && (parsedContent \ "address").asOpt[JsObject].isDefined)) {
+                  @for(i <- 0 to (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length-1) {
+                    @if(i == 0) {
+                      <li class="active"><a href="#organisations-map@i">Standort @(i+1)</a></li>
+                    } else {
+                      <li><a href="#organisations-map@i">Standort @(i+1)</a></li>
+                    }
                   }
+                }
+                @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
+                  <li><a href="#postal-address">Postadresse</a></li>
                 }
               </ul>
               <div class="tab-content">
-                @for(i <- 0 to (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length-1) {
-                  @if(i == 0) {
-                    <div id="organisations-map@i" class="tab-pane fade in active organisations-map"></div>
-                  } else {
-                    <div id="organisations-map@i" class="tab-pane fade"></div>
+                @if((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length > 1
+                  || ((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length == 1
+                     && (parsedContent \ "address").asOpt[JsObject].isDefined)) {
+                  @for(i <- 0 to (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length-1) {
+                    @if(i == 0) {
+                      <div id="organisations-map@i" class="tab-pane fade in active organisations-map"></div>
+                    } else {
+                      <div id="organisations-map@i" class="tab-pane fade organisations-map"></div>
+                    }
                   }
-                 }
+                  @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
+                     <div id="postal-address" class="tab-pane fade">
+                       <h3>Postadresse</h3>
+                       <p>
+                         <table class='table table-striped table-condensed'>
+                           @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
+                           @produceRow("Postleitzahl", parsedContent \ "address" \ "postalCode", false)
+                           @produceRow("Stadt", parsedContent \ "address" \ "addressLocality", false)
+                         </table>
+                       </p>
+                     </div>
+                  }
+                } else {
+                  <div id="organisations-map0" class="organisations-map"></div>
+                }
+                @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
+                  <div id="postal-address" class="tab-pane fade">Display postal address</div>
+                }
               </div>
-            } else {
-              <div id="organisations-map0" class="organisations-map"></div>
-            }
           </div>
         }
       </div>
@@ -78,7 +91,7 @@
         });
       });
     </script>
-    
+
     <p>You can also access <a href='@routes.Application.get(id=id, format="json")'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
     
 }

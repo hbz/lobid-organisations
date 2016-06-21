@@ -24,48 +24,61 @@
         + "</table>";
 
       @if((location \ "geo" \ "lon").asOpt[String].isDefined && (location \ "geo" \ "lat").asOpt[String].isDefined) {
-	    var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-	      subdomains: '1234'
-	    });
-	    var center = new L.LatLng(50, 10)
-	    var map = new L.Map("organisations-map@i", {
-	      center: center,
-	      zoom: 5,
-	      scrollWheelZoom: true,
-	      attributionControl: false,
-	      zoomControl: true
-	    });
         var lat = @string((location \ "geo" \ "lat"))
         var lon = @string((location \ "geo" \ "lon"))
-        var latlng = L.latLng(lat, lon);
         var iconLabel = '@icons.getOrDefault(classification, ConfigValueFactory.fromAnyRef("library")).unwrapped()';
-        var icon = L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"});
-        var marker = L.marker([lat, lon],{
-          title: "@string(name)",
-          icon: icon
-        });
-        bindPopup(locationDetails);
-        marker.addTo(map);
-        bindPopup(locationDetails);
-        zoomDetails();
-        marker.on('click', function(e) {
-          zoomDetails();
-        });
-        function bindPopup(content) {
-          marker.bindPopup(
-            content,
-          {
-            keepInView: true,
-          });
-        }
-        function zoomDetails() {
-          map.setView(latlng, 16);
-          marker.openPopup();
-        }
-        map.addLayer(layer);
+        var name = "@string(name)"
+        makeMap(@i, lat, lon, iconLabel, name, locationDetails);
       } else {
-	    document.getElementById("organisations-map@i").innerHTML = locationDetails;
+	    document.getElementById("organisations-map@i").innerHTML = "<h3>Standortadresse</h3>" + locationDetails;
       }
     }
   }
 }
+
+  function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
+    var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+      subdomains: '1234'
+    });
+    var center = new L.LatLng(latCoord, lonCoord)
+    var map = new L.Map("organisations-map" + i, {
+     center: center,
+     zoom: 5,
+     scrollWheelZoom: true,
+     attributionControl: false,
+     zoomControl: true
+    });
+    var latlng = L.latLng(latCoord, lonCoord);
+    var icon = L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"});
+    var marker = L.marker([latCoord, lonCoord],{
+      title: name,
+      icon: icon
+    });
+    marker.addTo(map);
+    bindPopup(locationDetails, marker);
+    zoomDetails(map, latlng, marker);
+    marker.on('click', function(e) {
+      zoomDetails(map, latlng, marker);
+   });
+   $(document).ready(function(){
+       $('.nav-tabs a').on('shown.bs.tab', function(event){
+           map.invalidateSize(false);
+           bindPopup(locationDetails, marker);
+           zoomDetails(map, latlng, marker)
+       });
+     });
+   map.addLayer(layer);
+  }
+
+  function bindPopup(content, marker) {
+    marker.bindPopup(
+      content,
+    {
+      keepInView: true,
+    });
+  }
+  function zoomDetails(map, latlng, marker) {
+	map.invalidateSize(false);
+    map.setView(latlng, 16);
+    marker.openPopup();
+  }
