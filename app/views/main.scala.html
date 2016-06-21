@@ -1,5 +1,7 @@
 @(q: String, location: String = "", scripts: Html = Html(""))(content: Html)
 
+@import play.i18n._
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -27,6 +29,7 @@
 				<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='Application programming interface'><a href="@routes.Application.api()">API</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+				<li><a href="@routes.Application.toggleLanguage()" title='@Messages.get("main.toggle_language.title")'><span class='glyphicon glyphicon-globe'></span>&nbsp;@Messages.get("main.toggle_language.link")</a></li>
 				<li><a href="http://lobid.org/about">About</a></li>
 				<li><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></li>
 			</ul>

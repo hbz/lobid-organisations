@@ -58,6 +58,14 @@ public class Application extends Controller {
 	}
 
 	/**
+	 * @return 303 redirect to the referrer, after toggling the current language
+	 */
+	public static Result toggleLanguage() {
+		changeLang(lang().code().startsWith("en") ? "de" : "en");
+		return redirect(request().getHeader(REFERER));
+	}
+
+	/**
 	 * @return 200 ok response to render api documentation
 	 */
 	public static Result api() {
