@@ -2,6 +2,9 @@
 
 @import play.api.libs.json._
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 @main("", if(hasGeoData){makeMap()}else{Html("")}) {
     <h1>@id</h1>
     @defining(Json.parse(content.toString())) { parsedContent =>
@@ -39,13 +42,42 @@
           }
         </div>
         @if(hasGeoData){
-        <div class="col-md-6">
-            <div id="organisations-map"></div>
-        </div>
+          <div class="col-md-6">
+            @if((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length > 1) {
+              <ul class="nav nav-tabs">
+                @for(i <- 0 to (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length-1) {
+                  @if(i == 0) {
+                    <li class="active"><a href="#organisations-map@i">Standort @(i+1)</a></li>
+                  } else {
+                    <li><a href="#organisations-map@i">Standort @(i+1)</a></li>
+                  }
+                }
+              </ul>
+              <div class="tab-content">
+                @for(i <- 0 to (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length-1) {
+                  @if(i == 0) {
+                    <div id="organisations-map@i" class="tab-pane fade in active organisations-map"></div>
+                  } else {
+                    <div id="organisations-map@i" class="tab-pane fade"></div>
+                  }
+                 }
+              </div>
+            } else {
+              <div id="organisations-map0" class="organisations-map"></div>
+            }
+          </div>
         }
       </div>
     </p>
     }
+
+    <script>
+      $(document).ready(function(){
+        $(".nav-tabs a").click(function(){
+          $(this).tab('show');
+        });
+      });
+    </script>
     
     <p>You can also access <a href='@routes.Application.get(id=id, format="json")'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
     
