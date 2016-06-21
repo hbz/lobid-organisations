@@ -43,11 +43,13 @@
                       <li><a href="#organisations-map@i">Standort @(i+1)</a></li>
                     }
                   }
+                  @if(!(parsedContent \ "address").asOpt[JsObject].isDefined) {
+                    </ul>
+                  }
                 }
                 @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
-                  <li><a href="#postal-address">Postadresse</a></li>
+                  <li><a href="#postal-address">Postadresse</a></li></ul>
                 }
-              </ul>
               <div class="tab-content">
                 @if((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length > 1
                   || ((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length == 1
@@ -80,8 +82,8 @@
               </div>
           </div>
         }
-      </div>
-    </p>
+        </div>
+      </p>
     }
 
     <script>
