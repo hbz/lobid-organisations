@@ -75,6 +75,7 @@ function bindPopup(content, marker) {
     content,
   {
     keepInView: true,
+    minWidth: 300
   });
 }
 
