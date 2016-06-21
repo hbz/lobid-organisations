@@ -10,7 +10,7 @@ var kassel = new L.LatLng(51.19, 9.30)
 var map = new L.Map("facet-map", {
   center: kassel,
   zoom: 5,
-  minZoom: 1,
+  minZoom: 0,
   maxZoom: 15,
   scrollWheelZoom: true,
   attributionControl: false,
@@ -69,6 +69,8 @@ map.addLayer(layer);
 window.onload = addMarkerLayer;
 
 function addMarkerLayer(){
+	var addedLocations = [];
+	var latLngObjects = [];
 	@for(bucket <- (Json.parse(queryMetadata) \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
 			Array(isil, latLon, name, classification, _*) = (bucket \ "key").as[String].split(";;;");
 			if isil != "null" && latLon != "null" && name != "null" && classification != "null";
@@ -78,16 +80,27 @@ function addMarkerLayer(){
 	}
 	map.addLayer(markers);
 
+	$("#location-facet-loading").hide();
+	if(addedLocations.length > 0){
+		$("#location-facet").show();
+		map.invalidateSize();
+		map.fitBounds(latLngObjects, {reset: true});
+	}
+
 	function addMarker(link, latLon, freq, name, iconLabel){
-	 var lat = latLon.split(",")[0];
-	 var lon = latLon.split(",")[1];
-	 var marker = L.marker([lat,lon],{
-		 title : name,
-		 icon : L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"})
-	 });
-	 marker.on('click', function(e) {
-	  location.href = link;
-	 });
-	 markers.addLayer(marker);
+		if(addedLocations.indexOf(latLon) == -1) {
+		 var lat = latLon.split(",")[0];
+		 var lon = latLon.split(",")[1];
+		 var marker = L.marker([lat,lon],{
+			 title : name,
+			 icon : L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"})
+		 });
+		 marker.on('click', function(e) {
+		  location.href = link;
+		 });
+		 markers.addLayer(marker);
+		 addedLocations.push(latLon);
+		 latLngObjects.push(marker.getLatLng());
+		}
 	}
 }

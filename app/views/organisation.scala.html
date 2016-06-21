@@ -2,7 +2,7 @@
 
 @import play.api.libs.json._
 
-@main("", if(hasGeoData){makeMap()}else{Html("")}) {
+@main("", scripts = if(hasGeoData){makeMap()}else{Html("")}) {
     <h1>@id</h1>
     @defining(Json.parse(content.toString())) { parsedContent =>
     <p>
