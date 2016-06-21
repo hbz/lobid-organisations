@@ -36,49 +36,50 @@
   }
 }
 
-  function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
-    var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-      subdomains: '1234'
-    });
-    var center = new L.LatLng(latCoord, lonCoord)
-    var map = new L.Map("organisations-map" + i, {
-     center: center,
-     zoom: 5,
-     scrollWheelZoom: true,
-     attributionControl: false,
-     zoomControl: true
-    });
-    var latlng = L.latLng(latCoord, lonCoord);
-    var icon = L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"});
-    var marker = L.marker([latCoord, lonCoord],{
-      title: name,
-      icon: icon
-    });
-    marker.addTo(map);
-    bindPopup(locationDetails, marker);
+function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
+  var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+    subdomains: '1234'
+  });
+  var center = new L.LatLng(latCoord, lonCoord)
+  var map = new L.Map("organisations-map" + i, {
+   center: center,
+   zoom: 5,
+   scrollWheelZoom: true,
+   attributionControl: false,
+   zoomControl: true
+  });
+  var latlng = L.latLng(latCoord, lonCoord);
+  var icon = L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"});
+  var marker = L.marker([latCoord, lonCoord],{
+    title: name,
+    icon: icon
+  });
+  marker.addTo(map);
+  bindPopup(locationDetails, marker);
+  zoomDetails(map, latlng, marker);
+  marker.on('click', function(e) {
     zoomDetails(map, latlng, marker);
-    marker.on('click', function(e) {
-      zoomDetails(map, latlng, marker);
-   });
-   $(document).ready(function(){
-       $('.nav-tabs a').on('shown.bs.tab', function(event){
-           map.invalidateSize(false);
-           bindPopup(locationDetails, marker);
-           zoomDetails(map, latlng, marker)
-       });
-     });
-   map.addLayer(layer);
-  }
-
-  function bindPopup(content, marker) {
-    marker.bindPopup(
-      content,
-    {
-      keepInView: true,
+  });
+  $(document).ready(function(){
+    $('.nav-tabs a').on('shown.bs.tab', function(event){
+      map.invalidateSize(false);
+      bindPopup(locationDetails, marker);
+      zoomDetails(map, latlng, marker)
     });
-  }
-  function zoomDetails(map, latlng, marker) {
-	map.invalidateSize(false);
-    map.setView(latlng, 16);
-    marker.openPopup();
-  }
+  });
+  map.addLayer(layer);
+ }
+
+function bindPopup(content, marker) {
+  marker.bindPopup(
+    content,
+  {
+    keepInView: true,
+  });
+}
+
+function zoomDetails(map, latlng, marker) {
+  map.invalidateSize(false);
+  map.setView(latlng, 16);
+  marker.openPopup();
+}
