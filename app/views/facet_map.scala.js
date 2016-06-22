@@ -11,7 +11,6 @@ var map = new L.Map("facet-map", {
   center: kassel,
   zoom: 5,
   minZoom: 0,
-  maxZoom: 15,
   scrollWheelZoom: true,
   attributionControl: false,
   zoomControl: true
@@ -56,7 +55,7 @@ function areaSearch(hull) {
   });
   var polygon = [result.length];
   for ( var i = 0; i < result.length; i++ ) {
-    polygon[i] = result[i].lat.toFixed(5) + ',' + result[i].lng.toFixed(5);
+    polygon[i] = result[i].lat.toFixed(6) + ',' + result[i].lng.toFixed(6);
   }
   var polygonQueryParam = polygon.join('+');
   console.log(polygonQueryParam);

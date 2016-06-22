@@ -1,6 +1,7 @@
 @(title: String, q: String, location: String, json: String, from: Int, size: Int)
 
 @import play.api.libs.json._
+@import com.typesafe.config._
 
 @links(buckets: Seq[JsValue], key: String) = {
 	@for(bucket <- buckets; term = (bucket \ "key").as[String]; count = (bucket \ "doc_count").as[Int]) {
@@ -21,10 +22,15 @@
 		<h4>@key.split("\\.")(0).capitalize</h4>
 		@links(buckets.take(12), key)
 		@if(buckets.size>12){
-			<a id='more-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").show(); $("#more-@jsKey-link").hide();'>Show all</a>
+			<a id='more-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").show(); $("#more-@jsKey-link").hide(); $("#less-@jsKey-link").show();'>
+			<span class='glyphicon glyphicon-plus-sign'></span>&nbsp;Show all
+			</a>
 			<div id='more-@jsKey' style="display: none;">
 			@links(buckets.drop(12), key)
 			</div>
+			<a id='less-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").hide(); $("#less-@jsKey-link").hide(); $("#more-@jsKey-link").show();' style='display:none;'>
+			<span class='glyphicon glyphicon-minus-sign'></span>&nbsp;Show less
+			</a>
 		}}
 	}
 }
@@ -71,9 +77,17 @@
 						uri = (org\"id").asOpt[String].getOrElse("");
 						link = "/organisations/" + uri.split("#")(0).split("/").last + "?format=html";
 						name = (org\"name").asOpt[String].getOrElse("--");
+						classificationId = (org\"classification"\"id").asOpt[String].getOrElse("--");
+						classificationLabel = (org\"classification"\"label").asOpt[String].getOrElse("--");
+						icon = Application.CONFIG.getObject("organisation.icons").getOrDefault(classificationId, ConfigValueFactory.fromAnyRef("library")).unwrapped();
 						cities = (org\\"addressLocality");
 						city = if(cities.size > 0){cities(0).asOpt[String].getOrElse("--")}else{"--"}) {
 					<tr>
+						<td>
+							<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+classification.label:"@classificationLabel"'>
+								<span style='opacity: 0.75;' class='maki maki-lg maki-@icon' title='@classificationLabel'></span>
+							</a>
+						</td>
 						<td>
 							<a href='@link'>@name</a>
 						</td>
