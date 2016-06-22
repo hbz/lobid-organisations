@@ -28,3 +28,20 @@ index.data_sources.text = Die Datenquellen dieses Dienstes sind das <a href="{0}
 
 index.development.header = Entwicklung
 index.development.text = Dieser Dienst wird als Open-Source-Software auf GitHub entwickelt. Dort können Sie <a href="{0}">technische Details finden</a>, <a href="{1}">von Problemen berichten</a>, und bei der Entwicklung des Dienstes <a href="{2}">mitmachen</a>.
+
+#search
+
+search.remove_filter = Filter Entfernen
+search.show_all = Alle zeigen
+search.show_less = Weniger zeigen
+search.loading_locations = Lade Standorte...
+search.location = Standort
+search.prev = vorige
+search.next = nächste
+search.total_results = Trefferzahl
+search.footer.api_text = Sie können auf <a href="{0}">diese Daten</a> auch über unsere <a href="{1}">Programmierschnittstelle</a> zugreifen.
+search.footer.no_results = Keine Ergebnisse für <code>{0}</code>.
+search.type = Typ
+search.stocksize = Bestandsgröße
+search.classification = Klassifikation
+search.fundertype = Unterhaltsträger

@@ -94,8 +94,8 @@ public class Application extends Controller {
 			String format) {
 		try {
 			String cacheKey =
-					String.format("q=%s,location=%s,from=%s,size=%s,format=%s", q,
-							location, from, size, format);
+					String.format("q=%s,location=%s,from=%s,size=%s,format=%s,lang=%s", q,
+							location, from, size, format, lang().code());
 			Result cachedResult = (Result) Cache.get(cacheKey);
 			if (cachedResult != null) {
 				return cachedResult;
