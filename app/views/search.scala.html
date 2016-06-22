@@ -2,13 +2,14 @@
 
 @import play.api.libs.json._
 @import com.typesafe.config._
+@import play.i18n._
 
 @links(buckets: Seq[JsValue], key: String) = {
 	@for(bucket <- buckets; term = (bucket \ "key").as[String]; count = (bucket \ "doc_count").as[Int]) {
 		@if(q.contains(key+":\""+term+"\"")){
 		@term
 		<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.replace("AND "+key+":\""+term+"\"","").trim'>
-		<span class="badge">Remove Filter <span class="glyphicon glyphicon-remove"></span></span>
+		<span class="badge">@Messages.get("search.remove_filter") <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		} else {
 		<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@term (@count)</a>
@@ -19,17 +20,17 @@
 @facet(queryMetadata: JsValue, key: String) = {
 	@defining((key.replace('.','_'), (queryMetadata \ "aggregations" \ key \ "buckets").as[Seq[JsValue]])) { case (jsKey, buckets) =>
 		@if(!buckets.isEmpty) {
-		<h4>@key.split("\\.")(0).capitalize</h4>
+		<h4>@Messages.get("search." + key.split("\\.")(0))</h4>
 		@links(buckets.take(12), key)
 		@if(buckets.size>12){
 			<a id='more-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").show(); $("#more-@jsKey-link").hide(); $("#less-@jsKey-link").show();'>
-			<span class='glyphicon glyphicon-plus-sign'></span>&nbsp;Show all
+			<span class='glyphicon glyphicon-plus-sign'></span>&nbsp;@Messages.get("search.show_all")
 			</a>
 			<div id='more-@jsKey' style="display: none;">
 			@links(buckets.drop(12), key)
 			</div>
 			<a id='less-@jsKey-link' href="javascript:void(0);" onclick='$("#more-@jsKey").hide(); $("#less-@jsKey-link").hide(); $("#more-@jsKey-link").show();' style='display:none;'>
-			<span class='glyphicon glyphicon-minus-sign'></span>&nbsp;Show less
+			<span class='glyphicon glyphicon-minus-sign'></span>&nbsp;@Messages.get("search.show_less")
 			</a>
 		}}
 	}
@@ -50,11 +51,11 @@
 	<p>
 	<div class="row">
 		<div class="col-md-2">
-		<div id='location-facet-loading'><span class="label label-info">Loading locations...</span></div>
+		<div id='location-facet-loading'><span class="label label-info">@Messages.get("search.loading_locations")</span></div>
 		<div style='display:none;' id='location-facet'>
-		<h4>Location @if(!location.isEmpty){
+		<h4>@Messages.get("search.location") @if(!location.isEmpty){
 		<a href='@routes.Application.search()?format=html&from=@from&size=@size&q=@q'>
-		<span class="badge">Remove Filter <span class="glyphicon glyphicon-remove"></span></span>
+		<span class="badge">@Messages.get("search.remove_filter") <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		}</h4>
 		<div id="facet-map"></div>
@@ -65,10 +66,10 @@
 		<div class="col-md-8">
 			<p>
 			@defining((orgs.head \ "http://sindice.com/vocab/search#totalResults").as[Int]) { totalResults =>
-				Total results: @(totalResults) |
-				@if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, format="html", location=location)'>&LeftArrow; prev</a>}
+				@Messages.get("search.total_results"): @(totalResults) |
+				@if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, format="html", location=location)'>&LeftArrow; @Messages.get("search.prev")</a>}
 				@(from+1)&mdash;@(Math.min(totalResults, from+size))
-				@if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, format="html", location=location)'>next &RightArrow;</a>}
+				@if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, format="html", location=location)'>@Messages.get("search.next") &RightArrow;</a>}
 			}
 			</p>
 			<p>
@@ -105,6 +106,6 @@
 		</div>
 	</div>
 	</p>
-	<p>You can also access <a href='@routes.Application.search(q=(if(!q.isEmpty) q else "*"), from=from, format="json", location=location)'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
-	} else { @if(!q.isEmpty) {<p>No results for <code>@q</code>.</p>} } }
+	<p>@Html(Messages.get("search.footer.api_text", routes.Application.search(q=(if(!q.isEmpty) q else "*"), from=from, format="json", location=location), routes.Application.api()))</p>
+	} else { @if(!q.isEmpty) {<p>@Html(Messages.get("search.footer.no_results", q))</p>} } }
 }

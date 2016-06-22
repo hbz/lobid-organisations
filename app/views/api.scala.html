@@ -1,28 +1,30 @@
 @(title: String)
 
+@import play.i18n._
+
 @desc(label: String, link: play.api.mvc.Call) = {
  <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":").replace("%2C",",")</a></dd>
 }
 
 @main("*") {
-    <h2>API basics</h2>
+    <h2>@Messages.get("api.basics.header")</h2>
     <dl>
-    @desc("Get", routes.Application.get("DE-6"))
-    @desc("Query 'name' field", routes.Application.search("name:stadtbibliothek+berlin"))
-    @desc("Query nested 'fundertype.label' field", routes.Application.search("fundertype.label:land"))
-    @desc("Query with from and size", routes.Application.search("fundertype.label:land", from=2, size = 2))
-    @desc("Context", routes.Application.context)
-    <h2>Location based queries</h2>
-    @desc("Query with polygon (location: coordinates of polygon points 'lat,lon')", routes.Application.search("fundertype.label:land", "52,12 53,12 53,14 52,14"))
-    @desc("Query with distance (location: coordinate of a point and a distance in km 'lat,lon,distance')", routes.Application.search("fundertype.label:land", "52.52,13.39,25"))
-    <h2>JSON-LD</h2>
-    <p>All API calls serve JSON-LD (JSON for Linking Data). You can experiment with that by pasting responses or URLs in the <a href="http://json-ld.org/playground/">JSON-LD Playground</a>.</p>
-    <p>Use a JSON-LD processor to convert responses to RDF, e.g. to N-Quads, an N-Triples superset, with <a href="https://github.com/digitalbazaar/jsonld-cli">jsonld-cli</a>:</p>
+    @desc("HTTP GET", routes.Application.get("DE-6"))
+    @desc(Messages.get("api.basics.search"), routes.Application.search("kunst"))
+    @desc(Messages.get("api.basics.field.simple", "name"), routes.Application.search("name:stadtbibliothek+berlin"))
+    @desc(Messages.get("api.basics.field.nested", "fundertype.label"), routes.Application.search("fundertype.label:land"))
+    @desc(Messages.get("api.basics.pagination"), routes.Application.search("fundertype.label:land", from = 2, size = 2))
+    <h2>@Messages.get("api.location.header")</h2>
+    @desc(Messages.get("api.location.polygon"), routes.Application.search("fundertype.label:land", "52,12 53,12 53,14 52,14"))
+    @desc(Messages.get("api.location.distance"), routes.Application.search("fundertype.label:land", "52.52,13.39,25"))
+    <h2>@Messages.get("api.jsonld.header")</h2>
+    <p>@Html(Messages.get("api.jsonld.info", "http://json-ld.org/playground/"))</p>
+    @desc("JSON-LD Context", routes.Application.context)
+    <dt>@Messages.get("api.jsonld.rdf.header")</dt><dd>@Html(Messages.get("api.jsonld.rdf.text", "https://github.com/digitalbazaar/jsonld-cli"))</dd>
     <p><code>jsonld format --nquads http://beta.lobid.org@routes.Application.get("DE-6")</code></p>
-    <h2>Reconciliation</h2>
-    <p>The lobid-organisations service implements the <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API">OpenRefine Reconciliation API</a> for multi query requests.</p>
-    <p>The service supports details from additional columns during <a href="https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation">reconciliation</a>, under arbitrary property names.</p>
-    @desc("Reconciliation metadata request (callback: optional JSONP callback to wrap the response into)", routes.Reconcile.meta("jsonp"))
-    @desc("Reconciliation multi query request (POST form data, enter URL below in OpenRefine)", routes.Reconcile.reconcile())
+    <h2>OpenRefine</h2>
+    <p>@Html(Messages.get("api.openrefine.info", "https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API", "https://github.com/hbz/lobid-organisations/issues/55#issuecomment-129771979"))</p>
+    @desc(Messages.get("api.openrefine.metadata"), routes.Reconcile.meta("jsonp"))
+    @desc(Messages.get("api.openrefine.request"), routes.Reconcile.reconcile())
 	</dl>
 }

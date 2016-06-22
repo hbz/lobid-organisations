@@ -1,8 +1,10 @@
 @(q: String, location: String = "", scripts: Html = Html(""))(content: Html)
 
+@import play.i18n._
+
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="@play.mvc.Controller.lang().code()">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,22 +24,22 @@
 				</a>
 			</div>
 			<ul class="nav navbar-nav navbar-left">
-				<li @if(request.uri.toString() == routes.Application.index().toString()){ class="active" } title='Simple search interface'><a href="@routes.Application.index()">Search</a></li>
-				<li @if(request.uri.toString() == routes.Application.search().toString()){ class="active" } title='Browse the full organizations directory'><a href="@routes.Application.search()">Browse</a></li>
-				<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='Application programming interface'><a href="@routes.Application.api()">API</a></li>
+				<li @if(request.uri.toString() == routes.Application.index().toString()){ class="active" } title='@Messages.get("main.navbar.search.title")'><a href="@routes.Application.index()">@Messages.get("main.navbar.search.link")</a></li>
+				<li @if(request.uri.toString() == routes.Application.search().toString()){ class="active" } title='@Messages.get("main.navbar.browse.title")'><a href="@routes.Application.search()">@Messages.get("main.navbar.browse.link")</a></li>
+				<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='@Messages.get("main.navbar.api.title")'><a href="@routes.Application.api()">@Messages.get("main.navbar.api.link")</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="http://lobid.org/about">About</a></li>
+				<li><a href="@routes.Application.toggleLanguage()" title='@Messages.get("main.navbar.toggle_language.title")'><span class='glyphicon glyphicon-globe'></span>&nbsp;@Messages.get("main.navbar.toggle_language.link")</a></li>
 				<li><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></li>
 			</ul>
 		</div>
 	</nav>
 	<div class="container-fluid">
-		<h1>lobid-organisations<small> &mdash; A comprehensive directory of German library institutions</small></h1>
+		<h1>lobid-organisations<small> &mdash; @Messages.get("main.subtitle")</small></h1>
 		<p>
 		<form action="@routes.Application.search()" method="GET">
 			<div class="input-group">
-				<input style="width:100%" id="search" type="text" class="form-control" autocomplete="off" placeholder="Search lobid-organisations" autofocus name="q"  @if(!q.isEmpty && q!="*") {value="@q"}>
+				<input style="width:100%" id="search" type="text" class="form-control" autocomplete="off" placeholder='@Messages.get("main.placeholder")' autofocus name="q"  @if(!q.isEmpty && q!="*") {value="@q"}>
 				<input type="hidden" name="format" value="html" />
 				<input type="hidden" name="location" value="@location" />
 				<span class="input-group-btn">
@@ -52,10 +54,8 @@
 		<div class="footer">
 			<hr/>
 			<p>
-				lobid-organisations | a LOD service developed and hosted by 
-				<a href="https://www.hbz-nrw.de/angebote/linked_open_data/index_engl_html"> 
-				hbz — Hochschulbibliothekszentrum des Landes NRW</a> | 
-				<a href="http://www.hbz-nrw.de/impressum">imprint</a>
+				lobid-organisations | @Html(Messages.get("main.footer.text", "https://www.hbz-nrw.de/produkte/linked-open-data")) | 
+				<a href="http://www.hbz-nrw.de/impressum">@Messages.get("main.footer.imprint")</a>
 			</p>
 		</div>
 	</div>

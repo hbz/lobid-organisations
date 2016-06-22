@@ -1,0 +1,92 @@
+#main
+
+main.subtitle = A comprehensive directory of German library institutions
+main.placeholder = Search lobid-organisations
+
+main.navbar.toggle_language.link = Deutsch
+main.navbar.toggle_language.title = Sprache auf Deutsch umschalten
+
+main.navbar.search.link = Search
+main.navbar.search.title = Simple search interface
+
+main.navbar.browse.link = Browse
+main.navbar.browse.title = Browse the full organizations directory
+
+main.navbar.api.link = API
+main.navbar.api.title = Application programming interface
+
+main.footer.text = a LOD service by <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
+main.footer.imprint = imprint
+
+# index
+
+index.data_access.header = Data access
+index.data_access.text = You can access this data using our <a href="{0}">simple search interface</a>, our <a href="{1}">application programming interface</a> or <a href="{2}">explore the full organizations directory</a>.
+
+index.data_sources.header = Data sources
+index.data_sources.text = The source data sets for this service are the <a href="{0}">German ISIL registry</a> and the base data from the <a href="{1}">German Library Statistics (DBS)</a>.
+
+index.development.header = Development
+index.development.text = This service is developed as open source software on GitHub, where you can find <a href="{0}">technical details</a>, <a href="{1}">report issues</a>, and <a href="{2}">contribute</a> to the service.
+
+#search
+
+search.remove_filter = Remove Filter
+search.show_all = Show all
+search.show_less = Show less
+search.loading_locations = Loading locations...
+search.location = Location
+search.prev = prev
+search.next = next
+search.total_results = Total results
+search.footer.api_text = You can also access <a href='{0}'>this data</a> using our <a href="{1}">API</a>.
+search.footer.no_results = No results for <code>{0}</code>.
+search.type = Type
+search.stocksize = Stock size
+search.classification = Classification
+search.fundertype = Funder type
+
+# api
+
+api.basics.header = API basics
+api.basics.search = Query all fields
+api.basics.field.simple = Query "{0}" field
+api.basics.field.nested = Query nested "{0}" field
+api.basics.pagination = Query with pagination
+
+api.location.header = Location based queries
+api.location.polygon = Query with polygon ("location": coordinates of polygon points "lat,lon")
+api.location.distance = Query with distance ("location": coordinate of a point and a distance in km "lat,lon,distance")
+
+api.jsonld.header = JSON-LD
+api.jsonld.info = All API calls serve JSON-LD (JSON for Linking Data). You can experiment with that by pasting responses or URLs in the <a href="{0}">JSON-LD Playground</a>.
+api.jsonld.rdf.header = RDF conversion
+api.jsonld.rdf.text = Use a JSON-LD processor to convert responses to RDF, e.g. to N-Quads, an N-Triples superset, with <a href="{0}">jsonld-cli</a>:
+
+api.openrefine.info = The lobid-organisations service implements the <a href="{0}">OpenRefine Reconciliation API</a>. Follow <a href="{1}">these instructions</a> to use it.
+api.openrefine.metadata = Reconciliation metadata request ("callback": optional JSONP callback to wrap the response into)
+api.openrefine.request = Reconciliation multi query request (expects form data via HTTP POST, use this URL in OpenRefine)
+
+# organisation
+
+organisation.table.name = Name
+organisation.table.isil = ISIL
+organisation.table.dbsID = DBS ID
+organisation.table.wikipedia = Wikipedia
+organisation.table.url = URL
+organisation.table.telephone = Phone
+organisation.table.email = Email
+organisation.table.type = Type
+organisation.table.classification = Classification
+organisation.table.fundertype = Funder type
+organisation.table.stocksize = Stock size
+organisation.table.alternateName = Alternate name
+
+organisation.location.geo = Location
+organisation.location.postal = Postal address
+organisation.location.postOfficeBoxNumber = Post office box number
+organisation.location.postalCode = Postal code
+organisation.location.addressLocality = City
+organisation.location.streetAddress = Street
+organisation.location.addressCountry = Country
+organisation.location.openingHoursSpecification = Opening hours

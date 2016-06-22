@@ -1,0 +1,92 @@
+# main
+
+main.subtitle = Ein umfassendes Verzeichnis bibliothekarischer Institutionen
+main.placeholder = Suchen in lobid-organisations
+
+main.navbar.toggle_language.link = English
+main.navbar.toggle_language.title = Switch language to English
+
+main.navbar.search.link = Suchen
+main.navbar.search.title = Einfaches Suchinterface
+
+main.navbar.browse.link = Erkunden
+main.navbar.browse.title = Das gesamte Organisationsverzeichnis erkunden
+
+main.navbar.api.link = API
+main.navbar.api.title = Programmierschnittstelle
+
+main.footer.text = ein LOD-Dienst des <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
+main.footer.imprint = Impressum
+
+# index
+
+index.data_access.header = Datenzugriff
+index.data_access.text = Sie können auf die Daten über unser <a href="{0}">einfaches Suchinterface</a> oder unsere <a href="{1}">Programmierschnittstelle</a> zugreifen oder <a href="{2}">das gesamte Organisationsverzeichnis erkunden</a>.
+
+index.data_sources.header = Datenquellen
+index.data_sources.text = Die Datenquellen dieses Dienstes sind das <a href="{0}">Deutsche ISIL-Verzeichnis</a> und die Stammdaten der <a href="{1}">Deutschen Bibliotheksstatistik (DBS)</a>.
+
+index.development.header = Entwicklung
+index.development.text = Dieser Dienst wird als Open-Source-Software auf GitHub entwickelt. Dort können Sie <a href="{0}">technische Details finden</a>, <a href="{1}">von Problemen berichten</a>, und bei der Entwicklung des Dienstes <a href="{2}">mitmachen</a>.
+
+#search
+
+search.remove_filter = Filter Entfernen
+search.show_all = Alle zeigen
+search.show_less = Weniger zeigen
+search.loading_locations = Lade Standorte...
+search.location = Standort
+search.prev = vorige
+search.next = nächste
+search.total_results = Trefferzahl
+search.footer.api_text = Sie können auf <a href="{0}">diese Daten</a> auch über unsere <a href="{1}">Programmierschnittstelle</a> zugreifen.
+search.footer.no_results = Keine Ergebnisse für <code>{0}</code>.
+search.type = Typ
+search.stocksize = Bestandsgröße
+search.classification = Klassifikation
+search.fundertype = Unterhaltsträger
+
+# api
+
+api.basics.header = API-Grundlagen
+api.basics.search = Suche über alle Felder
+api.basics.field.simple = Einfache Feldsuche: "{0}"
+api.basics.field.nested = Geschachtelte Feldsuche: "{0}"
+api.basics.pagination = Suche mit Paginierung
+
+api.location.header = Ortsbezogene Suche
+api.location.polygon = Suche in Polygon ("location": Koordinaten der Polygon-Punkte im Format "Breite,Länge")
+api.location.distance = Suche über Distanz zu einem Punkt ("location": Koordinaten eines Punktes und Distanz in km im Format "Breite,Länge,Distanz")
+
+api.jsonld.header = JSON-LD
+api.jsonld.info = All API-Anfragen liefern JSON-LD (JSON for Linking Data). Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="{0}">JSON-LD Playground</a> einfügen.
+api.jsonld.rdf.header = RDF-Konvertierung
+api.jsonld.rdf.text = Mit einem JSON-LD-Prozessor können sie API-Antworten in RDF umwandeln, z.B. in N-Quads, einer Übermenge von N-Triples, mit <a href="{0}">jsonld-cli</a>:
+
+api.openrefine.info = Dieser Dienst bietet eine Implementierung der <a href="{0}">OpenRefine Reconciliation API</a> an. Folgen Sie <a href="{1}">diesen Schritte</a> um sie zu verwenden.
+api.openrefine.metadata = Metadaten-Anfrage ("callback": optionaler JSONP-Callback, in den die Antwort verpackt wird)
+api.openrefine.request = Reconciliation-Anfrage (erwartet Formulardaten per HTTP POST, verwenden Sie diese URL in OpenRefine)
+
+# organisation
+
+organisation.table.name = Name
+organisation.table.isil = ISIL
+organisation.table.dbsID = DBS ID
+organisation.table.wikipedia = Wikipedia
+organisation.table.url = URL
+organisation.table.telephone = Telefon
+organisation.table.email = Email
+organisation.table.type = Typ
+organisation.table.classification = Klassifikation
+organisation.table.fundertype = Unterhaltsträger
+organisation.table.stocksize = Bestandsgröße
+organisation.table.alternateName = Anderer Name
+
+organisation.location.geo = Standort
+organisation.location.postal = Postadresse
+organisation.location.postOfficeBoxNumber = Postfach
+organisation.location.postalCode = Postleitzahl
+organisation.location.addressLocality = Stadt
+organisation.location.streetAddress = Straße
+organisation.location.addressCountry = Land
+organisation.location.openingHoursSpecification = Öffnungzeiten
