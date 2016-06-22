@@ -66,3 +66,27 @@ api.jsonld.rdf.text = Use a JSON-LD processor to convert responses to RDF, e.g. 
 api.openrefine.info = The lobid-organisations service implements the <a href="{0}">OpenRefine Reconciliation API</a>. Follow <a href="{1}">these instructions</a> to use it.
 api.openrefine.metadata = Reconciliation metadata request ("callback": optional JSONP callback to wrap the response into)
 api.openrefine.request = Reconciliation multi query request (expects form data via HTTP POST, use this URL in OpenRefine)
+
+# organisation
+
+organisation.table.name = Name
+organisation.table.isil = ISIL
+organisation.table.dbsID = DBS ID
+organisation.table.wikipedia = Wikipedia
+organisation.table.url = URL
+organisation.table.telephone = Phone
+organisation.table.email = Email
+organisation.table.type = Type
+organisation.table.classification = Classification
+organisation.table.fundertype = Funder type
+organisation.table.stocksize = Stock size
+organisation.table.alternateName = Alternate name
+
+organisation.location.geo = Location
+organisation.location.postal = Postal address
+organisation.location.postOfficeBoxNumber = Post office box number
+organisation.location.postalCode = Postal code
+organisation.location.addressLocality = City
+organisation.location.streetAddress = Street
+organisation.location.addressCountry = Country
+organisation.location.openingHoursSpecification = Opening hours

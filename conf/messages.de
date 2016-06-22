@@ -66,3 +66,27 @@ api.jsonld.rdf.text = Mit einem JSON-LD-Prozessor können sie API-Antworten in R
 api.openrefine.info = Dieser Dienst bietet eine Implementierung der <a href="{0}">OpenRefine Reconciliation API</a> an. Folgen Sie <a href="{1}">diesen Schritte</a> um sie zu verwenden.
 api.openrefine.metadata = Metadaten-Anfrage ("callback": optionaler JSONP-Callback, in den die Antwort verpackt wird)
 api.openrefine.request = Reconciliation-Anfrage (erwartet Formulardaten per HTTP POST, verwenden Sie diese URL in OpenRefine)
+
+# organisation
+
+organisation.table.name = Name
+organisation.table.isil = ISIL
+organisation.table.dbsID = DBS ID
+organisation.table.wikipedia = Wikipedia
+organisation.table.url = URL
+organisation.table.telephone = Telefon
+organisation.table.email = Email
+organisation.table.type = Typ
+organisation.table.classification = Klassifikation
+organisation.table.fundertype = Unterhaltsträger
+organisation.table.stocksize = Bestandsgröße
+organisation.table.alternateName = Anderer Name
+
+organisation.location.geo = Standort
+organisation.location.postal = Postadresse
+organisation.location.postOfficeBoxNumber = Postfach
+organisation.location.postalCode = Postleitzahl
+organisation.location.addressLocality = Stadt
+organisation.location.streetAddress = Straße
+organisation.location.addressCountry = Land
+organisation.location.openingHoursSpecification = Öffnungzeiten

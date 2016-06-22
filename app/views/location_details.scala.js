@@ -4,6 +4,7 @@
 
 @import play.api.libs.json._
 @import com.typesafe.config._
+@import play.i18n._
 
 @string(value: JsValue) = { @value.asOpt[String].getOrElse("--") }
 
@@ -16,11 +17,11 @@
            Application.CONFIG.getObject("organisation.icons"))) { case(name, classification, icons)  =>
 
       locationDetails = "<table class='table table-striped table-condensed'>"
-        + "<tr><td>Straße</td><td>@string((location \ "address" \ "streetAddress"))</td></tr>"
-        + "<tr><td>Postleitzahl</td><td>@string((location \ "address" \ "postalCode"))</td></tr>"
-        + "<tr><td>Stadt</td><td>@string((location \ "address" \ "addressLocality"))</td></tr>"
-        + "<tr><td>Land</td><td>@string((location \ "address" \ "addressCountry"))</td></tr>"
-        + "<tr><td>Öffnungzeiten</td><td>@string((location \ "openingHoursSpecification" \ "description"))</td></tr>"
+        + "<tr><td>@Messages.get("organisation.location.streetAddress")</td><td>@string((location \ "address" \ "streetAddress"))</td></tr>"
+        + "<tr><td>@Messages.get("organisation.location.postalCode")</td><td>@string((location \ "address" \ "postalCode"))</td></tr>"
+        + "<tr><td>@Messages.get("organisation.location.addressLocality")</td><td>@string((location \ "address" \ "addressLocality"))</td></tr>"
+        + "<tr><td>@Messages.get("organisation.location.addressCountry")</td><td>@string((location \ "address" \ "addressCountry"))</td></tr>"
+        + "<tr><td>@Messages.get("organisation.location.openingHoursSpecification")</td><td>@string((location \ "openingHoursSpecification" \ "description"))</td></tr>"
         + "</table>";
 
       @if((location \ "geo" \ "lon").asOpt[String].isDefined && (location \ "geo" \ "lat").asOpt[String].isDefined) {
