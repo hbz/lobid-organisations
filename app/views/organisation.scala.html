@@ -2,8 +2,6 @@
 
 @import play.api.libs.json._
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
 @main("", if(hasLocation){makeLocationDetails()}else{Html("")}) {
     <h1>@id</h1>
     @defining(Json.parse(content.toString())) { parsedContent =>
@@ -38,9 +36,9 @@
                   <ul class="nav nav-tabs">
                   @for(i <- 0 to (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length-1) {
                     @if(i == 0) {
-                      <li class="active"><a href="#organisations-map@i">Standort @(i+1)</a></li>
+                      <li class="active"><a href="#organisations-map@i" data-toggle="tab">Standort @(i+1)</a></li>
                     } else {
-                      <li><a href="#organisations-map@i">Standort @(i+1)</a></li>
+                      <li><a href="#organisations-map@i" data-toggle="tab">Standort @(i+1)</a></li>
                     }
                   }
                   @if(!(parsedContent \ "address").asOpt[JsObject].isDefined) {
@@ -48,7 +46,7 @@
                   }
                 }
                 @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
-                  <li><a href="#postal-address">Postadresse</a></li></ul>
+                  <li><a href="#postal-address" data-toggle="tab">Postadresse</a></li></ul>
                 }
               <div class="tab-content">
                 @if((parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length > 1
@@ -56,14 +54,13 @@
                      && (parsedContent \ "address").asOpt[JsObject].isDefined)) {
                   @for(i <- 0 to (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).length-1) {
                     @if(i == 0) {
-                      <div id="organisations-map@i" class="tab-pane fade in active organisations-map"></div>
+                      <div id="organisations-map@i" class="tab-pane active organisations-map"></div>
                     } else {
-                      <div id="organisations-map@i" class="tab-pane fade organisations-map"></div>
+                      <div id="organisations-map@i" class="tab-pane organisations-map"></div>
                     }
                   }
                   @if((parsedContent \ "address").asOpt[JsObject].isDefined) {
-                     <div id="postal-address" class="tab-pane fade">
-                       <h3>Postadresse</h3>
+                     <div id="postal-address" class="tab-pane">
                        <p>
                          <table class='table table-striped table-condensed'>
                            @produceRow("Postfach", parsedContent \ "address" \ "postOfficeBoxNumber", false)
@@ -86,16 +83,8 @@
       </p>
     }
 
-    <script>
-      $(document).ready(function(){
-        $(".nav-tabs a").click(function(){
-          $(this).tab('show');
-        });
-      });
-    </script>
-
     <p>You can also access <a href='@routes.Application.get(id=id, format="json")'>this data</a> using our <a href="@routes.Application.api()">API</a>.</p>
-    
+
 }
 
 @produceRow(name: String, value: JsValue, link: Boolean) = {

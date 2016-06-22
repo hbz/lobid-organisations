@@ -30,7 +30,7 @@
         var name = "@string(name)"
         makeMap(@i, lat, lon, iconLabel, name, locationDetails);
       } else {
-	    document.getElementById("organisations-map@i").innerHTML = "<h3>Standortadresse</h3>" + locationDetails;
+	    document.getElementById("organisations-map@i").innerHTML = locationDetails;
       }
     }
   }
@@ -55,32 +55,19 @@ function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
     icon: icon
   });
   marker.addTo(map);
-  bindPopup(locationDetails, marker);
-  zoomDetails(map, latlng, marker);
+  zoomDetails(map, latlng, marker, locationDetails);
   marker.on('click', function(e) {
     zoomDetails(map, latlng, marker);
   });
-  $(document).ready(function(){
-    $('.nav-tabs a').on('shown.bs.tab', function(event){
-      map.invalidateSize(false);
-      bindPopup(locationDetails, marker);
-      zoomDetails(map, latlng, marker)
-    });
+  $('.nav-tabs a').on('shown.bs.tab', function(event){
+    zoomDetails(map, latlng, marker, locationDetails);
   });
   map.addLayer(layer);
  }
 
-function bindPopup(content, marker) {
-  marker.bindPopup(
-    content,
-  {
-    keepInView: true,
-    minWidth: 300
-  });
-}
-
-function zoomDetails(map, latlng, marker) {
+function zoomDetails(map, latlng, marker, content) {
   map.invalidateSize(false);
-  map.setView(latlng, 16);
+  marker.bindPopup(content, {keepInView: true, minWidth: 300});
+  map.setView(latlng, 16, {animate: false});
   marker.openPopup();
 }
