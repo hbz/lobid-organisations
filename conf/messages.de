@@ -15,8 +15,6 @@ main.navbar.browse.title = Das gesamte Organisationsverzeichnis erkunden
 main.navbar.api.link = API
 main.navbar.api.title = Programmierschnittstelle
 
-main.navbar.about = Info
-
 main.footer.text = ein LOD-Dienst des <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
 main.footer.imprint = Impressum
 
