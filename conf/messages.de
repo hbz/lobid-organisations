@@ -45,3 +45,24 @@ search.type = Typ
 search.stocksize = Bestandsgröße
 search.classification = Klassifikation
 search.fundertype = Unterhaltsträger
+
+# api
+
+api.basics.header = API-Grundlagen
+api.basics.search = Suche über alle Felder
+api.basics.field.simple = Einfache Feldsuche: "{0}"
+api.basics.field.nested = Geschachtelte Feldsuche: "{0}"
+api.basics.pagination = Suche mit Paginierung
+
+api.location.header = Ortsbezogene Suche
+api.location.polygon = Suche in Polygon ("location": Koordinaten der Polygon-Punkte im Format "Breite,Länge")
+api.location.distance = Suche über Distanz zu einem Punkt ("location": Koordinaten eines Punktes und Distanz in km im Format "Breite,Länge,Distanz")
+
+api.jsonld.header = JSON-LD
+api.jsonld.info = All API-Anfragen liefern JSON-LD (JSON for Linking Data). Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="{0}">JSON-LD Playground</a> einfügen.
+api.jsonld.rdf.header = RDF-Konvertierung
+api.jsonld.rdf.text = Mit einem JSON-LD-Prozessor können sie API-Antworten in RDF umwandeln, z.B. in N-Quads, einer Übermenge von N-Triples, mit <a href="{0}">jsonld-cli</a>:
+
+api.openrefine.info = Dieser Dienst bietet eine Implementierung der <a href="{0}">OpenRefine Reconciliation API</a> an. Folgen Sie <a href="{1}">diesen Schritte</a> um sie zu verwenden.
+api.openrefine.metadata = Metadaten-Anfrage ("callback": optionaler JSONP-Callback, in den die Antwort verpackt wird)
+api.openrefine.request = Reconciliation-Anfrage (erwartet Formulardaten per HTTP POST, verwenden Sie diese URL in OpenRefine)
