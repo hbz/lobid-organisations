@@ -92,15 +92,18 @@ public class Application extends Controller {
 	 */
 	public static Result search(String q, String location, int from, int size,
 			String format) {
+		final String responseFormat =
+				Accept.formatFor(format, request().acceptedTypes());
 		try {
 			String cacheKey =
 					String.format("q=%s,location=%s,from=%s,size=%s,format=%s,lang=%s", q,
-							location, from, size, format, lang().code());
+							location, from, size, responseFormat, lang().code());
 			Result cachedResult = (Result) Cache.get(cacheKey);
 			if (cachedResult != null) {
 				return cachedResult;
 			}
-			Result searchResult = searchResult(q, location, from, size, format);
+			Result searchResult =
+					searchResult(q, location, from, size, responseFormat);
 			int oneDay = 60 * 60 * 24;
 			Logger.debug("Caching search result for request: {}", cacheKey);
 			Cache.set(cacheKey, searchResult, oneDay);
@@ -275,13 +278,16 @@ public class Application extends Controller {
 	 * @return The source of a document as JSON
 	 */
 	public static Promise<Result> get(String id, String format) {
+		final String responseFormat =
+				Accept.formatFor(format, request().acceptedTypes());
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		String server =
 				"http://localhost:" + CONFIG.getString("index.es.port.http");
 		String url =
 				String.format("%s/%s/%s/%s/_source", server, ES_NAME, ES_TYPE, id);
-		return WS.url(url).execute().map(x -> x.getStatus() == OK
-				? resultFor(id, x.asJson(), format) : notFound("Not found: " + id));
+		return WS.url(url).execute().map(
+				x -> x.getStatus() == OK ? resultFor(id, x.asJson(), responseFormat)
+						: notFound("Not found: " + id));
 	}
 
 	private static Result resultFor(String id, JsonNode json, String format) {
