@@ -36,7 +36,7 @@ var markers = new L.MarkerClusterGroup({
   singleMarkerMode: false
 });
 
-var queryParams = '&q=@views.html.helper.urlEncode(q)&format=html';
+var queryParams = '&q=@views.html.helper.urlEncode(q)';
 
 var lastLayer;
 var label;
@@ -75,7 +75,7 @@ function addMarkerLayer(){
 			if isil != "null" && latLon != "null" && name != "null" && classification != "null";
 			freq = (bucket \ "doc_count").as[JsNumber]) {
 	   var iconLabel = '@Application.CONFIG.getObject("organisation.icons").getOrDefault(classification, ConfigValueFactory.fromAnyRef("library")).unwrapped()';
-	   addMarker('/organisations/@isil?format=html', '@latLon', '@freq', '@name', iconLabel);
+	   addMarker('/organisations/@isil', '@latLon', '@freq', '@name', iconLabel);
 	}
 	map.addLayer(markers);
 
