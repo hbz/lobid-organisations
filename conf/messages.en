@@ -58,6 +58,11 @@ api.location.header = Location based queries
 api.location.polygon = Query with polygon ("location": coordinates of polygon points "lat,lon")
 api.location.distance = Query with distance ("location": coordinate of a point and a distance in km "lat,lon,distance")
 
+api.content_types.header = Content Types
+api.content_types.default = By default, this service returns structured API responses (as JSON):
+api.content_types.negotiate = It supports content negotiation based on the "Accept" header to serve JSON (application/json) or HTML (text/html):
+api.content_types.override = An optional "format" query parameter can be used to override the "Accept" header, e.g. to display JSON in a browser:
+
 api.jsonld.header = JSON-LD
 api.jsonld.info = All API calls serve JSON-LD (JSON for Linking Data). You can experiment with that by pasting responses or URLs in the <a href="{0}">JSON-LD Playground</a>.
 api.jsonld.rdf.header = RDF conversion

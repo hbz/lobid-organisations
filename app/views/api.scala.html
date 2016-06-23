@@ -3,20 +3,26 @@
 @import play.i18n._
 
 @desc(label: String, link: play.api.mvc.Call) = {
- <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":").replace("%2C",",")</a></dd>
+ <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":").replace("%2C",",").replaceAll("[&?]format=json", "")</a></dd>
 }
 
 @main("*") {
     <h2>@Messages.get("api.basics.header")</h2>
     <dl>
-    @desc("HTTP GET", routes.Application.get("DE-6"))
-    @desc(Messages.get("api.basics.search"), routes.Application.search("kunst"))
-    @desc(Messages.get("api.basics.field.simple", "name"), routes.Application.search("name:stadtbibliothek+berlin"))
-    @desc(Messages.get("api.basics.field.nested", "fundertype.label"), routes.Application.search("fundertype.label:land"))
-    @desc(Messages.get("api.basics.pagination"), routes.Application.search("fundertype.label:land", from = 2, size = 2))
+    @desc("HTTP GET", routes.Application.get("DE-6", format="json"))
+    @desc(Messages.get("api.basics.search"), routes.Application.search("kunst", format="json"))
+    @desc(Messages.get("api.basics.field.simple", "name"), routes.Application.search("name:stadtbibliothek+berlin", format="json"))
+    @desc(Messages.get("api.basics.field.nested", "fundertype.label"), routes.Application.search("fundertype.label:land", format="json"))
+    @desc(Messages.get("api.basics.pagination"), routes.Application.search("fundertype.label:land", from = 2, size = 2, format="json"))
     <h2>@Messages.get("api.location.header")</h2>
-    @desc(Messages.get("api.location.polygon"), routes.Application.search("fundertype.label:land", "52,12 53,12 53,14 52,14"))
-    @desc(Messages.get("api.location.distance"), routes.Application.search("fundertype.label:land", "52.52,13.39,25"))
+    @desc(Messages.get("api.location.polygon"), routes.Application.search("fundertype.label:land", "52,12 53,12 53,14 52,14", format="json"))
+    @desc(Messages.get("api.location.distance"), routes.Application.search("fundertype.label:land", "52.52,13.39,25", format="json"))
+    <h2>@Messages.get("api.content_types.header")</h2>
+    <p>@Messages.get("api.content_types.default")</p>
+    <p><code>curl http://@request().host@routes.Application.get("DE-6")</code></p>
+    <p>@Messages.get("api.content_types.negotiate")</p>
+    <p><code>curl --header "Accept: text/html" http://@request().host@routes.Application.get("DE-6")</code></p>
+    <p>@Messages.get("api.content_types.override") <a href='@routes.Application.get("DE-6", format="json")'>@routes.Application.get("DE-6", format="json")</a></p>
     <h2>@Messages.get("api.jsonld.header")</h2>
     <p>@Html(Messages.get("api.jsonld.info", "http://json-ld.org/playground/"))</p>
     @desc("JSON-LD Context", routes.Application.context)
