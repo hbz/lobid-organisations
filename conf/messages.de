@@ -58,6 +58,11 @@ api.location.header = Ortsbezogene Suche
 api.location.polygon = Suche in Polygon ("location": Koordinaten der Polygon-Punkte im Format "Breite,Länge")
 api.location.distance = Suche über Distanz zu einem Punkt ("location": Koordinaten eines Punktes und Distanz in km im Format "Breite,Länge,Distanz")
 
+api.content_types.header = Inhaltstypen
+api.content_types.default = Standardmäßig liefert dieser Dienst strukturierte API-Antworten (als JSON):
+api.content_types.negotiate = Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json) oder HTML (text/html):
+api.content_types.override = Der Query-Parameter "format" kann verwendet werden, um den Accept-Header aufzuheben, z.B. zur Anzeige von JSON im Browser:
+
 api.jsonld.header = JSON-LD
 api.jsonld.info = All API-Anfragen liefern JSON-LD (JSON for Linking Data). Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="{0}">JSON-LD Playground</a> einfügen.
 api.jsonld.rdf.header = RDF-Konvertierung

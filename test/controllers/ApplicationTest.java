@@ -10,8 +10,6 @@ import static play.test.Helpers.header;
 import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
 import index.ElasticsearchTest;
@@ -58,42 +56,6 @@ public class ApplicationTest extends ElasticsearchTest {
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
 			assertThat(contentAsString(result)).startsWith("/**/jsonp(");
-		});
-	}
-
-	@Test
-	public void searchFormatDefault() {
-		running(fakeApplication(), () -> {
-			for (String f : Arrays.asList("", "&format=", "&format=json",
-					"&format=whatever")) {
-				play.Logger.debug("searchFormatDefault test for: " + f);
-				Result result =
-						route(fakeRequest(GET, "/organisations/search?q=*" + f));
-				assertThat(result).isNotNull();
-				assertThat(contentType(result)).isEqualTo("application/json");
-				assertThat(header("Access-Control-Allow-Origin", result))
-						.isEqualTo("*");
-			}
-		});
-	}
-
-	@Test
-	public void searchFormatHtml() {
-		running(fakeApplication(), () -> {
-			Result result =
-					route(fakeRequest(GET, "/organisations/search?q=*&format=html"));
-			assertThat(result).isNotNull();
-			assertThat(contentType(result)).isEqualTo("text/html");
-		});
-	}
-
-	@Test
-	public void searchFormatJs() {
-		running(fakeApplication(), () -> {
-			Result result =
-					route(fakeRequest(GET, "/organisations/search?q=*&format=js"));
-			assertThat(result).isNotNull();
-			assertThat(contentType(result)).isEqualTo("application/javascript");
 		});
 	}
 

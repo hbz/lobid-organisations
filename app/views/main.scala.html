@@ -40,7 +40,6 @@
 		<form action="@routes.Application.search()" method="GET">
 			<div class="input-group">
 				<input style="width:100%" id="search" type="text" class="form-control" autocomplete="off" placeholder='@Messages.get("main.placeholder")' autofocus name="q"  @if(!q.isEmpty && q!="*") {value="@q"}>
-				<input type="hidden" name="format" value="html" />
 				<input type="hidden" name="location" value="@location" />
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="submit">

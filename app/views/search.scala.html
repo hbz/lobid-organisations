@@ -8,11 +8,11 @@
 	@for(bucket <- buckets; term = (bucket \ "key").as[String]; count = (bucket \ "doc_count").as[Int]) {
 		@if(q.contains(key+":\""+term+"\"")){
 		@term
-		<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.replace("AND "+key+":\""+term+"\"","").trim'>
+		<a href='@routes.Application.search()?location=@location&from=@from&size=@size&q=@q.replace("AND "+key+":\""+term+"\"","").trim'>
 		<span class="badge">@Messages.get("search.remove_filter") <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		} else {
-		<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@term (@count)</a>
+		<a href='@routes.Application.search()?location=@location&from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@term (@count)</a>
 		}<br/>
 	}
 }
@@ -54,7 +54,7 @@
 		<div id='location-facet-loading'><span class="label label-info">@Messages.get("search.loading_locations")</span></div>
 		<div style='display:none;' id='location-facet'>
 		<h4>@Messages.get("search.location") @if(!location.isEmpty){
-		<a href='@routes.Application.search()?format=html&from=@from&size=@size&q=@q'>
+		<a href='@routes.Application.search()?from=@from&size=@size&q=@q'>
 		<span class="badge">@Messages.get("search.remove_filter") <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		}</h4>
@@ -67,16 +67,16 @@
 			<p>
 			@defining((orgs.head \ "http://sindice.com/vocab/search#totalResults").as[Int]) { totalResults =>
 				@Messages.get("search.total_results"): @(totalResults) |
-				@if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, format="html", location=location)'>&LeftArrow; @Messages.get("search.prev")</a>}
+				@if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, location=location)'>&LeftArrow; @Messages.get("search.prev")</a>}
 				@(from+1)&mdash;@(Math.min(totalResults, from+size))
-				@if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, format="html", location=location)'>@Messages.get("search.next") &RightArrow;</a>}
+				@if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, location=location)'>@Messages.get("search.next") &RightArrow;</a>}
 			}
 			</p>
 			<p>
 				<table class="table table-striped table-condensed">
 				@for(org <- orgs.tail;
 						uri = (org\"id").asOpt[String].getOrElse("");
-						link = "/organisations/" + uri.split("#")(0).split("/").last + "?format=html";
+						link = "/organisations/" + uri.split("#")(0).split("/").last;
 						name = (org\"name").asOpt[String].getOrElse("--");
 						classificationId = (org\"classification"\"id").asOpt[String].getOrElse("--");
 						classificationLabel = (org\"classification"\"label").asOpt[String].getOrElse("--");
@@ -85,7 +85,7 @@
 						city = if(cities.size > 0){cities(0).asOpt[String].getOrElse("--")}else{"--"}) {
 					<tr>
 						<td>
-							<a href='@routes.Application.search()?location=@location&format=html&from=@from&size=@size&q=@q.trim+AND+classification.label:"@classificationLabel"'>
+							<a href='@routes.Application.search()?location=@location&from=@from&size=@size&q=@q.trim+AND+classification.label:"@classificationLabel"'>
 								<span style='opacity: 0.75;' class='maki maki-lg maki-@icon' title='@classificationLabel'></span>
 							</a>
 						</td>
