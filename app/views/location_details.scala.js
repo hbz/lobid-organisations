@@ -39,14 +39,15 @@
 
 function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
   var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-    subdomains: '1234'
+	subdomains: '1234',
+	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   });
   var center = new L.LatLng(latCoord, lonCoord)
   var map = new L.Map("organisations-map" + i, {
    center: center,
    zoom: 5,
    scrollWheelZoom: true,
-   attributionControl: false,
+   attributionControl: true,
    zoomControl: true
   });
   var latlng = L.latLng(latCoord, lonCoord);

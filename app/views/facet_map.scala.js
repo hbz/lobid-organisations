@@ -5,14 +5,17 @@
 @import play.api.libs.json._
 @import com.typesafe.config._
 
-var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', { subdomains: '1234' });
+var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+	subdomains: '1234',
+	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+});
 var kassel = new L.LatLng(51.19, 9.30)
 var map = new L.Map("facet-map", {
   center: kassel,
   zoom: 5,
   minZoom: 0,
   scrollWheelZoom: true,
-  attributionControl: false,
+  attributionControl: true,
   zoomControl: true
 });
 
