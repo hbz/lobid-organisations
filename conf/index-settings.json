@@ -4,14 +4,14 @@
 			"max_result_window": "25000",
 			"analysis": {
 				"analyzer": {
+					"default": {
+						"tokenizer": "standard",
+						"filter": ["lowercase", "german_filter"]
+					},
 					"autocomplete": {
 						"tokenizer": "my_edge_ngram_tokenizer", 
-						"filter": "lowercase"
+						"filter": ["lowercase", "german_filter"]
 					}, 
-					"lowercasesearch": {
-						"tokenizer": "standard", 
-						"filter": "lowercase"
-					},
 					"id": {
 						"tokenizer": "keyword",
 						"filter": "lowercase"
@@ -27,6 +27,12 @@
 							"digit"
 						]
 					}
+				},
+				"filter" : {
+					"german_filter" : {
+						"type" : "snowball",
+						"language" : "German2"
+					}
 				}
 			}
 		}
@@ -37,7 +43,7 @@
 				"name": {
 					"type": "string", 
 					"analyzer": "autocomplete", 
-					"search_analyzer": "lowercasesearch"
+					"search_analyzer": "default"
 				}, 
 				"location": {
 					"properties": {
