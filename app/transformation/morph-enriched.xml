@@ -283,8 +283,16 @@
 		<data source="isil" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
 		</data>
-		<entity name="alternateName[]" flushWith="record">
-			<data source="029@.a" name="altLabel" />
+		<entity name="alternateName" flushWith="record">
+			<combine name="${lang}" value="${label}" sameEntity="true" reset="true">
+				<data source="029@.4" name="lang">
+					<lookup>
+						<entry name="c" value="de" />
+						<entry name="d" value="en" />
+					</lookup>
+				</data>
+				<data source="029@.a" name="label"/>
+			</combine>
 		</entity>
 		<combine name="wikipedia" value="http://de.wikipedia.org/wiki/${titleDbpedia}">
 			<data source="@dbpediaMap" name="titleDbpedia" />

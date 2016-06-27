@@ -31,9 +31,9 @@ public class TestStemming extends ElasticsearchTest {
 			{ "name", "köln", /*->*/ 1 },
 			{ "name", "koeln", /*->*/ 1 },
 			{ "name", "koln", /*->*/ 1 },
-			{ "alternateName", "köln", /*->*/ 1 },
-			{ "alternateName", "koeln", /*->*/ 1 },
-			{ "alternateName", "koln", /*->*/ 1 },
+			{ "alternateName.de", "köln", /*->*/ 1 },
+			{ "alternateName.de", "koeln", /*->*/ 1 },
+			{ "alternateName.de", "koln", /*->*/ 1 },
 			{ "classification.label", "Universitätsbibliothek", /*->*/ 2 },
 			{ "classification.label", "Universitaetsbibliothek", /*->*/ 2 },
 			{ "classification.label", "Universitatsbibliothek", /*->*/ 2 },
@@ -60,7 +60,8 @@ public class TestStemming extends ElasticsearchTest {
 	@Test
 	public void test() {
 		long total = search(field, q).getHits().getTotalHits();
-		assertThat(total).as("Hit count for " + q).isEqualTo(expectedCount);
+		assertThat(total).as(String.format("Hit count for %s:%s", field, q))
+				.isEqualTo(expectedCount);
 	}
 
 }

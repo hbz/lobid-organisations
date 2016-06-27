@@ -11,6 +11,14 @@
 						<literal name="utr_text" value="Land" />
 						<literal name="035E.h" value="10" />
 						<literal name="gro_text" value="1.000.001 und mehr" />
+						<entity name = "029@">
+							<literal name="a" value="Leibniz-Institut" />
+							<literal name="4" value="c" />
+						</entity>
+						<entity name = "029@">
+							<literal name="a" value="Leibniz Institute" />
+							<literal name="4" value="d" />
+						</entity>
 					</record>
 					<record id="de-789">
 						<literal name="035E.f" value="33" />
@@ -56,6 +64,10 @@
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
 							<literal name="label" value="1.000.001 und mehr" />
+						</entity>
+						<entity name="alternateName">
+							<literal name="de" value="Leibniz-Institut" />
+							<literal name="en" value="Leibniz Institute" />
 						</entity>
 					</record>
 					<record id="de-789">

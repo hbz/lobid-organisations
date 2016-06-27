@@ -4,6 +4,8 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSupressor;
@@ -15,6 +17,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import controllers.Application;
+
 /**
  * For tests: sample data only, no updates.
  * 
@@ -22,6 +26,11 @@ import org.junit.Test;
  */
 @SuppressWarnings("javadoc")
 public class EnrichTest {
+
+	static {
+		System.setProperty("config.resource", "test.conf");
+		System.out.println("Using CONFIG from " + Application.CONFIG.origin());
+	}
 
 	private static final CloseSupressor<Triple> WAIT = new CloseSupressor<>(2);
 	private static final String SIGEL_DUMP_LOCATION =
@@ -61,6 +70,15 @@ public class EnrichTest {
 		Helpers.setupTripleStreamToWriter(dbsFlow, WAIT, new TripleSort(),
 				new TripleRematch("isil"), Enrich.DATA_OUTPUT_FILE, null);
 		Dbs.processDbs(openDbs, DBS_LOCATION);
+	}
+
+	@Test
+	public void multiLangAlternateName() throws IOException {
+		Enrich.process("", 0, Enrich.DATA_OUTPUT_FILE, "");
+		assertThat(
+				new String(Files.readAllBytes(Paths.get(Enrich.DATA_OUTPUT_FILE))))
+						.as("transformation output with multiLangAlternateName")
+						.contains("Leibniz Institute").contains("Berlin SBB");
 	}
 
 	@Test
