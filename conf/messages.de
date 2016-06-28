@@ -85,7 +85,7 @@ organisation.table.type = Typ
 organisation.table.classification = Klassifikation
 organisation.table.fundertype = Unterhaltsträger
 organisation.table.stocksize = Bestandsgröße
-organisation.table.alternateName = Anderer Name
+organisation.table.alternateName = Kurzbezeichnung
 
 organisation.location.geo = Standort
 organisation.location.postal = Postadresse

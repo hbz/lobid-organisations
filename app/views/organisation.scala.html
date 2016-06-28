@@ -22,10 +22,8 @@
               @produceRow(Messages.get("organisation.table.classification"), parsedContent \ "classification" \ "label", false)
               @produceRow(Messages.get("organisation.table.fundertype"), parsedContent \ "fundertype" \ "label", false)
               @produceRow(Messages.get("organisation.table.stocksize"), parsedContent \ "stocksize" \ "label", false)
-
-              @for(alternateName <- (parsedContent \ "alternateName").asOpt[Seq[JsValue]].getOrElse(Seq())) {
-                   @produceRow(Messages.get("organisation.table.alternateName"), alternateName, false)
-              }
+              @produceRow(Messages.get("organisation.table.alternateName"),
+                  parsedContent \ "alternateName" \  play.mvc.Controller.lang().code().split("-")(0), false)
           </table>
           </p>
         </div>
