@@ -284,8 +284,16 @@
 			<lookup in="isil2dbpedia_map" />
 		</data>
 		<entity name="alternateName[]" flushWith="record">
-			<data source="029@.a" name="altLabel" />
+			<combine name="${code}" value="${label}" sameEntity="true" reset="true">
+				<if><data source="029@.4"><not-equals string="d"/></data></if>
+				<data source="029@.a" name="label"/>
+				<data source="029@.4" name="code"/>
+			</combine>
 		</entity>
+		<combine name="name_en" value="${label}" sameEntity="true" reset="true">
+			<if><data source="029@.4"><equals string="d"/></data></if>
+			<data source="029@.a" name="label"/>
+		</combine>
 		<combine name="wikipedia" value="http://de.wikipedia.org/wiki/${titleDbpedia}">
 			<data source="@dbpediaMap" name="titleDbpedia" />
 		</combine>

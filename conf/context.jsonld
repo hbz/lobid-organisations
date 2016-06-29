@@ -4,6 +4,10 @@
 		"type": "@type",
 		"xsd": "http://www.w3.org/2001/XMLSchema#",
 		"name": "http://schema.org/name",
+		"name_en": {
+			"@id": "http://schema.org/name",
+			"@language": "en"
+		},
 		"alternateName": "http://schema.org/alternateName",
 		"isil": "http://purl.org/lobid/lv#isil",
 		"dbsID": "http://purl.org/lobid/lv#dbsID",

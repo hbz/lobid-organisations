@@ -11,6 +11,18 @@
 						<literal name="utr_text" value="Land" />
 						<literal name="035E.h" value="10" />
 						<literal name="gro_text" value="1.000.001 und mehr" />
+						<entity name="029@">
+							<literal name="a" value="SBB-PK, Potsdamer Straße" />
+							<literal name="4" value="a" />
+						</entity>
+						<entity name="029@">
+							<literal name="a" value="Berlin SBB Haus Potsdamer Str" />
+							<literal name="4" value="c" />
+						</entity>
+						<entity name="029@">
+							<literal name="a" value="Leibniz Institute for Zoo and Wildlife Research Berlin, Library" />
+							<literal name="4" value="d" />
+						</entity>
 					</record>
 					<record id="de-789">
 						<literal name="035E.f" value="33" />
@@ -45,6 +57,7 @@
 				<records>
 					<record id="de-456">
 						<!--<literal name="inr" value="dbs-id" />-->
+						<literal name="name_en" value="Leibniz Institute for Zoo and Wildlife Research Berlin, Library" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n60" />
 							<literal name="label" value="Zentrale Universitätsbibliothek" />
@@ -56,6 +69,10 @@
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
 							<literal name="label" value="1.000.001 und mehr" />
+						</entity>
+						<entity name="alternateName[]">
+							<literal name="a" value="SBB-PK, Potsdamer Straße" />
+							<literal name="c" value="Berlin SBB Haus Potsdamer Str" />
 						</entity>
 					</record>
 					<record id="de-789">

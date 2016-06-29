@@ -60,7 +60,8 @@ public class TestStemming extends ElasticsearchTest {
 	@Test
 	public void test() {
 		long total = search(field, q).getHits().getTotalHits();
-		assertThat(total).as("Hit count for " + q).isEqualTo(expectedCount);
+		assertThat(total).as(String.format("Hit count for %s:%s", field, q))
+				.isEqualTo(expectedCount);
 	}
 
 }
