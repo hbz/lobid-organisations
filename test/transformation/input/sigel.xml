@@ -401,8 +401,7 @@
 				<ppxml:subf id="e">ZDB-1-AAS4</ppxml:subf>
 			</ppxml:tag>
 			<ppxml:tag id="009Q" occ="">
-				<ppxml:subf id="u">http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=h9k
-				</ppxml:subf>
+				<ppxml:subf id="u">http://search.ebscohost.com/login.aspx?authtype=ip,uid&amp;profile=ehost&amp;defaultdb=h9k</ppxml:subf>
 				<ppxml:subf id="z">A</ppxml:subf>
 			</ppxml:tag>
 			<ppxml:tag id="009Q" occ="">
