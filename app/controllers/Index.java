@@ -55,7 +55,7 @@ public class Index extends Controller {
 					.put("http.port", Application.CONFIG.getString("index.es.port.http"))
 					.put("transport.tcp.port",
 							Application.CONFIG.getString("index.es.port.tcp"))
-			.put("script.default_lang", "native").build();
+					.put("script.default_lang", "native").build();
 	private static Node node = new ConfigurableNode(
 			nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
 			Arrays.asList(LocationAggregation.class)).start();
@@ -127,7 +127,7 @@ public class Index extends Controller {
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
 			final BufferedReader br, final Client client, final String aIndex)
-					throws IOException {
+			throws IOException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;
@@ -137,16 +137,20 @@ public class Index extends Controller {
 
 		// First line: index with id, second line: source
 		while ((line = br.readLine()) != null) {
+			JsonNode rootNode = mapper.readValue(line, JsonNode.class);
 			if (currentLine % 2 != 0) {
-				JsonNode rootNode = mapper.readValue(line, JsonNode.class);
 				JsonNode index = rootNode.get("index");
 				idUriParts = index.findValue("_id").asText().split("/");
 				organisationId = idUriParts[idUriParts.length - 1].replace("#!", "");
 			} else {
 				organisationData = line;
-				bulkRequest.add(client.prepareIndex(aIndex,
-						Application.CONFIG.getString("index.es.type"), organisationId)
-						.setSource(organisationData));
+				JsonNode libType = rootNode.get("type");
+				if (libType == null || !libType.textValue().equals("Collection")) {
+					bulkRequest.add(client
+							.prepareIndex(aIndex,
+									Application.CONFIG.getString("index.es.type"), organisationId)
+							.setSource(organisationData));
+				}
 			}
 			currentLine++;
 		}
