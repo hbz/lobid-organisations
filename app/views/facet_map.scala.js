@@ -1,4 +1,4 @@
-@* Copyright 2016 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+@* Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 *@
 
 @(queryMetadata: String, q: String, location: String, from: Int, size: Int)
 

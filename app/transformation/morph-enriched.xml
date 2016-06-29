@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 -->
+
 <metamorph xmlns="http://www.culturegraph.org/metamorph"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
 	entityMarker=".">

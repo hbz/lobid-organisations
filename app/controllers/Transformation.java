@@ -1,3 +1,5 @@
+/* Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 */
+
 package controllers;
 
 import java.io.IOException;

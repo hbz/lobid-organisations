@@ -1,3 +1,5 @@
+/* Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 */
+
 package transformation;
 
 import org.culturegraph.mf.morph.Metamorph;
@@ -35,8 +37,7 @@ public class Dbs {
 		final LineReader lines = new LineReader();
 		final CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
-		final Metamorph morph =
-				new Metamorph(Enrich.MORPH_DIR + "morph-dbs.xml");
+		final Metamorph morph = new Metamorph(Enrich.MORPH_DIR + "morph-dbs.xml");
 		final Metamorph morphDbs = opener//
 				.setReceiver(lines)//
 				.setReceiver(decoder)//
