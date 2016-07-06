@@ -6,11 +6,11 @@
 				"analyzer": {
 					"default": {
 						"type" : "custom",
-						"tokenizer" : "my_hyphen_tokenizer",
-						"filter": ["lowercase", "german_filter", "hyphen"]
+						"tokenizer" : "hyphen_tokenizer",
+						"filter": ["lowercase", "german_filter", "hyphen_filter"]
 					},
 					"autocomplete": {
-						"tokenizer": "my_edge_ngram_tokenizer", 
+						"tokenizer": "edge_ngram_tokenizer",
 						"filter": ["lowercase", "german_filter"]
 					}, 
 					"id": {
@@ -19,7 +19,7 @@
 					}
 				}, 
 				"tokenizer": {
-					"my_edge_ngram_tokenizer": {
+					"edge_ngram_tokenizer": {
 						"type": "edgeNGram", 
 						"min_gram": "1", 
 						"max_gram": "40", 
@@ -28,7 +28,7 @@
 							"digit"
 						]
 					},
-					"my_hyphen_tokenizer" : {
+					"hyphen_tokenizer" : {
 						"type" : "hyphen"
 					}
 				},
@@ -37,7 +37,7 @@
 						"type" : "snowball",
 						"language" : "German2"
 					},
-					"my_hyphen_filter" : {
+					"hyphen_filter" : {
 						"type" : "hyphen"
 					}
 				}
