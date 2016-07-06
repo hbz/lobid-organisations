@@ -34,6 +34,8 @@ public class EnrichTest {
 		System.out.println("Using CONFIG from " + Application.CONFIG.origin());
 	}
 
+	private static final TripleRematch REMATCH_TRIPLES =
+			new TripleRematch("isil");
 	private static final CloseSupressor<Triple> WAIT = new CloseSupressor<>(2);
 	private static final String SIGEL_DUMP_LOCATION =
 			Enrich.DATA_INPUT_DIR + "sigel.xml";
@@ -60,17 +62,18 @@ public class EnrichTest {
 		StreamToTriples sigelFlow = Sigel.setupSigelMorph(splitFileOpener)
 				.setReceiver(Helpers.createTripleStream(true));
 		Helpers.setupTripleStreamToWriter(sigelFlow, WAIT, new TripleSort(),
-				new TripleRematch("isil"), Enrich.DATA_OUTPUT_FILE, null);
+				REMATCH_TRIPLES, Enrich.DATA_OUTPUT_FILE, null);
 		Sigel.processSigelMorph(splitFileOpener, Enrich.DATA_OUTPUT_DIR);
 	}
 
 	@Test
 	public void dbsTransformation() {
 		final FileOpener openDbs = new FileOpener();
+		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
 		final StreamToTriples dbsFlow = //
-				Dbs.morphDbs(openDbs).setReceiver(Helpers.createTripleStream(true));
+				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
 		Helpers.setupTripleStreamToWriter(dbsFlow, WAIT, new TripleSort(),
-				new TripleRematch("isil"), Enrich.DATA_OUTPUT_FILE, null);
+				REMATCH_TRIPLES, Enrich.DATA_OUTPUT_FILE, null);
 		Dbs.processDbs(openDbs, DBS_LOCATION);
 	}
 

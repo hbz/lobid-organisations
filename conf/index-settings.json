@@ -5,8 +5,9 @@
 			"analysis": {
 				"analyzer": {
 					"default": {
-						"tokenizer": "standard",
-						"filter": ["lowercase", "german_filter"]
+						"type" : "custom",
+						"tokenizer" : "my_hyphen_tokenizer",
+						"filter": ["lowercase", "german_filter", "hyphen"]
 					},
 					"autocomplete": {
 						"tokenizer": "my_edge_ngram_tokenizer", 
@@ -26,12 +27,18 @@
 							"letter", 
 							"digit"
 						]
+					},
+					"my_hyphen_tokenizer" : {
+						"type" : "hyphen"
 					}
 				},
 				"filter" : {
 					"german_filter" : {
 						"type" : "snowball",
 						"language" : "German2"
+					},
+					"my_hyphen_filter" : {
+						"type" : "hyphen"
 					}
 				}
 			}
