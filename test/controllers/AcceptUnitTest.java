@@ -44,6 +44,7 @@ public class AcceptUnitTest {
 			{ fakeRequest(), "json", /*->*/ "json" },
 			{ fakeRequest(), "js", /*->*/ "js" },
 			{ fakeRequest(), "csv", /*->*/ "csv" },
+			{ fakeRequest(), "csv:name,id", /*->*/ "csv:name,id" },
 			// supported content types, no format parameter given:
 			{ fakeRequest().withHeader("Accept", "text/html"), null, /*->*/ "html" },
 			{ fakeRequest().withHeader("Accept", "application/javascript"), null, /*->*/ "js" },

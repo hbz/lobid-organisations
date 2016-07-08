@@ -32,8 +32,7 @@ public class CsvExportTest {
 				"field1", "field3", //
 				"\"org1-value1\"", "\"org1-value3\"", //
 				"\"org2-value1\"", "\"org2-value3\"");
-		assertThat(export.of(Arrays.asList("field1", "field3")))
-				.isEqualTo(expected);
+		assertThat(export.of("field1,field3")).isEqualTo(expected);
 	}
 
 	@Test
@@ -60,8 +59,7 @@ public class CsvExportTest {
 				"field1", "field3.field2", //
 				"\"org1-value1\"", "\"org1-sub2\"", //
 				"\"org2-value1\"", "\"org2-sub2\"");
-		assertThat(export.of(Arrays.asList("field1", "field3.field2")))
-				.isEqualTo(expected);
+		assertThat(export.of("field1,field3.field2")).isEqualTo(expected);
 	}
 
 	@Test
@@ -75,7 +73,6 @@ public class CsvExportTest {
 		String expected = String.format("%s,%s\n%s,%s\n", //
 				"field1", "no-such-field", //
 				"\"org1-value1\"", "");
-		assertThat(export.of(Arrays.asList("field1", "no-such-field")))
-				.isEqualTo(expected);
+		assertThat(export.of("field1,no-such-field")).isEqualTo(expected);
 	}
 }

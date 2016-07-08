@@ -47,6 +47,8 @@ import views.html.api;
  */
 public class Application extends Controller {
 
+	static final String FORMAT_CONFIG_SEP = ":";
+
 	/** The application config. */
 	public static final Config CONFIG = ConfigFactory.load();
 
@@ -150,19 +152,38 @@ public class Application extends Controller {
 			return ok(script).as("application/javascript; charset=utf-8");
 		});
 		results.put("csv", () -> {
-			List<?> list = Json.fromJson(Json.parse(queryResultString), List.class);
-			String orgs = Json.toJson(list.subList(1, list.size())).toString();
-			String csv = new CsvExport(orgs).of(Arrays.asList("name", "id"));
 			response().setHeader("Content-Disposition",
 					"attachment; filename=organisations.csv");
-			return ok(csv).as("text/csv; charset=utf-8");
+			return ok(csvExport(format, queryResultString))
+					.as("text/csv; charset=utf-8");
 		});
 		Supplier<Result> json = () -> {
 			response().setHeader("Access-Control-Allow-Origin", "*");
 			return ok(queryResultString).as("application/json; charset=utf-8");
 		};
-		Supplier<Result> resultSupplier = results.get(format);
+		Supplier<Result> resultSupplier =
+				results.get(format.split(FORMAT_CONFIG_SEP)[0]);
 		return resultSupplier == null ? json.get() : resultSupplier.get();
+	}
+
+	private static String csvExport(String format, String queryResultString) {
+		List<?> list = Json.fromJson(Json.parse(queryResultString), List.class);
+		String orgs = Json.toJson(list.subList(1, list.size())).toString();
+		String[] formatConfig = format.split(FORMAT_CONFIG_SEP); // e.g. csv:name,id
+		String fields = formatConfig.length > 1 && !formatConfig[1].isEmpty()
+				? formatConfig[1] : defaultFields();
+		return new CsvExport(orgs).of(fields);
+	}
+
+	private static String defaultFields() {
+		return "name,name_en,id,isil,dbsID,type,rs,ags,url,wikipedia,telephone,email,"
+				+ "address.postalCode,address.addressLocality,address.addressCountry,"
+				+ "location[0].geo.lat,location[0].geo.lon,"
+				+ "location[0].address.streetAddress,location[0].address.postalCode,"
+				+ "location[0].address.addressLocality,location[0].address.addressCountry,"
+				+ "classification.id,classification.label,"
+				+ "fundertype.id,fundertype.label,stocksize.id,stocksize.label,"
+				+ "alternateName[0],alternateName[1]";
 	}
 
 	private static String searchQueryResult(String q, String location, int from,

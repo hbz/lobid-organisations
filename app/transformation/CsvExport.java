@@ -1,7 +1,7 @@
 package transformation;
 
+import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,11 +32,11 @@ public class CsvExport {
 	 * @param fields The JSON fields to include in the export
 	 * @return The data for the given fields in CSV format
 	 */
-	public String of(List<String> fields) {
-		String csv = fields.stream().collect(Collectors.joining(",")) + "\n";
+	public String of(String fields) {
+		String csv = fields + "\n";
 		for (Iterator<JsonNode> iter = organisations.elements(); iter.hasNext();) {
 			JsonNode org = iter.next();
-			csv += fields.stream().map(field -> {
+			csv += Arrays.asList(fields.split(",")).stream().map(field -> {
 				try {
 					String value = JsonPath.read(Configuration.defaultConfiguration()
 							.jsonProvider().parse(org.toString()), "$." + field);

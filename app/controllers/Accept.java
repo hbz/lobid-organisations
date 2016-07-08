@@ -36,7 +36,8 @@ public class Accept {
 	static String formatFor(String formatParam,
 			Collection<MediaRange> acceptedTypes) {
 		for (Format format : Format.values())
-			if (format.queryParamString.equals(formatParam))
+			if (formatParam != null && format.queryParamString
+					.equals(formatParam.split(Application.FORMAT_CONFIG_SEP)[0]))
 				return formatParam;
 		for (MediaRange mediaRange : acceptedTypes)
 			for (Format format : Format.values())
