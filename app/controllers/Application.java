@@ -152,10 +152,11 @@ public class Application extends Controller {
 			return ok(script).as("application/javascript; charset=utf-8");
 		});
 		results.put("csv", () -> {
+			List<?> list = Json.fromJson(Json.parse(queryResultString), List.class);
+			String orgs = Json.toJson(list.subList(1, list.size())).toString();
 			response().setHeader("Content-Disposition",
 					"attachment; filename=organisations.csv");
-			return ok(csvExport(format, queryResultString))
-					.as("text/csv; charset=utf-8");
+			return ok(csvExport(format, orgs)).as("text/csv; charset=utf-8");
 		});
 		Supplier<Result> json = () -> {
 			response().setHeader("Access-Control-Allow-Origin", "*");
@@ -166,9 +167,7 @@ public class Application extends Controller {
 		return resultSupplier == null ? json.get() : resultSupplier.get();
 	}
 
-	private static String csvExport(String format, String queryResultString) {
-		List<?> list = Json.fromJson(Json.parse(queryResultString), List.class);
-		String orgs = Json.toJson(list.subList(1, list.size())).toString();
+	private static String csvExport(String format, String orgs) {
 		String[] formatConfig = format.split(FORMAT_CONFIG_SEP); // e.g. csv:name,id
 		String fields = formatConfig.length > 1 && !formatConfig[1].isEmpty()
 				? formatConfig[1] : defaultFields();
@@ -343,9 +342,16 @@ public class Application extends Controller {
 		results.put("js",
 				() -> ok(views.js.location_details.render(json.toString()))
 						.as("application/javascript; charset=utf-8"));
+		results.put("csv", () -> {
+			response().setHeader("Content-Disposition",
+					String.format("attachment; filename=%s.csv", id));
+			return ok(csvExport(format, "[" + json.toString() + "]"))
+					.as("text/csv; charset=utf-8");
+		});
 		Supplier<Result> jsonSupplier =
 				() -> ok(prettyJsonOk(json)).as("application/json; charset=utf-8");
-		Supplier<Result> resultSupplier = results.get(format);
+		Supplier<Result> resultSupplier =
+				results.get(format.split(FORMAT_CONFIG_SEP)[0]);
 		return resultSupplier == null ? jsonSupplier.get() : resultSupplier.get();
 	}
 
