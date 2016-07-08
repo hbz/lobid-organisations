@@ -26,6 +26,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.internal.InternalSettingsPreparer;
 import org.elasticsearch.plugins.Plugin;
+import org.xbib.elasticsearch.plugin.bundle.BundlePlugin;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,15 +53,18 @@ public class Index extends Controller {
 		}
 	}
 
-	static Settings clientSettings =
+	private static Settings clientSettings =
 			Settings.settingsBuilder().put("path.home", ".")
 					.put("http.port", Application.CONFIG.getString("index.es.port.http"))
 					.put("transport.tcp.port",
 							Application.CONFIG.getString("index.es.port.tcp"))
 					.put("script.default_lang", "native").build();
-	private static Node node = new ConfigurableNode(
-			nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
-			Arrays.asList(LocationAggregation.class)).start();
+
+	private static Node node =
+			new ConfigurableNode(
+					nodeBuilder().settings(clientSettings).local(true).getSettings()
+							.build(),
+					Arrays.asList(BundlePlugin.class, LocationAggregation.class)).start();
 	/**
 	 * The Elasticsearch client to be used by all parts of the application
 	 */

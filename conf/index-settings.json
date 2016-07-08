@@ -5,11 +5,12 @@
 			"analysis": {
 				"analyzer": {
 					"default": {
-						"tokenizer": "standard",
-						"filter": ["lowercase", "german_filter"]
+						"type" : "custom",
+						"tokenizer" : "hyphen_tokenizer",
+						"filter": ["lowercase", "german_filter", "hyphen_filter"]
 					},
 					"autocomplete": {
-						"tokenizer": "my_edge_ngram_tokenizer", 
+						"tokenizer": "edge_ngram_tokenizer",
 						"filter": ["lowercase", "german_filter"]
 					}, 
 					"id": {
@@ -18,7 +19,7 @@
 					}
 				}, 
 				"tokenizer": {
-					"my_edge_ngram_tokenizer": {
+					"edge_ngram_tokenizer": {
 						"type": "edgeNGram", 
 						"min_gram": "1", 
 						"max_gram": "40", 
@@ -26,12 +27,18 @@
 							"letter", 
 							"digit"
 						]
+					},
+					"hyphen_tokenizer" : {
+						"type" : "hyphen"
 					}
 				},
 				"filter" : {
 					"german_filter" : {
 						"type" : "snowball",
 						"language" : "German2"
+					},
+					"hyphen_filter" : {
+						"type" : "hyphen"
 					}
 				}
 			}
