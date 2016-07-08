@@ -42,7 +42,7 @@ public class CsvExport {
 							.jsonProvider().parse(org.toString()), "$." + field);
 					return String.format("\"%s\"", value);
 				} catch (PathNotFoundException x) {
-					Logger.warn(x.getMessage());
+					Logger.trace(x.getMessage());
 					// https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#empty-and-quoted-cells
 					return "";
 				}
