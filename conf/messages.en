@@ -39,7 +39,7 @@ search.location = Location
 search.prev = prev
 search.next = next
 search.total_results = Total results
-search.footer.api_text = You can also access <a href="{0}">this data</a> using our <a href="{1}">API</a>.
+search.footer.api_text = You can also access this data as <a href="{0}">JSON</a> or <a href="{1}">CSV</a> using our <a href="{2}">API</a>.
 search.footer.no_results = No results for <code>{0}</code>.
 search.type = Type
 search.stocksize = Stock size
@@ -95,3 +95,5 @@ organisation.location.addressLocality = City
 organisation.location.streetAddress = Street
 organisation.location.addressCountry = Country
 organisation.location.openingHoursSpecification = Opening hours
+
+organisation.footer.api_text = You can also access <a href="{0}">this data</a> using our <a href="{1}">API</a>.

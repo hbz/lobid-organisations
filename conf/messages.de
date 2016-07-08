@@ -39,7 +39,7 @@ search.location = Standort
 search.prev = vorige
 search.next = nächste
 search.total_results = Trefferzahl
-search.footer.api_text = Sie können auf <a href="{0}">diese Daten</a> auch über unsere <a href="{1}">Programmierschnittstelle</a> zugreifen.
+search.footer.api_text = Sie können auf diese Daten auch als <a href="{0}">JSON</a> oder <a href="{1}">CSV</a> über unsere <a href="{2}">Programmierschnittstelle</a> zugreifen.
 search.footer.no_results = Keine Ergebnisse für <code>{0}</code>.
 search.type = Typ
 search.stocksize = Bestandsgröße
@@ -95,3 +95,5 @@ organisation.location.addressLocality = Stadt
 organisation.location.streetAddress = Straße
 organisation.location.addressCountry = Land
 organisation.location.openingHoursSpecification = Öffnungzeiten
+
+organisation.footer.api_text = Sie können auf <a href="{0}">diese Daten</a> auch über unsere <a href="{1}">Programmierschnittstelle</a> zugreifen.
