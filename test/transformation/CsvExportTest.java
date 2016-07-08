@@ -27,7 +27,7 @@ public class CsvExportTest {
 		node2.put("field2", "org2-value2");
 		node2.put("field3", "org2-value3");
 		List<ObjectNode> orgs = Arrays.asList(node1, node2);
-		CsvExport export = new CsvExport(orgs);
+		CsvExport export = new CsvExport(Json.stringify(Json.toJson(orgs)));
 		String expected = String.format("%s,%s\n%s,%s\n%s,%s\n", //
 				"field1", "field3", //
 				"\"org1-value1\"", "\"org1-value3\"", //
@@ -55,7 +55,7 @@ public class CsvExportTest {
 		sub2.put("field2", "org2-sub2");
 		sub2.put("field3", "org2-sub3");
 		List<ObjectNode> orgs = Arrays.asList(org1, org2);
-		CsvExport export = new CsvExport(orgs);
+		CsvExport export = new CsvExport(Json.stringify(Json.toJson(orgs)));
 		String expected = String.format("%s,%s\n%s,%s\n%s,%s\n", //
 				"field1", "field3.field2", //
 				"\"org1-value1\"", "\"org1-sub2\"", //
@@ -64,12 +64,18 @@ public class CsvExportTest {
 				.isEqualTo(expected);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testInvalid() {
+	@Test
+	public void testMissingField() {
 		ObjectNode org = Json.newObject();
 		org.put("field1", "org1-value1");
 		org.put("field2", "org1-value2");
 		org.put("field3", "org1-value3");
-		new CsvExport(Arrays.asList(org)).of(Arrays.asList("no-such-field"));
+		CsvExport export =
+				new CsvExport(Json.stringify(Json.toJson(Arrays.asList(org))));
+		String expected = String.format("%s,%s\n%s,%s\n", //
+				"field1", "no-such-field", //
+				"\"org1-value1\"", "");
+		assertThat(export.of(Arrays.asList("field1", "no-such-field")))
+				.isEqualTo(expected);
 	}
 }

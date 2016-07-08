@@ -36,6 +36,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.twirl.api.Html;
 import play.twirl.api.JavaScript;
+import transformation.CsvExport;
 import views.html.api;
 
 /**
@@ -113,7 +114,7 @@ public class Application extends Controller {
 					String.format("q=%s,location=%s,from=%s,size=%s,format=%s,lang=%s", q,
 							location, from, size, responseFormat, lang().code());
 			Result cachedResult = (Result) Cache.get(cacheKey);
-			if (cachedResult != null) {
+			if (cachedResult != null && responseFormat.equals("html")) {
 				return cachedResult;
 			}
 			Result searchResult =
@@ -147,6 +148,14 @@ public class Application extends Controller {
 			JavaScript script =
 					views.js.facet_map.render(queryMetadata, q, location, from, size);
 			return ok(script).as("application/javascript; charset=utf-8");
+		});
+		results.put("csv", () -> {
+			List<?> list = Json.fromJson(Json.parse(queryResultString), List.class);
+			String orgs = Json.toJson(list.subList(1, list.size())).toString();
+			String csv = new CsvExport(orgs).of(Arrays.asList("name", "id"));
+			response().setHeader("Content-Disposition",
+					"attachment; filename=organisations.csv");
+			return ok(csv).as("text/csv; charset=utf-8");
 		});
 		Supplier<Result> json = () -> {
 			response().setHeader("Access-Control-Allow-Origin", "*");

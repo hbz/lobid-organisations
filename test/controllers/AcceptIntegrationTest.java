@@ -46,10 +46,12 @@ public class AcceptIntegrationTest extends ElasticsearchTest {
 			// search, others formats as query param:
 			{ fakeRequest(GET, "/organisations/search?q=*&format=html"), /*->*/ "text/html" }, 
 			{ fakeRequest(GET, "/organisations/search?q=*&format=js"), /*->*/ "application/javascript" },
+			{ fakeRequest(GET, "/organisations/search?q=*&format=csv"), /*->*/ "text/csv" },
 			// search, others formats via header:
 			{ fakeRequest(GET, "/organisations/search?q=*").withHeader("Accept", "application/json"), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/organisations/search?q=*").withHeader("Accept", "text/html"), /*->*/ "text/html" },
 			{ fakeRequest(GET, "/organisations/search?q=*").withHeader("Accept", "application/javascript"), /*->*/ "application/javascript" },
+			{ fakeRequest(GET, "/organisations/search?q=*").withHeader("Accept", "text/csv"), /*->*/ "text/csv" },
 			// get, default format: JSON
 			{ fakeRequest(GET, "/organisations/DE-38"), /*->*/ "application/json" }, 
 			{ fakeRequest(GET, "/organisations/DE-38?format="), /*->*/ "application/json" }, 

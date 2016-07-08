@@ -21,7 +21,8 @@ public class Accept {
 	enum Format {
 		JSON_LD("json", "application/json", "application/ld+json"), //
 		HTML("html", "text/html"), //
-		JAVASCRIPT("js", "text/javascript", "application/javascript");
+		JAVASCRIPT("js", "text/javascript", "application/javascript"), //
+		CSV("csv", "text/csv");
 
 		String[] types;
 		String queryParamString;
