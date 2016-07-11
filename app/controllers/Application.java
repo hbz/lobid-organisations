@@ -68,6 +68,18 @@ public class Application extends Controller {
 	}
 
 	/**
+	 * @param field The field name
+	 * @param organisation The organisation JSON
+	 * @return The localized field name to use for the given organisation (if the
+	 *         data contains it), or the given field name
+	 */
+	public static String localized(String field, JsonNode organisation) {
+		final String localizedFieldName = field + "_en";
+		return lang().code().split("-")[0].equals("en")
+				&& organisation.has(localizedFieldName) ? localizedFieldName : field;
+	}
+
+	/**
 	 * @return 200 ok response to render api documentation
 	 */
 	public static Result api() {
