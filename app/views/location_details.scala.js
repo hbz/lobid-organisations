@@ -38,8 +38,7 @@
 }
 
 function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
-  var layer = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-	subdomains: '1234',
+  var layer = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   });
   var center = new L.LatLng(latCoord, lonCoord)
