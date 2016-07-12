@@ -245,6 +245,9 @@
 				</data>
 				<data source="typ_text" name="label"></data>
 			</choose>
+			<data source="035E.f" name="label_en">
+				<lookup in="libtype_id_to_value_en_map" />
+			</data>
 		</entity>
 		<entity name="fundertype" flushWith="record">
 			<choose>
@@ -261,6 +264,9 @@
 				</data>
 				<data source="utr_text" name="label"></data>
 			</choose>
+			<data source="035E.g" name="label_en">
+				<lookup in="fundertype_id_to_value_en_map" />
+			</data>
 		</entity>
 		<entity name="stocksize" flushWith="record">
 			<choose>
@@ -277,6 +283,9 @@
 				</data>
 				<data source="gro_text" name="label"></data>
 			</choose>
+			<data source="035E.h" name="label_en">
+				<lookup in="stocksize_id_to_value_en_map" />
+			</data>
 		</entity>
 		<data source="isil" name="isPrimaryTopicOf">
 			<regexp match="(.*)"
@@ -427,6 +436,68 @@
 			<entry name="95" value="Virtuelle Bibliothek / Portal" />
 			<entry name="96" value="Verbundsystem/ -kataloge" />
 			<entry name="98" value="Serviceeinrichtung" />
+		</map>
+		<map name="fundertype_id_to_value_en_map">
+			<entry name="01" value="Federal Republic of Germany" />
+			<entry name="02" value="Federal State" />
+			<entry name="03" value="County" />
+			<entry name="04" value="Commune" />
+			<entry name="05" value="Other Territorial Authority" />
+			<entry name="06" value="Other Public Sector Funder" />
+			<entry name="07" value="Corporate Body or Foundation under Public Law" />
+			<entry name="08" value="Corporate Body or Foundation under Private Law" />
+			<entry name="09" value="Protestant Church" />
+			<entry name="10" value="Catholic Church" />
+			<entry name="11" value="Other Religious Communities" />
+			<entry name="12" value="Private Funding Body (Natural Person)" />
+			<entry name="13" value="Foreign Funding Body" />
+		</map>
+		<map name="stocksize_id_to_value_en_map">
+			<entry name="01" value="up to 1,000" />
+			<entry name="02" value="1,001 - 2,000" />
+			<entry name="03" value="2,001 - 3,000" />
+			<entry name="04" value="3,001 - 5,000" />
+			<entry name="05" value="5,001 - 10,000" />
+			<entry name="06" value="10,001 - 30,000" />
+			<entry name="07" value="30,001 - 100,000" />
+			<entry name="08" value="100,001 - 300,000" />
+			<entry name="09" value="300,001 - 1,000,000" />
+			<entry name="10" value="1,000,001 and more" />
+			<entry name="11" value="Institution without holdings" />
+		</map>
+		<map name="libtype_id_to_value_en_map">
+			<entry name="11" value="National Library" />
+			<entry name="15" value="Central Subject Library" />
+			<entry name="21" value="Regional Library" />
+			<entry name="33" value="Public Library" />
+			<entry name="34" value="Media Library" />
+			<entry name="36" value="Öffentliche Bibliothek für besondere Benutzergruppen" />
+			<entry name="39" value="Mobile Library" />
+			<entry name="51" value="Archive (State)" />
+			<entry name="52" value="Archive (municipal)" />
+			<entry name="53" value="Archive (Church)" />
+			<entry name="54" value="AArchive ((Noble) Families)" />
+			<entry name="55" value="Archive (Enterprise)" />
+			<entry name="56" value="Archive (Parliament, Party, Foundation or Federation)" />
+			<entry name="57" value="Archive (Media)" />
+			<entry name="58" value="Archive (University, Academia)" />
+			<entry name="59" value="Archive (Miscellaneous)" />
+			<entry name="60" value="Central University Library" />
+			<entry name="65" value="University's Departement Library, Faculty Library, Institute Library" />
+			<entry name="70" value="Central Academic Library, not University" />
+			<entry name="73" value="College's Departement Library, Faculty Library (not University)" />
+			<entry name="81" value="Academic Special Library" />
+			<entry name="82" value="Institution for Preservation of Historical Monuments" />
+			<entry name="84" value="Research Institution" />
+			<entry name="86" value="Museum (not Museum Library)" />
+			<entry name="87" value="Publisher" />
+			<entry name="88" value="Other Organization" />
+			<entry name="89" value="Collection of electronic resources" />
+			<entry name="91" value="State Public Library Office" />
+			<entry name="94" value="Regional Catalogue" />
+			<entry name="95" value="Virtual Library / Portal" />
+			<entry name="96" value="Union Catalogue" />
+			<entry name="98" value="Service Institution" />
 		</map>
 		<map name="fundertype_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
 			<entry value="http://purl.org/lobid/fundertype#n01" name="Bundesrepublik Deutschland" />
