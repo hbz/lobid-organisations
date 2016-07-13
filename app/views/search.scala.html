@@ -108,6 +108,8 @@
 		</div>
 	</div>
 	</p>
-	<p>@Html(Messages.get("search.footer.api_text", routes.Application.search(q=(if(!q.isEmpty) q else "*"), from=from, format="json", location=location), routes.Application.api()))</p>
-	} else { @if(!q.isEmpty) {<p>@Html(Messages.get("search.footer.no_results", q))</p>} } }
+	@defining(if(!q.isEmpty) q else "*") { qParam =>
+	<p>@Html(Messages.get("search.footer.api_text", routes.Application.search(q=qParam, from=from, format="json", location=location), 
+	routes.Application.search(q=qParam, from=from, format="csv", location=location), routes.Application.api()))</p>
+	}} else { @if(!q.isEmpty) {<p>@Html(Messages.get("search.footer.no_results", q))</p>} } }
 }

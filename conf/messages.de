@@ -39,7 +39,7 @@ search.location = Standort
 search.prev = vorige
 search.next = nächste
 search.total_results = Trefferzahl
-search.footer.api_text = Sie können auf <a href="{0}">diese Daten</a> auch über unsere <a href="{1}">Programmierschnittstelle</a> zugreifen.
+search.footer.api_text = Sie können auf diese Daten auch als <a href="{0}">JSON</a> oder <a href="{1}">CSV</a> über unsere <a href="{2}">Programmierschnittstelle</a> zugreifen.
 search.footer.no_results = Keine Ergebnisse für <code>{0}</code>.
 search.type = Typ
 search.stocksize = Bestandsgröße
@@ -60,11 +60,15 @@ api.location.distance = Suche über Distanz zu einem Punkt ("location": Koordina
 
 api.content_types.header = Inhaltstypen
 api.content_types.default = Standardmäßig liefert dieser Dienst strukturierte API-Antworten (als JSON):
-api.content_types.negotiate = Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json) oder HTML (text/html):
+api.content_types.negotiate = Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json), CSV (text/csv) oder HTML (text/html):
 api.content_types.override = Der Query-Parameter "format" kann verwendet werden, um den Accept-Header aufzuheben, z.B. zur Anzeige von JSON im Browser:
 
+api.csv.header = CSV-Export
+api.csv.default = Standardfelder ("format=csv")
+api.csv.custom = Benutzerdefinierte Felder ("format": zu verwendende Felder, mit Punkten für geschachtelte Felder im Format "csv:feld1,feld2.unterfeld")
+
 api.jsonld.header = JSON-LD
-api.jsonld.info = All API-Anfragen liefern JSON-LD (JSON for Linking Data). Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="{0}">JSON-LD Playground</a> einfügen.
+api.jsonld.info = JSON-API-Anfragen liefern JSON-LD (JSON for Linking Data). Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="{0}">JSON-LD Playground</a> einfügen.
 api.jsonld.rdf.header = RDF-Konvertierung
 api.jsonld.rdf.text = Mit einem JSON-LD-Prozessor können sie API-Antworten in RDF umwandeln, z.B. in N-Quads, einer Übermenge von N-Triples, mit <a href="{0}">jsonld-cli</a>:
 
@@ -95,3 +99,5 @@ organisation.location.addressLocality = Stadt
 organisation.location.streetAddress = Straße
 organisation.location.addressCountry = Land
 organisation.location.openingHoursSpecification = Öffnungzeiten
+
+organisation.footer.api_text = Sie können auf <a href="{0}">diese Daten</a> auch über unsere <a href="{1}">Programmierschnittstelle</a> zugreifen.

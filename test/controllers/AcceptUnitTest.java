@@ -43,12 +43,15 @@ public class AcceptUnitTest {
 			{ fakeRequest(), "html", /*->*/ "html" },
 			{ fakeRequest(), "json", /*->*/ "json" },
 			{ fakeRequest(), "js", /*->*/ "js" },
+			{ fakeRequest(), "csv", /*->*/ "csv" },
+			{ fakeRequest(), "csv:name,id", /*->*/ "csv:name,id" },
 			// supported content types, no format parameter given:
 			{ fakeRequest().withHeader("Accept", "text/html"), null, /*->*/ "html" },
 			{ fakeRequest().withHeader("Accept", "application/javascript"), null, /*->*/ "js" },
 			{ fakeRequest().withHeader("Accept", "text/javascript"), null, /*->*/ "js" },
 			{ fakeRequest().withHeader("Accept", "application/json"), null, /*->*/ "json" },
 			{ fakeRequest().withHeader("Accept", "application/ld+json"), null, /*->*/ "json" },
+			{ fakeRequest().withHeader("Accept", "text/csv"), null, /*->*/ "csv" },
 			// we pick the preferred content type:
 			{ fakeRequest().withHeader("Accept", "text/html,application/json"), null, /*->*/"html" },
 			{ fakeRequest().withHeader("Accept", "application/json,text/html"), null, /*->*/ "json" },

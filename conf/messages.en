@@ -39,7 +39,7 @@ search.location = Location
 search.prev = prev
 search.next = next
 search.total_results = Total results
-search.footer.api_text = You can also access <a href="{0}">this data</a> using our <a href="{1}">API</a>.
+search.footer.api_text = You can also access this data as <a href="{0}">JSON</a> or <a href="{1}">CSV</a> using our <a href="{2}">API</a>.
 search.footer.no_results = No results for <code>{0}</code>.
 search.type = Type
 search.stocksize = Stock size
@@ -58,13 +58,17 @@ api.location.header = Location based queries
 api.location.polygon = Query with polygon ("location": coordinates of polygon points "lat,lon")
 api.location.distance = Query with distance ("location": coordinate of a point and a distance in km "lat,lon,distance")
 
-api.content_types.header = Content Types
+api.content_types.header = Content types
 api.content_types.default = By default, this service returns structured API responses (as JSON):
-api.content_types.negotiate = It supports content negotiation based on the "Accept" header to serve JSON (application/json) or HTML (text/html):
+api.content_types.negotiate = It supports content negotiation based on the "Accept" header to serve JSON (application/json), CSV (text/csv), or HTML (text/html):
 api.content_types.override = An optional "format" query parameter can be used to override the "Accept" header, e.g. to display JSON in a browser:
 
+api.csv.header = CSV export
+api.csv.default = Default fields ("format=csv")
+api.csv.custom = Custom fields ("format": fields to use, with dots for nested fields "csv:field1,field2.subfield")
+
 api.jsonld.header = JSON-LD
-api.jsonld.info = All API calls serve JSON-LD (JSON for Linking Data). You can experiment with that by pasting responses or URLs in the <a href="{0}">JSON-LD Playground</a>.
+api.jsonld.info = JSON API calls serve JSON-LD (JSON for Linking Data). You can experiment with that by pasting responses or URLs in the <a href="{0}">JSON-LD Playground</a>.
 api.jsonld.rdf.header = RDF conversion
 api.jsonld.rdf.text = Use a JSON-LD processor to convert responses to RDF, e.g. to N-Quads, an N-Triples superset, with <a href="{0}">jsonld-cli</a>:
 
@@ -95,3 +99,5 @@ organisation.location.addressLocality = City
 organisation.location.streetAddress = Street
 organisation.location.addressCountry = Country
 organisation.location.openingHoursSpecification = Opening hours
+
+organisation.footer.api_text = You can also access <a href="{0}">this data</a> using our <a href="{1}">API</a>.
