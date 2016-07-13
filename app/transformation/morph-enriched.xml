@@ -249,6 +249,7 @@
 				<lookup in="libtype_id_to_value_en_map" />
 			</data>
 		</entity>
+
 		<entity name="fundertype" flushWith="record">
 			<choose>
 				<data source="035E.g" name="id">
@@ -268,6 +269,7 @@
 				<lookup in="fundertype_id_to_value_en_map" />
 			</data>
 		</entity>
+
 		<entity name="stocksize" flushWith="record">
 			<choose>
 				<data source="035E.h" name="id">
@@ -287,6 +289,7 @@
 				<lookup in="stocksize_id_to_value_en_map" />
 			</data>
 		</entity>
+
 		<data source="isil" name="isPrimaryTopicOf">
 			<regexp match="(.*)"
 				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
