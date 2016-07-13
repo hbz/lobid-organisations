@@ -22,7 +22,7 @@
 		<div class="container-fluid" id="header">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="@routes.Application.index()">
-					<img id="hbz" src='@routes.Assets.at("images/hbz.png")' height="25px" />
+					<span><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></span> lobid-organisations
 				</a>
 			</div>
 			<ul class="nav navbar-nav navbar-left">
@@ -32,12 +32,10 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="@routes.Application.toggleLanguage()" title='@Messages.get("main.navbar.toggle_language.title")'><span class='glyphicon glyphicon-globe'></span>&nbsp;@Messages.get("main.navbar.toggle_language.link")</a></li>
-				<li><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></li>
 			</ul>
 		</div>
 	</nav>
 	<div class="container-fluid">
-		<h1>lobid-organisations<small> &mdash; @Messages.get("main.subtitle")</small></h1>
 		<p>
 		<form action="@routes.Application.search()" method="GET">
 			<div class="input-group">
@@ -56,7 +54,7 @@
 			<hr/>
 			<p>
 				lobid-organisations | @Html(Messages.get("main.footer.text", "https://www.hbz-nrw.de/produkte/linked-open-data")) | 
-				<a href="http://www.hbz-nrw.de/impressum">@Messages.get("main.footer.imprint")</a>
+				<a href="http://www.hbz-nrw.de/impressum">@Messages.get("main.footer.imprint")</a> | <img id="hbz" src='@routes.Assets.at("images/hbz.png")' height="20px" />
 			</p>
 		</div>
 	</div>

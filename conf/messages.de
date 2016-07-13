@@ -1,6 +1,5 @@
 # main
 
-main.subtitle = Ein umfassendes Verzeichnis bibliothekarischer Institutionen
 main.placeholder = Suchen in lobid-organisations
 
 main.navbar.toggle_language.link = English
@@ -19,6 +18,8 @@ main.footer.text = ein LOD-Dienst des <a href="{0}">hbz — Hochschulbibliotheks
 main.footer.imprint = Impressum
 
 # index
+
+index.subtitle = Ein umfassendes Verzeichnis bibliothekarischer Institutionen
 
 index.data_access.header = Datenzugriff
 index.data_access.text = Sie können auf die Daten über unser <a href="{0}">einfaches Suchinterface</a> oder unsere <a href="{1}">Programmierschnittstelle</a> zugreifen oder <a href="{2}">das gesamte Organisationsverzeichnis erkunden</a>.

@@ -22,9 +22,7 @@ dd {
 }
 
 #header #butterfly {
-	display: block;
-	margin-left: auto;
-	padding: 5px;
+	height: 25px;
 }
 
 table {

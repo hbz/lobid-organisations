@@ -1,6 +1,5 @@
 #main
 
-main.subtitle = A comprehensive directory of German library institutions
 main.placeholder = Search lobid-organisations
 
 main.navbar.toggle_language.link = Deutsch
@@ -19,6 +18,8 @@ main.footer.text = a LOD service by <a href="{0}">hbz — Hochschulbibliotheksze
 main.footer.imprint = imprint
 
 # index
+
+index.subtitle = A comprehensive directory of German library institutions
 
 index.data_access.header = Data access
 index.data_access.text = You can access this data using our <a href="{0}">simple search interface</a>, our <a href="{1}">application programming interface</a> or <a href="{2}">explore the full organizations directory</a>.
