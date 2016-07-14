@@ -63,7 +63,7 @@
 		<div id="facet-map"></div>
 		</div>
 		@facet(orgs(0), "type")
-		@facet(orgs(0), "stocksize.label")
+		@facet(orgs(0), Application.localizedLabel("stocksize.label"))
 		</div>
 		<div class="col-md-8">
 			<p>
@@ -102,8 +102,8 @@
 		</div>
 		<div class="col-md-2" id="facets">
 			<p>
-				@facet(orgs(0), "classification.label")
-				@facet(orgs(0), "fundertype.label")
+				@facet(orgs(0), Application.localizedLabel("classification.label"))
+				@facet(orgs(0), Application.localizedLabel("fundertype.label"))
 			</p>
 		</div>
 	</div>

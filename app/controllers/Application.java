@@ -66,7 +66,7 @@ public class Application extends Controller {
 	 * @return 303 redirect to the referrer, after toggling the current language
 	 */
 	public static Result toggleLanguage() {
-		changeLang(lang().code().startsWith("en") ? "de" : "en");
+		changeLang(isEnglish() ? "de" : "en");
 		return redirect(request().getHeader(REFERER));
 	}
 
@@ -78,8 +78,12 @@ public class Application extends Controller {
 	 */
 	public static String localized(String field, JsonNode organisation) {
 		final String localizedFieldName = field + "_en";
-		return lang().code().split("-")[0].equals("en")
-				&& organisation.has(localizedFieldName) ? localizedFieldName : field;
+		return isEnglish() && organisation.has(localizedFieldName)
+				? localizedFieldName : field;
+	}
+
+	private static boolean isEnglish() {
+		return lang().code().split("-")[0].equals("en");
 	}
 
 	/**
@@ -278,10 +282,20 @@ public class Application extends Controller {
 		SearchRequestBuilder searchRequest = Index.CLIENT.prepareSearch(ES_NAME)
 				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
 				.setQuery(query).setFrom(from).setSize(size);
-		searchRequest =
-				withAggregations(searchRequest, "type.raw", "classification.label.raw",
-						"fundertype.label.raw", "stocksize.label.raw");
+		searchRequest = withAggregations(searchRequest, "type.raw",
+				localizedLabel("classification.label.raw"),
+				localizedLabel("fundertype.label.raw"),
+				localizedLabel("stocksize.label.raw"));
 		return searchRequest.execute().actionGet();
+	}
+
+	/**
+	 * @param field The full field to localize
+	 * @return The full field, with the `label` changed to `label_en` if current
+	 *         language is English
+	 */
+	public static String localizedLabel(String field) {
+		return isEnglish() ? field.replace("label", "label_en") : field;
 	}
 
 	private static SearchRequestBuilder withAggregations(
