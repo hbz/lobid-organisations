@@ -463,12 +463,12 @@
 			<entry name="http://purl.org/lobid/libtype#n21" value="Regional Library" />
 			<entry name="http://purl.org/lobid/libtype#n33" value="Public Library" />
 			<entry name="http://purl.org/lobid/libtype#n34" value="Media Library" />
-			<entry name="http://purl.org/lobid/libtype#n36" value="Öffentliche Bibliothek für besondere Benutzergruppen" />
+			<entry name="http://purl.org/lobid/libtype#n36" value="Public Library for Special User Groups" />
 			<entry name="http://purl.org/lobid/libtype#n39" value="Mobile Library" />
 			<entry name="http://purl.org/lobid/libtype#n51" value="Archive (State)" />
-			<entry name="http://purl.org/lobid/libtype#n52" value="Archive (municipal)" />
+			<entry name="http://purl.org/lobid/libtype#n52" value="Archive (Municipal)" />
 			<entry name="http://purl.org/lobid/libtype#n53" value="Archive (Church)" />
-			<entry name="http://purl.org/lobid/libtype#n54" value="AArchive ((Noble) Families)" />
+			<entry name="http://purl.org/lobid/libtype#n54" value="Archive ((Noble) Families)" />
 			<entry name="http://purl.org/lobid/libtype#n55" value="Archive (Enterprise)" />
 			<entry name="http://purl.org/lobid/libtype#n56" value="Archive (Parliament, Party, Foundation or Federation)" />
 			<entry name="http://purl.org/lobid/libtype#n57" value="Archive (Media)" />
