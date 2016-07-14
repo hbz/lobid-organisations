@@ -27,6 +27,10 @@
 		},
 		"description": "http://schema.org/description",
 		"label": "http://www.w3.org/2000/01/rdf-schema#label",
+		"label_en": {
+			"@id": "http://www.w3.org/2000/01/rdf-schema#label",
+			"@language": "en"
+		},
 		"comment": "http://www.w3.org/2000/01/rdf-schema#comment",
 		"email": {
 			"@type": "@id",
