@@ -76,10 +76,19 @@ public class Application extends Controller {
 	 * @return The localized field name to use for the given organisation (if the
 	 *         data contains it), or the given field name
 	 */
-	public static String localized(String field, JsonNode organisation) {
+	public static String localizedOptional(String field, JsonNode organisation) {
 		final String localizedFieldName = field + "_en";
 		return isEnglish() && organisation.has(localizedFieldName)
 				? localizedFieldName : field;
+	}
+
+	/**
+	 * @param field The full field to localize
+	 * @return The full field, with the `label` changed to `label_en` if the
+	 *         current language is English, or the given field if not
+	 */
+	public static String localizedLabel(String field) {
+		return isEnglish() ? field.replace("label", "label_en") : field;
 	}
 
 	private static boolean isEnglish() {
@@ -287,15 +296,6 @@ public class Application extends Controller {
 				localizedLabel("fundertype.label.raw"),
 				localizedLabel("stocksize.label.raw"));
 		return searchRequest.execute().actionGet();
-	}
-
-	/**
-	 * @param field The full field to localize
-	 * @return The full field, with the `label` changed to `label_en` if current
-	 *         language is English
-	 */
-	public static String localizedLabel(String field) {
-		return isEnglish() ? field.replace("label", "label_en") : field;
 	}
 
 	private static SearchRequestBuilder withAggregations(

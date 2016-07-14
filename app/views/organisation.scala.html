@@ -4,10 +4,11 @@
 
 @import play.api.libs.json._
 @import play.i18n._
+@import controllers.Application
 
 @main("", scripts = if(hasLocation){makeLocationDetails()}else{Html("")}) {
     @defining(Json.parse(content.toString())) { parsedContent =>
-    <h1>@((parsedContent \ controllers.Application.localized("name", content)).asOpt[String].getOrElse(id))</h1>
+    <h1>@((parsedContent \ Application.localizedOptional("name", content)).asOpt[String].getOrElse(id))</h1>
     <p>
       <div class="row">
         <div class="col-md-@if(hasLocation){6}else{12}">
@@ -20,9 +21,9 @@
               @produceRow(Messages.get("organisation.table.telephone"), parsedContent \ "telephone",  _ => None)
               @produceRow(Messages.get("organisation.table.email"), parsedContent \ "email",  (s:String) => Some(s.replace("mailto:","")))
               @produceRow(Messages.get("organisation.table.type"), parsedContent \ "type",  _ => None)
-              @produceRow(Messages.get("organisation.table.classification"), parsedContent \ "classification" \ "label",  _ => None)
-              @produceRow(Messages.get("organisation.table.fundertype"), parsedContent \ "fundertype" \ "label",  _ => None)
-              @produceRow(Messages.get("organisation.table.stocksize"), parsedContent \ "stocksize" \ "label",  _ => None)
+              @produceRow(Messages.get("organisation.table.classification"), parsedContent \ "classification" \ Application.localizedLabel("label"),  _ => None)
+              @produceRow(Messages.get("organisation.table.fundertype"), parsedContent \ "fundertype" \ Application.localizedLabel("label"),  _ => None)
+              @produceRow(Messages.get("organisation.table.stocksize"), parsedContent \ "stocksize" \ Application.localizedLabel("label"),  _ => None)
               @for(alternateName <- (parsedContent \ "alternateName").asOpt[Seq[JsValue]].getOrElse(Seq())) {
                    @produceRow(Messages.get("organisation.table.alternateName"), alternateName,  _ => None)
               }
