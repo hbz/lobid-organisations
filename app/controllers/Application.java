@@ -193,9 +193,10 @@ public class Application extends Controller {
 				+ "location[0].geo.lat,location[0].geo.lon,"
 				+ "location[0].address.streetAddress,location[0].address.postalCode,"
 				+ "location[0].address.addressLocality,location[0].address.addressCountry,"
-				+ "classification.id,classification.label,"
-				+ "fundertype.id,fundertype.label,stocksize.id,stocksize.label,"
-				+ "alternateName[0],alternateName[1]";
+				+ "classification.id," + localizedLabel("classification.label")
+				+ ",fundertype.id," + localizedLabel("fundertype.label")
+				+ ",stocksize.id," + localizedLabel("stocksize.label")
+				+ ",alternateName[0],alternateName[1]";
 	}
 
 	private static String searchQueryResult(String q, String location, int from,
