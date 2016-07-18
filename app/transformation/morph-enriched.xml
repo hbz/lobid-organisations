@@ -35,6 +35,16 @@
 				</choose>
 			</group>
 		</macro>
+		<macro name="make-id">
+			<choose>
+				<data source="$[isil-field]" name="$[output-name]">
+					<regexp match="(.*)" format="$[uri-base]" />
+				</data>
+				<data source="$[dbs-field]" name="$[output-name]">
+					<lookup in="$[dbs-lookup]" />
+				</data>
+			</choose>
+		</macro>
 	</macros>
 	<rules>		
 		<data source="nam|029A.a" name="\@context">
@@ -230,54 +240,45 @@
 			</entity>
 		</entity>
 
+		<!-- Determine classification, fundertype, and stocksize ID, loop back '@' -->
+		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_text" dbs-lookup="libtype_value_to_id_map" 
+			uri-base="http://purl.org/lobid/libtype#n${1}" output-name="@classificationId"/>
+		<call-macro name="make-id" isil-field="035E.g" dbs-field="utr_text" dbs-lookup="fundertype_value_to_id_map" 
+			uri-base="http://purl.org/lobid/fundertype#n${1}" output-name="@fundertypeId"/>
+		<call-macro name="make-id" isil-field="035E.h" dbs-field="gro_text" dbs-lookup="stocksize_value_to_id_map" 
+			uri-base="http://purl.org/lobid/stocksize#n${1}" output-name="@stocksizeId"/>
+
+		<!-- Use classification, fundertype, and stocksize ID for labels -->
 		<entity name="classification" flushWith="record">
-			<choose>
-				<data source="035E.f" name="id">
-					<regexp match="(.*)" format="http://purl.org/lobid/libtype#n${1}" />
-				</data>
-				<data source="typ_text" name="id">
-					<lookup in="libtype_value_to_id_map" />
-				</data>
-			</choose>
-			<choose>
-				<data source="035E.f" name="label">
-					<lookup in="libtype_id_to_value_map" />
-				</data>
-				<data source="typ_text" name="label"></data>
-			</choose>
+			<data source="@classificationId" name="id"/>
+			<data source="@classificationId" name="label">
+				<lookup in="libtype_id_to_value_map" />
+			</data>
+			<data source="@classificationId" name="label_en">
+				<lookup in="libtype_id_to_value_en_map" />
+			</data>
 		</entity>
+
 		<entity name="fundertype" flushWith="record">
-			<choose>
-				<data source="035E.g" name="id">
-					<regexp match="(.*)" format="http://purl.org/lobid/fundertype#n${1}" />
-				</data>
-				<data source="utr_text" name="id">
-					<lookup in="fundertype_value_to_id_map" />
-				</data>
-			</choose>
-			<choose>
-				<data source="035E.g" name="label">
-					<lookup in="fundertype_id_to_value_map" />
-				</data>
-				<data source="utr_text" name="label"></data>
-			</choose>
+			<data source="@fundertypeId" name="id"/>
+			<data source="@fundertypeId" name="label">
+				<lookup in="fundertype_id_to_value_map" />
+			</data>
+			<data source="@fundertypeId" name="label_en">
+				<lookup in="fundertype_id_to_value_en_map" />
+			</data>
 		</entity>
+
 		<entity name="stocksize" flushWith="record">
-			<choose>
-				<data source="035E.h" name="id">
-					<regexp match="(.*)" format="http://purl.org/lobid/stocksize#n${1}" />
-				</data>
-				<data source="gro_text" name="id">
-						<lookup in="stocksize_value_to_id_map" />
-				</data>
-			</choose>
-			<choose>
-				<data source="035E.h" name="label">
-					<lookup in="stocksize_id_to_value_map" />
-				</data>
-				<data source="gro_text" name="label"></data>
-			</choose>
+			<data source="@stocksizeId" name="id"/>
+			<data source="@stocksizeId" name="label">
+				<lookup in="stocksize_id_to_value_map" />
+			</data>
+			<data source="@stocksizeId" name="label_en">
+				<lookup in="stocksize_id_to_value_en_map" />
+			</data>
 		</entity>
+
 		<data source="isil" name="isPrimaryTopicOf">
 			<regexp match="(.*)"
 				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
@@ -367,66 +368,128 @@
 		<filemap name="geonames_map"
 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
 		<map name="fundertype_id_to_value_map">
-			<entry name="01" value="Bundesrepublik Deutschland" />
-			<entry name="02" value="Land" />
-			<entry name="03" value="Kreis" />
-			<entry name="04" value="Gemeinde" />
-			<entry name="05" value="Sonstige Gebietskörperschaft" />
-			<entry name="06" value="Sonstige öffentliche Trägerschaft" />
-			<entry name="07" value="Körperschaft oder Stiftung des öffentlichen Rechts" />
-			<entry name="08" value="Körperschaft oder Stiftung des privaten Rechts" />
-			<entry name="09" value="Evangelische Kirche" />
-			<entry name="10" value="Katholische Kirche" />
-			<entry name="11" value="Sonstige Religionsgemeinschaften" />
-			<entry name="12" value="Private Trägerschaft (natürliche Personen)" />
-			<entry name="13" value="Ausländische Trägerschaft" />
+			<entry name="http://purl.org/lobid/fundertype#n01" value="Bundesrepublik Deutschland" />
+			<entry name="http://purl.org/lobid/fundertype#n02" value="Land" />
+			<entry name="http://purl.org/lobid/fundertype#n03" value="Kreis" />
+			<entry name="http://purl.org/lobid/fundertype#n04" value="Gemeinde" />
+			<entry name="http://purl.org/lobid/fundertype#n05" value="Sonstige Gebietskörperschaft" />
+			<entry name="http://purl.org/lobid/fundertype#n06" value="Sonstige öffentliche Trägerschaft" />
+			<entry name="http://purl.org/lobid/fundertype#n07" value="Körperschaft oder Stiftung des öffentlichen Rechts" />
+			<entry name="http://purl.org/lobid/fundertype#n08" value="Körperschaft oder Stiftung des privaten Rechts" />
+			<entry name="http://purl.org/lobid/fundertype#n09" value="Evangelische Kirche" />
+			<entry name="http://purl.org/lobid/fundertype#n10" value="Katholische Kirche" />
+			<entry name="http://purl.org/lobid/fundertype#n11" value="Sonstige Religionsgemeinschaften" />
+			<entry name="http://purl.org/lobid/fundertype#n12" value="Private Trägerschaft (natürliche Personen)" />
+			<entry name="http://purl.org/lobid/fundertype#n13" value="Ausländische Trägerschaft" />
 		</map>
 		<map name="stocksize_id_to_value_map">
-			<entry name="01" value="bis 1.000" />
-			<entry name="02" value="1.001 - 2.000" />
-			<entry name="03" value="2.001 - 3.000" />
-			<entry name="04" value="3.001 - 5.000" />
-			<entry name="05" value="5.001 - 10.000" />
-			<entry name="06" value="10.001 - 30.000" />
-			<entry name="07" value="30.001 - 100.000" />
-			<entry name="08" value="100.001 - 300.000" />
-			<entry name="09" value="300.001 - 1.000.000" />
-			<entry name="10" value="1.000.001 und mehr" />
-			<entry name="11" value="Einrichtung ohne Bestand" />
+			<entry name="http://purl.org/lobid/stocksize#n01" value="bis 1.000" />
+			<entry name="http://purl.org/lobid/stocksize#n02" value="1.001 - 2.000" />
+			<entry name="http://purl.org/lobid/stocksize#n03" value="2.001 - 3.000" />
+			<entry name="http://purl.org/lobid/stocksize#n04" value="3.001 - 5.000" />
+			<entry name="http://purl.org/lobid/stocksize#n05" value="5.001 - 10.000" />
+			<entry name="http://purl.org/lobid/stocksize#n06" value="10.001 - 30.000" />
+			<entry name="http://purl.org/lobid/stocksize#n07" value="30.001 - 100.000" />
+			<entry name="http://purl.org/lobid/stocksize#n08" value="100.001 - 300.000" />
+			<entry name="http://purl.org/lobid/stocksize#n09" value="300.001 - 1.000.000" />
+			<entry name="http://purl.org/lobid/stocksize#n10" value="1.000.001 und mehr" />
+			<entry name="http://purl.org/lobid/stocksize#n11" value="Einrichtung ohne Bestand" />
 		</map>
 		<map name="libtype_id_to_value_map">
-			<entry name="11" value="Nationalbibliothek" />
-			<entry name="15" value="Zentrale Fachbibliothek" />
-			<entry name="21" value="Regionalbibliothek" />
-			<entry name="33" value="Öffentliche Bibliothek" />
-			<entry name="34" value="Mediathek" />
-			<entry name="36" value="Öffentliche Bibliothek für besondere Benutzergruppen" />
-			<entry name="39" value="Fahrbibliothek" />
-			<entry name="51" value="Archiv (staatlich)" />
-			<entry name="52" value="Archiv (kommunal)" />
-			<entry name="53" value="Archiv (kirchlich)" />
-			<entry name="54" value="Archiv (Herrschafts-/Familienarchiv)" />
-			<entry name="55" value="Archiv (Wirtschaft)" />
-			<entry name="56" value="Archiv (Parlament, Partei, Stiftung oder Verband)" />
-			<entry name="57" value="Archiv (Medienarchiv)" />
-			<entry name="58" value="Archiv (Hochschule, Wissenschaft)" />
-			<entry name="59" value="Archiv (Sonstiges)" />
-			<entry name="60" value="Zentrale Universitätsbibliothek" />
-			<entry name="65" value="Abteilungsbibliothek, Fachbereichsbibliothek, Institutsbibliothek (Universität)" />
-			<entry name="70" value="Zentrale Hochschulbibliothek, nicht Universität" />
-			<entry name="73" value="Abteilungsbibliothek, Fachbereichsbibliothek (Hochschule, nicht Universität)" />
-			<entry name="81" value="Wissenschaftliche Spezialbibliothek" />
-			<entry name="82" value="Einrichtung der Denkmalpflege" />
-			<entry name="84" value="Forschungseinrichtung" />
-			<entry name="86" value="Museum (nicht Museumsbibliothek)" />
-			<entry name="87" value="Verlag" />
-			<entry name="88" value="Sonstige Einrichtung" />
-			<entry name="89" value="Paket elektronischer Ressourcen" />
-			<entry name="91" value="Fachstelle für Bibliotheken" />
-			<entry name="94" value="Regionaler Zentralkatalog / Leihverkehrszentrale" />
-			<entry name="95" value="Virtuelle Bibliothek / Portal" />
-			<entry name="96" value="Verbundsystem/ -kataloge" />
-			<entry name="98" value="Serviceeinrichtung" />
+			<entry name="http://purl.org/lobid/libtype#n11" value="Nationalbibliothek" />
+			<entry name="http://purl.org/lobid/libtype#n15" value="Zentrale Fachbibliothek" />
+			<entry name="http://purl.org/lobid/libtype#n21" value="Regionalbibliothek" />
+			<entry name="http://purl.org/lobid/libtype#n33" value="Öffentliche Bibliothek" />
+			<entry name="http://purl.org/lobid/libtype#n34" value="Mediathek" />
+			<entry name="http://purl.org/lobid/libtype#n36" value="Öffentliche Bibliothek für besondere Benutzergruppen" />
+			<entry name="http://purl.org/lobid/libtype#n39" value="Fahrbibliothek" />
+			<entry name="http://purl.org/lobid/libtype#n51" value="Archiv (staatlich)" />
+			<entry name="http://purl.org/lobid/libtype#n52" value="Archiv (kommunal)" />
+			<entry name="http://purl.org/lobid/libtype#n53" value="Archiv (kirchlich)" />
+			<entry name="http://purl.org/lobid/libtype#n54" value="Archiv (Herrschafts-/Familienarchiv)" />
+			<entry name="http://purl.org/lobid/libtype#n55" value="Archiv (Wirtschaft)" />
+			<entry name="http://purl.org/lobid/libtype#n56" value="Archiv (Parlament, Partei, Stiftung oder Verband)" />
+			<entry name="http://purl.org/lobid/libtype#n57" value="Archiv (Medienarchiv)" />
+			<entry name="http://purl.org/lobid/libtype#n58" value="Archiv (Hochschule, Wissenschaft)" />
+			<entry name="http://purl.org/lobid/libtype#n59" value="Archiv (Sonstiges)" />
+			<entry name="http://purl.org/lobid/libtype#n60" value="Zentrale Universitätsbibliothek" />
+			<entry name="http://purl.org/lobid/libtype#n65" value="Abteilungsbibliothek, Fachbereichsbibliothek, Institutsbibliothek (Universität)" />
+			<entry name="http://purl.org/lobid/libtype#n70" value="Zentrale Hochschulbibliothek, nicht Universität" />
+			<entry name="http://purl.org/lobid/libtype#n73" value="Abteilungsbibliothek, Fachbereichsbibliothek (Hochschule, nicht Universität)" />
+			<entry name="http://purl.org/lobid/libtype#n81" value="Wissenschaftliche Spezialbibliothek" />
+			<entry name="http://purl.org/lobid/libtype#n82" value="Einrichtung der Denkmalpflege" />
+			<entry name="http://purl.org/lobid/libtype#n84" value="Forschungseinrichtung" />
+			<entry name="http://purl.org/lobid/libtype#n86" value="Museum (nicht Museumsbibliothek)" />
+			<entry name="http://purl.org/lobid/libtype#n87" value="Verlag" />
+			<entry name="http://purl.org/lobid/libtype#n88" value="Sonstige Einrichtung" />
+			<entry name="http://purl.org/lobid/libtype#n89" value="Paket elektronischer Ressourcen" />
+			<entry name="http://purl.org/lobid/libtype#n91" value="Fachstelle für Bibliotheken" />
+			<entry name="http://purl.org/lobid/libtype#n94" value="Regionaler Zentralkatalog / Leihverkehrszentrale" />
+			<entry name="http://purl.org/lobid/libtype#n95" value="Virtuelle Bibliothek / Portal" />
+			<entry name="http://purl.org/lobid/libtype#n96" value="Verbundsystem/ -kataloge" />
+			<entry name="http://purl.org/lobid/libtype#n98" value="Serviceeinrichtung" />
+		</map>
+		<map name="fundertype_id_to_value_en_map">
+			<entry name="http://purl.org/lobid/fundertype#n01" value="Federal Republic of Germany" />
+			<entry name="http://purl.org/lobid/fundertype#n02" value="Federal State" />
+			<entry name="http://purl.org/lobid/fundertype#n03" value="County" />
+			<entry name="http://purl.org/lobid/fundertype#n04" value="Commune" />
+			<entry name="http://purl.org/lobid/fundertype#n05" value="Other Territorial Authority" />
+			<entry name="http://purl.org/lobid/fundertype#n06" value="Other Public Sector Funder" />
+			<entry name="http://purl.org/lobid/fundertype#n07" value="Corporate Body or Foundation under Public Law" />
+			<entry name="http://purl.org/lobid/fundertype#n08" value="Corporate Body or Foundation under Private Law" />
+			<entry name="http://purl.org/lobid/fundertype#n09" value="Protestant Church" />
+			<entry name="http://purl.org/lobid/fundertype#n10" value="Catholic Church" />
+			<entry name="http://purl.org/lobid/fundertype#n11" value="Other Religious Communities" />
+			<entry name="http://purl.org/lobid/fundertype#n12" value="Private Funding Body (Natural Person)" />
+			<entry name="http://purl.org/lobid/fundertype#n13" value="Foreign Funding Body" />
+		</map>
+		<map name="stocksize_id_to_value_en_map">
+			<entry name="http://purl.org/lobid/stocksize#n01" value="up to 1,000" />
+			<entry name="http://purl.org/lobid/stocksize#n02" value="1,001 - 2,000" />
+			<entry name="http://purl.org/lobid/stocksize#n03" value="2,001 - 3,000" />
+			<entry name="http://purl.org/lobid/stocksize#n04" value="3,001 - 5,000" />
+			<entry name="http://purl.org/lobid/stocksize#n05" value="5,001 - 10,000" />
+			<entry name="http://purl.org/lobid/stocksize#n06" value="10,001 - 30,000" />
+			<entry name="http://purl.org/lobid/stocksize#n07" value="30,001 - 100,000" />
+			<entry name="http://purl.org/lobid/stocksize#n08" value="100,001 - 300,000" />
+			<entry name="http://purl.org/lobid/stocksize#n09" value="300,001 - 1,000,000" />
+			<entry name="http://purl.org/lobid/stocksize#n10" value="1,000,001 and more" />
+			<entry name="http://purl.org/lobid/stocksize#n11" value="Institution without holdings" />
+		</map>
+		<map name="libtype_id_to_value_en_map">
+			<entry name="http://purl.org/lobid/libtype#n11" value="National Library" />
+			<entry name="http://purl.org/lobid/libtype#n15" value="Central Subject Library" />
+			<entry name="http://purl.org/lobid/libtype#n21" value="Regional Library" />
+			<entry name="http://purl.org/lobid/libtype#n33" value="Public Library" />
+			<entry name="http://purl.org/lobid/libtype#n34" value="Media Library" />
+			<entry name="http://purl.org/lobid/libtype#n36" value="Public Library for Special User Groups" />
+			<entry name="http://purl.org/lobid/libtype#n39" value="Mobile Library" />
+			<entry name="http://purl.org/lobid/libtype#n51" value="Archive (State)" />
+			<entry name="http://purl.org/lobid/libtype#n52" value="Archive (Municipal)" />
+			<entry name="http://purl.org/lobid/libtype#n53" value="Archive (Church)" />
+			<entry name="http://purl.org/lobid/libtype#n54" value="Archive ((Noble) Families)" />
+			<entry name="http://purl.org/lobid/libtype#n55" value="Archive (Enterprise)" />
+			<entry name="http://purl.org/lobid/libtype#n56" value="Archive (Parliament, Party, Foundation or Federation)" />
+			<entry name="http://purl.org/lobid/libtype#n57" value="Archive (Media)" />
+			<entry name="http://purl.org/lobid/libtype#n58" value="Archive (University, Academia)" />
+			<entry name="http://purl.org/lobid/libtype#n59" value="Archive (Miscellaneous)" />
+			<entry name="http://purl.org/lobid/libtype#n60" value="Central University Library" />
+			<entry name="http://purl.org/lobid/libtype#n65" value="University's Departement Library, Faculty Library, Institute Library" />
+			<entry name="http://purl.org/lobid/libtype#n70" value="Central Academic Library, not University" />
+			<entry name="http://purl.org/lobid/libtype#n73" value="College's Departement Library, Faculty Library (not University)" />
+			<entry name="http://purl.org/lobid/libtype#n81" value="Academic Special Library" />
+			<entry name="http://purl.org/lobid/libtype#n82" value="Institution for Preservation of Historical Monuments" />
+			<entry name="http://purl.org/lobid/libtype#n84" value="Research Institution" />
+			<entry name="http://purl.org/lobid/libtype#n86" value="Museum (not Museum Library)" />
+			<entry name="http://purl.org/lobid/libtype#n87" value="Publisher" />
+			<entry name="http://purl.org/lobid/libtype#n88" value="Other Organization" />
+			<entry name="http://purl.org/lobid/libtype#n89" value="Collection of electronic resources" />
+			<entry name="http://purl.org/lobid/libtype#n91" value="State Public Library Office" />
+			<entry name="http://purl.org/lobid/libtype#n94" value="Regional Catalogue" />
+			<entry name="http://purl.org/lobid/libtype#n95" value="Virtual Library / Portal" />
+			<entry name="http://purl.org/lobid/libtype#n96" value="Union Catalogue" />
+			<entry name="http://purl.org/lobid/libtype#n98" value="Service Institution" />
 		</map>
 		<map name="fundertype_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
 			<entry value="http://purl.org/lobid/fundertype#n01" name="Bundesrepublik Deutschland" />

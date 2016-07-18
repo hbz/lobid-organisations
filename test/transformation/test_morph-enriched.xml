@@ -33,7 +33,7 @@
 						<literal name="009Q.z" value="B" />
 					</record>
 					<record id="de-10">
-						<literal name="typ_text" value="Öffentliche Bibliothek" />
+						<literal name="typ_text" value="Fach-/Hochschulbibliothek" />
 						<literal name="utr_text" value="Land" />
 						<literal name="gro_text" value="1.000.001 und mehr" />
 						<literal name="stk_2007" value="10510011011" />
@@ -62,14 +62,17 @@
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n60" />
 							<literal name="label" value="Zentrale Universitätsbibliothek" />
+							<literal name="label_en" value="Central University Library" />
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
 							<literal name="label" value="Land" />
+							<literal name="label_en" value="Federal State" />
 						</entity>
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
 							<literal name="label" value="1.000.001 und mehr" />
+							<literal name="label_en" value="1,000,001 and more" />
 						</entity>
 						<entity name="alternateName[]">
 							<literal name="a" value="SBB-PK, Potsdamer Straße" />
@@ -82,14 +85,17 @@
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
 							<literal name="label" value="Öffentliche Bibliothek" />
+							<literal name="label_en" value="Public Library" />
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
 							<literal name="label" value="Land" />
+							<literal name="label_en" value="Federal State" />
 						</entity>
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
 							<literal name="label" value="1.000.001 und mehr" />
+							<literal name="label_en" value="1,000,001 and more" />
 						</entity>
 					</record>
 					<record id="de-10">
@@ -98,16 +104,19 @@
 						<literal name="url" value="http://example.org" />
 						<literal name="provides" value="http://example.org/opac" />
 						<entity name="classification">
-							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
-							<literal name="label" value="Öffentliche Bibliothek" />
+							<literal name="id" value="http://purl.org/lobid/libtype#n73" />
+							<literal name="label" value="Abteilungsbibliothek, Fachbereichsbibliothek (Hochschule, nicht Universität)" />
+							<literal name="label_en" value="College's Departement Library, Faculty Library (not University)" />
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
 							<literal name="label" value="Land" />
+							<literal name="label_en" value="Federal State" />
 						</entity>
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
 							<literal name="label" value="1.000.001 und mehr" />
+							<literal name="label_en" value="1,000,001 and more" />
 						</entity>
 					</record>
 					<record id="de-123">

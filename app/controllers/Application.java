@@ -66,7 +66,7 @@ public class Application extends Controller {
 	 * @return 303 redirect to the referrer, after toggling the current language
 	 */
 	public static Result toggleLanguage() {
-		changeLang(lang().code().startsWith("en") ? "de" : "en");
+		changeLang(isEnglish() ? "de" : "en");
 		return redirect(request().getHeader(REFERER));
 	}
 
@@ -76,10 +76,23 @@ public class Application extends Controller {
 	 * @return The localized field name to use for the given organisation (if the
 	 *         data contains it), or the given field name
 	 */
-	public static String localized(String field, JsonNode organisation) {
+	public static String localizedOptional(String field, JsonNode organisation) {
 		final String localizedFieldName = field + "_en";
-		return lang().code().split("-")[0].equals("en")
-				&& organisation.has(localizedFieldName) ? localizedFieldName : field;
+		return isEnglish() && organisation.has(localizedFieldName)
+				? localizedFieldName : field;
+	}
+
+	/**
+	 * @param field The full field to localize
+	 * @return The full field, with the `label` changed to `label_en` if the
+	 *         current language is English, or the given field if not
+	 */
+	public static String localizedLabel(String field) {
+		return isEnglish() ? field.replace("label", "label_en") : field;
+	}
+
+	private static boolean isEnglish() {
+		return lang().code().split("-")[0].equals("en");
 	}
 
 	/**
@@ -180,9 +193,10 @@ public class Application extends Controller {
 				+ "location[0].geo.lat,location[0].geo.lon,"
 				+ "location[0].address.streetAddress,location[0].address.postalCode,"
 				+ "location[0].address.addressLocality,location[0].address.addressCountry,"
-				+ "classification.id,classification.label,"
-				+ "fundertype.id,fundertype.label,stocksize.id,stocksize.label,"
-				+ "alternateName[0],alternateName[1]";
+				+ "classification.id," + localizedLabel("classification.label")
+				+ ",fundertype.id," + localizedLabel("fundertype.label")
+				+ ",stocksize.id," + localizedLabel("stocksize.label")
+				+ ",alternateName[0],alternateName[1]";
 	}
 
 	private static String searchQueryResult(String q, String location, int from,
@@ -278,9 +292,10 @@ public class Application extends Controller {
 		SearchRequestBuilder searchRequest = Index.CLIENT.prepareSearch(ES_NAME)
 				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
 				.setQuery(query).setFrom(from).setSize(size);
-		searchRequest =
-				withAggregations(searchRequest, "type.raw", "classification.label.raw",
-						"fundertype.label.raw", "stocksize.label.raw");
+		searchRequest = withAggregations(searchRequest, "type.raw",
+				localizedLabel("classification.label.raw"),
+				localizedLabel("fundertype.label.raw"),
+				localizedLabel("stocksize.label.raw"));
 		return searchRequest.execute().actionGet();
 	}
 
