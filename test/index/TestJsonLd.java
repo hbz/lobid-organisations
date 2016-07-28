@@ -35,7 +35,6 @@ public class TestJsonLd extends ElasticsearchTest {
 	@Test
 	public void validateJsonLd()
 			throws JsonParseException, IOException, JsonLdError {
-		System.out.println("###" + getSource("DE-1a"));
 		Object sourceAsJson = JsonUtils.fromString(getSource("DE-1a"));
 		Object sourceAsRdf = JsonLdProcessor.toRDF(sourceAsJson);
 		assertNotNull("Index documents should be parsable as JSON-LD", sourceAsRdf);
