@@ -2,6 +2,7 @@
 
 package transformation;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +36,12 @@ public class Enrich {
 	public static final String DATA_OUTPUT_DIR =
 			Application.CONFIG.hasPath("data.output.dir")
 					? Application.CONFIG.getString("data.output.dir")
-					: System.getProperty("java.io.tmpdir");
+					: System.getProperty("java.io.tmpdir") + "/lobid-organisations";
+
+	static {
+		new File(DATA_OUTPUT_DIR).mkdir();
+	}
+
 	/** The output file path. */
 	public static final String DATA_OUTPUT_FILE = DATA_OUTPUT_DIR + "/"
 			+ controllers.Application.CONFIG.getString("index.file.name");
