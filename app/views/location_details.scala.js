@@ -58,7 +58,7 @@ function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
   marker.addTo(map);
   zoomDetails(map, latlng, marker, locationDetails);
   marker.on('click', function(e) {
-    zoomDetails(map, latlng, marker);
+    zoomDetails(map, latlng, marker, locationDetails);
   });
   $('.nav-tabs a').on('shown.bs.tab', function(event){
     zoomDetails(map, latlng, marker, locationDetails);
