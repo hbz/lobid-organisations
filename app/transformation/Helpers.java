@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.culturegraph.mf.morph.Metamorph;
-import org.culturegraph.mf.morph.maps.RestMap;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
@@ -20,6 +19,7 @@ import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
 
 import controllers.Application;
+import transformation.GeoLookupMap.LookupType;
 
 /**
  * @author pvb
@@ -108,15 +108,8 @@ public class Helpers {
 	private static void setupGeoLookup(final Metamorph morph,
 			String geoLookupServer) {
 		if (geoLookupServer != null && !geoLookupServer.isEmpty()) {
-			RestMap addDbsLatMap = new RestMap();
-			RestMap addDbsLongMap = new RestMap();
-			RestMap addDbsPostalCodeMap = new RestMap();
-			addDbsLatMap.setUrl(geoLookupServer + "/lat/${key}");
-			addDbsLongMap.setUrl(geoLookupServer + "/long/${key}");
-			addDbsPostalCodeMap.setUrl(geoLookupServer + "/postcode/${key}");
-			morph.putMap("addLatMap", addDbsLatMap);
-			morph.putMap("addLongMap", addDbsLongMap);
-			morph.putMap("addPostalCodeMap", addDbsPostalCodeMap);
+			morph.putMap("addLatMap", new GeoLookupMap(LookupType.LAT));
+			morph.putMap("addLongMap", new GeoLookupMap(LookupType.LON));
 		}
 	}
 
