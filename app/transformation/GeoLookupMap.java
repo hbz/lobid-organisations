@@ -39,7 +39,9 @@ public class GeoLookupMap extends HashMap<String, String> {
 	public String get(Object key) {
 		// TODO avoid '__default' calls
 		// TODO avoid duplicate lat/long calls for same key
+		// (will be possible after https://github.com/hbz/geodata/issues/27)
 		// TODO pass key as query param, not in URI path
+		// (will be possible after https://github.com/hbz/geodata/issues/26)
 		if (!key.equals("__default")) {
 			try {
 				String path =
@@ -52,8 +54,9 @@ public class GeoLookupMap extends HashMap<String, String> {
 					if (response.getStatus() == Status.OK) {
 						return response.getBody();
 					}
-					Logger.error("Geo lookup response for URL '{}' not OK: {} ({})", url,
-							response.getStatus(), response.getStatusText());
+					Logger.error(
+							"Geo lookup response status not OK. Key={}, URL={}, Status: {} ({})",
+							key, url, response.getStatus(), response.getStatusText());
 					return null;
 				});
 				return promise.get(1, TimeUnit.MINUTES);
