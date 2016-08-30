@@ -143,9 +143,22 @@
 		
 		<!-- Lookup fields for visitor and other address -->
 		<combine name="@geoLookupDbs" value="${str}/${ort}/${land}" flushWith="record">
-			<data source="addressCountry" name="land" />
-			<data source="str" name="str" />
-			<data source="ort" name="ort" />
+			<if>
+				<all>
+					<data source="addressCountry"> <not-equals string=""/> </data>
+					<data source="str"> <not-equals string=""/> </data>
+					<data source="ort"> <not-equals string=""/> </data>
+				</all>
+			</if>
+			<data source="addressCountry" name="land">
+				<replace pattern="/" with=" "/>
+			</data>
+			<data source="str" name="str" >
+				<replace pattern="/" with=" "/>
+			</data>
+			<data source="ort" name="ort" >
+				<replace pattern="/" with=" "/>
+			</data>
 		</combine>	
 		
 		<!-- Locations -->

@@ -37,7 +37,6 @@ public class GeoLookupMap extends HashMap<String, String> {
 
 	@Override
 	public String get(Object key) {
-		// TODO avoid '__default' calls
 		// TODO avoid duplicate lat/long calls for same key
 		// (will be possible after https://github.com/hbz/geodata/issues/27)
 		// TODO pass key as query param, not in URI path
