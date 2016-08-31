@@ -151,13 +151,13 @@
 				</all>
 			</if>
 			<data source="addressCountry" name="land">
-				<replace pattern="/" with=" "/>
+				<replace pattern="[/.]" with=" "/>
 			</data>
 			<data source="str" name="str" >
-				<replace pattern="/" with=" "/>
+				<replace pattern="[/.]" with=" "/>
 			</data>
 			<data source="ort" name="ort" >
-				<replace pattern="/" with=" "/>
+				<replace pattern="[/.]" with=" "/>
 			</data>
 		</combine>	
 		
