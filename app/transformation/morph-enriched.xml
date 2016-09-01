@@ -142,7 +142,7 @@
 		</entity>
 		
 		<!-- Lookup fields for visitor and other address -->
-		<combine name="@geoLookupDbs" value="${str}/${ort}/${land}" flushWith="record">
+		<combine name="@geoLookupDbs" value="${str}_${ort}_${land}" flushWith="record">
 			<if>
 				<all>
 					<data source="addressCountry"> <not-equals string=""/> </data>
@@ -150,15 +150,9 @@
 					<data source="ort"> <not-equals string=""/> </data>
 				</all>
 			</if>
-			<data source="addressCountry" name="land">
-				<replace pattern="[/.]" with=" "/>
-			</data>
-			<data source="str" name="str" >
-				<replace pattern="[/.]" with=" "/>
-			</data>
-			<data source="ort" name="ort" >
-				<replace pattern="[/.]" with=" "/>
-			</data>
+			<data source="addressCountry" name="land"/>
+			<data source="str" name="str" />
+			<data source="ort" name="ort" />
 		</combine>	
 		
 		<!-- Locations -->

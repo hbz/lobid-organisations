@@ -13,7 +13,7 @@
   @for((location, i) <- (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).zipWithIndex) {
 
     @defining(((parsedContent \ "name"),
-           (parsedContent \ "classification" \ "id").as[String],
+           (parsedContent \ "classification" \ "id").asOpt[String].getOrElse(""),
            Application.CONFIG.getObject("organisation.icons"))) { case(name, classification, icons)  =>
 
       locationDetails = "<table class='table table-striped table-condensed'>"

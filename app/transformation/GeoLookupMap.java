@@ -47,34 +47,45 @@ public class GeoLookupMap extends HashMap<String, String> {
 			return resultFromNode(cached);
 		}
 		if (!key.equals("__default")) {
-			String[] strings = key.toString().split("/");
+			String[] fullAddress = key.toString().split("_");
+			String street = fullAddress[0];
+			String city = fullAddress[1];
+			String country = fullAddress[2];
 			WSRequestHolder requestHolder = WS.url(API)//
 					.setQueryParameter("api_key", API_KEY)
 					.setQueryParameter("layers", "address")
-					.setQueryParameter("boundary.country", strings[2].trim())
-					.setQueryParameter("text", strings[0] + " " + strings[1]);
+					.setQueryParameter("boundary.country", country.trim())
+					.setQueryParameter("text", clean(street) + ", " + clean(city));
 			Logger.debug("Calling API={} with params={}", requestHolder.getUrl(),
 					requestHolder.getQueryParameters());
-			Promise<String> promise = requestHolder.get().map(response -> {
-				if (response.getStatus() == Status.OK) {
-					List<JsonNode> coordinates =
-							response.asJson().findValues("coordinates");
-					if (coordinates != null && coordinates.size() > 0) {
-						JsonNode node = coordinates.get(0);
-						Cache.set(key.toString(), node);
-						return resultFromNode(node);
-					}
-				}
-				Logger.error("Geo lookup failed. Key={}, Params={}, Status: {} ({})",
-						key, requestHolder.getQueryParameters(), response.getStatus(),
-						response.getStatusText());
-				return null;
-			});
-			String result = promise.get(1, TimeUnit.MINUTES);
+			String result = callApi(key, requestHolder);
 			delay();
 			return result;
 		}
 		return null;
+	}
+
+	private String callApi(Object key, WSRequestHolder requestHolder) {
+		Promise<String> promise = requestHolder.get().map(response -> {
+			if (response.getStatus() == Status.OK) {
+				List<JsonNode> coordinates =
+						response.asJson().findValues("coordinates");
+				if (coordinates != null && coordinates.size() > 0) {
+					JsonNode node = coordinates.get(0);
+					Cache.set(key.toString(), node);
+					return resultFromNode(node);
+				}
+			}
+			Logger.error("Geo lookup failed. Key={}, Params={}, Status: {} ({})", key,
+					requestHolder.getQueryParameters(), response.getStatus(),
+					response.getStatusText());
+			return null;
+		});
+		return promise.get(1, TimeUnit.MINUTES);
+	}
+
+	private static String clean(String query) {
+		return query.replaceAll("[.,]", " ").replaceAll("\\s+", " ").trim();
 	}
 
 	private static void delay() {
