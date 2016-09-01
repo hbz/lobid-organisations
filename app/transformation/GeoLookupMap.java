@@ -1,7 +1,6 @@
 package transformation;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,6 +9,7 @@ import controllers.Application;
 import play.Logger;
 import play.cache.Cache;
 import play.libs.F.Promise;
+import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSRequestHolder;
 import play.mvc.Http.Status;
@@ -27,6 +27,8 @@ public class GeoLookupMap extends HashMap<String, String> {
 			Application.CONFIG.getString("transformation.geo.lookup.server");
 	private static final String API_KEY =
 			Application.CONFIG.getString("transformation.geo.lookup.key");
+	private static final Double THRESHOLD =
+			Application.CONFIG.getDouble("transformation.geo.lookup.threshold");
 	private LookupType lookupType;
 
 	static enum LookupType {
@@ -49,13 +51,16 @@ public class GeoLookupMap extends HashMap<String, String> {
 		if (!key.equals("__default")) {
 			String[] fullAddress = key.toString().split("_");
 			String street = fullAddress[0];
-			String city = fullAddress[1];
-			String country = fullAddress[2];
+			String postcode = fullAddress[1];
+			String city = fullAddress[2];
+			String country = fullAddress[3];
+			String query = // e.g. "Jülicher Str 6, 50674 Köln"
+					String.format("%s, %s %s", clean(street), postcode, clean(city));
 			WSRequestHolder requestHolder = WS.url(API)//
 					.setQueryParameter("api_key", API_KEY)
 					.setQueryParameter("layers", "address")
 					.setQueryParameter("boundary.country", country.trim())
-					.setQueryParameter("text", clean(street) + ", " + clean(city));
+					.setQueryParameter("text", query);
 			Logger.debug("Calling API={} with params={}", requestHolder.getUrl(),
 					requestHolder.getQueryParameters());
 			String result = callApi(key, requestHolder);
@@ -68,20 +73,25 @@ public class GeoLookupMap extends HashMap<String, String> {
 	private String callApi(Object key, WSRequestHolder requestHolder) {
 		Promise<String> promise = requestHolder.get().map(response -> {
 			if (response.getStatus() == Status.OK) {
-				List<JsonNode> coordinates =
-						response.asJson().findValues("coordinates");
-				if (coordinates != null && coordinates.size() > 0) {
-					JsonNode node = coordinates.get(0);
-					Cache.set(key.toString(), node);
-					return resultFromNode(node);
+				JsonNode json = response.asJson();
+				JsonNode coordinates = json.findValue("coordinates");
+				JsonNode confidence = json.findValue("confidence");
+				if (coordinates != null && confidence != null//
+						&& confidence.isDouble() && confidence.asDouble() >= THRESHOLD) {
+					Cache.set(key.toString(), coordinates);
+					return resultFromNode(coordinates);
 				}
+				// response OK, but no result, remember that to avoid redundant calls
+				Cache.set(key.toString(), Json.newObject());
 			}
-			Logger.error("Geo lookup failed. Key={}, Params={}, Status: {} ({})", key,
-					requestHolder.getQueryParameters(), response.getStatus(),
+			Logger.error(
+					"No geo coordinates found for: Key={}, Params={} Status: {} ({})",
+					key, requestHolder.getQueryParameters(), response.getStatus(),
 					response.getStatusText());
 			return null;
 		});
 		return promise.get(1, TimeUnit.MINUTES);
+
 	}
 
 	private static String clean(String query) {
@@ -99,6 +109,9 @@ public class GeoLookupMap extends HashMap<String, String> {
 	}
 
 	private String resultFromNode(JsonNode node) {
+		if (node.size() == 0) {
+			return null;
+		}
 		String lon = node.get(0).toString();
 		String lat = node.get(1).toString();
 		return this.lookupType == LookupType.LAT ? lat : lon;

@@ -142,17 +142,19 @@
 		</entity>
 		
 		<!-- Lookup fields for visitor and other address -->
-		<combine name="@geoLookupDbs" value="${str}_${ort}_${land}" flushWith="record">
+		<combine name="@geoLookupDbs" value="${str}_${plz}_${ort}_${land}" flushWith="record">
 			<if>
 				<all>
 					<data source="addressCountry"> <not-equals string=""/> </data>
 					<data source="str"> <not-equals string=""/> </data>
 					<data source="ort"> <not-equals string=""/> </data>
+					<data source="plz"> <not-equals string=""/> </data>
 				</all>
 			</if>
 			<data source="addressCountry" name="land"/>
 			<data source="str" name="str" />
 			<data source="ort" name="ort" />
+			<data source="plz" name="plz" />
 		</combine>	
 		
 		<!-- Locations -->
