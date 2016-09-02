@@ -251,32 +251,38 @@
 		<!-- Use classification, fundertype, and stocksize ID for labels -->
 		<entity name="classification" flushWith="record">
 			<data source="@classificationId" name="id"/>
-			<data source="@classificationId" name="label">
-				<lookup in="libtype_id_to_value_map" />
-			</data>
-			<data source="@classificationId" name="label_en">
-				<lookup in="libtype_id_to_value_en_map" />
-			</data>
+			<entity name="label" flushWith="record">
+				<data source="@classificationId" name="de">
+					<lookup in="libtype_id_to_value_map" />
+				</data>
+				<data source="@classificationId" name="en">
+					<lookup in="libtype_id_to_value_en_map" />
+				</data>
+			</entity>
 		</entity>
 
 		<entity name="fundertype" flushWith="record">
 			<data source="@fundertypeId" name="id"/>
-			<data source="@fundertypeId" name="label">
-				<lookup in="fundertype_id_to_value_map" />
-			</data>
-			<data source="@fundertypeId" name="label_en">
-				<lookup in="fundertype_id_to_value_en_map" />
-			</data>
+			<entity name="label" flushWith="record">
+				<data source="@fundertypeId" name="de">
+					<lookup in="fundertype_id_to_value_map" />
+				</data>
+				<data source="@fundertypeId" name="en">
+					<lookup in="fundertype_id_to_value_en_map" />
+				</data>
+			</entity>
 		</entity>
 
 		<entity name="stocksize" flushWith="record">
 			<data source="@stocksizeId" name="id"/>
-			<data source="@stocksizeId" name="label">
-				<lookup in="stocksize_id_to_value_map" />
-			</data>
-			<data source="@stocksizeId" name="label_en">
-				<lookup in="stocksize_id_to_value_en_map" />
-			</data>
+			<entity name="label" flushWith="record">
+				<data source="@stocksizeId" name="de">
+					<lookup in="stocksize_id_to_value_map" />
+				</data>
+				<data source="@stocksizeId" name="en">
+					<lookup in="stocksize_id_to_value_en_map" />
+				</data>
+			</entity>
 		</entity>
 
 		<data source="isil" name="isPrimaryTopicOf">

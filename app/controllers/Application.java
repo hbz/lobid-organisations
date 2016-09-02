@@ -71,6 +71,13 @@ public class Application extends Controller {
 	}
 
 	/**
+	 * @return The current language, "en" or "de"
+	 */
+	public static String currentLang() {
+		return isEnglish() ? "en" : "de";
+	}
+
+	/**
 	 * @param field The field name
 	 * @param organisation The organisation JSON
 	 * @return The localized field name to use for the given organisation (if the
@@ -84,11 +91,11 @@ public class Application extends Controller {
 
 	/**
 	 * @param field The full field to localize
-	 * @return The full field, with the `label` changed to `label_en` if the
-	 *         current language is English, or the given field if not
+	 * @return The full field, with the `label` changed to `label.en` or
+	 *         `label.de`
 	 */
 	public static String localizedLabel(String field) {
-		return isEnglish() ? field.replace("label", "label_en") : field;
+		return field.replace("label", isEnglish() ? "label.en" : "label.de");
 	}
 
 	private static boolean isEnglish() {

@@ -54,7 +54,7 @@ public class IntegrationTest extends ElasticsearchTest {
 	public void queryByField() {
 		running(fakeApplication(), () -> {
 			Result result = route(
-					fakeRequest(GET, "/organisations/search?q=fundertype.label:land"));
+					fakeRequest(GET, "/organisations/search?q=fundertype.label.de:land"));
 			assertContains(result, "Köln");
 		});
 	}
@@ -96,7 +96,7 @@ public class IntegrationTest extends ElasticsearchTest {
 	public void rectangleSearch() {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13+52,14+53,14+53,13"));
+					"/organisations/search?q=fundertype.label.de:Körperschaft&location=52,13+52,14+53,14+53,13"));
 			assertContains(result, "Berlin");
 		});
 	}
@@ -105,7 +105,7 @@ public class IntegrationTest extends ElasticsearchTest {
 	public void triangleSearch() {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13.5+53,13+53,14"));
+					"/organisations/search?q=fundertype.label.de:Körperschaft&location=52,13.5+53,13+53,14"));
 			assertContains(result, "Berlin");
 		});
 	}
@@ -114,7 +114,7 @@ public class IntegrationTest extends ElasticsearchTest {
 	public void hexagonSearch() {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:Körperschaft&location=52,13+52,14+53,14+53,13+52.5,12+52.5,15"));
+					"/organisations/search?q=fundertype.label.de:Körperschaft&location=52,13+52,14+53,14+53,13+52.5,12+52.5,15"));
 			assertContains(result, "Berlin");
 		});
 	}
@@ -123,7 +123,7 @@ public class IntegrationTest extends ElasticsearchTest {
 	public void distanceSearch() {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET,
-					"/organisations/search?q=fundertype.label:Körperschaft&location=52.5,13.3,25"));
+					"/organisations/search?q=fundertype.label.de:Körperschaft&location=52.5,13.3,25"));
 			assertContains(result, "Berlin");
 		});
 	}
