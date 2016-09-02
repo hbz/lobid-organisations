@@ -72,6 +72,9 @@ public class GeoLookupMap extends HashMap<String, String> {
 
 	private String callApi(Object key, WSRequestHolder requestHolder) {
 		Promise<String> promise = requestHolder.get().map(response -> {
+			String details = String.format(
+					"no result returned for API call with URL=%s, params=%s",
+					requestHolder.getUrl(), requestHolder.getQueryParameters());
 			if (response.getStatus() == Status.OK) {
 				JsonNode json = response.asJson();
 				JsonNode coordinates = json.findValue("coordinates");
@@ -83,11 +86,17 @@ public class GeoLookupMap extends HashMap<String, String> {
 				}
 				// response OK, but no result, remember that to avoid redundant calls
 				Cache.set(key.toString(), Json.newObject());
+				details = String.format(
+						"best result with confidence=%s, "
+								+ "street=%s, housenumber=%s, postalcode=%s, locality=%s, coordinates=%s",
+						confidence, json.findValue("street"), json.findValue("housenumber"),
+						json.findValue("postalcode"), json.findValue("locality"),
+						coordinates);
 			}
 			Logger.error(
-					"No geo coordinates found for: Key={}, Params={} Status: {} ({})",
-					key, requestHolder.getQueryParameters(), response.getStatus(),
-					response.getStatusText());
+					"No geo coordinates found for query: {}, status: {} ({}), details: {}",
+					requestHolder.getQueryParameters().get("text"), response.getStatus(),
+					response.getStatusText(), details);
 			return null;
 		});
 		return promise.get(1, TimeUnit.MINUTES);
