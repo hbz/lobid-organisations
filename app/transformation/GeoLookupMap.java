@@ -50,12 +50,12 @@ public class GeoLookupMap extends HashMap<String, String> {
 		}
 		if (!key.equals("__default")) {
 			String[] fullAddress = key.toString().split("_");
-			String street = fullAddress[0];
+			String street = clean(fullAddress[0]);
 			String postcode = fullAddress[1];
-			String city = fullAddress[2];
+			String city = clean(fullAddress[2]);
 			String country = fullAddress[3];
 			String query = // e.g. "Jülicher Str 6, 50674 Köln"
-					String.format("%s, %s %s", clean(street), postcode, clean(city));
+					String.format("%s, %s %s", street, postcode, city);
 			WSRequestHolder requestHolder = WS.url(API)//
 					.setQueryParameter("api_key", API_KEY)
 					.setQueryParameter("layers", "address")
@@ -63,48 +63,70 @@ public class GeoLookupMap extends HashMap<String, String> {
 					.setQueryParameter("text", query);
 			Logger.debug("Calling API={} with params={}", requestHolder.getUrl(),
 					requestHolder.getQueryParameters());
-			String result = callApi(key, requestHolder);
+			String result = callApi(key, street, city, postcode, requestHolder);
 			delay();
 			return result;
 		}
 		return null;
 	}
 
-	private String callApi(Object key, WSRequestHolder requestHolder) {
+	private String callApi(Object key, String street, String city,
+			String postalcode, WSRequestHolder requestHolder) {
 		Promise<String> promise = requestHolder.get().map(response -> {
 			String details = String.format(
 					"no result returned for API call with URL=%s, params=%s",
 					requestHolder.getUrl(), requestHolder.getQueryParameters());
 			if (response.getStatus() == Status.OK) {
-				JsonNode json = response.asJson();
-				JsonNode coordinates = json.findValue("coordinates");
-				JsonNode confidence = json.findValue("confidence");
-				if (coordinates != null && confidence != null//
-						&& confidence.isDouble() && confidence.asDouble() >= THRESHOLD) {
-					Cache.set(key.toString(), coordinates);
-					return resultFromNode(coordinates);
+				JsonNode features = response.asJson().findValue("features");
+				if (features.size() > 0) {
+					JsonNode bestResult = features.get(0);
+					JsonNode coordinates = bestResult.findValue("coordinates");
+					JsonNode confidence = bestResult.findValue("confidence");
+					JsonNode bestStreet = bestResult.findValue("street");
+					JsonNode bestCity = bestResult.findValue("locality");
+					JsonNode bestPostalcode = bestResult.findValue("postalcode");
+					if (coordinates != null && isGoodEnough(street, city, postalcode,
+							bestStreet, bestCity, bestPostalcode, confidence)) {
+						Cache.set(key.toString(), coordinates);
+						return resultFromNode(coordinates);
+					}
+					// we have a result, but it's not good enough, provide some details:
+					details = String.format(
+							"best result with confidence=%s, "
+									+ "street=%s, housenumber=%s, postalcode=%s, locality=%s, coordinates=%s",
+							confidence, bestStreet, bestResult.findValue("housenumber"),
+							bestPostalcode, bestCity, coordinates);
 				}
 				// response OK, but no result, remember that to avoid redundant calls
 				Cache.set(key.toString(), Json.newObject());
-				details = String.format(
-						"best result with confidence=%s, "
-								+ "street=%s, housenumber=%s, postalcode=%s, locality=%s, coordinates=%s",
-						confidence, json.findValue("street"), json.findValue("housenumber"),
-						json.findValue("postalcode"), json.findValue("locality"),
-						coordinates);
 			}
 			Logger.error(
-					"No geo coordinates found for query: {}, status: {} ({}), details: {}",
-					requestHolder.getQueryParameters().get("text"), response.getStatus(),
-					response.getStatusText(), details);
+					"No geo coordinates found for input data: {}, API query: {}, status: {} ({}), details: {}",
+					key, requestHolder.getQueryParameters().get("text"),
+					response.getStatus(), response.getStatusText(), details);
 			return null;
 		});
 		return promise.get(1, TimeUnit.MINUTES);
 
 	}
 
+	private static boolean isGoodEnough(String street, String city,
+			String postalcode, JsonNode bestStreet, JsonNode bestCity,
+			JsonNode bestPostalcode, JsonNode confidence) {
+		boolean streetMatch =
+				bestStreet != null && street.contains(bestStreet.textValue());
+		boolean cityMatch = bestCity != null && city.equals(bestCity.textValue());
+		boolean postalMatch =
+				bestPostalcode != null && postalcode.equals(bestPostalcode.textValue());
+		boolean addressMatch = streetMatch && (cityMatch || postalMatch);
+		boolean overTreshold = confidence != null && confidence.isDouble()
+				&& confidence.asDouble() >= THRESHOLD;
+		return overTreshold || addressMatch;
+	}
+
 	private static String clean(String query) {
-		return query.replaceAll("[.,]", " ").replaceAll("\\s+", " ").trim();
+		return query.replaceAll("tr\\.", "traße").replaceAll("[.,]", " ")
+				.replaceAll("\\s+", " ").trim();
 	}
 
 	private static void delay() {
