@@ -339,22 +339,22 @@
 		</entity>
 		<group name="linkedTo">
 			<data source="035I.c">
-				<regexp match="(?i).*gbv" format="http://lobid.org/organisation/DE-601" />
+				<regexp match="(?i).*gbv" format="http://lobid.org/organisations/DE-601#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*bvb" format="http://lobid.org/organisation/DE-604" />
+				<regexp match="(?i).*bvb" format="http://lobid.org/organisations/DE-604#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*hebis" format="http://lobid.org/organisation/DE-603" />
+				<regexp match="(?i).*hebis" format="http://lobid.org/organisations/DE-603#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*hbz" format="http://lobid.org/organisation/DE-605" />
+				<regexp match="(?i).*hbz" format="http://lobid.org/organisations/DE-605#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*kobv" format="http://lobid.org/organisation/DE-602" />
+				<regexp match="(?i).*kobv" format="http://lobid.org/organisations/DE-602#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*swb" format="http://lobid.org/organisation/DE-576" />
+				<regexp match="(?i).*swb" format="http://lobid.org/organisations/DE-576#!" />
 			</data>
 		</group>
 	</rules>
