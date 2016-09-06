@@ -56,6 +56,14 @@ public class Application extends Controller {
 	private static final String ES_NAME = CONFIG.getString("index.es.name");
 
 	/**
+	 * @param path The path to redirect to
+	 * @return A 301 MOVED_PERMANENTLY redirect to the path
+	 */
+	public static Result redirect(String path) {
+		return movedPermanently("/" + path);
+	}
+
+	/**
 	 * @return 200 ok response to render the index page
 	 */
 	public static Result index() {
