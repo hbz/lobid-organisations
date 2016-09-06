@@ -26,10 +26,9 @@
 			"@id": "http://schema.org/openingHoursSpecification"
 		},
 		"description": "http://schema.org/description",
-		"label": "http://www.w3.org/2000/01/rdf-schema#label",
-		"label_en": {
+		"label": {
 			"@id": "http://www.w3.org/2000/01/rdf-schema#label",
-			"@language": "en"
+			"@container": "@language"
 		},
 		"comment": "http://www.w3.org/2000/01/rdf-schema#comment",
 		"email": {

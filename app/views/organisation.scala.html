@@ -21,9 +21,9 @@
               @produceRow(Messages.get("organisation.table.telephone"), parsedContent \ "telephone",  _ => None)
               @produceRow(Messages.get("organisation.table.email"), parsedContent \ "email",  (s:String) => Some(s.replace("mailto:","")))
               @produceRow(Messages.get("organisation.table.type"), parsedContent \ "type",  _ => None)
-              @produceRow(Messages.get("organisation.table.classification"), parsedContent \ "classification" \ Application.localizedLabel("label"),  _ => None)
-              @produceRow(Messages.get("organisation.table.fundertype"), parsedContent \ "fundertype" \ Application.localizedLabel("label"),  _ => None)
-              @produceRow(Messages.get("organisation.table.stocksize"), parsedContent \ "stocksize" \ Application.localizedLabel("label"),  _ => None)
+              @produceRow(Messages.get("organisation.table.classification"), parsedContent \ "classification" \ "label" \ Application.currentLang(),  _ => None)
+              @produceRow(Messages.get("organisation.table.fundertype"), parsedContent \ "fundertype" \ "label" \ Application.currentLang(),  _ => None)
+              @produceRow(Messages.get("organisation.table.stocksize"), parsedContent \ "stocksize" \ "label" \ Application.currentLang(),  _ => None)
               @for(alternateName <- (parsedContent \ "alternateName").asOpt[Seq[JsValue]].getOrElse(Seq())) {
                    @produceRow(Messages.get("organisation.table.alternateName"), alternateName,  _ => None)
               }
