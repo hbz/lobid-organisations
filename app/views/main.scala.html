@@ -61,5 +61,35 @@
 	<script src='@controllers.routes.Assets.at("javascripts/jquery-1.10.2.min.js")'></script>
 	<script src='@controllers.routes.Assets.at("javascripts/bootstrap.min.js")'></script>
 	@scripts
+	<script>
+		window.onload = function() {
+			var options = {
+				maximumAge: 5 * 60 * 1000,
+				timeout: 10 * 1000
+			}
+			var success = function(position) {
+				console.log(position);
+				var url = '/organisations/position?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude;
+				$.ajax({
+					url: url,
+					type: 'POST',
+					success: function(data, textStatus, jqXHR) {
+						console.log('Server response: ' + data);
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						console.log(textStatus + ": " + errorThrown);
+					}
+				});
+			};
+			var error = function(error) {
+				console.log(error);
+			};
+			@if(play.mvc.Controller.session("position") == null) {
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(success, error, options);
+				}
+			}
+		};
+	</script>
 </body>
 </html>

@@ -12,12 +12,14 @@ import java.util.stream.Collectors;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -140,9 +142,10 @@ public class Application extends Controller {
 		final String responseFormat =
 				Accept.formatFor(format, request().acceptedTypes());
 		try {
-			String cacheKey =
-					String.format("q=%s,location=%s,from=%s,size=%s,format=%s,lang=%s", q,
-							location, from, size, responseFormat, lang().code());
+			String cacheKey = String.format(
+					"q=%s,location=%s,from=%s,size=%s,format=%s,lang=%s,position=%s", q,
+					location, from, size, responseFormat, lang().code(),
+					session("position"));
 			Result cachedResult = (Result) Cache.get(cacheKey);
 			if (cachedResult != null && responseFormat.equals("html")) {
 				return cachedResult;
@@ -304,13 +307,21 @@ public class Application extends Controller {
 	}
 
 	static SearchResponse executeQuery(int from, int size, QueryBuilder query) {
-		SearchRequestBuilder searchRequest = Index.CLIENT.prepareSearch(ES_NAME)
-				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
-				.setQuery(query).setFrom(from).setSize(size);
+		SearchRequestBuilder searchRequest =
+				Index.CLIENT.prepareSearch(ES_NAME).setTypes(ES_TYPE)//
+						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(query)//
+						.setFrom(from)//
+						.setSize(size);
 		searchRequest = withAggregations(searchRequest, "type.raw",
 				localizedLabel("classification.label.raw"),
 				localizedLabel("fundertype.label.raw"),
 				localizedLabel("stocksize.label.raw"));
+		String position = session("position");
+		if (position != null) {
+			Logger.info("Sorting by distance to current position {}", position);
+			searchRequest.addSort(new GeoDistanceSortBuilder("location.geo")
+					.points(new GeoPoint(position)));
+		}
 		return searchRequest.execute().actionGet();
 	}
 
@@ -361,6 +372,16 @@ public class Application extends Controller {
 		return WS.url(url).execute().map(
 				x -> x.getStatus() == OK ? resultFor(id, x.asJson(), responseFormat)
 						: notFound("Not found: " + id));
+	}
+
+	/**
+	 * @param lat The position's latitude
+	 * @param lon The position's longitude
+	 * @return 200 OK, after storing the position in the session
+	 */
+	public static Result setPosition(String lat, String lon) {
+		session("position", lat + "," + lon);
+		return ok("Position set to " + session("position"));
 	}
 
 	private static Result resultFor(String id, JsonNode json, String format) {
