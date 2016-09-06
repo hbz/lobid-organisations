@@ -44,11 +44,11 @@ public class Reconcile extends Controller {
 	public static Result meta(String callback) {
 		ObjectNode result = Json.newObject();
 		result.put("name", "lobid-organisations reconciliation");
-		result.put("identifierSpace", "http://beta.lobid.org/organisations");
-		result.put("schemaSpace", "http://beta.lobid.org/organisations");
+		result.put("identifierSpace", "http://lobid.org/organisations");
+		result.put("schemaSpace", "http://lobid.org/organisations");
 		result.put("defaultTypes", TYPES);
 		result.put("view", Json.newObject()//
-				.put("url", "http://beta.lobid.org/organisations/{{id}}"));
+				.put("url", "http://lobid.org/organisations/{{id}}"));
 		return callback.isEmpty() ? ok(result)
 				: ok(String.format("/**/%s(%s);", callback, result.toString()))
 						.as("application/json");

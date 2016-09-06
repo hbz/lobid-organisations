@@ -48,7 +48,7 @@
 	</macros>
 	<rules>		
 		<data source="nam|029A.a" name="\@context">
-			<constant value="http://beta.lobid.org/organisations/context.jsonld" />
+			<constant value="http://lobid.org/organisations/context.jsonld" />
 		</data>		
 		<combine name="type" value="${typeurl}">
 			<data source="nam|029A.a" name="type" />
@@ -91,9 +91,9 @@
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
 			<data source="isil" name="id">
-				<regexp match="(.*)" format="http://beta.lobid.org/organisations/${1}#!" />
+				<regexp match="(.*)" format="http://lobid.org/organisations/${1}#!" />
 			</data>
-			<combine name="id" value="http://beta.lobid.org/organisations/DBS-${inr}#!">
+			<combine name="id" value="http://lobid.org/organisations/DBS-${inr}#!">
 				<data source="inr" name="inr">
 					<not-equals string="NULL" />
 				</data>
@@ -348,22 +348,22 @@
 		</entity>
 		<group name="linkedTo">
 			<data source="035I.c">
-				<regexp match="(?i).*gbv" format="http://lobid.org/organisation/DE-601" />
+				<regexp match="(?i).*gbv" format="http://lobid.org/organisations/DE-601#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*bvb" format="http://lobid.org/organisation/DE-604" />
+				<regexp match="(?i).*bvb" format="http://lobid.org/organisations/DE-604#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*hebis" format="http://lobid.org/organisation/DE-603" />
+				<regexp match="(?i).*hebis" format="http://lobid.org/organisations/DE-603#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*hbz" format="http://lobid.org/organisation/DE-605" />
+				<regexp match="(?i).*hbz" format="http://lobid.org/organisations/DE-605#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*kobv" format="http://lobid.org/organisation/DE-602" />
+				<regexp match="(?i).*kobv" format="http://lobid.org/organisations/DE-602#!" />
 			</data>
 			<data source="035I.c">
-				<regexp match="(?i).*swb" format="http://lobid.org/organisation/DE-576" />
+				<regexp match="(?i).*swb" format="http://lobid.org/organisations/DE-576#!" />
 			</data>
 		</group>
 	</rules>
