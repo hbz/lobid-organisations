@@ -14,7 +14,7 @@ public class TestHyphens extends ElasticsearchTest {
 	public void testResultsForHyphenedWord() throws JSONException {
 		SearchHits hits = search("_all", "Roemermuseum").getHits();
 		JSONObject firstHit = new JSONObject(hits.getAt(0).sourceAsString());
-		assertEquals("Roemer-Museum", firstHit.get("name"));
+		assertEquals("Roemer-Museum, Bibliothek", firstHit.get("name"));
 	}
 
 }

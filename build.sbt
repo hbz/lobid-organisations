@@ -16,7 +16,9 @@ libraryDependencies ++= Seq(
   "org.culturegraph" % "metafacture-core" % "2.0.1-HBZ-SNAPSHOT",
   "org.slf4j" % "slf4j-log4j12" % "1.7.6",
   "org.xbib.elasticsearch.plugin" % "elasticsearch-plugin-bundle" % "2.3.2.0",
-  "com.jayway.jsonpath" % "json-path" % "2.2.0"
+  "com.jayway.jsonpath" % "json-path" % "2.2.0",
+  "net.java.dev.jna" % "jna" % "4.1.0",
+  "com.github.spullara.mustache.java" % "compiler" % "0.8.13"
 )
 
 resolvers += Resolver.mavenLocal
