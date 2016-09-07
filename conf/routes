@@ -25,6 +25,7 @@ POST    /organisations/index                     controllers.Index.start()
 
 # Position
 POST    /organisations/position                  controllers.Application.setPosition(lat, lon)
+GET     /organisations/position/remove           controllers.Application.removePosition()
 
 # Transformation    
 POST    /organisations/transform                 controllers.Transformation.startTransformation()

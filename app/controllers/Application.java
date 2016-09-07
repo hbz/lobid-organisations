@@ -78,7 +78,7 @@ public class Application extends Controller {
 	 */
 	public static Result toggleLanguage() {
 		changeLang(isEnglish() ? "de" : "en");
-		return redirect(request().getHeader(REFERER));
+		return seeOther(request().getHeader(REFERER));
 	}
 
 	/**
@@ -391,6 +391,15 @@ public class Application extends Controller {
 	public static Result setPosition(String lat, String lon) {
 		session("position", lat + "," + lon);
 		return ok("Position set to " + session("position"));
+	}
+
+	/**
+	 * @return @return 303 redirect to the referrer, after removing the position
+	 *         from the session
+	 */
+	public static Result removePosition() {
+		session().remove("position");
+		return seeOther(request().getHeader(REFERER));
 	}
 
 	private static Result resultFor(String id, JsonNode json, String format) {

@@ -72,6 +72,9 @@
 				@if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, location=location)'>&LeftArrow; @Messages.get("search.prev")</a>}
 				@(from+1)&mdash;@(Math.min(totalResults, from+size))
 				@if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, location=location)'>@Messages.get("search.next") &RightArrow;</a>}
+				@if(play.mvc.Controller.session("position") != null){ | <a href="@routes.Application.removePosition()">
+				<span class="badge">@Messages.get("search.position_sort") <span class="glyphicon glyphicon-remove"></span></span>
+				</a>}
 			}
 			</p>
 			<p>
