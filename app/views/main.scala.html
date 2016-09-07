@@ -62,6 +62,19 @@
 	<script src='@controllers.routes.Assets.at("javascripts/bootstrap.min.js")'></script>
 	@scripts
 	<script>
+		function postPosition(lat, lon) {
+			var url = '/organisations/position?lat=' + lat + '&lon=' + lon;
+			$.ajax({
+				url: url,
+				type: 'POST',
+				success: function(data, textStatus, jqXHR) {
+					console.log('Server response: ' + data);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus + ": " + errorThrown);
+				}
+			});
+		}
 		window.onload = function() {
 			var options = {
 				maximumAge: 5 * 60 * 1000,
@@ -69,20 +82,17 @@
 			}
 			var success = function(position) {
 				console.log(position);
-				var url = '/organisations/position?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude;
-				$.ajax({
-					url: url,
-					type: 'POST',
-					success: function(data, textStatus, jqXHR) {
-						console.log('Server response: ' + data);
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-						console.log(textStatus + ": " + errorThrown);
-					}
-				});
+				postPosition(position.coords.latitude, position.coords.longitude);
 			};
 			var error = function(error) {
 				console.log(error);
+				console.log('Attempting fallback lookup based on IP number');
+				var latLong;
+				$.getJSON("http://ipinfo.io", function(response) {
+					console.log("Found position: " + response.loc);
+					var latLon = response.loc.split(",");
+					postPosition(latLon[0], latLon[1]);
+				});
 			};
 			@if(play.mvc.Controller.session("position") == null) {
 				if (navigator.geolocation) {
