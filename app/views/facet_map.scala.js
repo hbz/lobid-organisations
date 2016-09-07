@@ -71,12 +71,11 @@ window.onload = addMarkerLayer;
 function addMarkerLayer(){
 	var addedLocations = [];
 	var latLngObjects = [];
-	@for(bucket <- (Json.parse(queryMetadata) \ "aggregations" \ "location.geo" \ "buckets").as[Seq[JsObject]];
-			Array(isil, latLon, name, classification, _*) = (bucket \ "key").as[String].split(";;;");
-			if isil != "null" && latLon != "null" && name != "null" && classification != "null";
-			freq = (bucket \ "doc_count").as[JsNumber]) {
+	@for(pin <- (Json.parse(queryMetadata) \\ "pin");
+			Array(isil, latLon, name, classification, _*) = pin.as[JsArray].value.head.as[String].split(";;;");
+			if isil != "null" && latLon != "null" && name != "null" && classification != "null") {
 	   var iconLabel = '@Application.CONFIG.getObject("organisation.icons").getOrDefault(classification, ConfigValueFactory.fromAnyRef("library")).unwrapped()';
-	   addMarker('/organisations/@isil', '@latLon', '@freq', '@name', iconLabel);
+	   addMarker('/organisations/@isil', '@latLon', '@name', iconLabel);
 	}
 	map.addLayer(markers);
 
@@ -87,7 +86,7 @@ function addMarkerLayer(){
 		map.fitBounds(latLngObjects, {reset: true});
 	}
 
-	function addMarker(link, latLon, freq, name, iconLabel){
+	function addMarker(link, latLon, name, iconLabel){
 		if(addedLocations.indexOf(latLon) == -1) {
 		 var lat = latLon.split(",")[0];
 		 var lon = latLon.split(",")[1];

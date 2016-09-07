@@ -19,6 +19,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.metrics.tophits.TopHitsBuilder;
 import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -312,7 +313,7 @@ public class Application extends Controller {
 						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(query)//
 						.setFrom(from)//
 						.setSize(size);
-		searchRequest = withAggregations(searchRequest, "type.raw",
+		searchRequest = withAggregations(from, size, searchRequest, "type.raw",
 				localizedLabel("classification.label.raw"),
 				localizedLabel("fundertype.label.raw"),
 				localizedLabel("stocksize.label.raw"));
@@ -325,15 +326,23 @@ public class Application extends Controller {
 		return searchRequest.execute().actionGet();
 	}
 
-	private static SearchRequestBuilder withAggregations(
+	private static SearchRequestBuilder withAggregations(int from, int size,
 			final SearchRequestBuilder searchRequest, String... fields) {
 		Arrays.asList(fields).forEach(field -> {
 			searchRequest
 					.addAggregation(AggregationBuilders.terms(field.replace(".raw", ""))
 							.field(field).size(Integer.MAX_VALUE));
 		});
-		searchRequest.addAggregation(AggregationBuilders.terms("location.geo")
-				.script(new Script("location-aggregation")).size(Integer.MAX_VALUE));
+		TopHitsBuilder topHitsBuilder = AggregationBuilders.topHits("location.geo")
+				.addScriptField("pin", new Script("location-aggregation"))
+				.setSize(Integer.MAX_VALUE);
+		String position = session("position");
+		if (position != null) {
+			topHitsBuilder.setFrom(from).setSize(size)
+					.addSort(new GeoDistanceSortBuilder("location.geo")
+							.points(new GeoPoint(position)));
+		}
+		searchRequest.addAggregation(topHitsBuilder);
 		return searchRequest;
 	}
 
