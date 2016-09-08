@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
-import org.culturegraph.mf.stream.pipe.CloseSupressor;
+import org.culturegraph.mf.stream.pipe.CloseSuppressor;
 import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
 import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.source.FileOpener;
@@ -36,7 +36,7 @@ public class EnrichTest {
 
 	private static final TripleRematch REMATCH_TRIPLES =
 			new TripleRematch("isil");
-	private static final CloseSupressor<Triple> WAIT = new CloseSupressor<>(2);
+	private static final CloseSuppressor<Triple> WAIT = new CloseSuppressor<>(2);
 	private static final String SIGEL_DUMP_LOCATION =
 			Enrich.DATA_INPUT_DIR + "sigel.xml";
 	private static final String DBS_LOCATION = Enrich.DATA_INPUT_DIR + "dbs.csv";

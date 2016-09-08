@@ -9,7 +9,7 @@ import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
-import org.culturegraph.mf.stream.pipe.CloseSupressor;
+import org.culturegraph.mf.stream.pipe.CloseSuppressor;
 import org.culturegraph.mf.stream.pipe.TripleFilter;
 import org.culturegraph.mf.stream.pipe.sort.AbstractTripleSort.Compare;
 import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
@@ -73,12 +73,12 @@ public class Helpers {
 
 	/**
 	 * @param flow the processing stream that is to be connected to a JSON writer
-	 * @param wait a CloseSupressor, ensuring all pipes are received by the writer
+	 * @param wait a CloseSuppressor, ensuring all pipes are received by the writer
 	 * @param aOutputPath the destination of the written file
 	 * @param geoLookupServer The geo lookup server, with protocol and port
 	 */
 	static void setupTripleStreamToWriter(final StreamToTriples flow,
-			CloseSupressor<Triple> wait, TripleSort sortTriples,
+			CloseSuppressor<Triple> wait, TripleSort sortTriples,
 			final TripleRematch rematchTriples, final String aOutputPath,
 			String geoLookupServer) {
 

@@ -2,12 +2,12 @@
 
 package transformation;
 
-import org.culturegraph.mf.test.TestSuite;
-import org.culturegraph.mf.test.TestSuite.TestDefinitions;
+import org.culturegraph.mf.test.MetamorphTestSuite;
+import org.culturegraph.mf.test.MetamorphTestSuite.TestDefinitions;
 import org.junit.runner.RunWith;
 
 @SuppressWarnings("javadoc")
-@RunWith(TestSuite.class)
+@RunWith(MetamorphTestSuite.class)
 @TestDefinitions({
 		//
 		"/test_morph-dbs.xml", //
