@@ -24,9 +24,8 @@
               @produceRow(Messages.get("organisation.table.classification"), parsedContent \ "classification" \ "label" \ Application.currentLang(),  _ => None)
               @produceRow(Messages.get("organisation.table.fundertype"), parsedContent \ "fundertype" \ "label" \ Application.currentLang(),  _ => None)
               @produceRow(Messages.get("organisation.table.stocksize"), parsedContent \ "stocksize" \ "label" \ Application.currentLang(),  _ => None)
-              @for(alternateName <- (parsedContent \ "alternateName").asOpt[Seq[JsValue]].getOrElse(Seq())) {
-                   @produceRow(Messages.get("organisation.table.alternateName"), alternateName,  _ => None)
-              }
+              @produceRow(Messages.get("organisation.table.alternateName"), allValues(parsedContent \ "alternateName"),  _ => None)
+              @produceRow(Messages.get("organisation.table.subject"), allValues(parsedContent \ "subject"),  _ => None)
           </table>
           </p>
         </div>
@@ -86,6 +85,10 @@
 
     <p>@Html(Messages.get("organisation.footer.api_text", routes.Application.get(id=id, format="json"), routes.Application.api()))</p>
 
+}
+
+@allValues(value: JsValue) = @{
+	JsString(value.asOpt[Seq[JsValue]].getOrElse(Seq()).map(_.as[String]).mkString(", "))
 }
 
 @produceRow(name: String, value: JsValue, link: String => Option[String]) = {
