@@ -4,6 +4,17 @@
 
 @import play.api.libs.json._
 @import com.typesafe.config._
+@import play.mvc.Controller.session
+
+@addMarkers(pins: Seq[JsValue]) = {
+	@for(pin <- pins;
+		 Array(isil, latLon, name, classification, _*) = pin.as[JsArray].value.head.as[String].split(";;;");
+		 if isil != "null" && latLon != "null" && name != "null" && classification != "null") {
+			var iconLabel = '@Application.CONFIG.getObject("organisation.icons").getOrDefault(classification, ConfigValueFactory.fromAnyRef("library")).unwrapped()';
+			addMarker('/organisations/@isil', '@latLon', '@name', iconLabel);
+	}
+}
+
 var layer = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 });
@@ -71,21 +82,28 @@ window.onload = addMarkerLayer;
 function addMarkerLayer(){
 	var addedLocations = [];
 	var latLngObjects = [];
-	@for(pin <- (Json.parse(queryMetadata) \\ "pin");
-			Array(isil, latLon, name, classification, _*) = pin.as[JsArray].value.head.as[String].split(";;;");
-			if isil != "null" && latLon != "null" && name != "null" && classification != "null") {
-	   var iconLabel = '@Application.CONFIG.getObject("organisation.icons").getOrDefault(classification, ConfigValueFactory.fromAnyRef("library")).unwrapped()';
-	   addMarker('/organisations/@isil', '@latLon', '@name', iconLabel);
+	@defining(Json.parse(queryMetadata) \\ "pin") { allPins =>
+		@defining(allPins.slice(from, from + size + 1)) { pinsForPage =>
+			@if(session("position") != null) {
+				@addMarkers(pinsForPage)
+			} else {
+				@addMarkers(allPins)
+				$("#location-facet-loading").hide();
+			}
+			map.addLayer(markers);
+			if(addedLocations.length > 0){
+				$("#location-facet").show();
+				map.invalidateSize();
+				map.fitBounds(latLngObjects, {reset: true});
+			}
+			@if(session("position") != null) {
+				setTimeout(function() {
+					@addMarkers(allPins diff pinsForPage)
+					$("#location-facet-loading").hide();
+				}, 10000);
+			}
+		}
 	}
-	map.addLayer(markers);
-
-	$("#location-facet-loading").hide();
-	if(addedLocations.length > 0){
-		$("#location-facet").show();
-		map.invalidateSize();
-		map.fitBounds(latLngObjects, {reset: true});
-	}
-
 	function addMarker(link, latLon, name, iconLabel){
 		if(addedLocations.indexOf(latLon) == -1) {
 		 var lat = latLon.split(",")[0];

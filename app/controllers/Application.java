@@ -313,7 +313,7 @@ public class Application extends Controller {
 						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(query)//
 						.setFrom(from)//
 						.setSize(size);
-		searchRequest = withAggregations(from, size, searchRequest, "type.raw",
+		searchRequest = withAggregations(searchRequest, "type.raw",
 				localizedLabel("classification.label.raw"),
 				localizedLabel("fundertype.label.raw"),
 				localizedLabel("stocksize.label.raw"));
@@ -326,7 +326,7 @@ public class Application extends Controller {
 		return searchRequest.execute().actionGet();
 	}
 
-	private static SearchRequestBuilder withAggregations(int from, int size,
+	private static SearchRequestBuilder withAggregations(
 			final SearchRequestBuilder searchRequest, String... fields) {
 		Arrays.asList(fields).forEach(field -> {
 			searchRequest
@@ -338,7 +338,7 @@ public class Application extends Controller {
 				.setSize(Integer.MAX_VALUE);
 		String position = session("position");
 		if (position != null) {
-			topHitsBuilder.setFrom(from).setSize(size)
+			topHitsBuilder.setSize(Integer.MAX_VALUE)
 					.addSort(new GeoDistanceSortBuilder("location.geo")
 							.points(new GeoPoint(position)));
 		}
