@@ -392,7 +392,7 @@
 		<filemap name="libtype_map"
 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/libtype-map.csv"/>
 		<filemap name="ags_map"
-			files="https://raw.githubusercontent.com/hbz/lookup-tables/ags-lookup/data/plz-ags-map.csv" />
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/plz-ags-map.csv" />
 		<filemap name="rs_map"
 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/ags-rs-map.csv" />
 		<filemap name="geonames_map"
