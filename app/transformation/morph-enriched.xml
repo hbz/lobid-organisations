@@ -343,7 +343,7 @@
 				<regexp match="\d{8}" />
 			</data>
 		</choose>
-		<combine name="containedIn" value="http://www.geonames.org/${geoname}">
+		<combine name="containedIn" value="http://sws.geonames.org/${geoname}/">
 			<data source="@ags" name="geoname">
 				<lookup in="geonames_map" />
 			</data>
