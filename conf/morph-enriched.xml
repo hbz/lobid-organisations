@@ -137,7 +137,7 @@
 			<data source="postalCodeMail" name="postalCode" />
 			<data source="countryMail" name="addressCountry"/>
 			<data source="localityMail" name="type">
-				<constant value="http://schema.org/PostalAddress" />
+				<constant value="PostalAddress" />
 			</data>
 		</entity>
 		
@@ -161,7 +161,7 @@
 		<entity name="location[]" flushWith="record">
 			<entity name="place" flushWith="record">
 				<data source="localityVisitor|str" name="type">
-					<regexp match="(.*)" format="http://schema.org/Place" />
+					<regexp match="(.*)" format="Place" />
 				</data>
 				<data source="descriptionVisitor" name="description"/>
 				<entity name="address" flushWith="record">
@@ -183,17 +183,17 @@
 					</choose>
 					<choose>
 						<data source="localityVisitor" name="type">
-							<constant value="http://schema.org/PostalAddress" />
+							<constant value="PostalAddress" />
 						</data>
 						<data source="str" name="type">
 							<not-equals string="NULL"/>
-							<constant value="http://schema.org/PostalAddress" />
+							<constant value="PostalAddress" />
 						</data>
 					</choose>
 				</entity>
 				<entity name="openingHoursSpecification" flushWith="record">
 					<data source="openingHoursVisitor|oef" name="type">
-						<constant value="http://schema.org/OpeningHoursSpecification" />
+						<constant value="OpeningHoursSpecification" />
 					</data>
 					<choose>
 						<data source="openingHoursVisitor" name="description" />
@@ -218,7 +218,7 @@
 			</entity>
 			<entity name="place" flushWith="record">
 				<data source="localityOther" name="type">
-					<regexp match="(.*)" format="http://schema.org/Place" />
+					<regexp match="(.*)" format="Place" />
 				</data>				
 				<data source="descriptionOther" name="description"/>
 				<entity name="address" flushWith="record">
@@ -227,12 +227,12 @@
 					<data source="postalCodeOther" name="postalCode" />
 					<data source="countryOther" name="addressCountry" />
 					<data source="localityOther" name="type">
-						<constant value="http://schema.org/PostalAddress" />
+						<constant value="PostalAddress" />
 					</data>
 				</entity>
 				<entity name="openingHoursSpecification" flushWith="record">
 					<data source="openingHoursOther" name="type">
-						<constant value="http://schema.org/OpeningHoursSpecification" />
+						<constant value="OpeningHoursSpecification" />
 					</data>						
 					<data source="openingHoursOther" name="description" />
 					<data source="openingCommentOther" name="comment" />
@@ -246,7 +246,7 @@
 						<data source="lonOther" name="lon" />
 					</choose>
 					<data source="latOther" name="type">
-						<constant value="http://schema.org/GeoCoordinates" />
+						<constant value="GeoCoordinates" />
 					</data>
 				</entity>
 			</entity>
@@ -264,7 +264,7 @@
 		<entity name="classification" flushWith="record">
 			<data source="@classificationId" name="id"/>
 			<data source="@classificationId" name="type">
-				<constant value="http://www.w3.org/2004/02/skos/core#Concept" />
+				<constant value="Concept" />
 			</data>
 			<entity name="label" flushWith="record">
 				<data source="@classificationId" name="de">
@@ -279,7 +279,7 @@
 		<entity name="fundertype" flushWith="record">
 			<data source="@fundertypeId" name="id"/>
 			<data source="@fundertypeId" name="type">
-				<constant value="http://www.w3.org/2004/02/skos/core#Concept" />
+				<constant value="Concept" />
 			</data>
 			<entity name="label" flushWith="record">
 				<data source="@fundertypeId" name="de">
@@ -294,7 +294,7 @@
 		<entity name="stocksize" flushWith="record">
 			<data source="@stocksizeId" name="id"/>
 			<data source="@stocksizeId" name="type">
-				<constant value="http://www.w3.org/2004/02/skos/core#Concept" />
+				<constant value="Concept" />
 			</data>
 			<entity name="label" flushWith="record">
 				<data source="@stocksizeId" name="de">
