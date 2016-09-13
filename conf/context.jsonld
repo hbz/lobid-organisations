@@ -1,101 +1,106 @@
 {
-	"@context": {
-		"id": "@id",
-		"type": "@type",
-		"xsd": "http://www.w3.org/2001/XMLSchema#",
-		"name": "http://schema.org/name",
-		"name_en": {
-			"@id": "http://schema.org/name",
-			"@language": "en"
-		},
-		"alternateName": "http://schema.org/alternateName",
-		"isil": "http://purl.org/lobid/lv#isil",
-		"dbsID": "http://purl.org/lobid/lv#dbsID",
-		"ags": "http://purl.org/lobid/lv#ags",
-		"rs": "http://purl.org/lobid/lv#rs",
-		"address":  {
-			"@type": "@id",
-			"@id": "http://schema.org/address"
-		},
-		"addressCountry": "http://schema.org/addressCountry",
-		"addressLocality": "http://schema.org/addressLocality",
-		"postalCode": "http://schema.org/postalCode",
-		"streetAddress": "http://schema.org/streetAddress",
-		"openingHoursSpecification": {
-			"@type": "@id",
-			"@id": "http://schema.org/openingHoursSpecification"
-		},
-		"description": "http://schema.org/description",
-		"label": {
-			"@id": "http://www.w3.org/2000/01/rdf-schema#label",
-			"@container": "@language"
-		},
-		"comment": "http://www.w3.org/2000/01/rdf-schema#comment",
-		"email": {
-			"@type": "@id",
-			"@id": "http://schema.org/email"
-		},
-		"telephone": "http://schema.org/telephone",
-		"url": {
-			"@type": "@id",
-			"@id": "http://schema.org/url"
-		},
-		"geo": {
-			"@type": "@id",
-			"@id": "http://schema.org/geo"
-		},
-		"location": {
-			"@type": "@id",
-			"@id": "http://schema.org/location"
-		},
-		"lat": "http://schema.org/latitude",
-		"lon": "http://schema.org/longitude",
-		"containedIn": {
-			"@type": "@id",
-			"@id": "http://schema.org/containedIn"
-		},
-		"provides":	{
-			"@type": "@id",
-			"@id": "http://purl.org/ontology/daia/provides"
-		},
-		"fundertype":	{
-			"@type": "@id",
-			"@id": "http://purl.org/lobid/lv#fundertype"
-		},
-		"stocksize": {
-			"@type": "@id",
-			"@id": "http://purl.org/lobid/lv#stocksize"
-		},
-		"classification": {
-			"@type": "@id",
-			"@id": "http://www.w3.org/ns/org#classification"
-		},
-		"subject": "http://purl.org/dc/elements/1.1/subject",
-		"linkedTo": {
-			"@type": "@id",
-			"@id": "http://www.w3.org/ns/org#linkedTo"
-		},  
-		"isPrimaryTopicOf": {
-			"@type": "@id",
-			"@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
-		},
-		"wikipedia": {
-			"@type": "@id",
-			"@id": "http://purl.org/ontology/mo/wikipedia"
-		},
-		"primaryTopic": {
-			"@type": "@id",
-			"@id": "http://xmlns.com/foaf/0.1/primaryTopic"
-		},
-		"sameAs": {
-			"@type": "@id",
-			"@id": "http://schema.org/sameAs"
-		},
-		"Library": "http://schema.org/Library",
-		"Archive": "http://data.archiveshub.ac.uk/def/Repository",
-		"Museum": "http://schema.org/Museum",
-		"Publisher": "http://vivoweb.org/ontology/core#Publisher",
-		"Organization": "http://schema.org/Organization",
-		"Collection": "http://purl.org/ontology/bibo/Collection"
-	}
+  "@context": {
+    "id": "@id",
+    "type": "@type",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "name": "http://schema.org/name",
+    "name_en": {
+      "@id": "http://schema.org/name",
+      "@language": "en"
+    },
+    "alternateName": "http://schema.org/alternateName",
+    "isil": "http://purl.org/lobid/lv#isil",
+    "dbsID": "http://purl.org/lobid/lv#dbsID",
+    "ags": "http://purl.org/lobid/lv#ags",
+    "rs": "http://purl.org/lobid/lv#rs",
+    "address": {
+      "@type": "@id",
+      "@id": "http://schema.org/address"
+    },
+    "addressCountry": "http://schema.org/addressCountry",
+    "addressLocality": "http://schema.org/addressLocality",
+    "postalCode": "http://schema.org/postalCode",
+    "streetAddress": "http://schema.org/streetAddress",
+    "openingHoursSpecification": {
+      "@type": "@id",
+      "@id": "http://schema.org/openingHoursSpecification"
+    },
+    "description": "http://schema.org/description",
+    "label": {
+      "@id": "http://www.w3.org/2000/01/rdf-schema#label",
+      "@container": "@language"
+    },
+    "comment": "http://www.w3.org/2000/01/rdf-schema#comment",
+    "email": {
+      "@type": "@id",
+      "@id": "http://schema.org/email"
+    },
+    "telephone": "http://schema.org/telephone",
+    "url": {
+      "@type": "@id",
+      "@id": "http://schema.org/url"
+    },
+    "geo": {
+      "@type": "@id",
+      "@id": "http://schema.org/geo"
+    },
+    "location": {
+      "@type": "@id",
+      "@id": "http://schema.org/location"
+    },
+    "lat": "http://schema.org/latitude",
+    "lon": "http://schema.org/longitude",
+    "containedIn": {
+      "@type": "@id",
+      "@id": "http://schema.org/containedIn"
+    },
+    "provides": {
+      "@type": "@id",
+      "@id": "http://purl.org/ontology/daia/provides"
+    },
+    "fundertype": {
+      "@type": "@id",
+      "@id": "http://purl.org/lobid/lv#fundertype"
+    },
+    "stocksize": {
+      "@type": "@id",
+      "@id": "http://purl.org/lobid/lv#stocksize"
+    },
+    "classification": {
+      "@type": "@id",
+      "@id": "http://www.w3.org/ns/org#classification"
+    },
+    "subject": "http://purl.org/dc/elements/1.1/subject",
+    "linkedTo": {
+      "@type": "@id",
+      "@id": "http://www.w3.org/ns/org#linkedTo"
+    },
+    "isPrimaryTopicOf": {
+      "@type": "@id",
+      "@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
+    },
+    "wikipedia": {
+      "@type": "@id",
+      "@id": "http://purl.org/ontology/mo/wikipedia"
+    },
+    "primaryTopic": {
+      "@type": "@id",
+      "@id": "http://xmlns.com/foaf/0.1/primaryTopic"
+    },
+    "sameAs": {
+      "@type": "@id",
+      "@id": "http://schema.org/sameAs"
+    },
+    "Library": "http://schema.org/Library",
+    "Archive": "http://data.archiveshub.ac.uk/def/Repository",
+    "Museum": "http://schema.org/Museum",
+    "Publisher": "http://vivoweb.org/ontology/core#Publisher",
+    "Organization": "http://schema.org/Organization",
+    "Collection": "http://purl.org/ontology/bibo/Collection",
+    "Concept": "http://www.w3.org/2004/02/skos/core#Concept",
+    "OpeningHoursSpecification": "http://schema.org/OpeningHoursSpecification",
+    "PostalAddress": "http://schema.org/PostalAddress",
+    "Place": "http://schema.org/Place",
+    "GeoCoordinates": "http://schema.org/GeoCoordinates"
+  }
 }
