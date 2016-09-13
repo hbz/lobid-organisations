@@ -18,7 +18,7 @@
 						<replace pattern="\s+" with=""/>
 					</data>
 					<combine value="${hp}" name="$[group_name]" sameEntity="true">
-						<choose>
+						<choose flushWith="009Q.z">
 							<data source="009Q.u" name="hp">
 								<regexp match="http(.*)" />
 								<replace pattern="\s+" with=""/>
