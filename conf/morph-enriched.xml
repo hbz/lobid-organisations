@@ -245,6 +245,9 @@
 					<choose>
 						<data source="lonOther" name="lon" />
 					</choose>
+					<data source="latOther" name="type">
+						<constant value="http://schema.org/GeoCoordinates" />
+					</data>
 				</entity>
 			</entity>
 		</entity>
@@ -260,6 +263,9 @@
 		<!-- Use classification, fundertype, and stocksize ID for labels -->
 		<entity name="classification" flushWith="record">
 			<data source="@classificationId" name="id"/>
+			<data source="@classificationId" name="type">
+				<constant value="http://www.w3.org/2004/02/skos/core#Concept" />
+			</data>
 			<entity name="label" flushWith="record">
 				<data source="@classificationId" name="de">
 					<lookup in="libtype_id_to_value_map" />
@@ -272,6 +278,9 @@
 
 		<entity name="fundertype" flushWith="record">
 			<data source="@fundertypeId" name="id"/>
+			<data source="@fundertypeId" name="type">
+				<constant value="http://www.w3.org/2004/02/skos/core#Concept" />
+			</data>
 			<entity name="label" flushWith="record">
 				<data source="@fundertypeId" name="de">
 					<lookup in="fundertype_id_to_value_map" />
@@ -284,6 +293,9 @@
 
 		<entity name="stocksize" flushWith="record">
 			<data source="@stocksizeId" name="id"/>
+			<data source="@stocksizeId" name="type">
+				<constant value="http://www.w3.org/2004/02/skos/core#Concept" />
+			</data>
 			<entity name="label" flushWith="record">
 				<data source="@stocksizeId" name="de">
 					<lookup in="stocksize_id_to_value_map" />
