@@ -245,9 +245,6 @@
 					<choose>
 						<data source="lonOther" name="lon" />
 					</choose>
-					<data source="latOther" name="type">
-						<constant value="GeoCoordinates" />
-					</data>
 				</entity>
 			</entity>
 		</entity>
