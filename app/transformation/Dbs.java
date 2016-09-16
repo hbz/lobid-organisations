@@ -37,7 +37,7 @@ public class Dbs {
 		final LineReader lines = new LineReader();
 		final CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
-		final Metamorph morph = new Metamorph(Enrich.MORPH_DIR + "morph-dbs.xml");
+		final Metamorph morph = new Metamorph("morph-dbs.xml");
 		final Metamorph morphDbs = opener//
 				.setReceiver(lines)//
 				.setReceiver(decoder)//

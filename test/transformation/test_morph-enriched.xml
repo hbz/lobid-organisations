@@ -51,7 +51,7 @@
 				</records>
 			</cgxml>
 		</input>
-		<transformation type="text/x-metamorph+xml" src="app/transformation/morph-enriched.xml">
+		<transformation type="text/x-metamorph+xml" src="morph-enriched.xml">
 		</transformation>
 		<result type="text/x-cg+xml">
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">

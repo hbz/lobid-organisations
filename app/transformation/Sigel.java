@@ -37,8 +37,7 @@ public class Sigel {
 	static Metamorph setupSigelMorph(final Opener opener) {
 		final XmlDecoder xmlDecoder = new XmlDecoder();
 		final PicaXmlHandler xmlHandler = new PicaXmlHandler();
-		final Metamorph morph =
-				new Metamorph(Enrich.MORPH_DIR + "morph-sigel.xml");
+		final Metamorph morph = new Metamorph("morph-sigel.xml");
 		return opener//
 				.setReceiver(xmlDecoder)//
 				.setReceiver(xmlHandler)//

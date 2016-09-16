@@ -48,7 +48,6 @@ public class Enrich {
 
 	static final String DATA_INPUT_DIR =
 			Application.CONFIG.getString("data.input.dir");
-	static final String MORPH_DIR = "app/transformation/";
 
 	static final String SIGEL_DUMP_TOP_LEVEL_TAG = "collection";
 	static final String SIGEL_DUMP_ENTITY = "record";
