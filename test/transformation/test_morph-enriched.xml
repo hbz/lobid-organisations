@@ -93,6 +93,7 @@
 						<literal name="provides" value="http://example.org/opac" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="Öffentliche Bibliothek" />
 								<literal name="en" value="Public Library" />
@@ -122,6 +123,7 @@
 						<literal name="provides" value="http://example.org/opac" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n73" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="Abteilungsbibliothek, Fachbereichsbibliothek (Hochschule, nicht Universität)" />
 								<literal name="en" value="College's Departement Library, Faculty Library (not University)" />
