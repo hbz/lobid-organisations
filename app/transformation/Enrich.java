@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.culturegraph.mf.stream.converter.StreamToTriples;
-import org.culturegraph.mf.stream.pipe.CloseSupressor;
+import org.culturegraph.mf.stream.pipe.CloseSuppressor;
 import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
 import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.source.FileOpener;
@@ -69,7 +69,7 @@ public class Enrich {
 	public static void process(String startOfUpdates, int intervalSize,
 			final String aOutputPath, String geoLookupServer) throws IOException {
 
-		final CloseSupressor<Triple> wait = new CloseSupressor<>(2);
+		final CloseSuppressor<Triple> wait = new CloseSuppressor<>(2);
 		final TripleSort sortTriples = new TripleSort();
 		final TripleRematch rematchTriples = new TripleRematch("isil");
 
