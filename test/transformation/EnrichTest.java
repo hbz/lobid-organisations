@@ -87,6 +87,16 @@ public class EnrichTest {
 	}
 
 	@Test
+	public void separateUrlAndProvidesFields() throws IOException {
+		Enrich.process("", 0, Enrich.DATA_OUTPUT_FILE, "");
+		assertThat(
+				new String(Files.readAllBytes(Paths.get(Enrich.DATA_OUTPUT_FILE))))
+						.as("transformation output with `url` and `provides`")
+						.contains("http://www.medpilot.de/?idb=ZBMED")
+						.contains("http://www.zbmed.de");
+	}
+
+	@Test
 	public void sigelSplitting() {
 		final FileOpener sourceFileOpener = new FileOpener();
 		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
