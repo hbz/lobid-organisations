@@ -46,6 +46,7 @@ search.type = Typ
 search.stocksize = Bestandsgröße
 search.classification = Klassifikation
 search.fundertype = Unterhaltsträger
+search.position_sort = In Ihrer Nähe
 
 # api
 

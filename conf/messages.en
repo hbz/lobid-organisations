@@ -46,6 +46,7 @@ search.type = Type
 search.stocksize = Stock size
 search.classification = Classification
 search.fundertype = Funder type
+search.position_sort = Close to you
 
 # api
 
