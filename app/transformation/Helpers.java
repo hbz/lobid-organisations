@@ -73,7 +73,8 @@ public class Helpers {
 
 	/**
 	 * @param flow the processing stream that is to be connected to a JSON writer
-	 * @param wait a CloseSuppressor, ensuring all pipes are received by the writer
+	 * @param wait a CloseSuppressor, ensuring all pipes are received by the
+	 *          writer
 	 * @param aOutputPath the destination of the written file
 	 * @param geoLookupServer The geo lookup server, with protocol and port
 	 */
@@ -84,8 +85,7 @@ public class Helpers {
 
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
-		final Metamorph morph =
-				new Metamorph(Enrich.MORPH_DIR + "morph-enriched.xml");
+		final Metamorph morph = new Metamorph("morph-enriched.xml");
 		setupGeoLookup(morph, geoLookupServer);
 		sortTriples.setBy(Compare.SUBJECT);
 		final JsonEncoder encodeJson = Helpers.createJsonEncoder(true);

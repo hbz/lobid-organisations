@@ -51,7 +51,7 @@
 				</records>
 			</cgxml>
 		</input>
-		<transformation type="text/x-metamorph+xml" src="app/transformation/morph-enriched.xml">
+		<transformation type="text/x-metamorph+xml" src="morph-enriched.xml">
 		</transformation>
 		<result type="text/x-cg+xml">
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
@@ -61,6 +61,7 @@
 						<literal name="name_en" value="Leibniz Institute for Zoo and Wildlife Research Berlin, Library" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n60" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="Zentrale Universitätsbibliothek" />
 								<literal name="en" value="Central University Library" />
@@ -68,6 +69,7 @@
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="Land" />
 								<literal name="en" value="Federal State" />
@@ -75,6 +77,7 @@
 						</entity>
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="1.000.001 und mehr" />
 								<literal name="en" value="1,000,001 and more" />
@@ -90,6 +93,7 @@
 						<literal name="provides" value="http://example.org/opac" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n33" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="Öffentliche Bibliothek" />
 								<literal name="en" value="Public Library" />
@@ -97,6 +101,7 @@
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="Land" />
 								<literal name="en" value="Federal State" />
@@ -104,6 +109,7 @@
 						</entity>
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="1.000.001 und mehr" />
 								<literal name="en" value="1,000,001 and more" />
@@ -117,6 +123,7 @@
 						<literal name="provides" value="http://example.org/opac" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n73" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="Abteilungsbibliothek, Fachbereichsbibliothek (Hochschule, nicht Universität)" />
 								<literal name="en" value="College's Departement Library, Faculty Library (not University)" />
@@ -124,6 +131,7 @@
 						</entity>
 						<entity name="fundertype">
 							<literal name="id" value="http://purl.org/lobid/fundertype#n02" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="Land" />
 								<literal name="en" value="Federal State" />
@@ -131,6 +139,7 @@
 						</entity>
 						<entity name="stocksize">
 							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+							<literal name="type" value="Concept" />
 							<entity name="label">
 								<literal name="de" value="1.000.001 und mehr" />
 								<literal name="en" value="1,000,001 and more" />

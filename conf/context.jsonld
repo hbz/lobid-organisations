@@ -74,7 +74,7 @@
 		"linkedTo": {
 			"@type": "@id",
 			"@id": "http://www.w3.org/ns/org#linkedTo"
-		},  
+		},
 		"isPrimaryTopicOf": {
 			"@type": "@id",
 			"@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
@@ -96,6 +96,11 @@
 		"Museum": "http://schema.org/Museum",
 		"Publisher": "http://vivoweb.org/ontology/core#Publisher",
 		"Organization": "http://schema.org/Organization",
-		"Collection": "http://purl.org/ontology/bibo/Collection"
+		"Collection": "http://purl.org/ontology/bibo/Collection",
+		"Concept": "http://www.w3.org/2004/02/skos/core#Concept",
+		"OpeningHoursSpecification": "http://schema.org/OpeningHoursSpecification",
+		"PostalAddress": "http://schema.org/PostalAddress",
+		"Place": "http://schema.org/Place",
+		"GeoCoordinates": "http://schema.org/GeoCoordinates"
 	}
 }
