@@ -90,7 +90,8 @@ organisation.table.type = Type
 organisation.table.classification = Classification
 organisation.table.fundertype = Funder type
 organisation.table.stocksize = Stock size
-organisation.table.alternateName = Alternate name
+organisation.table.alternateName = Alternate names
+organisation.table.subject = Subjects
 
 organisation.location.geo = Location
 organisation.location.postal = Postal address
