@@ -11,6 +11,7 @@
 		<choose>
 			<data name="_id" source="008H.b">
 				<replace  pattern=" "  with=""/>
+				<regexp match="[A-Z]{2}\d{3}"/>
 			</data>
 			<data name="_id" source="008H.e">
 				<replace  pattern=" "  with=""/>
@@ -19,6 +20,7 @@
 
 		<data name="inr" source="008H.b">
 			<replace  pattern=" "  with=""/>
+			<regexp match="[A-Z]{2}\d{3}"/>
 		</data>
 		<data name="isil" source="008H.e">
 			<replace  pattern=" "  with=""/>
