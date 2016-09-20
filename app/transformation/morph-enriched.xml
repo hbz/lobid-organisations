@@ -46,7 +46,13 @@
 			</choose>
 		</macro>
 	</macros>
-	<rules>		
+	<rules>
+		<choose name="@postalCodeForLookups">
+			<data source="plz"/>
+			<data source="postalCodeVisitor"/>
+			<data source="postalCodeMail"/>
+			<data source="postalCodeOther"/>
+		</choose>
 		<data source="nam|029A.a" name="\@context">
 			<constant value="http://lobid.org/organisations/context.jsonld" />
 		</data>		
@@ -61,14 +67,19 @@
 				</data>
 			</choose>
 		</combine>
-		<choose>
-			<data source="stk_2007" name="rs">
+		<choose name="rs">
+			<data source="stk_2007">
 				<regexp match="\d{12}" />
 			</data>
-			<data source="stk_2007" name="rs">
+			<data source="stk_2007">
 				<regexp match="(\d{11})" format="0${1}"/>
 			</data>
-			<data source="032P.n" name="rs">
+			<data source="032P.n">
+				<lookup in="rs_map" />
+			</data>
+			<data source="@postalCodeForLookups">
+				<blacklist map="plz_blacklist"/>
+				<lookup in="ags_map" />
 				<lookup in="rs_map" />
 			</data>
 		</choose>
@@ -342,6 +353,10 @@
 			<data source="032P.n" name="@ags">
 				<regexp match="\d{8}" />
 			</data>
+			<data source="@postalCodeForLookups" name="@ags">
+				<blacklist map="plz_blacklist"/>
+				<lookup in="ags_map" />
+			</data>
 		</choose>
 		<combine name="containedIn" value="http://www.geonames.org/${geoname}">
 			<data source="@ags" name="geoname">
@@ -378,10 +393,13 @@
 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/isil2dbpedia-map.csv" />
 		<filemap name="libtype_map"
 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/libtype-map.csv"/>
+		<filemap name="ags_map"
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/plz-ags-map.csv" />
 		<filemap name="rs_map"
 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/ags-rs-map.csv" />
 		<filemap name="geonames_map"
 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
+		<filemap name="plz_blacklist" files="plz-blacklist.csv" />
 		<map name="fundertype_id_to_value_map">
 			<entry name="http://purl.org/lobid/fundertype#n01" value="Bundesrepublik Deutschland" />
 			<entry name="http://purl.org/lobid/fundertype#n02" value="Land" />
