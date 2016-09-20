@@ -19,7 +19,7 @@
 					</data>
 					<combine value="${hp}" name="$[group_name]" sameEntity="true" flushWith="009Q.z" reset="true">
 						<if>
-							<data source="009Q.z" name="">
+							<data source="009Q.z">
 								<equals string="$[sigel_code]" />
 							</data>
 						</if>
