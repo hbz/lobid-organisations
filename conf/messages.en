@@ -85,6 +85,7 @@ organisation.table.isil = ISIL
 organisation.table.dbsID = DBS ID
 organisation.table.wikipedia = Wikipedia
 organisation.table.url = URL
+organisation.table.provides = Provided service
 organisation.table.telephone = Phone
 organisation.table.email = Email
 organisation.table.type = Type

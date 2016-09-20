@@ -45,8 +45,14 @@
 						<literal name="tvw" value="-221" />
 						<literal name="tel" value="123" />
 						<literal name="stk_2007" value="100460000000" />
-						<literal name="009Q.u" value="http://example.org " />
-						<literal name="009Q.z" value="A" />
+						<entity name="009Q">
+							<literal name="u" value="http://example.org " />
+							<literal name="z" value="A" />
+						</entity>
+						<entity name="009Q">
+							<literal name="u" value="www.example.org/opac" />
+							<literal name="z" value="B" />
+						</entity>
 					</record>
 				</records>
 			</cgxml>
@@ -153,6 +159,7 @@
 						 -->
 						 <literal name="rs" value="100460000000" />
 						 <literal name="url" value="http://example.org" />
+						 <literal name="provides" value="http://www.example.org/opac" />
 					</record>
 				</records>
 			</cgxml>

@@ -17,8 +17,13 @@
 						<regexp match="(www(.*))" format="http://${1}"/>
 						<replace pattern="\s+" with=""/>
 					</data>
-					<combine value="${hp}" name="$[group_name]" sameEntity="true">
-						<choose>
+					<combine value="${hp}" name="$[group_name]" sameEntity="true" flushWith="009Q.z" reset="true">
+						<if>
+							<data source="009Q.z">
+								<equals string="$[sigel_code]" />
+							</data>
+						</if>
+						<choose sameEntity="true" flushWith="009Q.z" reset="true">
 							<data source="009Q.u" name="hp">
 								<regexp match="http(.*)" />
 								<replace pattern="\s+" with=""/>
@@ -28,9 +33,6 @@
 								<replace pattern="\s+" with=""/>
 							</data>
 						</choose>
-						<data source="009Q.z" name="">
-							<regexp match="$[sigel_code]" format="" />
-						</data>
 					</combine>
 				</choose>
 			</group>

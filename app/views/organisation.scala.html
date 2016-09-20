@@ -18,6 +18,7 @@
               @produceRow(Messages.get("organisation.table.dbsID"), parsedContent \ "dbsID",  _ => None)
               @produceRow(Messages.get("organisation.table.wikipedia"), parsedContent \ "wikipedia",  (s:String) => Some(s))
               @produceRow(Messages.get("organisation.table.url"), parsedContent \ "url",  (s:String) => Some(s))
+              @produceRow(Messages.get("organisation.table.provides"), parsedContent \ "provides",  (s:String) => Some(s))
               @produceRow(Messages.get("organisation.table.telephone"), parsedContent \ "telephone",  _ => None)
               @produceRow(Messages.get("organisation.table.email"), parsedContent \ "email",  (s:String) => Some(s.replace("mailto:","")))
               @produceRow(Messages.get("organisation.table.type"), parsedContent \ "type",  _ => None)
