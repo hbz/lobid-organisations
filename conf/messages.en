@@ -73,6 +73,7 @@ api.jsonld.header = JSON-LD
 api.jsonld.info = JSON API calls serve JSON-LD (JSON for Linking Data). You can experiment with that by pasting responses or URLs in the <a href="{0}">JSON-LD Playground</a>.
 api.jsonld.rdf.header = RDF conversion
 api.jsonld.rdf.text = Use a JSON-LD processor to convert responses to RDF, e.g. to N-Quads, an N-Triples superset, with <a href="{0}">jsonld-cli</a>:
+api.jsonld.example = Sample document
 
 api.openrefine.info = The lobid-organisations service implements the <a href="{0}">OpenRefine Reconciliation API</a>. Follow <a href="{1}">these instructions</a> to use it.
 api.openrefine.metadata = Reconciliation metadata request ("callback": optional JSONP callback to wrap the response into)
