@@ -316,7 +316,7 @@ public class Application extends Controller {
 		searchRequest = withAggregations(searchRequest, "type.raw",
 				localizedLabel("classification.label.raw"),
 				localizedLabel("fundertype.label.raw"),
-				localizedLabel("stocksize.label.raw"));
+				localizedLabel("collects.extent.label.raw"));
 		String position = session("position");
 		if (position != null) {
 			Logger.info("Sorting by distance to current position {}", position);
