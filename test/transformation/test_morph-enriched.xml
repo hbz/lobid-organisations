@@ -12,6 +12,7 @@
 						<literal name="utr_text" value="Land" />
 						<literal name="035E.h" value="10" />
 						<literal name="gro_text" value="1.000.001 und mehr" />
+						<literal name="035G.a" value="Medizin" />
 						<entity name="029@">
 							<literal name="a" value="SBB-PK, Potsdamer Straße" />
 							<literal name="4" value="a" />
@@ -81,12 +82,18 @@
 								<literal name="en" value="Federal State" />
 							</entity>
 						</entity>
-						<entity name="stocksize">
-							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
-							<literal name="type" value="Concept" />
-							<entity name="label">
-								<literal name="de" value="1.000.001 und mehr" />
-								<literal name="en" value="1,000,001 and more" />
+						<entity name="collects">
+							<literal name="type" value="Collection" />
+							<entity name="extent">
+								<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+								<literal name="type" value="Concept" />
+								<entity name="label">
+									<literal name="de" value="1.000.001 und mehr" />
+									<literal name="en" value="1,000,001 and more" />
+								</entity>
+							</entity>
+							<entity name="subject[]">
+								<literal name="subject" value="Medizin" />
 							</entity>
 						</entity>
 						<entity name="alternateName[]">
@@ -113,12 +120,15 @@
 								<literal name="en" value="Federal State" />
 							</entity>
 						</entity>
-						<entity name="stocksize">
-							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
-							<literal name="type" value="Concept" />
-							<entity name="label">
-								<literal name="de" value="1.000.001 und mehr" />
-								<literal name="en" value="1,000,001 and more" />
+						<entity name="collects">
+							<literal name="type" value="Collection" />
+							<entity name="extent">
+								<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+								<literal name="type" value="Concept" />
+								<entity name="label">
+									<literal name="de" value="1.000.001 und mehr" />
+									<literal name="en" value="1,000,001 and more" />
+								</entity>
 							</entity>
 						</entity>
 					</record>
@@ -143,12 +153,15 @@
 								<literal name="en" value="Federal State" />
 							</entity>
 						</entity>
-						<entity name="stocksize">
-							<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
-							<literal name="type" value="Concept" />
-							<entity name="label">
-								<literal name="de" value="1.000.001 und mehr" />
-								<literal name="en" value="1,000,001 and more" />
+						<entity name="collects">
+							<literal name="type" value="Collection" />
+							<entity name="extent">
+								<literal name="id" value="http://purl.org/lobid/stocksize#n10" />
+								<literal name="type" value="Concept" />
+								<entity name="label">
+									<literal name="de" value="1.000.001 und mehr" />
+									<literal name="en" value="1,000,001 and more" />
+								</entity>
 							</entity>
 						</entity>
 					</record>
