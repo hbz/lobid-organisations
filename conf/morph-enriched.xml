@@ -301,18 +301,26 @@
 			</entity>
 		</entity>
 
-		<entity name="stocksize" flushWith="record">
-			<data source="@stocksizeId" name="id"/>
-			<data source="@stocksizeId" name="type">
-				<constant value="Concept" />
+		<entity name="collects" flushWith="record">
+			<data name="type" source="@stocksizeId">
+				<constant value="Collection"/>
 			</data>
-			<entity name="label" flushWith="record">
-				<data source="@stocksizeId" name="de">
-					<lookup in="stocksize_id_to_value_map" />
+			<entity name="extent" flushWith="record">
+				<data source="@stocksizeId" name="id"/>
+				<data source="@stocksizeId" name="type">
+					<constant value="Concept" />
 				</data>
-				<data source="@stocksizeId" name="en">
-					<lookup in="stocksize_id_to_value_en_map" />
-				</data>
+				<entity name="label" flushWith="record">
+					<data source="@stocksizeId" name="de">
+						<lookup in="stocksize_id_to_value_map" />
+					</data>
+					<data source="@stocksizeId" name="en">
+						<lookup in="stocksize_id_to_value_en_map" />
+					</data>
+				</entity>
+			</entity>
+			<entity name="subject[]" flushWith="record">
+				<data source="035G.a" name="subject" />
 			</entity>
 		</entity>
 
@@ -375,9 +383,6 @@
 			</data>
 		</combine>
 		<data source="@ags" name="ags" />
-		<entity name="subject[]" flushWith="record">
-			<data source="035G.a" name="subject" />
-		</entity>
 		<group name="linkedTo">
 			<data source="035I.c">
 				<regexp match="(?i).*gbv" format="http://lobid.org/organisations/DE-601#!" />

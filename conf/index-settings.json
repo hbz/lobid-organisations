@@ -134,25 +134,29 @@
 						}
 					}
 				},
-				"stocksize" : {
+				"collects" : {
 					"properties": {
-						"label" : {
+						"extent" : {
 							"properties": {
-								"de": {
-									"type": "string",
-									"fields": {
-										"raw": {
+								"label" : {
+									"properties": {
+										"de": {
 											"type": "string",
-											"index": "not_analyzed"
-										}
-									}
-								},
-								"en": {
-									"type": "string",
-									"fields": {
-										"raw": {
+											"fields": {
+												"raw": {
+													"type": "string",
+													"index": "not_analyzed"
+												}
+											}
+										},
+										"en": {
 											"type": "string",
-											"index": "not_analyzed"
+											"fields": {
+												"raw": {
+													"type": "string",
+													"index": "not_analyzed"
+												}
+											}
 										}
 									}
 								}

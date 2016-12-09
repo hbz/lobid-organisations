@@ -43,7 +43,7 @@ search.total_results = Total results
 search.footer.api_text = You can also access this data as <a href="{0}">JSON</a> or <a href="{1}">CSV</a> using our <a href="{2}">API</a>.
 search.footer.no_results = No results for <code>{0}</code>.
 search.type = Type
-search.stocksize = Stock size
+search.collects = Stock size
 search.classification = Classification
 search.fundertype = Funder type
 search.position_sort = Close to you

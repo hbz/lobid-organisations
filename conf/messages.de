@@ -43,7 +43,7 @@ search.total_results = Trefferzahl
 search.footer.api_text = Sie können auf diese Daten auch als <a href="{0}">JSON</a> oder <a href="{1}">CSV</a> über unsere <a href="{2}">Programmierschnittstelle</a> zugreifen.
 search.footer.no_results = Keine Ergebnisse für <code>{0}</code>.
 search.type = Typ
-search.stocksize = Bestandsgröße
+search.collects = Bestandsgröße
 search.classification = Klassifikation
 search.fundertype = Unterhaltsträger
 search.position_sort = In Ihrer Nähe

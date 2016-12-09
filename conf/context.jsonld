@@ -58,13 +58,17 @@
 			"@type": "@id",
 			"@id": "http://purl.org/ontology/daia/provides"
 		},
-		"fundertype":	{
+		"fundertype": {
 			"@type": "@id",
 			"@id": "http://purl.org/lobid/lv#fundertype"
 		},
-		"stocksize": {
+		"collects": {
 			"@type": "@id",
-			"@id": "http://purl.org/lobid/lv#stocksize"
+			"@id": "http://purl.org/lobid/lv#collects"
+		},
+		"extent": {
+			"@type": "@id",
+			"@id": "http://purl.org/dc/terms/extent"
 		},
 		"classification": {
 			"@type": "@id",
