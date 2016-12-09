@@ -17,6 +17,8 @@ import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.metrics.tophits.TopHitsBuilder;
@@ -49,6 +51,8 @@ import views.html.api;
  *
  */
 public class Application extends Controller {
+
+	private static final String GEO_FIELD = "location.geo";
 
 	static final String FORMAT_CONFIG_SEP = ":";
 
@@ -283,7 +287,7 @@ public class Application extends Controller {
 	private static String buildPolygonQuery(String q, double[] latCoordinates,
 			double[] lonCoordinates, int from, int size) {
 		GeoPolygonQueryBuilder polygonQuery =
-				QueryBuilders.geoPolygonQuery("location.geo");
+				QueryBuilders.geoPolygonQuery(GEO_FIELD);
 		for (int i = 0; i < latCoordinates.length; i++) {
 			polygonQuery.addPoint(latCoordinates[i], lonCoordinates[i]);
 		}
@@ -297,7 +301,7 @@ public class Application extends Controller {
 
 	private static String buildDistanceQuery(String q, int from, int size,
 			double lat, double lon, double distance) {
-		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery("location.geo")
+		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery(GEO_FIELD)
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		QueryBuilder distanceAndSimpleQuery =
@@ -308,22 +312,29 @@ public class Application extends Controller {
 	}
 
 	static SearchResponse executeQuery(int from, int size, QueryBuilder query) {
-		SearchRequestBuilder searchRequest =
-				Index.CLIENT.prepareSearch(ES_NAME).setTypes(ES_TYPE)//
-						.setSearchType(SearchType.QUERY_THEN_FETCH).setQuery(query)//
-						.setFrom(from)//
-						.setSize(size);
+		SearchRequestBuilder searchRequest = Index.CLIENT.prepareSearch(ES_NAME)
+				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
+				.setQuery(preprocess(query)).setFrom(from).setSize(size);
 		searchRequest = withAggregations(searchRequest, "type.raw",
 				localizedLabel("classification.label.raw"),
 				localizedLabel("fundertype.label.raw"),
 				localizedLabel("collects.extent.label.raw"));
+		return searchRequest.execute().actionGet();
+	}
+
+	private static QueryBuilder preprocess(QueryBuilder query) {
 		String position = session("position");
 		if (position != null) {
 			Logger.info("Sorting by distance to current position {}", position);
-			searchRequest.addSort(new GeoDistanceSortBuilder("location.geo")
-					.points(new GeoPoint(position)));
+			ScoreFunctionBuilder locationScore = ScoreFunctionBuilders
+					.linearDecayFunction(GEO_FIELD, new GeoPoint(position), "3km")
+					.setOffset("0km");
+			return QueryBuilders.functionScoreQuery(query).boostMode("sum")
+					.add(QueryBuilders.existsQuery(GEO_FIELD), locationScore)
+					.add(ScoreFunctionBuilders.scriptFunction(new Script("zero")))
+					.scoreMode("first");
 		}
-		return searchRequest.execute().actionGet();
+		return query;
 	}
 
 	private static SearchRequestBuilder withAggregations(
@@ -333,14 +344,13 @@ public class Application extends Controller {
 					.addAggregation(AggregationBuilders.terms(field.replace(".raw", ""))
 							.field(field).size(Integer.MAX_VALUE));
 		});
-		TopHitsBuilder topHitsBuilder = AggregationBuilders.topHits("location.geo")
+		TopHitsBuilder topHitsBuilder = AggregationBuilders.topHits(GEO_FIELD)
 				.addScriptField("pin", new Script("location-aggregation"))
 				.setSize(Integer.MAX_VALUE);
 		String position = session("position");
 		if (position != null) {
-			topHitsBuilder.setSize(Integer.MAX_VALUE)
-					.addSort(new GeoDistanceSortBuilder("location.geo")
-							.points(new GeoPoint(position)));
+			topHitsBuilder.setSize(Integer.MAX_VALUE).addSort(
+					new GeoDistanceSortBuilder(GEO_FIELD).points(new GeoPoint(position)));
 		}
 		searchRequest.addAggregation(topHitsBuilder);
 		return searchRequest;
