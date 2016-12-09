@@ -52,6 +52,8 @@ import views.html.api;
  */
 public class Application extends Controller {
 
+	private static final String GEO_FIELD = "location.geo";
+
 	static final String FORMAT_CONFIG_SEP = ":";
 
 	/** The application config. */
@@ -285,7 +287,7 @@ public class Application extends Controller {
 	private static String buildPolygonQuery(String q, double[] latCoordinates,
 			double[] lonCoordinates, int from, int size) {
 		GeoPolygonQueryBuilder polygonQuery =
-				QueryBuilders.geoPolygonQuery("location.geo");
+				QueryBuilders.geoPolygonQuery(GEO_FIELD);
 		for (int i = 0; i < latCoordinates.length; i++) {
 			polygonQuery.addPoint(latCoordinates[i], lonCoordinates[i]);
 		}
@@ -299,7 +301,7 @@ public class Application extends Controller {
 
 	private static String buildDistanceQuery(String q, int from, int size,
 			double lat, double lon, double distance) {
-		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery("location.geo")
+		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery(GEO_FIELD)
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		QueryBuilder distanceAndSimpleQuery =
@@ -325,10 +327,10 @@ public class Application extends Controller {
 		if (position != null) {
 			Logger.info("Sorting by distance to current position {}", position);
 			ScoreFunctionBuilder locationScore = ScoreFunctionBuilders
-					.linearDecayFunction("location.geo", new GeoPoint(position), "3km")
+					.linearDecayFunction(GEO_FIELD, new GeoPoint(position), "3km")
 					.setOffset("0km");
 			return QueryBuilders.functionScoreQuery(query).boostMode("sum")
-					.add(QueryBuilders.existsQuery("location.geo"), locationScore)
+					.add(QueryBuilders.existsQuery(GEO_FIELD), locationScore)
 					.add(ScoreFunctionBuilders.scriptFunction(new Script("zero")))
 					.scoreMode("first");
 		}
@@ -342,14 +344,13 @@ public class Application extends Controller {
 					.addAggregation(AggregationBuilders.terms(field.replace(".raw", ""))
 							.field(field).size(Integer.MAX_VALUE));
 		});
-		TopHitsBuilder topHitsBuilder = AggregationBuilders.topHits("location.geo")
+		TopHitsBuilder topHitsBuilder = AggregationBuilders.topHits(GEO_FIELD)
 				.addScriptField("pin", new Script("location-aggregation"))
 				.setSize(Integer.MAX_VALUE);
 		String position = session("position");
 		if (position != null) {
-			topHitsBuilder.setSize(Integer.MAX_VALUE)
-					.addSort(new GeoDistanceSortBuilder("location.geo")
-							.points(new GeoPoint(position)));
+			topHitsBuilder.setSize(Integer.MAX_VALUE).addSort(
+					new GeoDistanceSortBuilder(GEO_FIELD).points(new GeoPoint(position)));
 		}
 		searchRequest.addAggregation(topHitsBuilder);
 		return searchRequest;
