@@ -73,6 +73,7 @@ api.jsonld.header = JSON-LD
 api.jsonld.info = JSON-API-Anfragen liefern JSON-LD (JSON for Linking Data). Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="{0}">JSON-LD Playground</a> einfügen.
 api.jsonld.rdf.header = RDF-Konvertierung
 api.jsonld.rdf.text = Mit einem JSON-LD-Prozessor können sie API-Antworten in RDF umwandeln, z.B. in N-Quads, einer Übermenge von N-Triples, mit <a href="{0}">jsonld-cli</a>:
+api.jsonld.example = Beispieldokument
 
 api.openrefine.info = Dieser Dienst bietet eine Implementierung der <a href="{0}">OpenRefine Reconciliation API</a> an. Folgen Sie <a href="{1}">diesen Schritte</a> um sie zu verwenden.
 api.openrefine.metadata = Metadaten-Anfrage ("callback": optionaler JSONP-Callback, in den die Antwort verpackt wird)
