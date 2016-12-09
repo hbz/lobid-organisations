@@ -60,11 +60,10 @@ public class Index extends Controller {
 							Application.CONFIG.getString("index.es.port.tcp"))
 					.put("script.default_lang", "native").build();
 
-	private static Node node =
-			new ConfigurableNode(
-					nodeBuilder().settings(clientSettings).local(true).getSettings()
-							.build(),
-					Arrays.asList(BundlePlugin.class, LocationAggregation.class)).start();
+	private static Node node = new ConfigurableNode(
+			nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
+			Arrays.asList(BundlePlugin.class, LocationAggregation.class, Zero.class))
+					.start();
 	/**
 	 * The Elasticsearch client to be used by all parts of the application
 	 */
