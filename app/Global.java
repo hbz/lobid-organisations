@@ -1,13 +1,19 @@
+
 /* Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 */
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 import controllers.Index;
 import controllers.Transformation;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
+import play.libs.F.Promise;
+import play.mvc.Action;
+import play.mvc.Http;
+import play.mvc.Result;
 import transformation.Enrich;
 
 /**
@@ -51,5 +57,23 @@ public class Global extends GlobalSettings {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private class ContentLanguageWrapper extends Action.Simple {
+		public ContentLanguageWrapper(Action<?> action) {
+			this.delegate = action;
+		}
+
+		@Override
+		public Promise<Result> call(Http.Context context) throws Throwable {
+			context.response().setHeader("Content-Language",
+					controllers.Application.currentLang());
+			return this.delegate.call(context);
+		}
+	}
+
+	@Override
+	public Action<?> onRequest(Http.Request request, Method actionMethod) {
+		return new ContentLanguageWrapper(super.onRequest(request, actionMethod));
 	}
 }
