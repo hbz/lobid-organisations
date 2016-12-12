@@ -84,7 +84,7 @@
 						link = "/organisations/" + uri.split("#")(0).split("/").last;
 						name = (org\"name").asOpt[String].getOrElse("--");
 						classificationId = (org\"classification"\"id").asOpt[String].getOrElse("--");
-						classificationLabel = (org\"classification"\"label").asOpt[String].getOrElse("--");
+						classificationLabel = (org\"classification"\"label"\controllers.Application.currentLang()).asOpt[String].getOrElse("--");
 						icon = Application.CONFIG.getObject("organisation.icons").getOrDefault(classificationId, ConfigValueFactory.fromAnyRef("library")).unwrapped();
 						cities = (org\\"addressLocality");
 						city = if(cities.size > 0){cities(0).asOpt[String].getOrElse("--")}else{"--"}) {
