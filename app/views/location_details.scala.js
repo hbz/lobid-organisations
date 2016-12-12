@@ -8,6 +8,15 @@
 
 @string(value: JsValue) = { @value.asOpt[String].getOrElse("--") }
 
+@produceRow(name: String, value: JsValue) = {
+  @value match {
+    case JsString(valueAsString) if !valueAsString.isEmpty => {
+      "<tr><td>@name</td><td>@valueAsString</td></tr>"
+    }
+    case _ => {""}
+  }
+}
+
 @defining(Json.parse(json)) { parsedContent =>
 
   @for((location, i) <- (parsedContent \ "location").asOpt[Seq[JsValue]].getOrElse(Seq()).zipWithIndex) {
@@ -17,11 +26,11 @@
            Application.CONFIG.getObject("organisation.icons"))) { case(name, classification, icons)  =>
 
       locationDetails = "<table class='table table-striped table-condensed'>"
-        + "<tr><td>@Messages.get("organisation.location.streetAddress")</td><td>@string((location \ "address" \ "streetAddress"))</td></tr>"
-        + "<tr><td>@Messages.get("organisation.location.postalCode")</td><td>@string((location \ "address" \ "postalCode"))</td></tr>"
-        + "<tr><td>@Messages.get("organisation.location.addressLocality")</td><td>@string((location \ "address" \ "addressLocality"))</td></tr>"
-        + "<tr><td>@Messages.get("organisation.location.addressCountry")</td><td>@string((location \ "address" \ "addressCountry"))</td></tr>"
-        + "<tr><td>@Messages.get("organisation.location.openingHoursSpecification")</td><td>@string((location \ "openingHoursSpecification" \ "description"))</td></tr>"
+        + @produceRow(Messages.get("organisation.location.streetAddress"), location \ "address" \ "streetAddress")
+        + @produceRow(Messages.get("organisation.location.postalCode"), location \ "address" \ "postalCode")
+        + @produceRow(Messages.get("organisation.location.addressLocality"), location \ "address" \ "addressLocality")
+        + @produceRow(Messages.get("organisation.location.addressCountry"), location \ "address" \ "addressCountry")
+        + @produceRow(Messages.get("organisation.location.openingHoursSpecification"), location \ "address" \ "openingHoursSpecification")
         + "</table>";
 
       @if((location \ "geo" \ "lon").asOpt[String].isDefined && (location \ "geo" \ "lat").asOpt[String].isDefined) {
