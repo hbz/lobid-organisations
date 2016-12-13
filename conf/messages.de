@@ -103,6 +103,6 @@ organisation.location.postalCode = Postleitzahl
 organisation.location.addressLocality = Stadt
 organisation.location.streetAddress = Straße
 organisation.location.addressCountry = Land
-organisation.location.openingHoursSpecification = Öffnungzeiten
+organisation.location.openingHoursSpecification = Öffnungszeiten
 
 organisation.footer.api_text = Sie können auf <a href="{0}">diese Daten</a> auch über unsere <a href="{1}">Programmierschnittstelle</a> zugreifen.

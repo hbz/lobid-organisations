@@ -93,22 +93,23 @@
 }
 
 @produceRow(name: String, value: JsValue, link: String => Option[String]) = {
-    @if(value.asOpt[JsValue].isDefined){
-        @defining(value.as[String].substring(0,value.as[String].length())) { valueAsString =>
-            <tr>
-                <td class="field-label">
-                    @name
-                </td>
-                <td class="field-value">
-                    @if(!link(valueAsString).isDefined) {
-                        @valueAsString
-                    } else {
-                        <a href="@valueAsString">@link(valueAsString).get</a>
-                    }
-                </td>
-            </tr>
-        }
-    }
+  @value match {
+    case JsString(valueAsString) if !valueAsString.isEmpty => {
+              <tr>
+                  <td class="field-label">
+                      @name
+                  </td>
+                  <td class="field-value">
+                      @if(!link(valueAsString).isDefined) {
+                          @valueAsString
+                      } else {
+                          <a href="@valueAsString">@link(valueAsString).get</a>
+                      }
+                  </td>
+              </tr>
+            }
+    case _ => {}
+  }
 }
 
 @makeLocationDetails() = {
