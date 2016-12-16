@@ -21,9 +21,9 @@
     @desc(Messages.get("api.location.distance"), routes.Application.search("fundertype.label:land", "52.52,13.39,25", format="json"))
     <h2 id="content_types">@Messages.get("api.content_types.header") <small><a href="#content_types"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     <p>@Messages.get("api.content_types.default")</p>
-    <p><code>curl http://@request().host@routes.Application.get("DE-6")</code></p>
+    <p><code>curl http://lobid.org@routes.Application.get("DE-6")</code></p>
     <p>@Messages.get("api.content_types.negotiate")</p>
-    <p><code>curl --header "Accept: text/csv" http://@request().host@routes.Application.search("kunst")</code></p>
+    <p><code>curl --header "Accept: text/csv" http://lobid.org@routes.Application.search("kunst")</code></p>
     <p>@Messages.get("api.content_types.override") <a href='@routes.Application.get("DE-6", format="json")'>@routes.Application.get("DE-6", format="json")</a></p>
     <h2 id="csv">@Messages.get("api.csv.header") <small><a href="#csv"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     @desc(Messages.get("api.csv.default"), routes.Application.search("kunst", size=300, format="csv"))
