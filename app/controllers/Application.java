@@ -82,7 +82,7 @@ public class Application extends Controller {
 	 */
 	public static Result toggleLanguage() {
 		changeLang(isEnglish() ? "de" : "en");
-		return seeOther(request().getHeader(REFERER));
+		return seeOther(request().getHeader(REFERER).replaceAll("en|de", ""));
 	}
 
 	/**
@@ -118,9 +118,21 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * @return 200 ok response to render api documentation
+	 * @return Redirect to the localized version of the API documentation
 	 */
 	public static Result api() {
+		return redirect(routes.Application.apiLocalized(currentLang()));
+	}
+
+	/**
+	 * @return 200 ok response to render api documentation
+	 * @param lang The language for the documentation ('de' or 'en')
+	 */
+	public static Result apiLocalized(String lang) {
+		if (!Arrays.asList("de", "en").contains(lang)) {
+			return badRequest("Unsupported lang: " + lang);
+		}
+		changeLang(lang);
 		return ok(api.render("lobid-organisations"));
 	}
 

@@ -13,6 +13,7 @@ POST    /organisations/reconcile                 controllers.Reconcile.reconcile
 GET     /organisations                           controllers.Application.index()
 GET     /organisations/search                    controllers.Application.search(q ?= null, location ?= null, from: Int ?= 0, size: Int ?= 20, format ?= null)
 GET     /organisations/api                       controllers.Application.api()
+GET     /organisations/api/:lang                 controllers.Application.apiLocalized(lang)
 GET     /organisations/context.jsonld            controllers.Application.context()
 GET     /organisations/toggleLanguage            controllers.Application.toggleLanguage()
 GET     /organisations/:id                       controllers.Application.get(id, format ?= null)
