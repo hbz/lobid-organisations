@@ -13,12 +13,12 @@
     <dl>
     @desc("HTTP GET", routes.Application.get("DE-6", format="json"))
     @desc(Messages.get("api.basics.search"), routes.Application.search("kunst", format="json"))
-    @desc(Messages.get("api.basics.field.simple", "name"), routes.Application.search("name:stadtbibliothek+berlin", format="json"))
-    @desc(Messages.get("api.basics.field.nested", "fundertype.label"), routes.Application.search("fundertype.label:land", format="json"))
-    @desc(Messages.get("api.basics.pagination"), routes.Application.search("fundertype.label:land", from = 2, size = 2, format="json"))
+    @desc(Messages.get("api.basics.field.simple", "name"), routes.Application.search("name:stadtbibliothek berlin", format="json"))
+    @desc(Messages.get("api.basics.field.nested", "fundertype.label.de"), routes.Application.search("fundertype.label.de:land", format="json"))
+    @desc(Messages.get("api.basics.pagination"), routes.Application.search("fundertype.label.de:land", from = 2, size = 2, format="json"))
     <h2 id="location">@Messages.get("api.location.header") <small><a href="#location"><span class="glyphicon glyphicon-link"></span></a></small></h2>
-    @desc(Messages.get("api.location.polygon"), routes.Application.search("fundertype.label:land", "52,12 53,12 53,14 52,14", format="json"))
-    @desc(Messages.get("api.location.distance"), routes.Application.search("fundertype.label:land", "52.52,13.39,25", format="json"))
+    @desc(Messages.get("api.location.polygon"), routes.Application.search("fundertype.label.de:land", "52,12 53,12 53,14 52,14", format="json"))
+    @desc(Messages.get("api.location.distance"), routes.Application.search("fundertype.label.de:land", "52.52,13.39,25", format="json"))
     <h2 id="content_types">@Messages.get("api.content_types.header") <small><a href="#content_types"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     <p>@Messages.get("api.content_types.default")</p>
     <p><code>curl http://lobid.org@routes.Application.get("DE-6")</code></p>
@@ -27,7 +27,7 @@
     <p>@Messages.get("api.content_types.override") <a href='@routes.Application.get("DE-6", format="json")'>@routes.Application.get("DE-6", format="json")</a></p>
     <h2 id="csv">@Messages.get("api.csv.header") <small><a href="#csv"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     @desc(Messages.get("api.csv.default"), routes.Application.search("kunst", size=300, format="csv"))
-    @desc(Messages.get("api.csv.custom"), routes.Application.search("kunst", size=300, format="csv:name,isil,url,classification.label"))
+    @desc(Messages.get("api.csv.custom"), routes.Application.search("kunst", size=300, format="csv:name,isil,url,classification.label.de"))
     <h2 id="jsonld">@Messages.get("api.jsonld.header") <small><a href="#jsonld"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     <p>@Html(Messages.get("api.jsonld.info", "http://json-ld.org/playground/"))</p>
     @desc("JSON-LD Context", routes.Application.context)
