@@ -82,9 +82,13 @@
         }
         </div>
       </p>
+      <p>
+        @Html(Messages.get("organisation.footer.api_text", routes.Application.get(id=id, format="json"), routes.Application.api()))
+        @for(isil <- (parsedContent \ "isil").asOpt[String]) {
+          <a href="http://sigel.staatsbibliothek-berlin.de/aenderungen-mitteilen/?isil=@isil">&#x270e; @Messages.get("organisation.footer.change")</a>
+        }
+      </p>
     }
-
-    <p>@Html(Messages.get("organisation.footer.api_text", routes.Application.get(id=id, format="json"), routes.Application.api()))</p>
 
 }
 

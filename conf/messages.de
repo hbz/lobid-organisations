@@ -107,3 +107,4 @@ organisation.location.addressCountry = Land
 organisation.location.openingHoursSpecification = Öffnungszeiten
 
 organisation.footer.api_text = Sie können auf <a href="{0}">diese Daten</a> auch über unsere <a href="{1}">Programmierschnittstelle</a> zugreifen.
+organisation.footer.change = Änderungen zu diesem Eintrag im Sigelverzeichnis mitteilen.
