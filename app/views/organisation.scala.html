@@ -105,7 +105,7 @@
                   </td>
                   <td class="field-value">
                       @if(!link(valueAsString).isDefined) {
-                          @valueAsString
+                          @if(name=="Typ" && Application.currentLang()=="de"){@Application.CONFIG.getString("organisation.types." + valueAsString)} else {@valueAsString}
                       } else {
                           <a href="@valueAsString">@link(valueAsString).get</a>
                       }
