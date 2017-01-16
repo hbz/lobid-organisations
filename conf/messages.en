@@ -82,6 +82,8 @@ api.openrefine.request = Reconciliation multi query request (expects form data v
 
 # organisation
 
+organisation.jsonld = Show as JSON-LD
+
 organisation.table.name = Name
 organisation.table.isil = ISIL
 organisation.table.dbsID = DBS ID
@@ -106,5 +108,4 @@ organisation.location.streetAddress = Street
 organisation.location.addressCountry = Country
 organisation.location.openingHoursSpecification = Opening hours
 
-organisation.footer.api_text = You can also access <a href="{0}">this data</a> using our <a href="{1}">API</a>.
 organisation.footer.change = Submit changes to this entry in the ISIL registry.
