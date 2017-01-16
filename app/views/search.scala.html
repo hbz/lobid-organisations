@@ -5,16 +5,21 @@
 @import play.api.libs.json._
 @import com.typesafe.config._
 @import play.i18n._
+@import controllers.Application
+
+@localized(term: String, key: String) = {
+  @if(key=="type" && Application.currentLang()=="de"){@Application.CONFIG.getString("organisation.types."+term)} else {@term}
+}
 
 @links(buckets: Seq[JsValue], key: String) = {
 	@for(bucket <- buckets; term = (bucket \ "key").as[String]; count = (bucket \ "doc_count").as[Int]) {
 		@if(q.contains(key+":\""+term+"\"")){
-		@term
+		@localized(term, key)
 		<a href='@routes.Application.search()?location=@location&from=@from&size=@size&q=@q.replace("AND "+key+":\""+term+"\"","").trim'>
 		<span class="badge">@Messages.get("search.remove_filter") <span class="glyphicon glyphicon-remove"></span></span>
 		</a>
 		} else {
-		<a href='@routes.Application.search()?location=@location&from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@term (@count)</a>
+		<a href='@routes.Application.search()?location=@location&from=@from&size=@size&q=@q.trim+AND+@key:"@term"'>@localized(term, key) (@count)</a>
 		}<br/>
 	}
 }
