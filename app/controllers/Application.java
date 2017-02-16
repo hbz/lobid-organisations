@@ -194,14 +194,13 @@ public class Application extends Controller {
 		});
 		results.put("js", () -> {
 			String queryMetadata =
-					Json.parse(queryResultString).iterator().next().toString();
+					Json.parse(queryResultString).get("aggregation").toString();
 			JavaScript script =
 					views.js.facet_map.render(queryMetadata, q, location, from, size);
 			return ok(script).as("application/javascript; charset=utf-8");
 		});
 		results.put("csv", () -> {
-			List<?> list = Json.fromJson(Json.parse(queryResultString), List.class);
-			String orgs = Json.toJson(list.subList(1, list.size())).toString();
+			String orgs = Json.parse(queryResultString).get("member").toString();
 			response().setHeader("Content-Disposition",
 					"attachment; filename=organisations.csv");
 			return ok(csvExport(format, orgs)).as("text/csv; charset=utf-8");
@@ -372,19 +371,17 @@ public class Application extends Controller {
 		List<Map<String, Object>> hits =
 				Arrays.asList(queryResponse.getHits().hits()).stream()
 						.map(hit -> hit.getSource()).collect(Collectors.toList());
-		hits.add(0, queryMetadata(queryResponse));
-		return prettyJsonOk(Json.toJson(hits));
-	}
-
-	private static Map<String, Object> queryMetadata(
-			SearchResponse queryResponse) {
-		return ImmutableMap.<String, Object> builder()
-				.put("@id", "http://" + request().host() + request().uri())
-				.put("http://sindice.com/vocab/search#totalResults",
-						queryResponse.getHits().getTotalHits())
-				.put("aggregations",
-						Json.parse(queryResponse.toString()).get("aggregations"))
-				.build();
+		Map<String, Object> queryMetadata =
+				ImmutableMap.<String, Object> builder()
+						.put("@context",
+								"http://" + request().host() + routes.Application.context())
+						.put("id", "http://" + request().host() + request().uri())
+						.put("totalItems", queryResponse.getHits().getTotalHits())
+						.put("member", hits)
+						.put("aggregation",
+								Json.parse(queryResponse.toString()).get("aggregations"))
+						.build();
+		return prettyJsonOk(Json.toJson(queryMetadata));
 	}
 
 	/**

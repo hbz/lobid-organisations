@@ -25,7 +25,7 @@
 }
 
 @facet(queryMetadata: JsValue, key: String) = {
-	@defining((key.replace('.','_'), (queryMetadata \ "aggregations" \ key \ "buckets").as[Seq[JsValue]])) { case (jsKey, buckets) =>
+	@defining((key.replace('.','_'), (queryMetadata \ "aggregation" \ key \ "buckets").as[Seq[JsValue]])) { case (jsKey, buckets) =>
 		@if(!buckets.isEmpty) {
 		<h4>@Messages.get("search." + key.split("\\.")(0))</h4>
 		@links(buckets.take(12), key)
@@ -53,8 +53,9 @@
 <script async type='text/javascript' src='@routes.Application.search(q, location, from, size, "js")'></script>
 }
 
+@defining(Json.parse(json)) { jsonResponse =>
 @main(q, location, facetMap()) {
-	@defining(Json.parse(json).as[Seq[JsValue]]) { orgs => @if(orgs.size > 1) {
+	@defining((jsonResponse\"member").as[Seq[JsValue]]) { orgs => @if(orgs.size > 0) {
 	<p>
 	<div class="row">
 		<div class="col-md-2">
@@ -67,12 +68,12 @@
 		}</h4>
 		<div id="facet-map"></div>
 		</div>
-		@facet(orgs(0), "type")
-		@facet(orgs(0), Application.localizedLabel("collects.extent.label"))
+		@facet(jsonResponse, "type")
+		@facet(jsonResponse, Application.localizedLabel("collects.extent.label"))
 		</div>
 		<div class="col-md-8">
 			<p>
-			@defining((orgs.head \ "http://sindice.com/vocab/search#totalResults").as[Int]) { totalResults =>
+			@defining((jsonResponse \ "totalItems").as[Int]) { totalResults =>
 				@Messages.get("search.total_results"): @(totalResults) |
 				@if(from > 0){<a href='@routes.Application.search(q=q, from=from-size, location=location)'>&LeftArrow; @Messages.get("search.prev")</a>}
 				@(from+1)&mdash;@(Math.min(totalResults, from+size))
@@ -84,7 +85,7 @@
 			</p>
 			<p>
 				<table class="table table-striped table-condensed">
-				@for(org <- orgs.tail;
+				@for(org <- orgs;
 						uri = (org\"id").asOpt[String].getOrElse("");
 						link = "/organisations/" + uri.split("#")(0).split("/").last;
 						name = (org\"name").asOpt[String].getOrElse("--");
@@ -110,8 +111,8 @@
 		</div>
 		<div class="col-md-2" id="facets">
 			<p>
-				@facet(orgs(0), Application.localizedLabel("classification.label"))
-				@facet(orgs(0), Application.localizedLabel("fundertype.label"))
+				@facet(jsonResponse, Application.localizedLabel("classification.label"))
+				@facet(jsonResponse, Application.localizedLabel("fundertype.label"))
 			</p>
 		</div>
 	</div>
@@ -120,4 +121,4 @@
 	<p>@Html(Messages.get("search.footer.api_text", routes.Application.search(q=qParam, from=from, format="json", location=location), 
 	routes.Application.search(q=qParam, from=from, format="csv", location=location), routes.Application.api()))</p>
 	}} else { @if(!q.isEmpty) {<p>@Html(Messages.get("search.footer.no_results", q))</p>} } }
-}
+}}
