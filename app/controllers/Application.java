@@ -27,7 +27,8 @@ import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableMap;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Joiner;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -152,10 +153,24 @@ public class Application extends Controller {
 	 * @param from From parameter for Elasticsearch query
 	 * @param size Size parameter for Elasitcsearch query
 	 * @param format The response format ('html' for HTML, else JSON)
+	 * @param aggregationsParam The comma separated aggregation fields
 	 * @return Result of search as ok() or badRequest()
 	 */
 	public static Result search(String q, String location, int from, int size,
-			String format) {
+			String format, String aggregationsParam) {
+		String aggregations = aggregationsParam;
+		if (!aggregations.isEmpty()) {
+			aggregations = Arrays.asList(aggregations.split(",")).stream()
+					.map((a) -> a.endsWith(".raw") ? a : a + ".raw")
+					.collect(Collectors.joining(","));
+			if (!Index.SUPPORTED_AGGREGATIONS
+					.containsAll(Arrays.asList(aggregations.split(",")))) {
+				return badRequest(
+						String.format("Unsupported aggregations: %s (supported: %s)",
+								aggregations.replace(".raw", ""), Index.SUPPORTED_AGGREGATIONS
+										.toString().replace(".raw", "")));
+			}
+		}
 		final String responseFormat =
 				Accept.formatFor(format, request().acceptedTypes());
 		try {
@@ -168,7 +183,7 @@ public class Application extends Controller {
 				return cachedResult;
 			}
 			Result searchResult =
-					searchResult(q, location, from, size, responseFormat);
+					searchResult(q, location, from, size, responseFormat, aggregations);
 			int oneDay = 60 * 60 * 24;
 			Logger.debug("Caching search result for request: {}", cacheKey);
 			Cache.set(cacheKey, searchResult, oneDay);
@@ -180,19 +195,22 @@ public class Application extends Controller {
 	}
 
 	private static Result searchResult(String q, String location, int from,
-			int size, String format) {
+			int size, String format, String aggregations) {
 		if (q == null || q.isEmpty()) {
-			return search("*", location, from, size, "html");
+			return search("*", location, from, size, "html", aggregations);
 		}
-		String queryResultString = searchQueryResult(q, location, from, size);
 		Map<String, Supplier<Result>> results = new HashMap<>();
 		results.put("html", () -> {
+			String queryResultString = searchQueryResult(q, location, from, size,
+					Joiner.on(",").join(defaultAggregations()));
 			String loc = location == null ? "" : location;
 			Html html = views.html.search.render("lobid-organisations", q, loc,
 					queryResultString, from, size);
 			return ok(html).as("text/html; charset=utf-8");
 		});
 		results.put("js", () -> {
+			String queryResultString =
+					searchQueryResult(q, location, from, size, "location");
 			String queryMetadata =
 					Json.parse(queryResultString).get("aggregation").toString();
 			JavaScript script =
@@ -200,12 +218,16 @@ public class Application extends Controller {
 			return ok(script).as("application/javascript; charset=utf-8");
 		});
 		results.put("csv", () -> {
+			String queryResultString =
+					searchQueryResult(q, location, from, size, aggregations);
 			String orgs = Json.parse(queryResultString).get("member").toString();
 			response().setHeader("Content-Disposition",
 					"attachment; filename=organisations.csv");
 			return ok(csvExport(format, orgs)).as("text/csv; charset=utf-8");
 		});
 		Supplier<Result> json = () -> {
+			String queryResultString =
+					searchQueryResult(q, location, from, size, aggregations);
 			response().setHeader("Access-Control-Allow-Origin", "*");
 			return ok(queryResultString).as("application/json; charset=utf-8");
 		};
@@ -234,30 +256,32 @@ public class Application extends Controller {
 	}
 
 	private static String searchQueryResult(String q, String location, int from,
-			int size) {
+			int size, String aggregations) {
 		String result = null;
 		if (location == null || location.isEmpty()) {
-			result = buildSimpleQuery(q, from, size);
+			result = buildSimpleQuery(q, from, size, aggregations);
 		} else {
-			result = prepareLocationQuery(location, q, from, size);
+			result = prepareLocationQuery(location, q, from, size, aggregations);
 		}
 		return result;
 	}
 
 	private static String prepareLocationQuery(String location, String q,
-			int from, int size) {
+			int from, int size, String aggregations) {
 		String[] coordPairsAsString = location.split(" ");
 		String result;
 		if (coordPairsAsString[0].split(",").length > 2) {
-			result = prepareDistanceQuery(coordPairsAsString, q, from, size);
+			result =
+					prepareDistanceQuery(coordPairsAsString, q, from, size, aggregations);
 		} else {
-			result = preparePolygonQuery(coordPairsAsString, q, from, size);
+			result =
+					preparePolygonQuery(coordPairsAsString, q, from, size, aggregations);
 		}
 		return result;
 	}
 
 	private static String preparePolygonQuery(String[] coordPairsAsString,
-			String q, int from, int size) {
+			String q, int from, int size, String aggregations) {
 		double[] latCoordinates = new double[coordPairsAsString.length];
 		double[] lonCoordinates = new double[coordPairsAsString.length];
 		String result;
@@ -270,12 +294,13 @@ public class Application extends Controller {
 			throw new IllegalArgumentException(
 					"Not enough points. Polygon requires more than two points.");
 		}
-		result = buildPolygonQuery(q, latCoordinates, lonCoordinates, from, size);
+		result = buildPolygonQuery(q, latCoordinates, lonCoordinates, from, size,
+				aggregations);
 		return result;
 	}
 
 	private static String prepareDistanceQuery(String[] coordPairsAsString,
-			String q, int from, int size) {
+			String q, int from, int size, String aggregations) {
 		String[] coordinatePair = coordPairsAsString[0].split(",");
 		double lat = Double.parseDouble(coordinatePair[0]);
 		double lon = Double.parseDouble(coordinatePair[1]);
@@ -285,18 +310,21 @@ public class Application extends Controller {
 			throw new IllegalArgumentException(
 					"Distance must not be smaller than 0.");
 		}
-		result = buildDistanceQuery(q, from, size, lat, lon, distance);
+		result =
+				buildDistanceQuery(q, from, size, lat, lon, distance, aggregations);
 		return result;
 	}
 
-	private static String buildSimpleQuery(String q, int from, int size) {
+	private static String buildSimpleQuery(String q, int from, int size,
+			String aggregations) {
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
-		SearchResponse queryResponse = executeQuery(from, size, simpleQuery);
+		SearchResponse queryResponse =
+				executeQuery(from, size, simpleQuery, aggregations);
 		return returnAsJson(queryResponse);
 	}
 
 	private static String buildPolygonQuery(String q, double[] latCoordinates,
-			double[] lonCoordinates, int from, int size) {
+			double[] lonCoordinates, int from, int size, String aggregations) {
 		GeoPolygonQueryBuilder polygonQuery =
 				QueryBuilders.geoPolygonQuery(GEO_FIELD);
 		for (int i = 0; i < latCoordinates.length; i++) {
@@ -306,31 +334,38 @@ public class Application extends Controller {
 		QueryBuilder polygonAndSimpleQuery =
 				QueryBuilders.boolQuery().must(polygonQuery).must(simpleQuery);
 		SearchResponse queryResponse =
-				executeQuery(from, size, polygonAndSimpleQuery);
+				executeQuery(from, size, polygonAndSimpleQuery, aggregations);
 		return returnAsJson(queryResponse);
 	}
 
 	private static String buildDistanceQuery(String q, int from, int size,
-			double lat, double lon, double distance) {
+			double lat, double lon, double distance, String aggregations) {
 		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery(GEO_FIELD)
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		QueryBuilder distanceAndSimpleQuery =
 				QueryBuilders.boolQuery().must(distanceQuery).must(simpleQuery);
 		SearchResponse queryResponse =
-				executeQuery(from, size, distanceAndSimpleQuery);
+				executeQuery(from, size, distanceAndSimpleQuery, aggregations);
 		return returnAsJson(queryResponse);
 	}
 
-	static SearchResponse executeQuery(int from, int size, QueryBuilder query) {
+	static SearchResponse executeQuery(int from, int size, QueryBuilder query,
+			String aggregations) {
 		SearchRequestBuilder searchRequest = Index.CLIENT.prepareSearch(ES_NAME)
 				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
 				.setQuery(preprocess(query)).setFrom(from).setSize(size);
-		searchRequest = withAggregations(searchRequest, "type.raw",
+		if (!aggregations.isEmpty()) {
+			searchRequest = withAggregations(searchRequest, aggregations.split(","));
+		}
+		return searchRequest.execute().actionGet();
+	}
+
+	static String[] defaultAggregations() {
+		return new String[] { "type.raw",
 				localizedLabel("classification.label.raw"),
 				localizedLabel("fundertype.label.raw"),
-				localizedLabel("collects.extent.label.raw"));
-		return searchRequest.execute().actionGet();
+				localizedLabel("collects.extent.label.raw"), "location" };
 	}
 
 	private static QueryBuilder preprocess(QueryBuilder query) {
@@ -351,19 +386,23 @@ public class Application extends Controller {
 	private static SearchRequestBuilder withAggregations(
 			final SearchRequestBuilder searchRequest, String... fields) {
 		Arrays.asList(fields).forEach(field -> {
-			searchRequest
-					.addAggregation(AggregationBuilders.terms(field.replace(".raw", ""))
-							.field(field).size(Integer.MAX_VALUE));
+			if (field.startsWith("location")) {
+				TopHitsBuilder topHitsBuilder = AggregationBuilders.topHits(GEO_FIELD)
+						.addScriptField("pin", new Script("location-aggregation"))
+						.setSize(Integer.MAX_VALUE);
+				String position = session("position");
+				if (position != null) {
+					topHitsBuilder.setSize(Integer.MAX_VALUE)
+							.addSort(new GeoDistanceSortBuilder(GEO_FIELD)
+									.points(new GeoPoint(position)));
+				}
+				searchRequest.addAggregation(topHitsBuilder);
+			} else {
+				searchRequest
+						.addAggregation(AggregationBuilders.terms(field.replace(".raw", ""))
+								.field(field).size(Integer.MAX_VALUE));
+			}
 		});
-		TopHitsBuilder topHitsBuilder = AggregationBuilders.topHits(GEO_FIELD)
-				.addScriptField("pin", new Script("location-aggregation"))
-				.setSize(Integer.MAX_VALUE);
-		String position = session("position");
-		if (position != null) {
-			topHitsBuilder.setSize(Integer.MAX_VALUE).addSort(
-					new GeoDistanceSortBuilder(GEO_FIELD).points(new GeoPoint(position)));
-		}
-		searchRequest.addAggregation(topHitsBuilder);
 		return searchRequest;
 	}
 
@@ -371,17 +410,18 @@ public class Application extends Controller {
 		List<Map<String, Object>> hits =
 				Arrays.asList(queryResponse.getHits().hits()).stream()
 						.map(hit -> hit.getSource()).collect(Collectors.toList());
-		Map<String, Object> queryMetadata =
-				ImmutableMap.<String, Object> builder()
-						.put("@context",
-								"http://" + request().host() + routes.Application.context())
-						.put("id", "http://" + request().host() + request().uri())
-						.put("totalItems", queryResponse.getHits().getTotalHits())
-						.put("member", hits)
-						.put("aggregation",
-								Json.parse(queryResponse.toString()).get("aggregations"))
-						.build();
-		return prettyJsonOk(Json.toJson(queryMetadata));
+		ObjectNode object = Json.newObject();
+		object.put("@context",
+				"http://" + request().host() + routes.Application.context());
+		object.put("id", "http://" + request().host() + request().uri());
+		object.put("totalItems", queryResponse.getHits().getTotalHits());
+		object.set("member", Json.toJson(hits));
+		JsonNode aggregations =
+				Json.parse(queryResponse.toString()).get("aggregations");
+		if (aggregations != null) {
+			object.set("aggregation", aggregations);
+		}
+		return prettyJsonOk(object);
 	}
 
 	/**
