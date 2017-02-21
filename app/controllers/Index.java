@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.Version;
@@ -68,6 +69,12 @@ public class Index extends Controller {
 	 * The Elasticsearch client to be used by all parts of the application
 	 */
 	public static final Client CLIENT = node.client();
+
+	static final List<String> SUPPORTED_AGGREGATIONS =
+			Arrays.asList("type.raw", "classification.label.de.raw",
+					"classification.label.en.raw", "fundertype.label.de.raw",
+					"fundertype.label.en.raw", "collects.extent.label.de.raw",
+					"collects.extent.label.en.raw", "location.raw");
 
 	/**
 	 * @throws IOException if json file with output cannot be found
