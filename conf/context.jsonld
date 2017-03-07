@@ -79,17 +79,9 @@
 			"@type": "@id",
 			"@id": "http://www.w3.org/ns/org#linkedTo"
 		},
-		"isPrimaryTopicOf": {
-			"@type": "@id",
-			"@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
-		},
 		"wikipedia": {
 			"@type": "@id",
 			"@id": "http://purl.org/ontology/mo/wikipedia"
-		},
-		"primaryTopic": {
-			"@type": "@id",
-			"@id": "http://xmlns.com/foaf/0.1/primaryTopic"
 		},
 		"sameAs": {
 			"@type": "@id",

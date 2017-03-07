@@ -324,10 +324,6 @@
 			</entity>
 		</entity>
 
-		<data source="isil" name="isPrimaryTopicOf">
-			<regexp match="(.*)"
-				format="http://dispatch.opac.d-nb.de/DB=1.2/CMD?ACT=SRCHA&amp;IKT=8529&amp;TRM=${1}" />
-		</data>
 		<data source="isil" name="@dbpediaMap">
 			<lookup in="isil2dbpedia_map" />
 		</data>
