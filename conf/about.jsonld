@@ -86,11 +86,14 @@
     {
       "id": "http://lobid.org/organisations/search",
       "type": "Distribution",
-      "label": "lobid-organisations API",
+      "label": {
+        "de": "lobid-organisations-API",
+        "en": "lobid-organisations API"
+      },
       "description": {
         "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP). For documentation see <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>",
         "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>"
-      }
+      },
       "accessURL": "http://lobid.org/organisations/search",
       "mediaType": [
         "text/csv",
