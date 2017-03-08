@@ -15,6 +15,7 @@ GET     /organisations/search                    controllers.Application.search(
 GET     /organisations/api                       controllers.Application.api()
 GET     /organisations/api/:lang                 controllers.Application.apiLocalized(lang)
 GET     /organisations/context.jsonld            controllers.Application.context()
+GET     /organisations/dataset.jsonld            controllers.Application.dataset()
 GET     /organisations/toggleLanguage            controllers.Application.toggleLanguage()
 GET     /organisations/:id                       controllers.Application.get(id, format ?= null)
 

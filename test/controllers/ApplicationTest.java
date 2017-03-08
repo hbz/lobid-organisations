@@ -31,9 +31,18 @@ public class ApplicationTest extends ElasticsearchTest {
 	}
 
 	@Test
-	public void contextContentTypeAndCorsHeader() {
+	public void contextContentTypeAndCorsHeaderContext() {
+		testJsonld("/organisations/context.jsonld");
+	}
+
+	@Test
+	public void contextContentTypeAndCorsHeaderDataset() {
+		testJsonld("/organisations/dataset.jsonld");
+	}
+
+	private static void testJsonld(String path) {
 		running(fakeApplication(), () -> {
-			Result result = route(fakeRequest(GET, "/organisations/context.jsonld"));
+			Result result = route(fakeRequest(GET, path));
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/ld+json");
 			assertThat(header("Access-Control-Allow-Origin", result)).isEqualTo("*");

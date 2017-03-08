@@ -126,9 +126,22 @@ public class Application extends Controller {
 	 * @return JSON-LD context
 	 */
 	public static Result context() {
+		return staticJsonld("context");
+	}
+
+	/**
+	 * See https://www.w3.org/TR/dwbp/#metadata
+	 * 
+	 * @return JSON-LD dataset metadata
+	 */
+	public static Result dataset() {
+		return staticJsonld("dataset");
+	}
+
+	private static Result staticJsonld(String name) {
 		response().setContentType("application/ld+json");
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return ok(Play.application().resourceAsStream("context.jsonld"));
+		return ok(Play.application().resourceAsStream(name + ".jsonld"));
 	}
 
 	/**
