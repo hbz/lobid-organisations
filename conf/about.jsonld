@@ -11,7 +11,6 @@
       "@id": "http://purl.org/dc/elements/1.1/rights",
       "@container": "@language"
       },
-    "dcat": "http://www.w3.org/ns/dcat#",
     "label": {
       "@id": "http://www.w3.org/2000/01/rdf-schema#label",
       "@container": "@language"
