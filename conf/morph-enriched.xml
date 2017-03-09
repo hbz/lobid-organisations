@@ -342,7 +342,7 @@
 			<data source="@dbpediaMap" name="titleDbpedia" />
 		</combine>
 		<entity name="sameAs[]" flushWith="record">
-			<combine name="sameAs" value="http://dbpedia.org/resource/${titleDbpedia}">
+			<combine name="sameAs" value="http://de.dbpedia.org/resource/${titleDbpedia}">
 				<data source="@dbpediaMap" name="titleDbpedia">
 					<occurrence only="1" />
 				</data>
