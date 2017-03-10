@@ -27,7 +27,7 @@
   "name": "lobid-organisations",
   "description": {
     "de": "<p>lobid-organisations ist ein umfassendes Verzeichnis von etwa 30.000 Bibliotheken und verwandten Einrichtungen im deutschsprachigen Raum. Die Daten werden in einem strukturierten Format (JSON-LD) über eine webbasierte Programmierschnittstelle (API) mit einer intuitiven Benutzeroberfläche bereitgestellt. Vielfältige Möglichkeiten der Datenabfrage werden unterstützt.</p><p>Die Datenquellen dieses Dienstes sind das <a href=\"http://sigel.staatsbibliothek-berlin.de\">Deutsche ISIL-Verzeichnis</a> und die Stammdaten der <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">Deutschen Bibliotheksstatistik (DBS)</a>.</p>",
-    "en": "<p>lobid-organisations ia a comprehensive directory of approximately 30,000 libraries, archives and museums in German-speaking countries. The data is provided as structured data (JSON-LD) via a web API with an intuitive user interface on top. Multiple options for querying the data are supported.</p><p>The source data sets for this service are the <a href=\"http://sigel.staatsbibliothek-berlin.de\">German ISIL registry</a> and the base data from the <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">German Library Statistics (DBS)</a>.</p>"
+    "en": "<p>lobid-organisations is a comprehensive directory of approximately 30,000 libraries, archives and museums in German-speaking countries. The data is provided as structured data (JSON-LD) via a web API with an intuitive user interface on top. Multiple options for querying the data are supported.</p><p>The source data sets for this service are the <a href=\"http://sigel.staatsbibliothek-berlin.de\">German ISIL registry</a> and the base data from the <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">German Library Statistics (DBS)</a>.</p>"
   },
   "keywords": [
     "libraries",
@@ -92,7 +92,7 @@
       },
       "description": {
         "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP). For documentation see <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>",
-        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>"
+        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/de</a>.</p>"
       },
       "accessURL": "http://lobid.org/organisations/search",
       "mediaType": [

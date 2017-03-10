@@ -2,6 +2,7 @@
 
 package controllers;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.io.Streams;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -34,6 +36,7 @@ import play.twirl.api.Html;
 import play.twirl.api.JavaScript;
 import transformation.CsvExport;
 import views.html.api;
+import views.html.dataset;
 
 /**
  * 
@@ -141,7 +144,32 @@ public class Application extends Controller {
 	private static Result staticJsonld(String name) {
 		response().setContentType("application/ld+json");
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		return ok(Play.application().resourceAsStream(name + ".jsonld"));
+		return ok(readFile(name));
+	}
+
+	/**
+	 * See https://www.w3.org/TR/dwbp/#metadata
+	 * 
+	 * @param format The format ("json" or "html")
+	 * 
+	 * @return JSON-LD dataset metadata
+	 */
+	public static Result dataset(String format) {
+		String responseFormat = Accept.formatFor(format, request().acceptedTypes());
+		return responseFormat.matches(Accept.Format.JSON_LD.queryParamString)
+				? staticJsonld("dataset")
+				: ok(dataset.render(Json.parse(readFile("dataset"))));
+	}
+
+	private static String readFile(String name) {
+		try {
+			return Streams
+					.readAllLines(Play.application().resourceAsStream(name + ".jsonld"))
+					.stream().collect(Collectors.joining("\n"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**

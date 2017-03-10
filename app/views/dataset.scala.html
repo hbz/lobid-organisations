@@ -1,0 +1,59 @@
+@* Copyright 2017 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+
+@(json: com.fasterxml.jackson.databind.JsonNode)
+
+@import helper._
+@import play.i18n._
+@import controllers.Application
+
+@main("") { 
+	<h3>@Messages.get("dataset.caption")<small><a title="Beschreibung als JSON-LD anzeigen" href='@routes.Application.dataset("json")'><img class='json-ld-icon' src='@routes.Assets.at("images/json-ld.png")'></a></small></h3>
+	<table class="table table-striped">
+		<tr><th width="20%"/><th width="80%"/></tr>
+		<tr>
+			<td>@Messages.get("dataset.title")</td>
+			<td><a href='@json.get("id").asText()'>
+				@json.get("name").asText()
+			</a></td>
+		</tr>
+		<tr><td>@Messages.get("dataset.description")</td><td>@Html(json.get("description").get(Application.currentLang()).asText())</td></tr>
+		<tr>
+			<td>@Messages.get("dataset.keywords")</td>
+			<td>@json.get("keywords").toString().replaceAll("\",\"", ", ").replaceAll("[\"\\[\\]]", "")</td>
+		</tr>
+		@defining(json.get("spatial").elements()) { spatial => 
+			@defining((spatial.next(), spatial.next(), spatial.next())) { case (s1, s2, s3) =>
+		<tr><td>@Messages.get("dataset.spatial")</td><td>
+			<a href='@s1.get("id").asText()'>@s1.get("label").get(Application.currentLang()).asText()</a>,
+			<a href='@s2.get("id").asText()'>@s2.get("label").get(Application.currentLang()).asText()</a>,
+			<a href='@s3.get("id").asText()'>@s3.get("label").get(Application.currentLang()).asText()</a>
+		</td></tr>
+		}}
+		@defining(json.get("publisher")) { pub =>
+		<tr>
+			<td>@Messages.get("dataset.publisher")</td>
+			<td><a href='@pub.get("id").asText()'>
+				@pub.get("label").get(Application.currentLang()).asText() &mdash; @pub.get("alternateName").elements().next().asText()
+			</a></td>
+		</tr>
+		}
+		<tr><td>@Messages.get("dataset.date")</td><td>@json.get("datePublished").asText()</td></tr>
+		<tr><td>@Messages.get("dataset.language")</td><td>@json.get("inLanguage").toString().replaceAll("\",\"", ", ").replaceAll("[\"\\[\\]]", "")</td></tr>
+		<tr><td>@Messages.get("dataset.frequency")</td><td>@json.get("accrualPeriodicity").get("label").get(Application.currentLang()).asText()</td></tr>
+		<tr><td>@Messages.get("dataset.contact")</td><td><a href='@json.get("contactPoint").asText()'>@json.get("contactPoint").asText()</a></td></tr>
+	</table>
+	<h3>@Messages.get("dataset.distribution")</h3>
+	@defining(json.get("distribution").elements().next()) { dist =>
+	<table class="table table-striped">
+		<tr><th width="20%"/><th width="80%"/></tr>
+		<tr><td>@Messages.get("dataset.distribution.title")</td><td>@dist.get("label").get(Application.currentLang()).asText()</td></tr>
+		<tr><td>@Messages.get("dataset.distribution.description")</td><td>@Html(dist.get("description").get(Application.currentLang()).asText())</td></tr>
+		<tr><td>@Messages.get("dataset.distribution.url")</td><td><a href='@dist.get("accessURL").asText()'>@dist.get("accessURL").asText()</a></td></tr>
+		<tr><td>@Messages.get("dataset.distribution.license")</td><td>@Html(dist.get("rights").get(Application.currentLang()).asText())</td></tr>
+		<tr><td>@Messages.get("dataset.distribution.media")</td><td>@dist.get("mediaType").toString().replaceAll("\",\"", ", ").replaceAll("[\"\\[\\]]", "")</td></tr>
+	</table>
+	}
+	<script type="application/ld+json">
+	@Html(json.toString)
+	</script>
+}

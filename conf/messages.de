@@ -109,3 +109,23 @@ organisation.location.addressCountry = Land
 organisation.location.openingHoursSpecification = Öffnungszeiten
 
 organisation.footer.change = Änderungen zu diesem Eintrag im Sigelverzeichnis mitteilen.
+
+# dataset
+
+dataset.caption = Datenbeschreibung
+dataset.title = Titel
+dataset.description = Beschreibung
+dataset.keywords = Schlagwörter
+dataset.spatial = Raumbezug
+dataset.publisher = Veröffentlicht von
+dataset.date = Veröffentlicht am
+dataset.language = Sprache
+dataset.frequency = Ergänzungsfrquenz
+dataset.contact = Kontakt
+
+dataset.distribution = Datendistribution
+dataset.distribution.title = Titel
+dataset.distribution.description = Beschreibung
+dataset.distribution.url = URL
+dataset.distribution.license = Lizenz
+dataset.distribution.media = Medientypen

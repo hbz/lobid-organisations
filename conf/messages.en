@@ -109,3 +109,23 @@ organisation.location.addressCountry = Country
 organisation.location.openingHoursSpecification = Opening hours
 
 organisation.footer.change = Submit changes to this entry in the ISIL registry.
+
+# dataset
+
+dataset.caption = Dataset
+dataset.title = Title
+dataset.description = Description
+dataset.keywords = Keywords
+dataset.spatial = Spatial
+dataset.publisher = Publisher
+dataset.date = Publication date
+dataset.language = Language
+dataset.frequency = Accrual frequency
+dataset.contact = Contact
+
+dataset.distribution = Distribution
+dataset.distribution.title = Title
+dataset.distribution.description = Description
+dataset.distribution.url = URL
+dataset.distribution.license = License
+dataset.distribution.media = Media types
