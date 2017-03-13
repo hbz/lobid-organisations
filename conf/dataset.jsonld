@@ -22,7 +22,7 @@
     "accessURL": "http://www.w3.org/ns/dcat#accessURL",
     "mediaType": "http://www.w3.org/ns/dcat#mediaType"
   },
-  "id": "http://lobid.org/organisations#!",
+  "id": "http://lobid.org/organisations/dataset#!",
   "type": "Dataset",
   "name": "lobid-organisations",
   "description": {
