@@ -15,6 +15,9 @@
       "@id": "http://www.w3.org/2000/01/rdf-schema#label",
       "@container": "@language"
     },
+    "alternateName": {
+      "@container": "@language"
+    },
     "description": {
       "@container": "@language"
     },
@@ -22,12 +25,16 @@
     "accessURL": "http://www.w3.org/ns/dcat#accessURL",
     "mediaType": "http://www.w3.org/ns/dcat#mediaType"
   },
-  "id": "http://lobid.org/organisations#!",
+  "id": "http://lobid.org/organisations/dataset#!",
   "type": "Dataset",
   "name": "lobid-organisations",
+  "alternateName": {
+    "de": "Gedächtnisinstitutionen im deutschsprachigen Raum",
+    "en": "Memory institutions in German-speaking countries"
+  },
   "description": {
-    "de": "<p>lobid-organisations ist ein umfassendes Verzeichnis von etwa 30.000 Bibliotheken und verwandten Einrichtungen im deutschsprachigen Raum. Die Daten werden in einem strukturierten Format (JSON-LD) über eine webbasierte Programmierschnittstelle (API) mit einer intuitiven Benutzeroberfläche bereitgestellt. Vielfältige Möglichkeiten der Datenabfrage werden unterstützt.</p><p>Die Datenquellen dieses Dienstes sind das <a href=\"http://sigel.staatsbibliothek-berlin.de\">Deutsche ISIL-Verzeichnis</a> und die Stammdaten der <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">Deutschen Bibliotheksstatistik (DBS)</a>.</p>",
-    "en": "<p>lobid-organisations ia a comprehensive directory of approximately 30,000 libraries, archives and museums in German-speaking countries. The data is provided as structured data (JSON-LD) via a web API with an intuitive user interface on top. Multiple options for querying the data are supported.</p><p>The source data sets for this service are the <a href=\"http://sigel.staatsbibliothek-berlin.de\">German ISIL registry</a> and the base data from the <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">German Library Statistics (DBS)</a>.</p>"
+    "de": "<p class='lead'>lobid-organisations ist ein umfassendes Verzeichnis von etwa 30.000 Gedächtnisinstitutionen (Bibliotheken, Archiven und Museen) im deutschsprachigen Raum.</p><p>Die Daten werden in einem strukturierten Format (JSON-LD) über eine <a href='/organisations/api'>webbasierte Programmierschnittstelle (API)</a> mit einer <a href='/organisations/search'>intuitiven Benutzeroberfläche</a> bereitgestellt. Vielfältige Möglichkeiten der Datenabfrage werden unterstützt.</p><p>Die Datenquellen dieses Dienstes sind das <a href=\"http://sigel.staatsbibliothek-berlin.de\">Deutsche ISIL-Verzeichnis</a> und die Stammdaten der <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">Deutschen Bibliotheksstatistik (DBS)</a>.</p>",
+    "en": "<p class='lead'>lobid-organisations is a comprehensive directory of approximately 30,000 memory institutions (libraries, archives and museums) in German-speaking countries.</p><p>The data is provided as structured data (JSON-LD) via a <a href='/organisations/api'>web application programming interface (API)</a> with an  <a href='/organisations/search'>intuitive user interface</a> on top. Multiple options for querying the data are supported.</p><p>The source data sets for this service are the <a href=\"http://sigel.staatsbibliothek-berlin.de\">German ISIL registry</a> and the base data from the <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">German Library Statistics (DBS)</a>.</p>"
   },
   "keywords": [
     "libraries",
@@ -92,7 +99,7 @@
       },
       "description": {
         "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP). For documentation see <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>",
-        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>"
+        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/de\">http://lobid.org/organisations/api/de</a>.</p>"
       },
       "accessURL": "http://lobid.org/organisations/search",
       "mediaType": [
@@ -101,7 +108,7 @@
         "application/ld+json"
       ],
       "rights": {
-          "en": "The source data sets currently don't fully fall under an open license. While the ISIL data are <a href=\"http://www.dnb.de/dataservice\">available</a> from the German National Library (DNB) under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>, the DBS data is currently not openly licensed. Thus, unfortunately lobid-organisations data can n ot be provided under an open license yet.",
+          "en": "The source data sets currently don't fully fall under an open license. While the ISIL data are <a href=\"http://www.dnb.de/dataservice\">available</a> from the German National Library (DNB) under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>, the DBS data is currently not openly licensed. Thus, unfortunately lobid-organisations data can not be provided under an open license yet.",
           "de": "Die Quelldaten sind derzeit leider nicht vollständig offen lizenziert. Zwar werden die ISIL-Daten werden von der Deutschen Nationalbibliothek (DNB) unter einer <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>-Lizenz <a href=\"http://www.dnb.de/datendienst\">bereitgestellt</a>, für die DBS-Stammdaten gibt es derzeit aber keine offene Lizenzierung. Somit können die lobid-organisations-Daten leider noch nicht mit einer offenen Lizenz versehen werden."
       }
     }

@@ -31,6 +31,7 @@
 				<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='@Messages.get("main.navbar.api.title")'><a href="@routes.Application.api()">@Messages.get("main.navbar.api.link")</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+				<li><a href='@routes.Application.dataset("")'><span class="glyphicon glyphicon-info-sign"></span>&nbsp;</a>
 				<li><a href="@routes.Application.toggleLanguage()" title='@Messages.get("main.navbar.toggle_language.title")'><span class='glyphicon glyphicon-globe'></span>&nbsp;@Messages.get("main.navbar.toggle_language.link")</a></li>
 			</ul>
 		</div>
