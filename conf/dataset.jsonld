@@ -99,7 +99,7 @@
       },
       "description": {
         "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP). For documentation see <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>",
-        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/de</a>.</p>"
+        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/de\">http://lobid.org/organisations/api/de</a>.</p>"
       },
       "accessURL": "http://lobid.org/organisations/search",
       "mediaType": [
@@ -108,7 +108,7 @@
         "application/ld+json"
       ],
       "rights": {
-          "en": "The source data sets currently don't fully fall under an open license. While the ISIL data are <a href=\"http://www.dnb.de/dataservice\">available</a> from the German National Library (DNB) under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>, the DBS data is currently not openly licensed. Thus, unfortunately lobid-organisations data can n ot be provided under an open license yet.",
+          "en": "The source data sets currently don't fully fall under an open license. While the ISIL data are <a href=\"http://www.dnb.de/dataservice\">available</a> from the German National Library (DNB) under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>, the DBS data is currently not openly licensed. Thus, unfortunately lobid-organisations data can not be provided under an open license yet.",
           "de": "Die Quelldaten sind derzeit leider nicht vollständig offen lizenziert. Zwar werden die ISIL-Daten werden von der Deutschen Nationalbibliothek (DNB) unter einer <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>-Lizenz <a href=\"http://www.dnb.de/datendienst\">bereitgestellt</a>, für die DBS-Stammdaten gibt es derzeit aber keine offene Lizenzierung. Somit können die lobid-organisations-Daten leider noch nicht mit einer offenen Lizenz versehen werden."
       }
     }
