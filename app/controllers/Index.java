@@ -22,16 +22,30 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.internal.InternalSettingsPreparer;
 import org.elasticsearch.plugins.Plugin;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.metrics.tophits.TopHitsBuilder;
+import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
 import org.xbib.elasticsearch.plugin.bundle.BundlePlugin;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import transformation.Enrich;
@@ -45,6 +59,13 @@ import transformation.Enrich;
  *
  */
 public class Index extends Controller {
+
+	static final String GEO_FIELD = "location.geo";
+
+	private static final String INDEX_NAME =
+			Application.CONFIG.getString("index.es.name");
+	private static final String INDEX_TYPE =
+			Application.CONFIG.getString("index.es.type");
 
 	private static class ConfigurableNode extends Node {
 		public ConfigurableNode(Settings settings,
@@ -96,10 +117,9 @@ public class Index extends Controller {
 	public static void initialize(String pathToJson) throws IOException {
 		long minimumSize =
 				Long.parseLong(Application.CONFIG.getString("index.file.minsize"));
-		String index = Application.CONFIG.getString("index.es.name");
 		if (new File(pathToJson).length() >= minimumSize) {
-			createEmptyIndex(CLIENT, index, "conf/index-settings.json");
-			indexData(CLIENT, pathToJson, index);
+			createEmptyIndex(CLIENT, INDEX_NAME, "conf/index-settings.json");
+			indexData(CLIENT, pathToJson, INDEX_NAME);
 		} else {
 			throw new IllegalArgumentException(
 					"File not large enough: " + pathToJson);
@@ -109,6 +129,65 @@ public class Index extends Controller {
 	/** Close the embedded Elasticsearch index. */
 	public static void close() {
 		node.close();
+	}
+
+	/**
+	 * @param id The document ID
+	 * @return The document with the given ID, or null, if it does not exist
+	 */
+	public static String get(String id) {
+		GetResponse response =
+				CLIENT.prepareGet("organisations", "organisation", id).get();
+		return response.isExists() ? response.getSourceAsString() : null;
+	}
+
+	static SearchResponse executeQuery(int from, int size, QueryBuilder query,
+			String aggregations) {
+		SearchRequestBuilder searchRequest = Index.CLIENT.prepareSearch(INDEX_NAME)
+				.setTypes(INDEX_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
+				.setQuery(preprocess(query)).setFrom(from).setSize(size);
+		if (!aggregations.isEmpty()) {
+			searchRequest = withAggregations(searchRequest, aggregations.split(","));
+		}
+		return searchRequest.execute().actionGet();
+	}
+
+	private static QueryBuilder preprocess(QueryBuilder query) {
+		String position = session("position");
+		if (position != null) {
+			Logger.info("Sorting by distance to current position {}", position);
+			ScoreFunctionBuilder locationScore = ScoreFunctionBuilders
+					.linearDecayFunction(GEO_FIELD, new GeoPoint(position), "3km")
+					.setOffset("0km");
+			return QueryBuilders.functionScoreQuery(query).boostMode("sum")
+					.add(QueryBuilders.existsQuery(GEO_FIELD), locationScore)
+					.add(ScoreFunctionBuilders.scriptFunction(new Script("zero")))
+					.scoreMode("first");
+		}
+		return query;
+	}
+
+	private static SearchRequestBuilder withAggregations(
+			final SearchRequestBuilder searchRequest, String... fields) {
+		Arrays.asList(fields).forEach(field -> {
+			if (field.startsWith("location")) {
+				TopHitsBuilder topHitsBuilder = AggregationBuilders.topHits(GEO_FIELD)
+						.addScriptField("pin", new Script("location-aggregation"))
+						.setSize(Integer.MAX_VALUE);
+				String position = session("position");
+				if (position != null) {
+					topHitsBuilder.setSize(Integer.MAX_VALUE)
+							.addSort(new GeoDistanceSortBuilder(GEO_FIELD)
+									.points(new GeoPoint(position)));
+				}
+				searchRequest.addAggregation(topHitsBuilder);
+			} else {
+				searchRequest
+						.addAggregation(AggregationBuilders.terms(field.replace(".raw", ""))
+								.field(field).size(Integer.MAX_VALUE));
+			}
+		});
+		return searchRequest;
 	}
 
 	static void createEmptyIndex(final Client aClient, final String aIndexName,
@@ -158,10 +237,9 @@ public class Index extends Controller {
 				organisationData = line;
 				JsonNode libType = rootNode.get("type");
 				if (libType == null || !libType.textValue().equals("Collection")) {
-					bulkRequest.add(client
-							.prepareIndex(aIndex,
-									Application.CONFIG.getString("index.es.type"), organisationId)
-							.setSource(organisationData));
+					bulkRequest
+							.add(client.prepareIndex(aIndex, INDEX_TYPE, organisationId)
+									.setSource(organisationData));
 				}
 			}
 			currentLine++;

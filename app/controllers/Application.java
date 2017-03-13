@@ -9,20 +9,11 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
-import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
-import org.elasticsearch.script.Script;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.metrics.tophits.TopHitsBuilder;
-import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -37,7 +28,6 @@ import play.Play;
 import play.cache.Cache;
 import play.libs.F.Promise;
 import play.libs.Json;
-import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.twirl.api.Html;
@@ -53,15 +43,10 @@ import views.html.api;
  */
 public class Application extends Controller {
 
-	private static final String GEO_FIELD = "location.geo";
-
 	static final String FORMAT_CONFIG_SEP = ":";
 
 	/** The application config. */
 	public static final Config CONFIG = ConfigFactory.load();
-
-	private static final String ES_TYPE = CONFIG.getString("index.es.type");
-	private static final String ES_NAME = CONFIG.getString("index.es.name");
 
 	/**
 	 * @param path The path to redirect to
@@ -319,14 +304,14 @@ public class Application extends Controller {
 			String aggregations) {
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		SearchResponse queryResponse =
-				executeQuery(from, size, simpleQuery, aggregations);
+				Index.executeQuery(from, size, simpleQuery, aggregations);
 		return returnAsJson(queryResponse);
 	}
 
 	private static String buildPolygonQuery(String q, double[] latCoordinates,
 			double[] lonCoordinates, int from, int size, String aggregations) {
 		GeoPolygonQueryBuilder polygonQuery =
-				QueryBuilders.geoPolygonQuery(GEO_FIELD);
+				QueryBuilders.geoPolygonQuery(Index.GEO_FIELD);
 		for (int i = 0; i < latCoordinates.length; i++) {
 			polygonQuery.addPoint(latCoordinates[i], lonCoordinates[i]);
 		}
@@ -334,31 +319,20 @@ public class Application extends Controller {
 		QueryBuilder polygonAndSimpleQuery =
 				QueryBuilders.boolQuery().must(polygonQuery).must(simpleQuery);
 		SearchResponse queryResponse =
-				executeQuery(from, size, polygonAndSimpleQuery, aggregations);
+				Index.executeQuery(from, size, polygonAndSimpleQuery, aggregations);
 		return returnAsJson(queryResponse);
 	}
 
 	private static String buildDistanceQuery(String q, int from, int size,
 			double lat, double lon, double distance, String aggregations) {
-		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery(GEO_FIELD)
+		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery(Index.GEO_FIELD)
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		QueryBuilder distanceAndSimpleQuery =
 				QueryBuilders.boolQuery().must(distanceQuery).must(simpleQuery);
 		SearchResponse queryResponse =
-				executeQuery(from, size, distanceAndSimpleQuery, aggregations);
+				Index.executeQuery(from, size, distanceAndSimpleQuery, aggregations);
 		return returnAsJson(queryResponse);
-	}
-
-	static SearchResponse executeQuery(int from, int size, QueryBuilder query,
-			String aggregations) {
-		SearchRequestBuilder searchRequest = Index.CLIENT.prepareSearch(ES_NAME)
-				.setTypes(ES_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
-				.setQuery(preprocess(query)).setFrom(from).setSize(size);
-		if (!aggregations.isEmpty()) {
-			searchRequest = withAggregations(searchRequest, aggregations.split(","));
-		}
-		return searchRequest.execute().actionGet();
 	}
 
 	static String[] defaultAggregations() {
@@ -366,44 +340,6 @@ public class Application extends Controller {
 				localizedLabel("classification.label.raw"),
 				localizedLabel("fundertype.label.raw"),
 				localizedLabel("collects.extent.label.raw"), "location" };
-	}
-
-	private static QueryBuilder preprocess(QueryBuilder query) {
-		String position = session("position");
-		if (position != null) {
-			Logger.info("Sorting by distance to current position {}", position);
-			ScoreFunctionBuilder locationScore = ScoreFunctionBuilders
-					.linearDecayFunction(GEO_FIELD, new GeoPoint(position), "3km")
-					.setOffset("0km");
-			return QueryBuilders.functionScoreQuery(query).boostMode("sum")
-					.add(QueryBuilders.existsQuery(GEO_FIELD), locationScore)
-					.add(ScoreFunctionBuilders.scriptFunction(new Script("zero")))
-					.scoreMode("first");
-		}
-		return query;
-	}
-
-	private static SearchRequestBuilder withAggregations(
-			final SearchRequestBuilder searchRequest, String... fields) {
-		Arrays.asList(fields).forEach(field -> {
-			if (field.startsWith("location")) {
-				TopHitsBuilder topHitsBuilder = AggregationBuilders.topHits(GEO_FIELD)
-						.addScriptField("pin", new Script("location-aggregation"))
-						.setSize(Integer.MAX_VALUE);
-				String position = session("position");
-				if (position != null) {
-					topHitsBuilder.setSize(Integer.MAX_VALUE)
-							.addSort(new GeoDistanceSortBuilder(GEO_FIELD)
-									.points(new GeoPoint(position)));
-				}
-				searchRequest.addAggregation(topHitsBuilder);
-			} else {
-				searchRequest
-						.addAggregation(AggregationBuilders.terms(field.replace(".raw", ""))
-								.field(field).size(Integer.MAX_VALUE));
-			}
-		});
-		return searchRequest;
 	}
 
 	private static String returnAsJson(SearchResponse queryResponse) {
@@ -433,13 +369,9 @@ public class Application extends Controller {
 		final String responseFormat =
 				Accept.formatFor(format, request().acceptedTypes());
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String server =
-				"http://localhost:" + CONFIG.getString("index.es.port.http");
-		String url =
-				String.format("%s/%s/%s/%s/_source", server, ES_NAME, ES_TYPE, id);
-		return WS.url(url).execute().map(
-				x -> x.getStatus() == OK ? resultFor(id, x.asJson(), responseFormat)
-						: notFound("Not found: " + id));
+		String json = Index.get(id);
+		return Promise.pure(json == null ? notFound("Not found: " + id)
+				: resultFor(id, Json.parse(json), responseFormat));
 	}
 
 	/**

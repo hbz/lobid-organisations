@@ -91,7 +91,7 @@ public class Reconcile extends Controller {
 			String queryString) {
 		JsonNode limitNode = entry.getValue().get("limit");
 		int limit = limitNode == null ? -1 : limitNode.asInt();
-		SearchResponse response = Application.executeQuery(0, limit,
+		SearchResponse response = Index.executeQuery(0, limit,
 				QueryBuilders.queryStringQuery(queryString), "");
 		return response;
 	}
