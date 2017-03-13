@@ -19,15 +19,6 @@ main.footer.imprint = imprint
 
 # index
 
-index.subtitle = A comprehensive directory of German library institutions
-
-index.data_access.header = Data access
-index.data_access.text = You can access this data using our <a href="{0}">simple search interface</a>, our <a href="{1}">application programming interface</a> or <a href="{2}">explore the full organizations directory</a>.
-
-index.data_sources.header = Data sources
-index.data_sources.text = The source data sets for this service are the <a href="{0}">German ISIL registry</a> and the base data from the <a href="{1}">German Library Statistics (DBS)</a>.  The ISIL data are <a href="{4}">available</a> from the German National Library (DNB) under <a href="{2}">CC0</a> while the DBS data is currently not available under an open license.
-
-index.development.header = Development
 index.development.text = This service is developed as open source software on GitHub, where you can find <a href="{0}">technical details</a>, <a href="{1}">report issues</a>, and <a href="{2}">contribute</a> to the service.
 
 #search

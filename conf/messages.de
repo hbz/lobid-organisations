@@ -19,15 +19,6 @@ main.footer.imprint = Impressum
 
 # index
 
-index.subtitle = Ein umfassendes Verzeichnis bibliothekarischer Institutionen
-
-index.data_access.header = Datenzugriff
-index.data_access.text = Sie können auf die Daten über unser <a href="{0}">einfaches Suchinterface</a> oder unsere <a href="{1}">Programmierschnittstelle</a> zugreifen oder <a href="{2}">das gesamte Organisationsverzeichnis erkunden</a>.
-
-index.data_sources.header = Datenquellen
-index.data_sources.text = Die Datenquellen dieses Dienstes sind das <a href="{0}">Deutsche ISIL-Verzeichnis</a> und die Stammdaten der <a href="{1}">Deutschen Bibliotheksstatistik (DBS)</a>. Die ISIL-Daten werden von der Deutschen Nationalbibliothek (DNB) unter einer <a href="{2}">CC0</a>-Lizenz <a href="{3}">bereitgestellt</a>. Für die DBS-Stammdaten gibt es derzeit keine offene Lizenzierung.
-
-index.development.header = Entwicklung
 index.development.text = Dieser Dienst wird als Open-Source-Software auf GitHub entwickelt. Dort können Sie <a href="{0}">technische Details finden</a>, <a href="{1}">von Problemen berichten</a>, und bei der Entwicklung des Dienstes <a href="{2}">mitmachen</a>.
 
 #search

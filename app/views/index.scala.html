@@ -1,18 +1,15 @@
 @* Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 *@
 
-@()
+@(json: com.fasterxml.jackson.databind.JsonNode)
 
 @import play.i18n._
+@import controllers.Application
 
 @main("") {
-<h1>lobid-organisations<small> &mdash; @Messages.get("index.subtitle")</small></h1>
+<h1>@json.get("name").asText()<small> &mdash; @json.get("alternateName").get(Application.currentLang()).asText()</small></h1>
 <div class="row">
 <div class="col-md-7">
-<h3>@Messages.get("index.data_access.header")</h3>
-<p>@Html(Messages.get("index.data_access.text", routes.Application.index(), routes.Application.api(), routes.Application.search()))</p>
-<h3>@Messages.get("index.data_sources.header")</h3>
-<p>@Html(Messages.get("index.data_sources.text", "http://sigel.staatsbibliothek-berlin.de", "https://www.hbz-nrw.de/produkte/bibliotheksstatistik", "https://creativecommons.org/publicdomain/zero/1.0/", "http://www.dnb.de/datendienst", "http://www.dnb.de/dataservice"))</p>
-<h3>@Messages.get("index.development.header")</h3>
+<p>@Html(json.get("description").get(Application.currentLang()).asText())</p>
 <p>@Html(Messages.get("index.development.text", "https://github.com/hbz/lobid-organisations#about", "https://github.com/hbz/lobid-organisations/issues/new", "https://github.com/hbz/lobid-organisations/graphs/contributors"))</p>
 </div>
 <div class="col-md-5">

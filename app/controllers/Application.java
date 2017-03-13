@@ -63,7 +63,7 @@ public class Application extends Controller {
 	 * @return 200 ok response to render the index page
 	 */
 	public static Result index() {
-		return ok(views.html.index.render());
+		return ok(views.html.index.render(Json.parse(readFile("dataset"))));
 	}
 
 	/**
