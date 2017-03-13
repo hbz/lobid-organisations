@@ -15,6 +15,9 @@
       "@id": "http://www.w3.org/2000/01/rdf-schema#label",
       "@container": "@language"
     },
+    "alternateName": {
+      "@container": "@language"
+    },
     "description": {
       "@container": "@language"
     },
@@ -25,8 +28,12 @@
   "id": "http://lobid.org/organisations/dataset#!",
   "type": "Dataset",
   "name": "lobid-organisations",
+  "alternateName": {
+    "de": "Gedächtnisinstitutionen im deutschsprachigen Raum",
+    "en": "Libraries, archives and museums in German-speaking countries"
+  },
   "description": {
-    "de": "<p>lobid-organisations ist ein umfassendes Verzeichnis von etwa 30.000 Bibliotheken und verwandten Einrichtungen im deutschsprachigen Raum. Die Daten werden in einem strukturierten Format (JSON-LD) über eine webbasierte Programmierschnittstelle (API) mit einer intuitiven Benutzeroberfläche bereitgestellt. Vielfältige Möglichkeiten der Datenabfrage werden unterstützt.</p><p>Die Datenquellen dieses Dienstes sind das <a href=\"http://sigel.staatsbibliothek-berlin.de\">Deutsche ISIL-Verzeichnis</a> und die Stammdaten der <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">Deutschen Bibliotheksstatistik (DBS)</a>.</p>",
+    "de": "<p>lobid-organisations ist ein umfassendes Verzeichnis von etwa 30.000 Bibliotheken, Archiven und Museen im deutschsprachigen Raum. Die Daten werden in einem strukturierten Format (JSON-LD) über eine webbasierte Programmierschnittstelle (API) mit einer intuitiven Benutzeroberfläche bereitgestellt. Vielfältige Möglichkeiten der Datenabfrage werden unterstützt.</p><p>Die Datenquellen dieses Dienstes sind das <a href=\"http://sigel.staatsbibliothek-berlin.de\">Deutsche ISIL-Verzeichnis</a> und die Stammdaten der <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">Deutschen Bibliotheksstatistik (DBS)</a>.</p>",
     "en": "<p>lobid-organisations is a comprehensive directory of approximately 30,000 libraries, archives and museums in German-speaking countries. The data is provided as structured data (JSON-LD) via a web API with an intuitive user interface on top. Multiple options for querying the data are supported.</p><p>The source data sets for this service are the <a href=\"http://sigel.staatsbibliothek-berlin.de\">German ISIL registry</a> and the base data from the <a href=\"https://www.hbz-nrw.de/produkte/bibliotheksstatistik\">German Library Statistics (DBS)</a>.</p>"
   },
   "keywords": [
