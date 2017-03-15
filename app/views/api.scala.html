@@ -35,7 +35,7 @@
     <dt>@Messages.get("api.jsonld.rdf.header")</dt><dd>@Html(Messages.get("api.jsonld.rdf.text", "https://github.com/digitalbazaar/jsonld-cli"))</dd>
     <p><code>jsonld format --nquads http://lobid.org@routes.Application.get("DE-6")</code></p>
     <dt>@Messages.get("api.jsonld.example.header")</dt><dd>@Html(Messages.get("api.jsonld.example.text", "https://hypothes.is/"))</dd>
-    <dd><pre><code>@(Json.prettyPrint(Json.parse(controllers.Index.get("DE-605"))))</code></pre></dd>
+    <dd><pre><code>@(Json.prettyPrint(Json.parse(controllers.Index.get("DE-38M"))))</code></pre></dd>
     <h2 id="openrefine">OpenRefine <small><a href="#openrefine"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     <p>@Html(Messages.get("api.openrefine.info", "https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API", "https://github.com/hbz/lobid-organisations/issues/55#issuecomment-129771979"))</p>
     @desc(Messages.get("api.openrefine.metadata"), routes.Reconcile.meta("jsonp"))
