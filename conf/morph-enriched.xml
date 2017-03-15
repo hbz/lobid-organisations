@@ -464,7 +464,7 @@
 			<entry name="http://purl.org/lobid/libtype#n81" value="Wissenschaftliche Spezialbibliothek" />
 			<entry name="http://purl.org/lobid/libtype#n82" value="Einrichtung der Denkmalpflege" />
 			<entry name="http://purl.org/lobid/libtype#n84" value="Forschungseinrichtung" />
-			<entry name="http://purl.org/lobid/libtype#n86" value="Museum (nicht Museumsbibliothek)" />
+			<entry name="http://purl.org/lobid/libtype#n86" value="Museum" />
 			<entry name="http://purl.org/lobid/libtype#n87" value="Verlag" />
 			<entry name="http://purl.org/lobid/libtype#n88" value="Sonstige Einrichtung" />
 			<entry name="http://purl.org/lobid/libtype#n89" value="Paket elektronischer Ressourcen" />
