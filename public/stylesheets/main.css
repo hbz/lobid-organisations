@@ -65,3 +65,24 @@ select {
 	float:right;
 	height: 1.5em
 }
+
+figure {
+	display: table;
+	float: right;
+}
+
+figcaption {
+	display: table-caption;
+	caption-side: bottom;
+	text-align: right;
+}
+
+small {
+	font-size: smaller;
+}
+
+#index-image {
+	max-width: 500px;
+	float: right;
+	height: 250px;
+}

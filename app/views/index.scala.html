@@ -1,6 +1,6 @@
 @* Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 *@
 
-@(json: com.fasterxml.jackson.databind.JsonNode)
+@(json: com.fasterxml.jackson.databind.JsonNode, item: com.fasterxml.jackson.databind.JsonNode, attribution: String)
 
 @import play.i18n._
 @import controllers.Application
@@ -13,7 +13,10 @@
 <p>@Html(Messages.get("index.development.text", "https://github.com/hbz/lobid-organisations#about", "https://github.com/hbz/lobid-organisations/issues/new", "https://github.com/hbz/lobid-organisations/graphs/contributors"))</p>
 </div>
 <div class="col-md-5">
-<a href="http://lobid.org"><img src='@routes.Assets.at("images/lobid.png")' style="float:right" height="250px"/></a>
+<figure>@defining(routes.Application.get(item.get("isil").get("value").asText(), "")) { orgLink =>
+	<a href='@orgLink'><img id="index-image" src='@item.get("image").get("value").asText()' title='@Messages.get("index.image.info")'/></a>
+	<figcaption><a href='@orgLink'>@item.get("itemLabel").get("value").asText()</a><br/><small>(@Messages.get("index.image.source") @Html(attribution))</small></figcaption>
+}</figure>
 </div>
 </div>
 }

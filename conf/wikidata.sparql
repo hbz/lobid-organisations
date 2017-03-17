@@ -1,0 +1,9 @@
+#defaultView:ImageGrid
+SELECT ?image ?itemLabel ?isil
+WHERE
+{
+  ?item wdt:P18 ?image .  
+  ?item wdt:P791 ?isil  .
+  FILTER (regex(?isil, "(AT|CH|DE)-.*")).
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "de" }
+}
