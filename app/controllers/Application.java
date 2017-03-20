@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -81,18 +82,39 @@ public class Application extends Controller {
 		try {
 			return requestImages().flatMap(images -> {
 				JsonNode image = pickRandomItem(images);
+				String label = labelFor(image);
 				String imageUrl = image.get("image").get("value").asText();
 				String imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
 				return requestInfo(imageName).map(info -> {
 					String attribution = createAttribution(imageName, info.asJson());
 					JsonNode dataset = Json.parse(readFile("dataset"));
-					return ok(views.html.index.render(dataset, image, attribution));
+					return ok(
+							views.html.index.render(dataset, image, attribution, label));
 				});
 			});
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Promise.pure(internalServerError(e.getMessage()));
 		}
+	}
+
+	private static JsonNode pickRandomItem(WSResponse images) {
+		Iterator<JsonNode> elements =
+				images.asJson().findValue("bindings").elements();
+		List<JsonNode> items = new ArrayList<>();
+		elements.forEachRemaining(items::add);
+		return items.get(new Random().nextInt(items.size()));
+	}
+
+	private static String labelFor(JsonNode image) {
+		String isil = image.get("isil").get("value").asText();
+		String locality = Optional.ofNullable(Index.get(isil))
+				.map(organisation -> Json.parse(organisation).findValue("location"))
+				.map(location -> location.findValue("addressLocality"))
+				.map(JsonNode::asText).orElseGet(() -> "");
+		String imageLabel = image.get("itemLabel").get("value").asText();
+		return !locality.isEmpty() && !imageLabel.contains(locality)
+				? imageLabel + ", " + locality : imageLabel;
 	}
 
 	private static Promise<WSResponse> requestImages() throws IOException {
@@ -131,14 +153,6 @@ public class Application extends Controller {
 			});
 		}
 		return promise;
-	}
-
-	private static JsonNode pickRandomItem(WSResponse images) {
-		Iterator<JsonNode> elements =
-				images.asJson().findValue("bindings").elements();
-		List<JsonNode> items = new ArrayList<>();
-		elements.forEachRemaining(items::add);
-		return items.get(new Random().nextInt(items.size()));
 	}
 
 	private static String createAttribution(String fileName, JsonNode info) {
