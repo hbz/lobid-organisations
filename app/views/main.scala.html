@@ -18,25 +18,26 @@
 <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
 </head>
 <body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid" id="header">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="@routes.Application.index()">
-					<span><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></span> lobid-organisations
-				</a>
+	<div class="container">
+		<p/>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid" id="header">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="@routes.Application.index()">
+						<span><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></span> lobid-organisations
+					</a>
+				</div>
+				<ul class="nav navbar-nav navbar-left">
+					<li @if(request.uri.toString() == routes.Application.index().toString()){ class="active" } title='@Messages.get("main.navbar.search.title")'><a href="@routes.Application.index()">@Messages.get("main.navbar.search.link")</a></li>
+					<li @if(request.uri.toString() == routes.Application.search().toString()){ class="active" } title='@Messages.get("main.navbar.browse.title")'><a href="@routes.Application.search()">@Messages.get("main.navbar.browse.link")</a></li>
+					<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='@Messages.get("main.navbar.api.title")'><a href="@routes.Application.api()">@Messages.get("main.navbar.api.link")</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href='@routes.Application.dataset("")'><span class="glyphicon glyphicon-info-sign"></span>&nbsp;</a>
+					<li><a href="@routes.Application.toggleLanguage()" title='@Messages.get("main.navbar.toggle_language.title")'><span class='glyphicon glyphicon-globe'></span>&nbsp;@Messages.get("main.navbar.toggle_language.link")</a></li>
+				</ul>
 			</div>
-			<ul class="nav navbar-nav navbar-left">
-				<li @if(request.uri.toString() == routes.Application.index().toString()){ class="active" } title='@Messages.get("main.navbar.search.title")'><a href="@routes.Application.index()">@Messages.get("main.navbar.search.link")</a></li>
-				<li @if(request.uri.toString() == routes.Application.search().toString()){ class="active" } title='@Messages.get("main.navbar.browse.title")'><a href="@routes.Application.search()">@Messages.get("main.navbar.browse.link")</a></li>
-				<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='@Messages.get("main.navbar.api.title")'><a href="@routes.Application.api()">@Messages.get("main.navbar.api.link")</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href='@routes.Application.dataset("")'><span class="glyphicon glyphicon-info-sign"></span>&nbsp;</a>
-				<li><a href="@routes.Application.toggleLanguage()" title='@Messages.get("main.navbar.toggle_language.title")'><span class='glyphicon glyphicon-globe'></span>&nbsp;@Messages.get("main.navbar.toggle_language.link")</a></li>
-			</ul>
-		</div>
-	</nav>
-	<div class="container-fluid">
+		</nav>
 		<p>
 		<form action="@routes.Application.search()" method="GET">
 			<div class="input-group">
