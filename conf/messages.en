@@ -20,6 +20,8 @@ main.footer.imprint = imprint
 # index
 
 index.development.text = This service is developed as open source software on GitHub, where you can find <a href="{0}">technical details</a>, <a href="{1}">report issues</a>, and <a href="{2}">contribute</a> to the service.
+index.image.source = Source:
+index.image.info = Organisation of the moment, refresh for more
 
 #search
 

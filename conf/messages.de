@@ -20,6 +20,8 @@ main.footer.imprint = Impressum
 # index
 
 index.development.text = Dieser Dienst wird als Open-Source-Software auf GitHub entwickelt. Dort können Sie <a href="{0}">technische Details finden</a>, <a href="{1}">von Problemen berichten</a>, und bei der Entwicklung des Dienstes <a href="{2}">mitmachen</a>.
+index.image.source = Quelle:
+index.image.info = Organisation des Moments, aktualisieren für weitere
 
 #search
 

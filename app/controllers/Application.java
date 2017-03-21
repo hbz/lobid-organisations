@@ -2,11 +2,20 @@
 
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -30,10 +39,15 @@ import play.Play;
 import play.cache.Cache;
 import play.libs.F.Promise;
 import play.libs.Json;
+import play.libs.ws.WS;
+import play.libs.ws.WSRequestHolder;
+import play.libs.ws.WSResponse;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.twirl.api.Html;
 import play.twirl.api.JavaScript;
+import scala.util.Random;
 import transformation.CsvExport;
 import views.html.api;
 import views.html.dataset;
@@ -45,6 +59,8 @@ import views.html.dataset;
  *
  */
 public class Application extends Controller {
+
+	private static final int ONE_DAY = 60 * 60 * 24;
 
 	static final String FORMAT_CONFIG_SEP = ":";
 
@@ -62,8 +78,99 @@ public class Application extends Controller {
 	/**
 	 * @return 200 ok response to render the index page
 	 */
-	public static Result index() {
-		return ok(views.html.index.render(Json.parse(readFile("dataset"))));
+	public static Promise<Result> index() {
+		try {
+			return requestImages().flatMap(images -> {
+				JsonNode image = pickRandomItem(images);
+				String label = labelFor(image);
+				String imageUrl = image.get("image").get("value").asText();
+				String imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+				return requestInfo(imageName).map(info -> {
+					String attribution = createAttribution(imageName, info.asJson());
+					JsonNode dataset = Json.parse(readFile("dataset"));
+					return ok(
+							views.html.index.render(dataset, image, attribution, label));
+				});
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Promise.pure(internalServerError(e.getMessage()));
+		}
+	}
+
+	private static JsonNode pickRandomItem(WSResponse images) {
+		Iterator<JsonNode> elements =
+				images.asJson().findValue("bindings").elements();
+		List<JsonNode> items = new ArrayList<>();
+		elements.forEachRemaining(items::add);
+		return items.get(new Random().nextInt(items.size()));
+	}
+
+	private static String labelFor(JsonNode image) {
+		String isil = image.get("isil").get("value").asText();
+		String locality = Optional.ofNullable(Index.get(isil))
+				.map(organisation -> Json.parse(organisation).findValue("location"))
+				.map(location -> location.findValue("addressLocality"))
+				.map(JsonNode::asText).orElseGet(() -> "");
+		String imageLabel = image.get("itemLabel").get("value").asText();
+		return !locality.isEmpty() && !imageLabel.contains(locality)
+				? imageLabel + ", " + locality : imageLabel;
+	}
+
+	private static Promise<WSResponse> requestImages() throws IOException {
+		File sparqlFile = Play.application().getFile("conf/wikidata.sparql");
+		String sparqlString = Files.readAllLines(Paths.get(sparqlFile.toURI()))
+				.stream().collect(Collectors.joining("\n"));
+		return cachedRequest(sparqlString,
+				WS.url("https://query.wikidata.org/sparql")
+						.setQueryParameter("query", sparqlString)
+						.setQueryParameter("format", "json"));
+	}
+
+	private static Promise<WSResponse> requestInfo(String imageName)
+			throws UnsupportedEncodingException {
+		String imageId =
+				"File:" + URLDecoder.decode(imageName, StandardCharsets.UTF_8.name());
+		return cachedRequest(imageId,
+				WS.url("https://commons.wikimedia.org/w/api.php")
+						.setQueryParameter("action", "query")
+						.setQueryParameter("format", "json")
+						.setQueryParameter("prop", "imageinfo")
+						.setQueryParameter("iiprop", "extmetadata")
+						.setQueryParameter("titles", imageId));
+	}
+
+	private static Promise<WSResponse> cachedRequest(String key,
+			WSRequestHolder request) {
+		@SuppressWarnings("unchecked")
+		Promise<WSResponse> promise = (Promise<WSResponse>) Cache.get(key);
+		if (promise == null) {
+			promise = request.get();
+			promise.onRedeem(response -> {
+				if (response.getStatus() == Http.Status.OK) {
+					Cache.set(key, Promise.pure(response), ONE_DAY);
+				}
+			});
+		}
+		return promise;
+	}
+
+	private static String createAttribution(String fileName, JsonNode info) {
+		String artist = findText(info, "Artist");
+		String licenseText = findText(info, "LicenseShortName");
+		String licenseUrl = findText(info, "LicenseUrl");
+		String fileSourceUrl =
+				"https://commons.wikimedia.org/wiki/File:" + fileName;
+		return String.format(
+				(artist.isEmpty() ? "%s" : "%s, ")
+						+ "<a href='%s'>Wikimedia Commons</a>, <a href='%s'>%s</a>",
+				artist, fileSourceUrl,
+				licenseUrl.isEmpty() ? fileSourceUrl : licenseUrl, licenseText);
+	}
+
+	private static String findText(JsonNode info, String field) {
+		JsonNode node = info.findValue(field);
+		return node != null ? node.get("value").asText().replace("\n", " ") : "";
 	}
 
 	/**
@@ -210,9 +317,8 @@ public class Application extends Controller {
 			}
 			Result searchResult =
 					searchResult(q, location, from, size, responseFormat, aggregations);
-			int oneDay = 60 * 60 * 24;
 			Logger.debug("Caching search result for request: {}", cacheKey);
-			Cache.set(cacheKey, searchResult, oneDay);
+			Cache.set(cacheKey, searchResult, ONE_DAY);
 			return searchResult;
 		} catch (IllegalArgumentException x) {
 			x.printStackTrace();
