@@ -25,6 +25,18 @@ dd {
 	height: 25px;
 }
 
+.footer img {
+	height: 20px;
+}
+
+.footer {
+	margin-top: 30px;
+}
+
+.nrw-logo {
+	height: 50px;
+}
+
 table {
 	width: 100%;
 }
@@ -69,6 +81,7 @@ select {
 figure {
 	display: table;
 	float: right;
+	margin-top: 10px;
 }
 
 figcaption {

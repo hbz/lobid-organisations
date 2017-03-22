@@ -13,6 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>lobid-organisations</title>
 <link rel="stylesheet" href='@routes.Assets.at("stylesheets/bootstrap.min.css")'>
+<link rel="stylesheet" media="all" href='@routes.Assets.at("stylesheets/font-awesome.min.css")'>
 <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/main.css")'>
 <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/maki-min.css")'>
 <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
@@ -52,12 +53,19 @@
 		</form>
 		</p>
 		@content
-		<div class="footer">
-			<hr/>
-			<p>
-				lobid-organisations | @Html(Messages.get("main.footer.text", "https://www.hbz-nrw.de/produkte/linked-open-data")) | 
-				<a href="http://www.hbz-nrw.de/impressum">@Messages.get("main.footer.imprint")</a> | <img id="hbz" src='@routes.Assets.at("images/hbz.png")' height="20px" />
-			</p>
+		<div class="panel panel-default footer">
+			<div class="panel-body">
+				<span class="pull-left">
+					<img src='@controllers.routes.Assets.at("images/wappen.png")' alt="NRW-Wappen"/> &nbsp;
+					lobid-organisations | @Html(Messages.get("main.footer.text", "https://www.hbz-nrw.de/produkte/linked-open-data"))
+				</span>
+				<span class="pull-right">
+					<a href="http://www.hbz-nrw.de/impressum">@Messages.get("main.footer.imprint")</a> | 
+					<a href="http://twitter.com/lobidorg"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a>&nbsp; 
+					<a href="http://github.com/hbz/lobid-organisations"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>&nbsp; 
+					<a href="http://blog.lobid.org"><i class="fa fa-rss" aria-hidden="true"></i> Blog</a>
+				</span>
+			</div>
 		</div>
 	</div>
 	<script src='@controllers.routes.Assets.at("javascripts/jquery-1.10.2.min.js")'></script>
