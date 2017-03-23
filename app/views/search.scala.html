@@ -56,8 +56,7 @@
 @defining(Json.parse(json)) { jsonResponse =>
 @main(q, location, facetMap()) {
 	@defining((jsonResponse\"member").as[Seq[JsValue]]) { orgs => @if(orgs.size > 0) {
-	<p>
-	<div class="row">
+	<div class="row" id="search-results">
 		<div class="col-md-2">
 		<div id='location-facet-loading'><span class="label label-info">@Messages.get("search.loading_locations")</span></div>
 		<div style='display:none;' id='location-facet'>
@@ -116,7 +115,6 @@
 			</p>
 		</div>
 	</div>
-	</p>
 	@defining(if(!q.isEmpty) q else "*") { qParam =>
 	<p>@Html(Messages.get("search.footer.api_text", routes.Application.search(q=qParam, from=from, format="json", location=location), 
 	routes.Application.search(q=qParam, from=from, format="csv", location=location), routes.Application.api()))</p>

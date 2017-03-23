@@ -13,30 +13,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>lobid-organisations</title>
 <link rel="stylesheet" href='@routes.Assets.at("stylesheets/bootstrap.min.css")'>
+<link rel="stylesheet" media="all" href='@routes.Assets.at("stylesheets/font-awesome.min.css")'>
 <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/main.css")'>
 <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/maki-min.css")'>
 <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
 </head>
 <body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid" id="header">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="@routes.Application.index()">
-					<span><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></span> lobid-organisations
-				</a>
+	<div class="container">
+		<p/>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid" id="header">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#organisations-nav">
+						<span class="sr-only">Navigation ein/ausblenden</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="@routes.Application.index()">
+						<span><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></span> lobid-organisations
+					</a>
+				</div>
+				<div class="navbar-collapse collapse" id="organisations-nav">
+					<ul class="nav navbar-nav">
+						<li @if(request.uri.toString() == routes.Application.index().toString()){ class="active" } title='@Messages.get("main.navbar.search.title")'><a href="@routes.Application.index()">@Messages.get("main.navbar.search.link")</a></li>
+						<li @if(request.uri.toString() == routes.Application.search().toString()){ class="active" } title='@Messages.get("main.navbar.browse.title")'><a href="@routes.Application.search()">@Messages.get("main.navbar.browse.link")</a></li>
+						<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='@Messages.get("main.navbar.api.title")'><a href="@routes.Application.api()">@Messages.get("main.navbar.api.link")</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="@routes.Application.toggleLanguage()" title='@Messages.get("main.navbar.toggle_language.title")'><span class='glyphicon glyphicon-globe'></span>&nbsp;@Messages.get("main.navbar.toggle_language.link")</a></li>
+						<li @if(controllers.Application.currentUri().contains("dataset")){class="active"} class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Info"><span class="glyphicon glyphicon-info-sign"></span><b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href='@routes.Application.dataset("")'>Datenbeschreibung</a></li>
+								<li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20zu%20lobid-organisations,%20aktuelle%20URL%20@controllers.Application.currentUri()">Feedback zur aktuellen Seite</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 			</div>
-			<ul class="nav navbar-nav navbar-left">
-				<li @if(request.uri.toString() == routes.Application.index().toString()){ class="active" } title='@Messages.get("main.navbar.search.title")'><a href="@routes.Application.index()">@Messages.get("main.navbar.search.link")</a></li>
-				<li @if(request.uri.toString() == routes.Application.search().toString()){ class="active" } title='@Messages.get("main.navbar.browse.title")'><a href="@routes.Application.search()">@Messages.get("main.navbar.browse.link")</a></li>
-				<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='@Messages.get("main.navbar.api.title")'><a href="@routes.Application.api()">@Messages.get("main.navbar.api.link")</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href='@routes.Application.dataset("")'><span class="glyphicon glyphicon-info-sign"></span>&nbsp;</a>
-				<li><a href="@routes.Application.toggleLanguage()" title='@Messages.get("main.navbar.toggle_language.title")'><span class='glyphicon glyphicon-globe'></span>&nbsp;@Messages.get("main.navbar.toggle_language.link")</a></li>
-			</ul>
-		</div>
-	</nav>
-	<div class="container-fluid">
+		</nav>
 		<p>
 		<form action="@routes.Application.search()" method="GET">
 			<div class="input-group">
@@ -51,12 +67,19 @@
 		</form>
 		</p>
 		@content
-		<div class="footer">
-			<hr/>
-			<p>
-				lobid-organisations | @Html(Messages.get("main.footer.text", "https://www.hbz-nrw.de/produkte/linked-open-data")) | 
-				<a href="http://www.hbz-nrw.de/impressum">@Messages.get("main.footer.imprint")</a> | <img id="hbz" src='@routes.Assets.at("images/hbz.png")' height="20px" />
-			</p>
+		<div class="panel panel-default footer">
+			<div class="panel-body">
+				<span class="pull-left">
+					<img src='@controllers.routes.Assets.at("images/wappen.png")' alt="NRW-Wappen"/> &nbsp;
+					lobid-organisations | @Html(Messages.get("main.footer.text", "https://www.hbz-nrw.de/produkte/linked-open-data"))
+				</span>
+				<span class="pull-right">
+					<a href="http://www.hbz-nrw.de/impressum">@Messages.get("main.footer.imprint")</a> | 
+					<a href="http://twitter.com/lobidorg"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a>&nbsp; 
+					<a href="http://github.com/hbz/lobid-organisations"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>&nbsp; 
+					<a href="http://blog.lobid.org"><i class="fa fa-pencil" aria-hidden="true"></i> Blog</a>
+				</span>
+			</div>
 		</div>
 	</div>
 	<script src='@controllers.routes.Assets.at("javascripts/jquery-1.10.2.min.js")'></script>

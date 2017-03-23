@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -88,10 +89,10 @@ public class Application extends Controller {
 				return requestInfo(imageName).map(info -> {
 					String attribution = createAttribution(imageName, info.asJson());
 					JsonNode dataset = Json.parse(readFile("dataset"));
-					return ok(
+					return (Result) ok(
 							views.html.index.render(dataset, image, attribution, label));
 				});
-			});
+			}).recoverWith(t -> index());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Promise.pure(internalServerError(e.getMessage()));
@@ -186,6 +187,18 @@ public class Application extends Controller {
 	 */
 	public static String currentLang() {
 		return isEnglish() ? "en" : "de";
+	}
+
+	/**
+	 * @return The current full URI, URL-encoded, or null.
+	 */
+	public static String currentUri() {
+		try {
+			return URLEncoder.encode(request().host() + request().uri(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			Logger.error("Could not get current URI", e);
+		}
+		return null;
 	}
 
 	/**
