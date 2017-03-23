@@ -89,10 +89,10 @@ public class Application extends Controller {
 				return requestInfo(imageName).map(info -> {
 					String attribution = createAttribution(imageName, info.asJson());
 					JsonNode dataset = Json.parse(readFile("dataset"));
-					return ok(
+					return (Result) ok(
 							views.html.index.render(dataset, image, attribution, label));
 				});
-			});
+			}).recoverWith(t -> index());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Promise.pure(internalServerError(e.getMessage()));
