@@ -30,13 +30,13 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="@routes.Application.index()">
-						<span><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></span> lobid-organisations
+					<a class="navbar-brand" href="/">
+						<span><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></span> lobid
 					</a>
 				</div>
 				<div class="navbar-collapse collapse" id="organisations-nav">
 					<ul class="nav navbar-nav">
-						<li @if(request.uri.toString() == routes.Application.index().toString()){ class="active" } title='@Messages.get("main.navbar.search.title")'><a href="@routes.Application.index()">@Messages.get("main.navbar.search.link")</a></li>
+						<li @if(request.uri.toString() == routes.Application.index().toString()){ class="active" } title='@Messages.get("main.navbar.search.title")'><a href="@routes.Application.index()">organisations</a></li>
 						<li @if(request.uri.toString() == routes.Application.search().toString()){ class="active" } title='@Messages.get("main.navbar.browse.title")'><a href="@routes.Application.search()">@Messages.get("main.navbar.browse.link")</a></li>
 						<li @if(request.uri.toString() == routes.Application.api().toString()){ class="active" } title='@Messages.get("main.navbar.api.title")'><a href="@routes.Application.api()">@Messages.get("main.navbar.api.link")</a></li>
 					</ul>
