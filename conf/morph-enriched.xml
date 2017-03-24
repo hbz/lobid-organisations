@@ -378,7 +378,6 @@
 				<lookup in="geonames_map" />
 			</data>
 		</combine>
-		<data source="@ags" name="ags" />
 		<group name="linkedTo">
 			<data source="035I.c">
 				<regexp match="(?i).*gbv" format="http://lobid.org/organisations/DE-601#!" />

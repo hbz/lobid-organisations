@@ -389,7 +389,7 @@ public class Application extends Controller {
 	}
 
 	private static String defaultFields() {
-		return "name,name_en,id,isil,dbsID,type,rs,ags,url,wikipedia,telephone,email,"
+		return "name,name_en,id,isil,dbsID,type,rs,url,wikipedia,telephone,email,"
 				+ "address.postalCode,address.addressLocality,address.addressCountry,"
 				+ "location[0].geo.lat,location[0].geo.lon,"
 				+ "location[0].address.streetAddress,location[0].address.postalCode,"
