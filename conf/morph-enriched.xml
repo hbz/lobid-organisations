@@ -526,7 +526,7 @@
 			<entry name="http://purl.org/lobid/libtype#n81" value="Academic Special Library" />
 			<entry name="http://purl.org/lobid/libtype#n82" value="Institution for Preservation of Historical Monuments" />
 			<entry name="http://purl.org/lobid/libtype#n84" value="Research Institution" />
-			<entry name="http://purl.org/lobid/libtype#n86" value="Museum (not Museum Library)" />
+			<entry name="http://purl.org/lobid/libtype#n86" value="Museum" />
 			<entry name="http://purl.org/lobid/libtype#n87" value="Publisher" />
 			<entry name="http://purl.org/lobid/libtype#n88" value="Other Organization" />
 			<entry name="http://purl.org/lobid/libtype#n89" value="Collection of electronic resources" />
