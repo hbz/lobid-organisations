@@ -43,6 +43,8 @@ search.position_sort = Close to you
 
 # api
 
+api.note = <strong>Open beta:</strong> To incorporate <a href="{0}">feedback on this API</a> before its final release, details of the request and response formats are still subject to change.
+
 api.basics.header = API basics
 api.basics.search = Query all fields
 api.basics.field.simple = Query "{0}" field
