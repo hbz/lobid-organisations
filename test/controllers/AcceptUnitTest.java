@@ -42,6 +42,7 @@ public class AcceptUnitTest {
 			// no header, just format parameter:
 			{ fakeRequest(), "html", /*->*/ "html" },
 			{ fakeRequest(), "json", /*->*/ "json" },
+			{ fakeRequest(), "json:isil", /*->*/ "json:isil" },
 			{ fakeRequest(), "js", /*->*/ "js" },
 			{ fakeRequest(), "csv", /*->*/ "csv" },
 			{ fakeRequest(), "csv:name,id", /*->*/ "csv:name,id" },
