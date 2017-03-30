@@ -43,6 +43,8 @@ search.position_sort = In Ihrer Nähe
 
 # api
 
+api.note = <strong>Offene Beta:</strong> Details des Anfrage- und Antwortformats können sich noch ändern, wir bitten um <a href="{0}">Rückmeldungen und Hinweise</a> auf letzte Verbesserungen der API.
+
 api.basics.header = API-Grundlagen
 api.basics.search = Suche über alle Felder
 api.basics.field.simple = Einfache Feldsuche: "{0}"
