@@ -21,6 +21,7 @@
     "description": {
       "@container": "@language"
     },
+    "distribution": "http://www.w3.org/ns/dcat#distribution",
     "Distribution": "http://www.w3.org/ns/dcat#Distribution",
     "accessURL": "http://www.w3.org/ns/dcat#accessURL",
     "mediaType": "http://www.w3.org/ns/dcat#mediaType"
