@@ -17,8 +17,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Spliterators;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.io.Streams;
@@ -32,6 +35,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableMap;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -60,6 +64,8 @@ import views.html.dataset;
  *
  */
 public class Application extends Controller {
+
+	private static final String JSON_UTF8 = "application/json; charset=utf-8";
 
 	private static final int ONE_DAY = 60 * 60 * 24;
 
@@ -373,12 +379,70 @@ public class Application extends Controller {
 		Supplier<Result> json = () -> {
 			String queryResultString =
 					searchQueryResult(q, location, from, size, aggregations);
+			String[] formatAndConfig = format.split(FORMAT_CONFIG_SEP);
+			boolean returnSuggestions = formatAndConfig.length == 2;
+			if (returnSuggestions) {
+				queryResultString =
+						toSuggestions(queryResultString, formatAndConfig[1]);
+			}
 			response().setHeader("Access-Control-Allow-Origin", "*");
-			return ok(queryResultString).as("application/json; charset=utf-8");
+			return returnSuggestions ? withCallback(queryResultString)
+					: ok(queryResultString).as(JSON_UTF8);
 		};
 		Supplier<Result> resultSupplier =
 				results.get(format.split(FORMAT_CONFIG_SEP)[0]);
 		return resultSupplier == null ? json.get() : resultSupplier.get();
+	}
+
+	private static Status withCallback(final String json) {
+		/* JSONP callback support for remote server calls with JavaScript: */
+		final String[] callback =
+				request() == null || request().queryString() == null ? null
+						: request().queryString().get("callback");
+		return callback != null ? ok(String.format("/**/%s(%s)", callback[0], json))
+				.as("application/javascript; charset=utf-8") : ok(json).as(JSON_UTF8);
+	}
+
+	private static String toSuggestions(String json, String field) {
+		Stream<JsonNode> documents =
+				StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+						Json.parse(json).get("member").elements(), 0), false);
+		Stream<JsonNode> suggestions = documents.flatMap((JsonNode document) -> {
+			Stream<JsonNode> nodes = fieldValues(field, document);
+			return nodes.map((JsonNode node) -> {
+				boolean isTextual = node.isTextual();
+				Optional<JsonNode> label = isTextual ? Optional.ofNullable(node)
+						: findValueOptional(node, "label");
+				Optional<JsonNode> id = isTextual ? getOptional(document, "id")
+						: findValueOptional(node, "id");
+				Optional<JsonNode> type = isTextual ? getOptional(document, "type")
+						: findValueOptional(node, "type");
+				String typeText = type.orElseGet(() -> Json.toJson("")).textValue();
+				return Json.toJson(ImmutableMap.of(//
+						"label", label.orElseGet(() -> Json.toJson("")), //
+						"id", id.orElseGet(() -> label.orElseGet(() -> Json.toJson(""))), //
+						"category", typeText));
+			});
+		});
+		return Json.toJson(suggestions.collect(Collectors.toSet())).toString();
+	}
+
+	private static Stream<JsonNode> fieldValues(String field, JsonNode document) {
+		return document.findValues(field).stream().flatMap((node) -> {
+			return node.isArray()
+					? StreamSupport.stream(
+							Spliterators.spliteratorUnknownSize(node.elements(), 0), false)
+					: Arrays.asList(node).stream();
+		});
+	}
+
+	private static Optional<JsonNode> findValueOptional(JsonNode json,
+			String field) {
+		return Optional.ofNullable(json.findValue(field));
+	}
+
+	private static Optional<JsonNode> getOptional(JsonNode json, String field) {
+		return Optional.ofNullable(json.get(field));
 	}
 
 	private static String csvExport(String format, String orgs) {
@@ -568,8 +632,7 @@ public class Application extends Controller {
 			return ok(csvExport(format, "[" + json.toString() + "]"))
 					.as("text/csv; charset=utf-8");
 		});
-		Supplier<Result> jsonSupplier =
-				() -> ok(prettyJsonOk(json)).as("application/json; charset=utf-8");
+		Supplier<Result> jsonSupplier = () -> ok(prettyJsonOk(json)).as(JSON_UTF8);
 		Supplier<Result> resultSupplier =
 				results.get(format.split(FORMAT_CONFIG_SEP)[0]);
 		return resultSupplier == null ? jsonSupplier.get() : resultSupplier.get();

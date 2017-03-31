@@ -138,6 +138,31 @@ public class IntegrationTest extends ElasticsearchTest {
 		});
 	}
 
+	@Test
+	public void suggestionsWithoutCallback() {
+		running(fakeApplication(), () -> {
+			Result result =
+					route(fakeRequest(GET, "/organisations/search?q=*&format=json:name"));
+			assertThat(result).isNotNull();
+			assertThat(contentType(result)).isEqualTo("application/json");
+			assertThat(Json.parse(contentAsString(result))).isNotNull();
+			assertThat(contentAsString(result)).contains("label").contains("id")
+					.contains("category");
+		});
+	}
+
+	@Test
+	public void suggestionsWithCallback() {
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET,
+					"/organisations/search?q=*&format=json:name&callback=test"));
+			assertThat(result).isNotNull();
+			assertThat(contentType(result)).isEqualTo("application/javascript");
+			assertThat(contentAsString(result)).contains("test(").contains("label")
+					.contains("id").contains("category");
+		});
+	}
+
 	private static void assertPretty(Result result) {
 		String contentAsString = contentAsString(result);
 		ObjectMapper mapper = new ObjectMapper();
