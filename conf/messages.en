@@ -57,8 +57,9 @@ api.location.distance = Query with distance ("location": coordinate of a point a
 
 api.content_types.header = Content types
 api.content_types.default = By default, this service returns structured API responses (as JSON):
-api.content_types.negotiate = It supports content negotiation based on the "Accept" header to serve JSON (application/json), CSV (text/csv), or HTML (text/html):
+api.content_types.negotiate = It supports content negotiation based on the "Accept" header to serve JSON (application/json), CSV (text/csv), JSON lines (application/x-jsonlines), or HTML (text/html):
 api.content_types.override = An optional "format" query parameter can be used to override the "Accept" header, e.g. to display JSON in a browser:
+api.content_types.compress = For larger requests, the response can be compressed as gzip:
 
 api.csv.header = CSV export
 api.csv.default = Default fields ("format=csv")
