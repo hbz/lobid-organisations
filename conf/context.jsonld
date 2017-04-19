@@ -56,7 +56,7 @@
 		},
 		"provides":	{
 			"@type": "@id",
-			"@id": "http://purl.org/ontology/daia/provides"
+			"@reverse": "http://schema.org/provider"
 		},
 		"fundertype": {
 			"@type": "@id",
