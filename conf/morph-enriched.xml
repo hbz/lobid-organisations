@@ -324,8 +324,8 @@
 			</entity>
 		</entity>
 
-		<data source="isil" name="@dbpediaMap">
-			<lookup in="isil2dbpedia_map" />
+		<data source="isil" name="@wikidataMap">
+			<lookup in="isil2wikidata_map" />
 		</data>
 		<entity name="alternateName[]" flushWith="record">
 			<combine name="${code}" value="${label}" sameEntity="true" reset="true">
@@ -338,12 +338,9 @@
 			<if><data source="029@.4"><equals string="d"/></data></if>
 			<data source="029@.a" name="label"/>
 		</combine>
-		<combine name="wikipedia" value="http://de.wikipedia.org/wiki/${titleDbpedia}">
-			<data source="@dbpediaMap" name="titleDbpedia" />
-		</combine>
 		<entity name="sameAs[]" flushWith="record">
-			<combine name="sameAs" value="http://de.dbpedia.org/resource/${titleDbpedia}">
-				<data source="@dbpediaMap" name="titleDbpedia">
+			<combine name="sameAs" value="${wikidataQid}">
+				<data source="@wikidataMap" name="wikidataQid">
 					<occurrence only="1" />
 				</data>
 			</combine>
@@ -400,8 +397,8 @@
 		</group>
 	</rules>
 	<maps>
-		<filemap name="isil2dbpedia_map"
-			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/isil2dbpedia-map.csv" />
+		<filemap name="isil2wikidata_map"
+			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/isil2wikidata.csv" />
 		<filemap name="libtype_map"
 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/libtype-map.csv"/>
 		<filemap name="ags_map"
