@@ -24,11 +24,15 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.Client;
 import org.elasticsearch.common.io.Streams;
 import org.elasticsearch.common.unit.DistanceUnit;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortOrder;
+import org.elasticsearch.search.sort.SortParseElement;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -325,6 +329,14 @@ public class Application extends Controller {
 		}
 		final String responseFormat =
 				Accept.formatFor(format, request().acceptedTypes());
+		boolean isBulkRequest =
+				responseFormat.equals(Accept.Format.BULK.queryParamString);
+		if (isBulkRequest) {
+			response().setHeader("Content-Disposition",
+					String.format(
+							"attachment; filename=\"lobid-organisations-bulk-%s.jsonl\"",
+							System.currentTimeMillis()));
+		}
 		try {
 			String cacheKey = String.format(
 					"q=%s,location=%s,from=%s,size=%s,format=%s,lang=%s,position=%s", q,
@@ -334,8 +346,8 @@ public class Application extends Controller {
 			if (cachedResult != null && responseFormat.equals("html")) {
 				return cachedResult;
 			}
-			Result searchResult =
-					searchResult(q, location, from, size, responseFormat, aggregations);
+			Result searchResult = isBulkRequest ? bulkResult(q)
+					: searchResult(q, location, from, size, responseFormat, aggregations);
 			Logger.debug("Caching search result for request: {}", cacheKey);
 			Cache.set(cacheKey, searchResult, ONE_DAY);
 			return searchResult;
@@ -343,6 +355,31 @@ public class Application extends Controller {
 			x.printStackTrace();
 			return badRequest("Bad request: " + x.getMessage());
 		}
+	}
+
+	private static Result bulkResult(final String q) {
+		Chunks<String> chunks = StringChunks.whenReady(out -> {
+			Client client = Index.CLIENT;
+			QueryBuilder query = QueryBuilders.queryStringQuery(q);
+			Logger.trace("bulkOrganisations: q={}, query={}", q, query);
+			TimeValue keepAlive = new TimeValue(60000);
+			SearchResponse scrollResp = client.prepareSearch(Index.INDEX_NAME)
+					.addSort(SortParseElement.DOC_FIELD_NAME, SortOrder.ASC)
+					.setScroll(keepAlive).setQuery(query)
+					.setSize(100 /* hits per shard for each scroll */).get();
+			String scrollId = scrollResp.getScrollId();
+			while (scrollResp.getHits().iterator().hasNext()) {
+				scrollResp.getHits().forEach((hit) -> {
+					out.write(hit.getSourceAsString());
+					out.write("\n");
+				});
+				scrollResp = client.prepareSearchScroll(scrollId).setScroll(keepAlive)
+						.execute().actionGet();
+				scrollId = scrollResp.getScrollId();
+			}
+			out.close();
+		});
+		return ok(chunks).as(Accept.Format.BULK.types[0]);
 	}
 
 	private static Result searchResult(String q, String location, int from,

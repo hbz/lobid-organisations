@@ -25,6 +25,7 @@ import index.ElasticsearchTest;
 import play.libs.F.Callback;
 import play.libs.Json;
 import play.mvc.Result;
+import play.test.Helpers;
 import play.test.TestBrowser;
 
 @SuppressWarnings("javadoc")
@@ -160,6 +161,19 @@ public class IntegrationTest extends ElasticsearchTest {
 			assertThat(contentType(result)).isEqualTo("application/javascript");
 			assertThat(contentAsString(result)).contains("test(").contains("label")
 					.contains("id").contains("category");
+		});
+	}
+
+	@Test
+	public void bulkRequest() {
+		running(fakeApplication(), () -> {
+			Result result =
+					route(fakeRequest(GET, "/organisations/search?q=kunst&format=bulk"));
+			assertThat(result).isNotNull();
+			assertThat(Helpers.contentType(result))
+					.isEqualTo("application/x-jsonlines");
+			String text = Helpers.contentAsString(result);
+			assertThat(text.split("\\n").length).isGreaterThanOrEqualTo(1);
 		});
 	}
 

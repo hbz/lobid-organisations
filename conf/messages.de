@@ -47,9 +47,14 @@ api.note = <strong>Offene Beta:</strong> Details des Anfrage- und Antwortformats
 
 api.basics.header = API-Grundlagen
 api.basics.search = Suche über alle Felder
-api.basics.field.simple = Einfache Feldsuche: "{0}"
-api.basics.field.nested = Geschachtelte Feldsuche: "{0}"
 api.basics.pagination = Suche mit Paginierung
+
+api.query.header = Abfragemöglichkeiten
+api.query.field.simple = Einfache Feldsuche: "{0}"
+api.query.field.nested = Geschachtelte Feldsuche: "{0}"
+api.query.lucene = Eine detaillierte Beschreibung der Abfragemöglichkeiten finden Sie in der Dokumentation der <a href="{0}">Lucene query string syntax</a>.
+api.query.url = Bitte beachten Sie insbesondere, dass bei der Suche nach URLs Sonderzeichen wie Doppelpunkte, Schräg- und Bindestriche maskiert werden müssen:
+api.query.url.search = URL-Suche:
 
 api.location.header = Ortsbezogene Suche
 api.location.polygon = Suche in Polygon ("location": Koordinaten der Polygon-Punkte im Format "Breite,Länge")
@@ -57,12 +62,23 @@ api.location.distance = Suche über Distanz zu einem Punkt ("location": Koordina
 
 api.content_types.header = Inhaltstypen
 api.content_types.default = Standardmäßig liefert dieser Dienst strukturierte API-Antworten (als JSON):
-api.content_types.negotiate = Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json), CSV (text/csv) oder HTML (text/html):
+api.content_types.negotiate = Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json), CSV (text/csv), JSON lines (application/x-jsonlines) oder HTML (text/html):
 api.content_types.override = Der Query-Parameter "format" kann verwendet werden, um den Accept-Header aufzuheben, z.B. zur Anzeige von JSON im Browser:
+api.content_types.compress = Für größere Anfragen kann die Antwort als gzip komprimiert werden:
 
 api.csv.header = CSV-Export
 api.csv.default = Standardfelder ("format=csv")
 api.csv.custom = Benutzerdefinierte Felder ("format": zu verwendende Felder, mit Punkten für geschachtelte Felder im Format "csv:feld1,feld2.unterfeld")
+
+api.autocomplete.header = Autovervollständigung
+api.autocomplete.intro = Die API unterstützt ein spezielles Antwortformat mit Vorschlägen zur Vervollständigung aus einem angegebenen Feld:
+api.autocomplete.name = Name vorschlagen:
+api.autocomplete.classification = Klassifikation vorschlagen:
+api.autocomplete.usage = Damit kann z.B. eine Autovervollständigung umgesetzt werden, bei der zur Suche an Stelle des gewählten Labels die entsprechende ID verwendet werden kann:
+api.autocomplete.input = Suchbegriff für Vorschläge eingeben
+api.autocomplete.insert = ID zu ausgewähltem Eintrag wird eingesetzt
+api.autocomplete.submit = Suchen
+api.autocomplete.impl = Dieses Beispiel ist folgendermaßen mit JavaScript und jQuery UI implementiert:
 
 api.jsonld.header = JSON-LD
 api.jsonld.info = JSON-API-Anfragen liefern JSON-LD (JSON for Linking Data). Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="{0}">JSON-LD Playground</a> einfügen.

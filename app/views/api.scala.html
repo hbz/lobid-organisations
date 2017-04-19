@@ -6,7 +6,28 @@
 @import play.api.libs.json._
 
 @desc(label: String, link: play.api.mvc.Call) = {
- <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":").replace("%2C",",").replaceAll("[&?]format=json", "")</a></dd>
+ <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":").replace("%2C",",").replaceAll("[&?]format=json$", "")</a></dd>
+}
+
+@sampleUsageCode() = {
+$('input.search-organisations').autocomplete({
+    source : function(request, response) {
+        $.ajax({
+            url : "http://lobid.org/organisations/search",
+            dataType : "jsonp",
+            data : {
+                q : request.term,
+                format : "json:name"
+            },
+            success : function(data) {
+                response(data);
+            }
+        });
+    },
+    select: function(event, ui) {
+        $('#id').val('id:"'+ui.item.id+'"');
+    }
+});
 }
 
 @main("*", scripts = hypothesisEmbed) {
@@ -17,21 +38,55 @@
     <dl>
     @desc("HTTP GET", routes.Application.get("DE-6", format="json"))
     @desc(Messages.get("api.basics.search"), routes.Application.search("kunst", format="json"))
-    @desc(Messages.get("api.basics.field.simple", "name"), routes.Application.search("name:stadtbibliothek berlin", format="json"))
-    @desc(Messages.get("api.basics.field.nested", "fundertype.label.de"), routes.Application.search("fundertype.label.de:land", format="json"))
     @desc(Messages.get("api.basics.pagination"), routes.Application.search("fundertype.label.de:land", from = 2, size = 2, format="json"))
+
+    <h2 id='query-syntax'>@Messages.get("api.query.header") <small><a href='#query-syntax'><span class='glyphicon glyphicon-link'></span></a></small></h2>
+    <p>
+    @desc(Messages.get("api.query.field.simple", "name"), routes.Application.search("name:stadtbibliothek berlin", format="json"))
+    @desc(Messages.get("api.query.field.nested", "fundertype.label.de"), routes.Application.search("fundertype.label.de:land", format="json"))
+    </p>
+    <p>@Html(Messages.get("api.query.lucene", "https://lucene.apache.org/core/5_5_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description"))</p>
+    <p>@Messages.get("api.query.url")</p>
+    <p>
+    @defining("classification.id:http\\:\\/\\/purl.org\\/lobid\\/libtype%23n65") { urlQuery =>
+    <dt>@Messages.get("api.query.url.search") "@urlQuery"</dt> <dd><a href='/organisations/search?q=@urlQuery&format=json'>/organisations/search?q=@urlQuery</a></dd>
+    }
+    </p>
+
     <h2 id="location">@Messages.get("api.location.header") <small><a href="#location"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     @desc(Messages.get("api.location.polygon"), routes.Application.search("fundertype.label.de:land", "52,12 53,12 53,14 52,14", format="json"))
     @desc(Messages.get("api.location.distance"), routes.Application.search("fundertype.label.de:land", "52.52,13.39,25", format="json"))
+
     <h2 id="content_types">@Messages.get("api.content_types.header") <small><a href="#content_types"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     <p>@Messages.get("api.content_types.default")</p>
     <p><code>curl http://lobid.org@routes.Application.get("DE-6")</code></p>
     <p>@Messages.get("api.content_types.negotiate")</p>
     <p><code>curl --header "Accept: text/csv" http://lobid.org@routes.Application.search("kunst")</code></p>
+    <p><code>curl --header "Accept: application/x-jsonlines" http://lobid.org@routes.Application.search("kunst") > kunst.jsonl</code></p>
     <p>@Messages.get("api.content_types.override") <a href='@routes.Application.get("DE-6", format="json")'>@routes.Application.get("DE-6", format="json")</a></p>
+    <p>@Messages.get("api.content_types.compress")</p>
+    <p><code>curl --header "Accept-Encoding: gzip" "http://lobid.org@routes.Application.search("museum", format="bulk")" > museum.gz</code></p>
+
     <h2 id="csv">@Messages.get("api.csv.header") <small><a href="#csv"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     @desc(Messages.get("api.csv.default"), routes.Application.search("kunst", size=300, format="csv"))
     @desc(Messages.get("api.csv.custom"), routes.Application.search("kunst", size=300, format="csv:name,isil,url,classification.label.de"))
+
+    <h2 id="auto-complete">@Messages.get("api.autocomplete.header") <small><a href='#auto-complete'><span class='glyphicon glyphicon-link'></span></a></small></h2>
+    <p>@Messages.get("api.autocomplete.intro")</p>
+    @desc(Messages.get("api.autocomplete.name") + " \"format=json:name\"", routes.Application.search("name:dnb OR alternateName:dnb", format="json:name"))
+    @desc(Messages.get("api.autocomplete.classification") + " \"format=json:classification\"", routes.Application.search("classification.label.de:Universität", format="json:classification"))
+    <p>@Messages.get("api.autocomplete.usage")</p>
+    <p><form method="GET" class="form-inline" action="/organisations/search"> <!-- use full URL in your code, i.e. http://lobid.org/organisations/search -->
+        <input type="text" class="search-organisations" id="label" style="width:350px" placeholder='@Messages.get("api.autocomplete.input")'/>
+        <input type="text" class="search-organisations" name="q" id="id" style="width:350px" readonly placeholder='@Messages.get("api.autocomplete.insert")'/>
+        <button type="submit" class="btn">@Messages.get("api.autocomplete.submit")</button>
+    </form></p>
+    <p>@Messages.get("api.autocomplete.impl")</p>
+    <script src='@controllers.routes.Assets.at("javascripts/jquery-1.10.2.min.js")'></script>
+    <script src='@controllers.routes.Assets.at("javascripts/jquery-ui.min.js")'></script>
+    <script>@sampleUsageCode()</script>
+	<pre>@sampleUsageCode()</pre>
+
     <h2 id="jsonld">@Messages.get("api.jsonld.header") <small><a href="#jsonld"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     <p>@Html(Messages.get("api.jsonld.info", "http://json-ld.org/playground/"))</p>
     @desc("JSON-LD Context", routes.Application.context)

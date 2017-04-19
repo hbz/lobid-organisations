@@ -62,7 +62,7 @@ public class Index extends Controller {
 
 	static final String GEO_FIELD = "location.geo";
 
-	private static final String INDEX_NAME =
+	static final String INDEX_NAME =
 			Application.CONFIG.getString("index.es.name");
 	private static final String INDEX_TYPE =
 			Application.CONFIG.getString("index.es.type");

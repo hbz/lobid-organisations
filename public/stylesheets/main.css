@@ -95,3 +95,30 @@ small {
 	float: right;
 	height: 250px;
 }
+
+.ui-helper-hidden-accessible {
+	display: none;
+}
+
+.ui-autocomplete {
+	max-height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	float: left;
+	display: none;
+	min-width: 160px;
+	padding: 4px 0;
+	margin: 2px 0 0 0;
+	list-style: none;
+	background-color: #ffffff;
+	border-color: #ccc;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	text-decoration: underline;
+	color: blue;
+	z-index: 100 !important;
+}

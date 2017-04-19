@@ -22,7 +22,8 @@ public class Accept {
 		JSON_LD("json", "application/json", "application/ld+json"), //
 		HTML("html", "text/html"), //
 		JAVASCRIPT("js", "text/javascript", "application/javascript"), //
-		CSV("csv", "text/csv");
+		CSV("csv", "text/csv"), //
+		BULK("bulk", "application/x-jsonlines");
 
 		String[] types;
 		String queryParamString;

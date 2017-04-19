@@ -84,6 +84,10 @@
 				},
 				"classification" : {
 					"properties": {
+						"id": {
+							"type": "string",
+							"index": "not_analyzed"
+						},
 						"label" : {
 							"properties": {
 								"de": {
@@ -110,6 +114,10 @@
 				},
 				"fundertype" : {
 					"properties": {
+						"id": {
+							"type": "string",
+							"index": "not_analyzed"
+						},
 						"label" : {
 							"properties": {
 								"de": {
@@ -138,6 +146,10 @@
 					"properties": {
 						"extent" : {
 							"properties": {
+								"id": {
+									"type": "string",
+									"index": "not_analyzed"
+								},
 								"label" : {
 									"properties": {
 										"de": {

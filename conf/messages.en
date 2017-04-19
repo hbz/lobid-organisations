@@ -47,9 +47,14 @@ api.note = <strong>Open beta:</strong> Details about the request and response fo
 
 api.basics.header = API basics
 api.basics.search = Query all fields
-api.basics.field.simple = Query "{0}" field
-api.basics.field.nested = Query nested "{0}" field
 api.basics.pagination = Query with pagination
+
+api.query.header = Queries
+api.query.field.simple = Query "{0}" field
+api.query.field.nested = Query nested "{0}" field
+api.query.lucene = You can find a detailed description of the supported queries in the <a href="{0}">Lucene query string syntax</a> documentation.
+api.query.url = In particular note that when querying for URLs, special characters like colons, dashes, and slashes have to be escaped:
+api.query.url.search = URL query:
 
 api.location.header = Location based queries
 api.location.polygon = Query with polygon ("location": coordinates of polygon points "lat,lon")
@@ -57,12 +62,23 @@ api.location.distance = Query with distance ("location": coordinate of a point a
 
 api.content_types.header = Content types
 api.content_types.default = By default, this service returns structured API responses (as JSON):
-api.content_types.negotiate = It supports content negotiation based on the "Accept" header to serve JSON (application/json), CSV (text/csv), or HTML (text/html):
+api.content_types.negotiate = It supports content negotiation based on the "Accept" header to serve JSON (application/json), CSV (text/csv), JSON lines (application/x-jsonlines), or HTML (text/html):
 api.content_types.override = An optional "format" query parameter can be used to override the "Accept" header, e.g. to display JSON in a browser:
+api.content_types.compress = For larger requests, the response can be compressed as gzip:
 
 api.csv.header = CSV export
 api.csv.default = Default fields ("format=csv")
 api.csv.custom = Custom fields ("format": fields to use, with dots for nested fields "csv:field1,field2.subfield")
+
+api.autocomplete.header = Auto-complete
+api.autocomplete.intro = The API supports a response format for auto-complete suggestions using a specified field:
+api.autocomplete.name = Suggest name:
+api.autocomplete.classification = Suggest classification:
+api.autocomplete.usage = This can be used to set up an auto-complete search function that inserts an ID for the label that the user selected:
+api.autocomplete.input = Enter search term for suggestions
+api.autocomplete.insert = ID for selected suggestion will be entered here
+api.autocomplete.submit = Search
+api.autocomplete.impl = This sample is implemented with JavaScript and JQuery UI like this:
 
 api.jsonld.header = JSON-LD
 api.jsonld.info = JSON API calls serve JSON-LD (JSON for Linking Data). You can experiment with that by pasting responses or URLs in the <a href="{0}">JSON-LD Playground</a>.
