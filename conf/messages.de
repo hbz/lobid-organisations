@@ -47,9 +47,14 @@ api.note = <strong>Offene Beta:</strong> Details des Anfrage- und Antwortformats
 
 api.basics.header = API-Grundlagen
 api.basics.search = Suche über alle Felder
-api.basics.field.simple = Einfache Feldsuche: "{0}"
-api.basics.field.nested = Geschachtelte Feldsuche: "{0}"
 api.basics.pagination = Suche mit Paginierung
+
+api.query.header = Abfragemöglichkeiten
+api.query.field.simple = Einfache Feldsuche: "{0}"
+api.query.field.nested = Geschachtelte Feldsuche: "{0}"
+api.query.lucene = Eine detaillierte Beschreibung der Abfragemöglichkeiten finden Sie in der Dokumentation der <a href="{0}">Lucene query string syntax</a>.
+api.query.url = Bitte beachten Sie insbesondere, dass bei der Suche nach URLs Sonderzeichen wie Doppelpunkte, Schräg- und Bindestriche maskiert werden müssen:
+api.query.url.search = URL-Suche:
 
 api.location.header = Ortsbezogene Suche
 api.location.polygon = Suche in Polygon ("location": Koordinaten der Polygon-Punkte im Format "Breite,Länge")

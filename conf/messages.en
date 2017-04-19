@@ -47,9 +47,14 @@ api.note = <strong>Open beta:</strong> Details about the request and response fo
 
 api.basics.header = API basics
 api.basics.search = Query all fields
-api.basics.field.simple = Query "{0}" field
-api.basics.field.nested = Query nested "{0}" field
 api.basics.pagination = Query with pagination
+
+api.query.header = Queries
+api.query.field.simple = Query "{0}" field
+api.query.field.nested = Query nested "{0}" field
+api.query.lucene = You can find a detailed description of the supported queries in the <a href="{0}">Lucene query string syntax</a> documentation.
+api.query.url = In particular note that when querying for URLs, special characters like colons, dashes, and slashes have to be escaped:
+api.query.url.search = URL query:
 
 api.location.header = Location based queries
 api.location.polygon = Query with polygon ("location": coordinates of polygon points "lat,lon")

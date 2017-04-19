@@ -17,9 +17,21 @@
     <dl>
     @desc("HTTP GET", routes.Application.get("DE-6", format="json"))
     @desc(Messages.get("api.basics.search"), routes.Application.search("kunst", format="json"))
-    @desc(Messages.get("api.basics.field.simple", "name"), routes.Application.search("name:stadtbibliothek berlin", format="json"))
-    @desc(Messages.get("api.basics.field.nested", "fundertype.label.de"), routes.Application.search("fundertype.label.de:land", format="json"))
     @desc(Messages.get("api.basics.pagination"), routes.Application.search("fundertype.label.de:land", from = 2, size = 2, format="json"))
+
+    <h2 id='query-syntax'>@Messages.get("api.query.header") <small><a href='#query-syntax'><span class='glyphicon glyphicon-link'></span></a></small></h2>
+    <p>
+    @desc(Messages.get("api.query.field.simple", "name"), routes.Application.search("name:stadtbibliothek berlin", format="json"))
+    @desc(Messages.get("api.query.field.nested", "fundertype.label.de"), routes.Application.search("fundertype.label.de:land", format="json"))
+    </p>
+    <p>@Html(Messages.get("api.query.lucene", "https://lucene.apache.org/core/5_5_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description"))</p>
+    <p>@Messages.get("api.query.url")</p>
+    <p>
+    @defining("classification.id:http\\:\\/\\/purl.org\\/lobid\\/libtype%23n65") { urlQuery =>
+    <dt>@Messages.get("api.query.url.search") "@urlQuery"</dt> <dd><a href='/organisations/search?q=@urlQuery&format=json'>/organisations/search?q=@urlQuery</a></dd>
+    }
+    </p>
+
     <h2 id="location">@Messages.get("api.location.header") <small><a href="#location"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     @desc(Messages.get("api.location.polygon"), routes.Application.search("fundertype.label.de:land", "52,12 53,12 53,14 52,14", format="json"))
     @desc(Messages.get("api.location.distance"), routes.Application.search("fundertype.label.de:land", "52.52,13.39,25", format="json"))
