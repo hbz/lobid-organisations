@@ -70,6 +70,16 @@ api.csv.header = CSV export
 api.csv.default = Default fields ("format=csv")
 api.csv.custom = Custom fields ("format": fields to use, with dots for nested fields "csv:field1,field2.subfield")
 
+api.autocomplete.header = Auto-complete
+api.autocomplete.intro = The API supports a response format for auto-complete suggestions using a specified field:
+api.autocomplete.name = Suggest name:
+api.autocomplete.classification = Suggest classification:
+api.autocomplete.usage = This can be used to set up an auto-complete search function that inserts an ID for the label that the user selected:
+api.autocomplete.input = Enter search term for suggestions
+api.autocomplete.insert = ID for selected suggestion will be entered here
+api.autocomplete.submit = Search
+api.autocomplete.impl = This sample is implemented with JavaScript and JQuery UI like this:
+
 api.jsonld.header = JSON-LD
 api.jsonld.info = JSON API calls serve JSON-LD (JSON for Linking Data). You can experiment with that by pasting responses or URLs in the <a href="{0}">JSON-LD Playground</a>.
 api.jsonld.rdf.header = RDF conversion

@@ -6,7 +6,28 @@
 @import play.api.libs.json._
 
 @desc(label: String, link: play.api.mvc.Call) = {
- <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":").replace("%2C",",").replaceAll("[&?]format=json", "")</a></dd>
+ <dt>@label</dt> <dd><a href="@link">@link.toString.replace("%3A",":").replace("%2C",",").replaceAll("[&?]format=json$", "")</a></dd>
+}
+
+@sampleUsageCode() = {
+$('input.search-organisations').autocomplete({
+    source : function(request, response) {
+        $.ajax({
+            url : "http://lobid.org/organisations/search",
+            dataType : "jsonp",
+            data : {
+                q : request.term,
+                format : "json:name"
+            },
+            success : function(data) {
+                response(data);
+            }
+        });
+    },
+    select: function(event, ui) {
+        $('#id').val('id:"'+ui.item.id+'"');
+    }
+});
 }
 
 @main("*", scripts = hypothesisEmbed) {
@@ -49,6 +70,23 @@
     <h2 id="csv">@Messages.get("api.csv.header") <small><a href="#csv"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     @desc(Messages.get("api.csv.default"), routes.Application.search("kunst", size=300, format="csv"))
     @desc(Messages.get("api.csv.custom"), routes.Application.search("kunst", size=300, format="csv:name,isil,url,classification.label.de"))
+
+    <h2 id="auto-complete">@Messages.get("api.autocomplete.header") <small><a href='#auto-complete'><span class='glyphicon glyphicon-link'></span></a></small></h2>
+    <p>@Messages.get("api.autocomplete.intro")</p>
+    @desc(Messages.get("api.autocomplete.name") + " \"format=json:name\"", routes.Application.search("name:dnb OR alternateName:dnb", format="json:name"))
+    @desc(Messages.get("api.autocomplete.classification") + " \"format=json:classification\"", routes.Application.search("classification.label.de:Universität", format="json:classification"))
+    <p>@Messages.get("api.autocomplete.usage")</p>
+    <p><form method="GET" class="form-inline" action="/organisations/search"> <!-- use full URL in your code, i.e. http://lobid.org/organisations/search -->
+        <input type="text" class="search-organisations" id="label" style="width:350px" placeholder='@Messages.get("api.autocomplete.input")'/>
+        <input type="text" class="search-organisations" name="q" id="id" style="width:350px" readonly placeholder='@Messages.get("api.autocomplete.insert")'/>
+        <button type="submit" class="btn">@Messages.get("api.autocomplete.submit")</button>
+    </form></p>
+    <p>@Messages.get("api.autocomplete.impl")</p>
+    <script src='@controllers.routes.Assets.at("javascripts/jquery-1.10.2.min.js")'></script>
+    <script src='@controllers.routes.Assets.at("javascripts/jquery-ui.min.js")'></script>
+    <script>@sampleUsageCode()</script>
+	<pre>@sampleUsageCode()</pre>
+
     <h2 id="jsonld">@Messages.get("api.jsonld.header") <small><a href="#jsonld"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     <p>@Html(Messages.get("api.jsonld.info", "http://json-ld.org/playground/"))</p>
     @desc("JSON-LD Context", routes.Application.context)
