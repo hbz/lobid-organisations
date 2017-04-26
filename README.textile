@@ -1,18 +1,16 @@
 h1. About
 
-Experimental new data transformation workflows for the lobid-organisations data set based on "Metafacture":https://github.com/culturegraph/metafacture-core/wiki.
+Data transformation workflows, web API and UI for the lobid-organisations data set based on "Metafacture":https://github.com/culturegraph/metafacture-documentation and "Play Framework":https://playframework.com/.
 
-Currently transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing. Data of two or more entries are merged if the DBS IDs (INR) of the entries are identical. The resulting data is used to build an index in Elasticsearch.
+Transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing. Data of two or more entries are merged if the DBS IDs (INR) of the entries are identical. The resulting data is used to build an index in Elasticsearch.
 
-_Note: for the currently productive transformations see "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill_
+This repo replaces the lobid-organisations part of "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill.
 
-h1. Overview
-
-This repo is an implementation of a _Lobid Dataset Module_. See its role in the _Lobid Macro Architecture_:
-
-!{width:50%}architecture.png!  
+For information about the Lobid architecture and development process, see "http://hbz.github.io/#lobid":http://hbz.github.io/#lobid.
 
 h1. Setup
+
+This section contains information about building and deploying the repo, running tests, and setting up Eclipse.
 
 h2. Build
 
@@ -40,7 +38,7 @@ Get lobid-organisations, set up the Play application, and run the tests:
 
 See the @.travis.yml@ file for details on the CI config used by Travis.
 
-h1. Deployment
+h2. Deployment
 
 _Short instructions for clean deployment, includes hbz-internal instructions that won't work outside the hbz network. Find detailed developer documentation further below._
 
@@ -94,6 +92,8 @@ Import lobid-organisations:
 * @File@ -> @Import...@ -> @Existing Projects into Workspace@ -> @Next@ -> @Browse...@ -> select @~/git/lobid-organsations@ -> Finish
 
 h1. Data
+
+This section contains information about the data workflows, indexing, and querying.
 
 h2. Workflow
 
