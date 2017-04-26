@@ -6,6 +6,12 @@
 			<cgxml version="1.0" xmlns="http://www.culturegraph.org/cgxml">
 				<records>
 					<record id="de-456">
+						<literal name="035I.c" value="gbv" />
+						<literal name="035I.c" value="bvb" />
+						<literal name="035I.c" value="hebis" />
+						<literal name="035I.c" value="hbz" />
+						<literal name="035I.c" value="kobv" />
+						<literal name="035I.c" value="swb" />
 						<literal name="035E.f" value="60" />
 						<literal name="typ_text" value="Universitätsbibliothek" />
 						<literal name="035E.g" value="02" />
@@ -65,6 +71,30 @@
 				<records>
 					<record id="de-456">
 						<!--<literal name="inr" value="dbs-id" />-->
+						<entity name="linkedTo">
+							<literal name="id" value="http://lobid.org/organisations/DE-601#!" />
+							<literal name="label" value="Verbundzentrale des GBV (VZG)" />
+						</entity>
+						<entity name="linkedTo">
+							<literal name="id" value="http://lobid.org/organisations/DE-604#!" />
+							<literal name="label" value="Bibliotheksverbund Bayern" />
+						</entity>
+						<entity name="linkedTo">
+							<literal name="id" value="http://lobid.org/organisations/DE-603#!" />
+							<literal name="label" value="Hessisches BibliotheksInformationsSystem HeBIS" />
+						</entity>
+						<entity name="linkedTo">
+							<literal name="id" value="http://lobid.org/organisations/DE-605#!" />
+							<literal name="label" value="Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)" />
+						</entity>
+						<entity name="linkedTo">
+							<literal name="id" value="http://lobid.org/organisations/DE-602#!" />
+							<literal name="label" value="Kooperativer Bibliotheksverbund Berlin-Brandenburg" />
+						</entity>
+						<entity name="linkedTo">
+							<literal name="id" value="http://lobid.org/organisations/DE-576#!" />
+							<literal name="label" value="Bibliotheksservice-Zentrum Baden-Württemberg (BSZ)" />
+						</entity>
 						<literal name="name_en" value="Leibniz Institute for Zoo and Wildlife Research Berlin, Library" />
 						<entity name="classification">
 							<literal name="id" value="http://purl.org/lobid/libtype#n60" />

@@ -375,26 +375,56 @@
 				<lookup in="geonames_map" />
 			</data>
 		</combine>
-		<group name="linkedTo">
-			<data source="035I.c">
+
+		<!-- Entities with id and label for 'linkedTo' -->
+		<entity name="linkedTo" >
+			<data source="035I.c" name="id">
 				<regexp match="(?i).*gbv" format="http://lobid.org/organisations/DE-601#!" />
 			</data>
-			<data source="035I.c">
+			<data source="035I.c" name="label">
+				<regexp match="(?i).*gbv" format="Verbundzentrale des GBV (VZG)"/>
+			</data>
+		</entity>
+		<entity name="linkedTo">
+			<data source="035I.c" name="id">
 				<regexp match="(?i).*bvb" format="http://lobid.org/organisations/DE-604#!" />
 			</data>
-			<data source="035I.c">
+			<data source="035I.c" name="label">
+				<regexp match="(?i).*bvb" format="Bibliotheksverbund Bayern"/>
+			</data>
+		</entity>
+		<entity name="linkedTo">
+			<data source="035I.c" name="id">
 				<regexp match="(?i).*hebis" format="http://lobid.org/organisations/DE-603#!" />
 			</data>
-			<data source="035I.c">
+			<data source="035I.c" name="label">
+				<regexp match="(?i).*hebis" format="Hessisches BibliotheksInformationsSystem HeBIS" />
+			</data>
+		</entity>
+		<entity name="linkedTo">
+			<data source="035I.c" name="id">
 				<regexp match="(?i).*hbz" format="http://lobid.org/organisations/DE-605#!" />
 			</data>
-			<data source="035I.c">
+			<data source="035I.c" name="label">
+				<regexp match="(?i).*hbz" format="Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)" />
+			</data>
+		</entity>
+		<entity name="linkedTo">
+			<data source="035I.c" name="id">
 				<regexp match="(?i).*kobv" format="http://lobid.org/organisations/DE-602#!" />
 			</data>
-			<data source="035I.c">
+			<data source="035I.c" name="label">
+				<regexp match="(?i).*kobv" format="Kooperativer Bibliotheksverbund Berlin-Brandenburg" />
+			</data>
+		</entity>
+		<entity name="linkedTo">
+			<data source="035I.c" name="id">
 				<regexp match="(?i).*swb" format="http://lobid.org/organisations/DE-576#!" />
 			</data>
-		</group>
+			<data source="035I.c" name="label">
+				<regexp match="(?i).*swb" format="Bibliotheksservice-Zentrum Baden-Württemberg (BSZ)" />
+			</data>
+		</entity>
 	</rules>
 	<maps>
 		<filemap name="isil2wikidata_map"
