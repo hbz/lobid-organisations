@@ -630,9 +630,20 @@ public class Application extends Controller {
 		final String responseFormat =
 				Accept.formatFor(format, request().acceptedTypes());
 		response().setHeader("Access-Control-Allow-Origin", "*");
-		String json = Index.get(id);
-		return Promise.pure(json == null ? notFound("Not found: " + id)
-				: resultFor(id, Json.parse(json), responseFormat));
+		Optional<Result> result = Optional.ofNullable(Index.get(id))
+				.map(json -> resultFor(id, Json.parse(json), responseFormat));
+		if (!result.isPresent()) {
+			SearchResponse response = Index.executeQuery(0, 1,
+					QueryBuilders.matchQuery("dbsID", id.replace("DBS-", "")), "");
+			if (response.getHits().getTotalHits() > 0) {
+				result =
+						Optional.ofNullable(response.getHits().getAt(0).getSourceAsString())
+								.map(json -> Json.parse(json).get("isil"))
+								.map(isil -> movedPermanently(
+										routes.Application.get(isil.asText(), format)));
+			}
+		}
+		return Promise.pure(result.orElseGet(() -> notFound("Not found: " + id)));
 	}
 
 	/**

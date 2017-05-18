@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 import index.ElasticsearchTest;
 import play.libs.F.Callback;
 import play.libs.Json;
+import play.mvc.Http.Status;
 import play.mvc.Result;
 import play.test.Helpers;
 import play.test.TestBrowser;
@@ -48,6 +49,30 @@ public class IntegrationTest extends ElasticsearchTest {
 		running(fakeApplication(), () -> {
 			Result result = route(fakeRequest(GET, "/organisations/DE-38"));
 			assertContains(result, "Köln");
+		});
+	}
+
+	@Test
+	public void getByDbsIdHasIsilWillRedirect() {
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET, "/organisations/DBS-AB038"));
+			assertThat(Helpers.status(result)).isEqualTo(Status.MOVED_PERMANENTLY);
+		});
+	}
+
+	@Test
+	public void getByDbsIdHasNoIsilNoRedirect() {
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET, "/organisations/DBS-AT700"));
+			assertThat(Helpers.status(result)).isEqualTo(Status.OK);
+		});
+	}
+
+	@Test
+	public void getByIdNotFound() {
+		running(fakeApplication(), () -> {
+			Result result = route(fakeRequest(GET, "/organisations/123"));
+			assertThat(Helpers.status(result)).isEqualTo(Status.NOT_FOUND);
 		});
 	}
 
