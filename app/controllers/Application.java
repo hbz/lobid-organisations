@@ -28,6 +28,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.io.Streams;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -564,8 +565,10 @@ public class Application extends Controller {
 	private static String buildSimpleQuery(String q, int from, int size,
 			String aggregations) {
 		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
+		BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(simpleQuery)
+				.must(QueryBuilders.existsQuery("type"));
 		SearchResponse queryResponse =
-				Index.executeQuery(from, size, simpleQuery, aggregations);
+				Index.executeQuery(from, size, boolQuery, aggregations);
 		return returnAsJson(queryResponse);
 	}
 
