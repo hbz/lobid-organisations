@@ -25,8 +25,6 @@ public class GeoLookupMap extends HashMap<String, String> {
 	private static final long serialVersionUID = 1L;
 	private static final String API =
 			Application.CONFIG.getString("transformation.geo.lookup.server");
-	private static final String API_KEY =
-			Application.CONFIG.getString("transformation.geo.lookup.key");
 	private static final Double THRESHOLD =
 			Application.CONFIG.getDouble("transformation.geo.lookup.threshold");
 	private LookupType lookupType;
@@ -53,13 +51,10 @@ public class GeoLookupMap extends HashMap<String, String> {
 			String street = clean(fullAddress[0]);
 			String postcode = fullAddress[1];
 			String city = clean(fullAddress[2]);
-			String country = fullAddress[3];
 			String query = // e.g. "Jülicher Str 6, 50674 Köln"
 					String.format("%s, %s %s", street, postcode, city);
 			WSRequestHolder requestHolder = WS.url(API)//
-					.setQueryParameter("api_key", API_KEY)
 					.setQueryParameter("layers", "address")
-					.setQueryParameter("boundary.country", country.trim())
 					.setQueryParameter("text", query);
 			Logger.debug("Calling API={} with params={}", requestHolder.getUrl(),
 					requestHolder.getQueryParameters());
@@ -100,7 +95,7 @@ public class GeoLookupMap extends HashMap<String, String> {
 				// response OK, but no result, remember that to avoid redundant calls
 				Cache.set(key.toString(), Json.newObject());
 			}
-			Logger.error(
+			Logger.warn(
 					"No geo coordinates found for input data: {}, API query: {}, status: {} ({}), details: {}",
 					key, requestHolder.getQueryParameters().get("text"),
 					response.getStatus(), response.getStatusText(), details);
