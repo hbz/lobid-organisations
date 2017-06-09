@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.io.Streams;
@@ -44,6 +45,7 @@ import com.google.common.collect.ImmutableMap;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+import controllers.RdfConverter.RdfFormat;
 import play.Logger;
 import play.Play;
 import play.cache.Cache;
@@ -626,8 +628,17 @@ public class Application extends Controller {
 
 	/**
 	 * @param id The id of a document in the Elasticsearch index
-	 * @param format The response format ('html' for HTML, else JSON)
-	 * @return The source of a document as JSON
+	 * @param format The response format (see {@code Accept.Format})
+	 * @return The result document in the requested format
+	 */
+	public static Promise<Result> getDotFormat(String id, String format) {
+		return get(id, format);
+	}
+
+	/**
+	 * @param id The id of a document in the Elasticsearch index
+	 * @param format The response format (see {@code Accept.Format})
+	 * @return The result document in the requested format
 	 */
 	public static Promise<Result> get(String id, String format) {
 		final String responseFormat =
@@ -683,10 +694,40 @@ public class Application extends Controller {
 			return ok(csvExport(format, "[" + json.toString() + "]"))
 					.as("text/csv; charset=utf-8");
 		});
-		Supplier<Result> jsonSupplier = () -> ok(prettyJsonOk(json)).as(JSON_UTF8);
+		Pair<String, String> contentAndType = contentAndType(json, format);
+		Supplier<Result> rdfSupplier =
+				() -> ok(contentAndType.getLeft()).as(contentAndType.getRight());
 		Supplier<Result> resultSupplier =
 				results.get(format.split(FORMAT_CONFIG_SEP)[0]);
-		return resultSupplier == null ? jsonSupplier.get() : resultSupplier.get();
+		return resultSupplier == null ? rdfSupplier.get() : resultSupplier.get();
+	}
+
+	private static Pair<String, String> contentAndType(JsonNode responseJson,
+			String responseFormat) {
+		String content = "";
+		String contentType = "";
+		switch (responseFormat) {
+		case "rdf": {
+			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.RDF_XML);
+			contentType = Accept.Format.RDF_XML.types[0];
+			break;
+		}
+		case "ttl": {
+			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.TURTLE);
+			contentType = Accept.Format.TURTLE.types[0];
+			break;
+		}
+		case "nt": {
+			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.N_TRIPLE);
+			contentType = Accept.Format.N_TRIPLE.types[0];
+			break;
+		}
+		default: {
+			content = prettyJsonOk(responseJson);
+			contentType = Accept.Format.JSON_LD.types[0];
+		}
+		}
+		return Pair.of(content, contentType + "; charset=utf-8");
 	}
 
 	private static String prettyJsonOk(JsonNode jsonNode) {

@@ -38,13 +38,13 @@ public class AcceptIntegrationTest extends ElasticsearchTest {
 		// @formatter:off
 		return Arrays.asList(new Object[][] {
 			// search, default format: JSON
-			{ fakeRequest(GET, "/organisations/search?q=*"), /*->*/ "application/json" }, 
-			{ fakeRequest(GET, "/organisations/search?q=*&format="), /*->*/ "application/json" }, 
-			{ fakeRequest(GET, "/organisations/search?q=*&format=json"), /*->*/ "application/json" }, 
-			{ fakeRequest(GET, "/organisations/search?q=*&format=whatever"), /*->*/ "application/json" }, 
-			{ fakeRequest(GET, "/organisations/search?q=*").withHeader("Accept", "text/plain"), /*->*/ "application/json" }, 
+			{ fakeRequest(GET, "/organisations/search?q=*"), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/organisations/search?q=*&format="), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/organisations/search?q=*&format=json"), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/organisations/search?q=*&format=whatever"), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/organisations/search?q=*").withHeader("Accept", "text/plain"), /*->*/ "application/json" },
 			// search, others formats as query param:
-			{ fakeRequest(GET, "/organisations/search?q=*&format=html"), /*->*/ "text/html" }, 
+			{ fakeRequest(GET, "/organisations/search?q=*&format=html"), /*->*/ "text/html" },
 			{ fakeRequest(GET, "/organisations/search?q=*&format=js"), /*->*/ "application/javascript" },
 			{ fakeRequest(GET, "/organisations/search?q=*&format=csv"), /*->*/ "text/csv" },
 			// search, others formats via header:
@@ -53,18 +53,34 @@ public class AcceptIntegrationTest extends ElasticsearchTest {
 			{ fakeRequest(GET, "/organisations/search?q=*").withHeader("Accept", "application/javascript"), /*->*/ "application/javascript" },
 			{ fakeRequest(GET, "/organisations/search?q=*").withHeader("Accept", "text/csv"), /*->*/ "text/csv" },
 			// get, default format: JSON
-			{ fakeRequest(GET, "/organisations/DE-38"), /*->*/ "application/json" }, 
-			{ fakeRequest(GET, "/organisations/DE-38?format="), /*->*/ "application/json" }, 
-			{ fakeRequest(GET, "/organisations/DE-38?format=json"), /*->*/ "application/json" }, 
-			{ fakeRequest(GET, "/organisations/DE-38?format=whatever"), /*->*/ "application/json" }, 
-			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "text/plain"), /*->*/ "application/json" },
-			// get, others formats as query param:
-			{ fakeRequest(GET, "/organisations/DE-38?format=html"), /*->*/ "text/html" }, 
+			{ fakeRequest(GET, "/organisations/DE-38"), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/organisations/DE-38?format="), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/organisations/DE-38?format=json"), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/organisations/DE-38?format=whatever"), /*->*/ "application/json" },
+			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "text/plain"), /*->*/ "application/n-triples" },
+			// get, other formats as query param:
+			{ fakeRequest(GET, "/organisations/DE-38?format=html"), /*->*/ "text/html" },
 			{ fakeRequest(GET, "/organisations/DE-38?format=js"), /*->*/ "application/javascript" },
+			{ fakeRequest(GET, "/organisations/DE-38?format=rdf"), /*->*/ "application/rdf+xml" },
+			{ fakeRequest(GET, "/organisations/DE-38?format=ttl"), /*->*/ "text/turtle" },
+			{ fakeRequest(GET, "/organisations/DE-38?format=nt"), /*->*/ "application/n-triples" },
+			// get, other formats as path elem:
+			{ fakeRequest(GET, "/organisations/DE-38.html"), /*->*/ "text/html" },
+			{ fakeRequest(GET, "/organisations/DE-38.js"), /*->*/ "application/javascript" },
+			{ fakeRequest(GET, "/organisations/DE-38.rdf"), /*->*/ "application/rdf+xml" },
+			{ fakeRequest(GET, "/organisations/DE-38.ttl"), /*->*/ "text/turtle" },
+			{ fakeRequest(GET, "/organisations/DE-38.nt"), /*->*/ "application/n-triples" },
 			// get, others formats via header:
 			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "application/json"), /*->*/ "application/json" },
 			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "text/html"), /*->*/ "text/html" },
-			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "application/javascript"), /*->*/ "application/javascript" }});
+			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "application/javascript"), /*->*/ "application/javascript" },
+			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "text/xml"), /*->*/ "application/rdf+xml" },
+			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "application/xml"), /*->*/ "application/rdf+xml" },
+			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "application/rdf+xml"), /*->*/ "application/rdf+xml" },
+			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "text/turtle"), /*->*/ "text/turtle" },
+			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "application/x-turtle"), /*->*/ "text/turtle" },
+			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "text/plain"), /*->*/ "application/n-triples" },
+			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "application/n-triples"), /*->*/ "application/n-triples" }});
 	} // @formatter:on
 
 	private FakeRequest fakeRequest;
