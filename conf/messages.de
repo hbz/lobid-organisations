@@ -64,7 +64,9 @@ api.content_types.header = Inhaltstypen
 api.content_types.default = Standardmäßig liefert dieser Dienst strukturierte API-Antworten (als JSON):
 api.content_types.negotiate = Er unterstützt Content-Negotiation über den Accept-Header für JSON (application/json), CSV (text/csv), JSON lines (application/x-jsonlines) oder HTML (text/html):
 api.content_types.override = Der Query-Parameter "format" kann verwendet werden, um den Accept-Header aufzuheben, z.B. zur Anzeige von JSON im Browser:
+api.content_types.dotFormat = Der Wert des Format-Parameters kann für Einzeltreffer auch in URLs als Dateiendung verwendet werden:
 api.content_types.compress = Für größere Anfragen kann die Antwort als gzip komprimiert werden:
+api.content_types.more = Einzeltreffer unterstützen zudem verschiedene RDF-Serialisierungen (siehe <a href="{0}">Abschnitt zu JSON-LD</a>).
 
 api.csv.header = CSV-Export
 api.csv.default = Standardfelder ("format=csv")
@@ -84,6 +86,8 @@ api.jsonld.header = JSON-LD
 api.jsonld.info = JSON-API-Anfragen liefern JSON-LD (JSON for Linking Data). Um damit zu experimentieren können sie das JSON-LD oder URLs im <a href="{0}">JSON-LD Playground</a> einfügen.
 api.jsonld.rdf.header = RDF-Konvertierung
 api.jsonld.rdf.text = Mit einem JSON-LD-Prozessor können sie API-Antworten in andere RDF-Serialisierungen umwandeln, z.B. in N-Quads mit <a href="{0}">jsonld-cli</a>:
+api.jsonld.rdf.accept = Einzeltreffer können per <code>Accept</code> Header auch direkt als RDF/XML, Turtle oder N-Triples angefordert werden:
+api.jsonld.rdf.extensions = Dabei werden wie <a href="{0}">im Abschnitt zu Inhaltstypen beschrieben</a> neben dem Format-Parameter auch URLs mit Formatendungen unterstützt:
 api.jsonld.example.header = Beispieldokument
 api.jsonld.example.text = Dieses Beispieldokument wurde mit <a href="{0}">hypothes.is</a> annotiert, um den Einstieg in die Datenlage zu erleichtern. Bei Klick auf einen gelbmarkierten JSON-Key geht ein Popup-Fenster auf mit Informationen zu Name, Beschreibung, Abdeckung sowie Anwendungsbeispielen des Feldes.
 

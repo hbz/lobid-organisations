@@ -23,7 +23,10 @@ public class Accept {
 		HTML("html", "text/html"), //
 		JAVASCRIPT("js", "text/javascript", "application/javascript"), //
 		CSV("csv", "text/csv"), //
-		BULK("bulk", "application/x-jsonlines");
+		BULK("bulk", "application/x-jsonlines"), //
+		RDF_XML("rdf", "application/rdf+xml", "application/xml", "text/xml"), //
+		N_TRIPLE("nt", "application/n-triples", "text/plain"), //
+		TURTLE("ttl", "text/turtle", "application/x-turtle");
 
 		String[] types;
 		String queryParamString;

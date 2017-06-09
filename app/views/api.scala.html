@@ -64,8 +64,10 @@ $('input.search-organisations').autocomplete({
     <p><code>curl --header "Accept: text/csv" http://lobid.org@routes.Application.search("kunst")</code></p>
     <p><code>curl --header "Accept: application/x-jsonlines" http://lobid.org@routes.Application.search("kunst") > kunst.jsonl</code></p>
     <p>@Messages.get("api.content_types.override") <a href='@routes.Application.get("DE-6", format="json")'>@routes.Application.get("DE-6", format="json")</a></p>
+    <p>@Messages.get("api.content_types.dotFormat") <a href='@routes.Application.getDotFormat("DE-6", format="json")'>@routes.Application.getDotFormat("DE-6", format="json")</a></p>
     <p>@Messages.get("api.content_types.compress")</p>
     <p><code>curl --header "Accept-Encoding: gzip" "http://lobid.org@routes.Application.search("museum", format="bulk")" > museum.gz</code></p>
+    <p>@Html(Messages.get("api.content_types.more", "#jsonld"))</p>
 
     <h2 id="csv">@Messages.get("api.csv.header") <small><a href="#csv"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     @desc(Messages.get("api.csv.default"), routes.Application.search("kunst", size=300, format="csv"))
@@ -92,6 +94,14 @@ $('input.search-organisations').autocomplete({
     @desc("JSON-LD Context", routes.Application.context)
     <dt>@Messages.get("api.jsonld.rdf.header")</dt><dd>@Html(Messages.get("api.jsonld.rdf.text", "https://github.com/digitalbazaar/jsonld-cli"))</dd>
     <p><code>jsonld format --nquads http://lobid.org@routes.Application.get("DE-6")</code></p>
+    <p>@Html(Messages.get("api.jsonld.rdf.accept"))</p>
+	<p><code>curl --header "Accept: application/rdf+xml" http://lobid.org@routes.Application.get("DE-6")</code></p>
+	<p><code>curl --header "Accept: text/turtle" http://lobid.org@routes.Application.get("DE-6")</code></p>
+	<p><code>curl --header "Accept: application/n-triples" http://lobid.org@routes.Application.get("DE-6")</code></p>
+	<p>@Html(Messages.get("api.jsonld.rdf.extensions", "#content_types"))</p>
+	<p><a href='@routes.Application.getDotFormat("DE-6", format="rdf")'>@routes.Application.getDotFormat("DE-6", format="rdf")</a></p>
+	<p><a href='@routes.Application.getDotFormat("DE-6", format="ttl")'>@routes.Application.getDotFormat("DE-6", format="ttl")</a></p>
+	<p><a href='@routes.Application.getDotFormat("DE-6", format="nt")'>@routes.Application.getDotFormat("DE-6", format="nt")</a></p>
     <dt>@Messages.get("api.jsonld.example.header")</dt><dd>@Html(Messages.get("api.jsonld.example.text", "https://hypothes.is/"))</dd>
     <dd><pre><code>@(Json.prettyPrint(Json.parse(controllers.Index.get("DE-38M"))))</code></pre></dd>
     <h2 id="openrefine">OpenRefine <small><a href="#openrefine"><span class="glyphicon glyphicon-link"></span></a></small></h2>
