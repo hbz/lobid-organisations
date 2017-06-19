@@ -57,6 +57,7 @@ public class RdfConverter {
 			model.setNsPrefix("gndo", "http://d-nb.info/standards/elementset/gnd#");
 			model.setNsPrefix("lv", "http://purl.org/lobid/lv#");
 			model.setNsPrefix("mo", "http://purl.org/ontology/mo/");
+			model.setNsPrefix("org", "http://www.w3.org/ns/org#");
 			model.setNsPrefix("owl", "http://www.w3.org/2002/07/owl#");
 			model.setNsPrefix("rdau", "http://rdaregistry.info/Elements/u/");
 			model.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
