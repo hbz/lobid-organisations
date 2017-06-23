@@ -31,9 +31,6 @@ $('input.search-organisations').autocomplete({
 }
 
 @main("*", scripts = hypothesisEmbed) {
-    <div class="alert alert-warning" id="search-results" role="alert">
-        @Html(Messages.get("api.note", "mailto:semweb@hbz-nrw.de?subject=Feedback:%20lobid-organisations-API"))
-    </div>
     <h2 id="basics">@Messages.get("api.basics.header") <small><a href="#basics"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     <dl>
     @desc("HTTP GET", routes.Application.get("DE-6", format="json"))
