@@ -123,6 +123,8 @@ organisation.location.openingHoursSpecification = Öffnungszeiten
 
 organisation.footer.change = Änderungen zu diesem Eintrag im Sigelverzeichnis mitteilen.
 
+organisation.notFound = Eine Organisation mit der ID {0} konnte nicht gefunden werden.
+
 # dataset
 
 dataset.caption = Datenbeschreibung

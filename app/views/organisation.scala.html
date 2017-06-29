@@ -7,6 +7,9 @@
 @import controllers.Application
 
 @main("", scripts = if(hasLocation){makeLocationDetails()}else{Html("")}) {
+    @if(content.size == 0) {
+      <div id="search-results" class="alert alert-info text-center">@Messages.get("organisation.notFound", id)</div>
+    } else {
     @defining(Json.parse(content.toString())) { parsedContent =>
     <h1>@((parsedContent \ Application.localizedOptional("name", content)).asOpt[String].getOrElse(id))</h1>
     <p>
@@ -88,6 +91,7 @@
           &#x270e; <a target="_blank" href="http://sigel.staatsbibliothek-berlin.de/aenderungen-mitteilen/?isil=@isil">@Messages.get("organisation.footer.change")</a>
         }
       </p>
+    }
     }
 
 }
