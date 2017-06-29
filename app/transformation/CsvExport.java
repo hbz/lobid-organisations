@@ -38,9 +38,10 @@ public class CsvExport {
 			JsonNode org = iter.next();
 			csv += Arrays.asList(fields.split(",")).stream().map(field -> {
 				try {
-					String value = JsonPath.read(Configuration.defaultConfiguration()
+					Object value = JsonPath.read(Configuration.defaultConfiguration()
 							.jsonProvider().parse(org.toString()), "$." + field);
-					return String.format("\"%s\"", value);
+					return String.format("\"%s\"",
+							value.toString().replaceAll("\"", "\"\""));
 				} catch (PathNotFoundException x) {
 					Logger.trace(x.getMessage());
 					// https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#empty-and-quoted-cells
