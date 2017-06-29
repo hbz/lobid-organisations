@@ -123,6 +123,8 @@ organisation.location.openingHoursSpecification = Opening hours
 
 organisation.footer.change = Submit changes to this entry in the ISIL registry.
 
+organisation.notFound = An organisation with ID {0} could not be found.
+
 # dataset
 
 dataset.caption = Dataset

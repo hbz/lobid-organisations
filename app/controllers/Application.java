@@ -657,7 +657,8 @@ public class Application extends Controller {
 										routes.Application.get(isil.asText(), format)));
 			}
 		}
-		return Promise.pure(result.orElseGet(() -> notFound("Not found: " + id)));
+		return Promise.pure(result.orElseGet(() -> notFound(
+				views.html.organisation.render(id, Json.parse("{}"), false))));
 	}
 
 	/**
