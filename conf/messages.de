@@ -95,6 +95,7 @@ api.openrefine.request = Reconciliation-Anfrage (erwartet Formulardaten per HTTP
 
 # organisation
 
+organisation.wikidata = In Wikidata anzeigen
 organisation.jsonld = Als JSON-LD anzeigen
 
 organisation.table.name = Name
