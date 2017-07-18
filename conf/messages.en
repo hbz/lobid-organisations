@@ -95,6 +95,7 @@ api.openrefine.request = Reconciliation multi query request (expects form data v
 
 # organisation
 
+organisation.wikidata = Show in Wikidata
 organisation.jsonld = Show as JSON-LD
 
 organisation.table.name = Name
