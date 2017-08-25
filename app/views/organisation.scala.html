@@ -23,6 +23,7 @@
                 <a href='@s'><img title='@Messages.get("organisation.wikidata")' class='link-icon' src='@controllers.routes.Assets.at("images/wikidata.png")'/></a>
               }
             }
+            case _ => {}
           }
           <table class='table table-striped table-condensed'>
               @produceRow(Messages.get("organisation.table.isil"), parsedContent \ "isil", _ => None)
