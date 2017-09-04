@@ -89,6 +89,7 @@ Download and run the "Eclipse Java IDE":https://www.eclipse.org/downloads/packag
 * repeat previous step for @metamorph-test.xsd@ in the same location
 
 Import lobid-organisations:
+* Create eclipse project sources: @cd git/lobid-organisations; ~/activator-1.3.10-minimal/bin/activator "eclipse with-source=true"@
 * @File@ -> @Import...@ -> @Existing Projects into Workspace@ -> @Next@ -> @Browse...@ -> select @~/git/lobid-organsations@ -> Finish
 
 h1. Data
