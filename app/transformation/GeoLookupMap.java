@@ -130,7 +130,7 @@ public class GeoLookupMap extends HashMap<String, String> {
 		try {
 			Thread.sleep(1000 / 6);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Logger.error("", e);
 		}
 	}
 

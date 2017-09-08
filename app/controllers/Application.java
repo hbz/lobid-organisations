@@ -107,7 +107,7 @@ public class Application extends Controller {
 				});
 			}).recoverWith(t -> index());
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.warn(e.getMessage(), e);
 			return Promise.pure(internalServerError(e.getMessage()));
 		}
 	}
@@ -300,7 +300,7 @@ public class Application extends Controller {
 					.readAllLines(Play.application().resourceAsStream(name + ".jsonld"))
 					.stream().collect(Collectors.joining("\n"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.error("Couldn't get dataset", e);
 			return null;
 		}
 	}
@@ -326,8 +326,8 @@ public class Application extends Controller {
 					.containsAll(Arrays.asList(aggregations.split(",")))) {
 				return badRequest(
 						String.format("Unsupported aggregations: %s (supported: %s)",
-								aggregations.replace(".raw", ""), Index.SUPPORTED_AGGREGATIONS
-										.toString().replace(".raw", "")));
+								aggregations.replace(".raw", ""),
+								Index.SUPPORTED_AGGREGATIONS.toString().replace(".raw", "")));
 			}
 		}
 		final String responseFormat =
@@ -355,7 +355,7 @@ public class Application extends Controller {
 			Cache.set(cacheKey, searchResult, ONE_DAY);
 			return searchResult;
 		} catch (IllegalArgumentException x) {
-			x.printStackTrace();
+			Logger.warn("Bad request: ", x.getMessage());
 			return badRequest("Bad request: " + x.getMessage());
 		}
 	}
@@ -736,7 +736,7 @@ public class Application extends Controller {
 			return new ObjectMapper().writerWithDefaultPrettyPrinter()
 					.writeValueAsString(jsonNode);
 		} catch (JsonProcessingException x) {
-			x.printStackTrace();
+			Logger.warn(x.getMessage());
 			return null;
 		}
 	}
