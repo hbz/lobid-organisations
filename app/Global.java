@@ -44,16 +44,20 @@ public class Global extends GlobalSettings {
 	private static void initData() {
 		try {
 			if (new File(Enrich.DATA_OUTPUT_FILE).exists()) {
-				Logger.info(
-						"Transformation output file exists, indexing only. "
-								+ "To trigger transformation on start, delete '{}'",
-						Enrich.DATA_OUTPUT_FILE);
-			} else {
-				Logger.info("Starting transformation, will write to '{}' ",
-						Enrich.DATA_OUTPUT_FILE);
-				Transformation.transformSet();
+				long minimumSize = Long.parseLong(
+						controllers.Application.CONFIG.getString("index.file.minsize"));
+				if (new File(Enrich.DATA_OUTPUT_FILE).exists()
+						&& new File(Enrich.DATA_OUTPUT_FILE).length() >= minimumSize) {
+					Logger.info(
+							"Transformation output file exists and file is greater than minimum size, indexing only. "
+									+ Enrich.DATA_OUTPUT_FILE);
+				} else {
+					Logger.info("Starting transformation, will write to '{}' ",
+							Enrich.DATA_OUTPUT_FILE);
+					Transformation.transformSet();
+				}
+				Index.initialize(Enrich.DATA_OUTPUT_FILE);
 			}
-			Index.initialize(Enrich.DATA_OUTPUT_FILE);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

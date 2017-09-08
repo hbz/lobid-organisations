@@ -13,6 +13,8 @@ import org.culturegraph.mf.framework.annotations.In;
 import org.culturegraph.mf.framework.annotations.Out;
 import org.culturegraph.mf.types.Triple;
 
+import play.Logger;
+
 /**
  * @author philipp v. böselager based on
  *         org.culturegraph.mf.stream.pipe.sort,TripleSort by markus geipel
@@ -92,7 +94,7 @@ public final class TripleRematch extends AbstractTripleRematch {
 			}
 			return;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.error("Problem when rematching", e);
 		}
 		return;
 	}

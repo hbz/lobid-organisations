@@ -21,6 +21,7 @@ import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
 
 import controllers.Application;
+import play.Logger;
 
 /**
  * Simple enrichment of DBS records with Sigel data based on the DBS ID.
@@ -163,7 +164,7 @@ public class Enrich {
 			calender.add(Calendar.DATE, intervalSize);
 			result = dateFormat.format(calender.getTime());
 		} catch (ParseException e) {
-			e.printStackTrace();
+			Logger.warn("Couldn't add days", e);
 		}
 		return result;
 	}

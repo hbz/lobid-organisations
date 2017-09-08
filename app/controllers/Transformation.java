@@ -4,6 +4,7 @@ package controllers;
 
 import java.io.IOException;
 
+import akka.event.slf4j.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import transformation.Enrich;
@@ -47,7 +48,7 @@ public class Transformation extends Controller {
 			Enrich.process(startOfUpdates, Integer.parseInt(intervalSize), outputPath,
 					geoLookupServer);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.root().error("Transformation failed", e);
 			return internalServerError("Transformation failed");
 		}
 		return ok("Transforming full data");
