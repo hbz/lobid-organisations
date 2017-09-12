@@ -13,10 +13,9 @@ libraryDependencies ++= Seq(
       // otherwise javaWs won't work
       exclude ("io.netty", "netty"),
   "com.github.jsonld-java" % "jsonld-java" % "0.4.1",
-  "com.github.jsonld-java" % "jsonld-java-jena" % "0.4.1",
+  "com.github.jsonld-java" % "jsonld-java-jena" % "0.4.1" exclude("org.slf4j", "slf4j-log4j12"),
   "org.apache.jena" % "jena-arq" % "2.9.3",
   "org.culturegraph" % "metafacture-core" % "4.0.0-HBZ-SNAPSHOT",
-  "org.slf4j" % "slf4j-log4j12" % "1.7.6",
   "org.xbib.elasticsearch.plugin" % "elasticsearch-plugin-bundle" % "2.3.2.0",
   "com.jayway.jsonpath" % "json-path" % "2.2.0",
   "net.java.dev.jna" % "jna" % "4.1.0",
