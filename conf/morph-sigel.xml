@@ -7,7 +7,7 @@
 	<rules>
 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
 		
-		<!-- Use inr if available, use isil if not -->		
+		<!-- internal ID: Use DBS ID (.b) if available, use ISIL (.e) if not -->
 		<choose>
 			<data name="_id" source="008H.b">
 				<replace  pattern=" "  with=""/>

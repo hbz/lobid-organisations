@@ -97,6 +97,17 @@ public class EnrichTest {
 	}
 
 	@Test
+	public void preferSigelData() throws IOException {
+		Enrich.process("", 0, Enrich.DATA_OUTPUT_FILE, "");
+		assertThat(
+				new String(Files.readAllBytes(Paths.get(Enrich.DATA_OUTPUT_FILE))))
+						.as("transformation output with preferred Sigel data")
+						.contains("Hauptabteilung")//
+						.as("transformation output containing DBS data")
+						.contains("Grundschule");
+	}
+
+	@Test
 	public void sigelSplitting() {
 		final FileOpener sourceFileOpener = new FileOpener();
 		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(

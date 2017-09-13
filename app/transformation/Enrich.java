@@ -82,7 +82,7 @@ public class Enrich {
 		Sigel.setupSigelSplitting(openSigelDump, xmlSplitter, DUMP_XPATH,
 				DATA_OUTPUT_DIR);
 
-		// SETUP PROCESSING OF SPLITTED AND UPDATED SIGEL XML FILES
+		// SETUP SIGEL UPDATES
 		final FileOpener splitFileOpener = new FileOpener();
 		final StreamToTriples streamToTriplesDump =
 				Helpers.createTripleStream(true);
@@ -105,6 +105,7 @@ public class Enrich {
 		}
 		Sigel.processSigelMorph(splitFileOpener, sigelTempFilesLocation);
 
+		// PROCESS DBS
 		Dbs.processDbs(openDbs, DATA_INPUT_DIR + "dbs.csv");
 	}
 

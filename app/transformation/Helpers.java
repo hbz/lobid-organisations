@@ -10,6 +10,7 @@ import org.culturegraph.mf.stream.converter.JsonEncoder;
 import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
 import org.culturegraph.mf.stream.converter.StreamToTriples;
 import org.culturegraph.mf.stream.pipe.CloseSuppressor;
+import org.culturegraph.mf.stream.pipe.ObjectLogger;
 import org.culturegraph.mf.stream.pipe.TripleFilter;
 import org.culturegraph.mf.stream.pipe.sort.AbstractTripleSort.Compare;
 import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
@@ -17,6 +18,7 @@ import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.sink.ObjectWriter;
 import org.culturegraph.mf.stream.source.OaiPmhOpener;
 import org.culturegraph.mf.types.Triple;
+import org.slf4j.LoggerFactory;
 
 import controllers.Application;
 import transformation.GeoLookupMap.LookupType;
@@ -82,7 +84,6 @@ public class Helpers {
 			CloseSuppressor<Triple> wait, TripleSort sortTriples,
 			final TripleRematch rematchTriples, final String aOutputPath,
 			String geoLookupServer) {
-
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		final Metamorph morph = new Metamorph("morph-enriched.xml");
@@ -97,6 +98,7 @@ public class Helpers {
 				.setReceiver(tripleFilter)//
 				.setReceiver(rematchTriples)//
 				.setReceiver(sortTriples)//
+				.setReceiver(new ObjectLogger<>("Sorted: "))//
 				.setReceiver(new TripleCollect())//
 				.setReceiver(morph)//
 				.setReceiver(encodeJson)//
