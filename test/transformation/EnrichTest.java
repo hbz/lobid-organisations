@@ -1,4 +1,4 @@
-/* Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 */
+/* Copyright 2014-2017, hbz. Licensed under the Eclipse Public License 1.0 */
 
 package transformation;
 
@@ -9,12 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.culturegraph.mf.stream.converter.StreamToTriples;
-import org.culturegraph.mf.stream.pipe.CloseSuppressor;
 import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
-import org.culturegraph.mf.stream.pipe.sort.TripleSort;
 import org.culturegraph.mf.stream.source.FileOpener;
-import org.culturegraph.mf.types.Triple;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,12 +30,8 @@ public class EnrichTest {
 		System.out.println("Using CONFIG from " + Application.CONFIG.origin());
 	}
 
-	private static final TripleRematch REMATCH_TRIPLES =
-			new TripleRematch("isil");
-	private static final CloseSuppressor<Triple> WAIT = new CloseSuppressor<>(2);
 	private static final String SIGEL_DUMP_LOCATION =
 			Enrich.DATA_INPUT_DIR + "sigel.xml";
-	private static final String DBS_LOCATION = Enrich.DATA_INPUT_DIR + "dbs.csv";
 	private static final String DUMP_XPATH =
 			"/" + Enrich.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Enrich.SIGEL_XPATH;
 
@@ -54,27 +46,6 @@ public class EnrichTest {
 	public static void tearDown() {
 		File output = new File(Enrich.DATA_OUTPUT_FILE);
 		assertThat(output.length()).as("output file size").isGreaterThan(0);
-	}
-
-	@Test
-	public void sigelMorph() throws IOException {
-		final FileOpener splitFileOpener = new FileOpener();
-		StreamToTriples sigelFlow = Sigel.setupSigelMorph(splitFileOpener)
-				.setReceiver(Helpers.createTripleStream(true));
-		Helpers.setupTripleStreamToWriter(sigelFlow, WAIT, new TripleSort(),
-				REMATCH_TRIPLES, Enrich.DATA_OUTPUT_FILE, null);
-		Sigel.processSigelMorph(splitFileOpener, Enrich.DATA_OUTPUT_DIR);
-	}
-
-	@Test
-	public void dbsTransformation() {
-		final FileOpener openDbs = new FileOpener();
-		final StreamToTriples streamToTriplesDbs = Helpers.createTripleStream(true);
-		final StreamToTriples dbsFlow = //
-				Dbs.morphDbs(openDbs).setReceiver(streamToTriplesDbs);
-		Helpers.setupTripleStreamToWriter(dbsFlow, WAIT, new TripleSort(),
-				REMATCH_TRIPLES, Enrich.DATA_OUTPUT_FILE, null);
-		Dbs.processDbs(openDbs, DBS_LOCATION);
 	}
 
 	@Test

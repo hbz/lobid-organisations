@@ -1,4 +1,4 @@
-/* Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 */
+/* Copyright 2014-2017, hbz. Licensed under the Eclipse Public License 1.0 */
 
 package index;
 
@@ -36,9 +36,9 @@ public class TestStemming extends ElasticsearchTest {
 			{ "alternateName", "köln", /*->*/ 2 },
 			{ "alternateName", "koeln", /*->*/ 2 },
 			{ "alternateName", "koln", /*->*/ 2 },
-			{ "classification.label.de", "Universitätsbibliothek", /*->*/ 2 },
-			{ "classification.label.de", "Universitaetsbibliothek", /*->*/ 2 },
-			{ "classification.label.de", "Universitatsbibliothek", /*->*/ 2 },
+			{ "classification.label.de", "Universitätsbibliothek", /*->*/ 3 },
+			{ "classification.label.de", "Universitaetsbibliothek", /*->*/ 3 },
+			{ "classification.label.de", "Universitatsbibliothek", /*->*/ 3 },
 			{ "fundertype.label.de", "Körperschaft", /*->*/ 2 },
 			{ "fundertype.label.de", "Koerperschaft", /*->*/ 2 },
 			{ "fundertype.label.de", "Korperschaft", /*->*/ 2 },
