@@ -598,7 +598,7 @@
 			<entry value="http://purl.org/lobid/libtype#n36" name="Blindenbibliothek" />
 			<entry value="http://purl.org/lobid/libtype#n36" name="Patientenbibliothek" />
 			<entry value="http://purl.org/lobid/libtype#n36" name="Gefangenenbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n65" name="Universitätsbibliothek" />
+			<entry value="http://purl.org/lobid/libtype#n60" name="Universitätsbibliothek" />
 			<entry value="http://purl.org/lobid/libtype#n73" name="Fach-/Hochschulbibliothek" />
 			<entry value="http://purl.org/lobid/libtype#n81" name="Spezialbibliothek" />
 			<entry value="http://purl.org/lobid/libtype#n81" name="Musikbibliothek" />
