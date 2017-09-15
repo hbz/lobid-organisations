@@ -425,6 +425,17 @@
 				<regexp match="(?i).*swb" format="Bibliotheksservice-Zentrum Baden-Württemberg (BSZ)" />
 			</data>
 		</entity>
+		<entity name="mainEntityOfPage">
+			<data source="isil" name="id">
+				<regexp match="(.*)" format="http://lobid.org/organisations/${1}" />
+			</data>
+			<data source="001A.0" name="dateCreated">
+				<replace pattern="^.+?:" with="" />
+			</data>
+			<data source="001B.0" name="dateModified">
+				<replace pattern="^.+?:" with="" />
+			</data>
+		</entity>
 	</rules>
 	<maps>
 		<filemap name="isil2wikidata_map"
