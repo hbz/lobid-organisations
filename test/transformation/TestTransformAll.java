@@ -23,7 +23,7 @@ import controllers.Application;
  * @author Simon Ritter (SBRitter), Fabian Steeg (fsteeg)
  */
 @SuppressWarnings("javadoc")
-public class EnrichTest {
+public class TestTransformAll {
 
 	static {
 		System.setProperty("config.resource", "test.conf");
