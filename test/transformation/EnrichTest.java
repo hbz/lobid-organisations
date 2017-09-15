@@ -31,37 +31,37 @@ public class EnrichTest {
 	}
 
 	private static final String SIGEL_DUMP_LOCATION =
-			Enrich.DATA_INPUT_DIR + "sigel.xml";
+			TransformAll.DATA_INPUT_DIR + "sigel.xml";
 	private static final String DUMP_XPATH =
-			"/" + Enrich.SIGEL_DUMP_TOP_LEVEL_TAG + "/" + Enrich.SIGEL_XPATH;
+			"/" + TransformSigel.DUMP_TOP_LEVEL_TAG + "/" + TransformSigel.XPATH;
 
 	@BeforeClass
 	public static void setUp() {
-		File output = new File(Enrich.DATA_OUTPUT_FILE);
+		File output = new File(TransformAll.DATA_OUTPUT_FILE);
 		assertThat(!output.exists() || output.delete()).as("no output file")
 				.isTrue();
 	}
 
 	@AfterClass
 	public static void tearDown() {
-		File output = new File(Enrich.DATA_OUTPUT_FILE);
+		File output = new File(TransformAll.DATA_OUTPUT_FILE);
 		assertThat(output.length()).as("output file size").isGreaterThan(0);
 	}
 
 	@Test
 	public void multiLangAlternateName() throws IOException {
-		Enrich.process("", 0, Enrich.DATA_OUTPUT_FILE, "");
+		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "");
 		assertThat(
-				new String(Files.readAllBytes(Paths.get(Enrich.DATA_OUTPUT_FILE))))
+				new String(Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with multiLangAlternateName")
 						.contains("Leibniz Institute").contains("Berlin SBB");
 	}
 
 	@Test
 	public void separateUrlAndProvidesFields() throws IOException {
-		Enrich.process("", 0, Enrich.DATA_OUTPUT_FILE, "");
+		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "");
 		assertThat(
-				new String(Files.readAllBytes(Paths.get(Enrich.DATA_OUTPUT_FILE))))
+				new String(Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with `url` and `provides`")
 						.contains("http://www.medpilot.de/?idb=ZBMED")
 						.contains("http://www.zbmed.de");
@@ -69,9 +69,9 @@ public class EnrichTest {
 
 	@Test
 	public void preferSigelData() throws IOException {
-		Enrich.process("", 0, Enrich.DATA_OUTPUT_FILE, "");
+		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "");
 		assertThat(
-				new String(Files.readAllBytes(Paths.get(Enrich.DATA_OUTPUT_FILE))))
+				new String(Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with preferred Sigel data")
 						.contains("Hauptabteilung")//
 						.as("transformation output containing DBS data")
@@ -82,10 +82,11 @@ public class EnrichTest {
 	public void sigelSplitting() {
 		final FileOpener sourceFileOpener = new FileOpener();
 		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
-				Enrich.SIGEL_DUMP_TOP_LEVEL_TAG, Enrich.SIGEL_DUMP_ENTITY);
-		Sigel.setupSigelSplitting(sourceFileOpener, xmlSplitter, DUMP_XPATH,
-				Enrich.DATA_OUTPUT_DIR);
-		Sigel.processSigelSplitting(sourceFileOpener, SIGEL_DUMP_LOCATION);
+				TransformSigel.DUMP_TOP_LEVEL_TAG, TransformSigel.DUMP_ENTITY);
+		TransformSigel.setupSigelSplitting(sourceFileOpener, xmlSplitter, DUMP_XPATH,
+				TransformAll.DATA_OUTPUT_DIR);
+		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
+		sourceFileOpener.closeStream();
 	}
 
 }
