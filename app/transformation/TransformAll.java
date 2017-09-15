@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.stream.Collectors;
 
 import org.culturegraph.mf.morph.Metamorph;
 import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
@@ -55,12 +54,21 @@ public class TransformAll {
 		TransformSigel.process(startOfUpdates, intervalSize, sigelOutput,
 				geoServer);
 		try (FileWriter resultWriter = new FileWriter(outputPath)) {
-			resultWriter.write(Files.readAllLines(Paths.get(dbsOutput)).stream()
-					.collect(Collectors.joining("\n")));
-			resultWriter.write("\n");
-			resultWriter.write(Files.readAllLines(Paths.get(sigelOutput)).stream()
-					.collect(Collectors.joining("\n")));
+			writeAll(dbsOutput, resultWriter);
+			writeAll(sigelOutput, resultWriter);
 		}
+	}
+
+	private static void writeAll(String dbsOutput, FileWriter resultWriter)
+			throws IOException {
+		Files.readAllLines(Paths.get(dbsOutput)).forEach(line -> {
+			try {
+				resultWriter.write(line);
+				resultWriter.write("\n");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	static JsonToElasticsearchBulk esBulk() {
