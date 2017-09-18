@@ -65,7 +65,8 @@ public class Reconcile extends Controller {
 			Logger.debug("q: " + inputQuery);
 			SearchResponse searchResponse =
 					executeQuery(inputQuery, buildQueryString(inputQuery));
-			List<JsonNode> results = mapToResults(searchResponse.getHits());
+			List<JsonNode> results =
+					mapToResults(mainQuery(inputQuery), searchResponse.getHits());
 			ObjectNode resultsForInputQuery = Json.newObject();
 			resultsForInputQuery.put("result", Json.toJson(results));
 			Logger.debug("r: " + resultsForInputQuery);
@@ -74,14 +75,17 @@ public class Reconcile extends Controller {
 		return ok(response);
 	}
 
-	private static List<JsonNode> mapToResults(SearchHits searchHits) {
+	private static List<JsonNode> mapToResults(String mainQuery,
+			SearchHits searchHits) {
 		return Arrays.asList(searchHits.getHits()).stream().map(hit -> {
 			Map<String, Object> map = hit.getSource();
 			ObjectNode resultForHit = Json.newObject();
 			resultForHit.put("id", hit.getId());
-			Object name = map.get("name");
-			resultForHit.put("name", name == null ? "" : name + "");
+			Object nameObject = map.get("name");
+			String name = nameObject == null ? "" : nameObject + "";
+			resultForHit.put("name", name);
 			resultForHit.put("score", hit.getScore());
+			resultForHit.put("match", mainQuery.equalsIgnoreCase(name));
 			resultForHit.put("type", TYPES);
 			return resultForHit;
 		}).collect(Collectors.toList());
@@ -97,7 +101,7 @@ public class Reconcile extends Controller {
 	}
 
 	private static String buildQueryString(Entry<String, JsonNode> entry) {
-		String queryString = entry.getValue().get("query").asText();
+		String queryString = mainQuery(entry);
 		JsonNode props = entry.getValue().get("properties");
 		if (props != null) {
 			for (JsonNode p : props) {
@@ -105,6 +109,10 @@ public class Reconcile extends Controller {
 			}
 		}
 		return queryString;
+	}
+
+	private static String mainQuery(Entry<String, JsonNode> entry) {
+		return entry.getValue().get("query").asText();
 	}
 
 }
