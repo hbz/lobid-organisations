@@ -92,6 +92,10 @@
 			"@type": "@id",
 			"@id": "http://www.w3.org/ns/hydra/core#member"
 		},
+		"mainEntityOfPage":{
+			"@type": "@id",
+			"@id": "http://schema.org/mainEntityOfPage"
+		},
 		"Library": "http://schema.org/Library",
 		"Archive": "http://data.archiveshub.ac.uk/def/Repository",
 		"Museum": "http://schema.org/Museum",

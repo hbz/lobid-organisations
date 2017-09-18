@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
 
 import controllers.Application;
 import controllers.Index;
-import transformation.Enrich;
+import transformation.TransformAll;
 
 @SuppressWarnings("javadoc")
 public abstract class ElasticsearchTest {
@@ -27,7 +27,7 @@ public abstract class ElasticsearchTest {
 
 	@BeforeClass
 	public static void makeIndex() throws IOException {
-		Index.initialize(Enrich.DATA_OUTPUT_FILE);
+		Index.initialize(TransformAll.DATA_OUTPUT_FILE);
 	}
 
 	@AfterClass

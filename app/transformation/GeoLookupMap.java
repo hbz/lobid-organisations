@@ -58,9 +58,7 @@ public class GeoLookupMap extends HashMap<String, String> {
 					.setQueryParameter("text", query);
 			Logger.debug("Calling API={} with params={}", requestHolder.getUrl(),
 					requestHolder.getQueryParameters());
-			String result = callApi(key, street, city, postcode, requestHolder);
-			delay();
-			return result;
+			return callApi(key, street, city, postcode, requestHolder);
 		}
 		return null;
 	}
@@ -122,16 +120,6 @@ public class GeoLookupMap extends HashMap<String, String> {
 	private static String clean(String query) {
 		return query.replaceAll("tr\\.", "traße").replaceAll("[.,]", " ")
 				.replaceAll("\\s+", " ").trim();
-	}
-
-	private static void delay() {
-		// 6 requests per second. see
-		// https://mapzen.com/documentation/search/api-keys-rate-limits/
-		try {
-			Thread.sleep(1000 / 6);
-		} catch (InterruptedException e) {
-			Logger.error("", e);
-		}
 	}
 
 	private String resultFromNode(JsonNode node) {

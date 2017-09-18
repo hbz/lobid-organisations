@@ -14,7 +14,7 @@ import play.libs.F.Promise;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
-import transformation.Enrich;
+import transformation.TransformAll;
 
 /**
  * Application global settings.
@@ -43,21 +43,19 @@ public class Global extends GlobalSettings {
 
 	private static void initData() {
 		try {
-			if (new File(Enrich.DATA_OUTPUT_FILE).exists()) {
-				long minimumSize = Long.parseLong(
-						controllers.Application.CONFIG.getString("index.file.minsize"));
-				if (new File(Enrich.DATA_OUTPUT_FILE).exists()
-						&& new File(Enrich.DATA_OUTPUT_FILE).length() >= minimumSize) {
-					Logger.info(
-							"Transformation output file exists and file is greater than minimum size, indexing only. "
-									+ Enrich.DATA_OUTPUT_FILE);
-				} else {
-					Logger.info("Starting transformation, will write to '{}' ",
-							Enrich.DATA_OUTPUT_FILE);
-					Transformation.transformSet();
-				}
-				Index.initialize(Enrich.DATA_OUTPUT_FILE);
+			long minimumSize = Long.parseLong(
+					controllers.Application.CONFIG.getString("index.file.minsize"));
+			if (new File(TransformAll.DATA_OUTPUT_FILE).exists()
+					&& new File(TransformAll.DATA_OUTPUT_FILE).length() >= minimumSize) {
+				Logger.info(
+						"Transformation output file exists and file is greater than minimum size, indexing only. "
+								+ TransformAll.DATA_OUTPUT_FILE);
+			} else {
+				Logger.info("Starting transformation, will write to '{}' ",
+						TransformAll.DATA_OUTPUT_FILE);
+				Transformation.transformSet();
 			}
+			Index.initialize(TransformAll.DATA_OUTPUT_FILE);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
