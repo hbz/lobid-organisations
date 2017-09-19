@@ -11,7 +11,7 @@ if [ $# -lt 3 ]; then
 				First 3 parameters are mandatory.
 				Don't forget that the process is monitored by 'monit'.
 				It will restart automatically if you stop the API.
-				If you want to stop it permanently, do 'sudo /etc/ini.d/monit stop' first.
+				If you want to stop it permanently, do 'sudo /etc/init.d/monit stop' first.
 				"
 	exit 65
 fi
