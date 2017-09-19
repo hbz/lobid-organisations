@@ -10,7 +10,9 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.elasticsearch.search.SearchHits;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -65,7 +67,8 @@ public class Reconcile extends Controller {
 			Logger.debug("q: " + inputQuery);
 			SearchResponse searchResponse =
 					executeQuery(inputQuery, buildQueryString(inputQuery));
-			List<JsonNode> results = mapToResults(searchResponse.getHits());
+			List<JsonNode> results =
+					mapToResults(mainQuery(inputQuery), searchResponse.getHits());
 			ObjectNode resultsForInputQuery = Json.newObject();
 			resultsForInputQuery.put("result", Json.toJson(results));
 			Logger.debug("r: " + resultsForInputQuery);
@@ -74,14 +77,17 @@ public class Reconcile extends Controller {
 		return ok(response);
 	}
 
-	private static List<JsonNode> mapToResults(SearchHits searchHits) {
+	private static List<JsonNode> mapToResults(String mainQuery,
+			SearchHits searchHits) {
 		return Arrays.asList(searchHits.getHits()).stream().map(hit -> {
 			Map<String, Object> map = hit.getSource();
 			ObjectNode resultForHit = Json.newObject();
 			resultForHit.put("id", hit.getId());
-			Object name = map.get("name");
-			resultForHit.put("name", name == null ? "" : name + "");
+			Object nameObject = map.get("name");
+			String name = nameObject == null ? "" : nameObject + "";
+			resultForHit.put("name", name);
 			resultForHit.put("score", hit.getScore());
+			resultForHit.put("match", mainQuery.equalsIgnoreCase(name));
 			resultForHit.put("type", TYPES);
 			return resultForHit;
 		}).collect(Collectors.toList());
@@ -91,13 +97,16 @@ public class Reconcile extends Controller {
 			String queryString) {
 		JsonNode limitNode = entry.getValue().get("limit");
 		int limit = limitNode == null ? -1 : limitNode.asInt();
-		SearchResponse response = Index.executeQuery(0, limit,
-				QueryBuilders.queryStringQuery(queryString), "");
+		SimpleQueryStringBuilder stringQuery =
+				QueryBuilders.simpleQueryStringQuery(queryString);
+		BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(stringQuery)
+				.must(QueryBuilders.existsQuery("type"));
+		SearchResponse response = Index.executeQuery(0, limit, boolQuery, "");
 		return response;
 	}
 
 	private static String buildQueryString(Entry<String, JsonNode> entry) {
-		String queryString = entry.getValue().get("query").asText();
+		String queryString = mainQuery(entry);
 		JsonNode props = entry.getValue().get("properties");
 		if (props != null) {
 			for (JsonNode p : props) {
@@ -105,6 +114,10 @@ public class Reconcile extends Controller {
 			}
 		}
 		return queryString;
+	}
+
+	private static String mainQuery(Entry<String, JsonNode> entry) {
+		return entry.getValue().get("query").asText();
 	}
 
 }
