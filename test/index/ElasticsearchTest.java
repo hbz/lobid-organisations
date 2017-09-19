@@ -27,6 +27,7 @@ public abstract class ElasticsearchTest {
 
 	@BeforeClass
 	public static void makeIndex() throws IOException {
+		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "");
 		Index.initialize(TransformAll.DATA_OUTPUT_FILE);
 	}
 
