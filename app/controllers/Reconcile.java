@@ -10,7 +10,9 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.SimpleQueryStringBuilder;
 import org.elasticsearch.search.SearchHits;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -95,8 +97,11 @@ public class Reconcile extends Controller {
 			String queryString) {
 		JsonNode limitNode = entry.getValue().get("limit");
 		int limit = limitNode == null ? -1 : limitNode.asInt();
-		SearchResponse response = Index.executeQuery(0, limit,
-				QueryBuilders.simpleQueryStringQuery(queryString), "");
+		SimpleQueryStringBuilder stringQuery =
+				QueryBuilders.simpleQueryStringQuery(queryString);
+		BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(stringQuery)
+				.must(QueryBuilders.existsQuery("type"));
+		SearchResponse response = Index.executeQuery(0, limit, boolQuery, "");
 		return response;
 	}
 
