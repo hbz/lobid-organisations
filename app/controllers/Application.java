@@ -326,8 +326,8 @@ public class Application extends Controller {
 					.containsAll(Arrays.asList(aggregations.split(",")))) {
 				return badRequest(
 						String.format("Unsupported aggregations: %s (supported: %s)",
-								aggregations.replace(".raw", ""),
-								Index.SUPPORTED_AGGREGATIONS.toString().replace(".raw", "")));
+								aggregations.replace(".raw", ""), Index.SUPPORTED_AGGREGATIONS
+										.toString().replace(".raw", "")));
 			}
 		}
 		final String responseFormat =
@@ -566,8 +566,7 @@ public class Application extends Controller {
 
 	private static String buildSimpleQuery(String q, int from, int size,
 			String aggregations) {
-		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
-		BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(simpleQuery)
+		BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(mainQuery(q))
 				.must(QueryBuilders.existsQuery("type"));
 		SearchResponse queryResponse =
 				Index.executeQuery(from, size, boolQuery, aggregations);
@@ -581,9 +580,8 @@ public class Application extends Controller {
 		for (int i = 0; i < latCoordinates.length; i++) {
 			polygonQuery.addPoint(latCoordinates[i], lonCoordinates[i]);
 		}
-		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		QueryBuilder polygonAndSimpleQuery =
-				QueryBuilders.boolQuery().must(polygonQuery).must(simpleQuery);
+				QueryBuilders.boolQuery().must(polygonQuery).must(mainQuery(q));
 		SearchResponse queryResponse =
 				Index.executeQuery(from, size, polygonAndSimpleQuery, aggregations);
 		return returnAsJson(queryResponse);
@@ -593,12 +591,19 @@ public class Application extends Controller {
 			double lat, double lon, double distance, String aggregations) {
 		QueryBuilder distanceQuery = QueryBuilders.geoDistanceQuery(Index.GEO_FIELD)
 				.distance(distance, DistanceUnit.KILOMETERS).point(lat, lon);
-		QueryBuilder simpleQuery = QueryBuilders.queryStringQuery(q);
 		QueryBuilder distanceAndSimpleQuery =
-				QueryBuilders.boolQuery().must(distanceQuery).must(simpleQuery);
+				QueryBuilders.boolQuery().must(distanceQuery).must(mainQuery(q));
 		SearchResponse queryResponse =
 				Index.executeQuery(from, size, distanceAndSimpleQuery, aggregations);
 		return returnAsJson(queryResponse);
+	}
+
+	private static QueryBuilder mainQuery(String q) {
+		QueryBuilder stringQuery = QueryBuilders.queryStringQuery(q);
+		return !q.contains("type:Collection")
+				? QueryBuilders.boolQuery().must(stringQuery).mustNot(
+						QueryBuilders.matchQuery("type", "Collection"))
+				: stringQuery;
 	}
 
 	static String[] defaultAggregations() {

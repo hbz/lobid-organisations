@@ -29,7 +29,6 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
@@ -144,11 +143,9 @@ public class Index extends Controller {
 
 	static SearchResponse executeQuery(int from, int size, QueryBuilder query,
 			String aggregations) {
-		BoolQueryBuilder q = QueryBuilders.boolQuery().must(query)
-				.mustNot(QueryBuilders.matchQuery("type", "Collection"));
 		SearchRequestBuilder searchRequest = Index.CLIENT.prepareSearch(INDEX_NAME)
 				.setTypes(INDEX_TYPE).setSearchType(SearchType.QUERY_THEN_FETCH)
-				.setQuery(preprocess(q)).setFrom(from).setSize(size);
+				.setQuery(preprocess(query)).setFrom(from).setSize(size);
 		if (!aggregations.isEmpty()) {
 			searchRequest = withAggregations(searchRequest, aggregations.split(","));
 		}
