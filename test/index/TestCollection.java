@@ -12,7 +12,7 @@ public class TestCollection extends ElasticsearchTest {
 	@Test
 	public void searchForCollection() {
 		long total = search("type", "Collection").getHits().getTotalHits();
-		assertEquals("Request should return 0", 0, total);
+		assertEquals("Request should return 1", 1, total);
 	}
 
 }

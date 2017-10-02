@@ -235,12 +235,8 @@ public class Index extends Controller {
 				organisationId = idUriParts[idUriParts.length - 1].replace("#!", "");
 			} else {
 				organisationData = line;
-				JsonNode libType = rootNode.get("type");
-				if (libType == null || !libType.textValue().equals("Collection")) {
-					bulkRequest
-							.add(client.prepareIndex(aIndex, INDEX_TYPE, organisationId)
-									.setSource(organisationData));
-				}
+				bulkRequest.add(client.prepareIndex(aIndex, INDEX_TYPE, organisationId)
+						.setSource(organisationData));
 			}
 			currentLine++;
 		}
