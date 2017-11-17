@@ -63,7 +63,7 @@ public class IntegrationTest extends ElasticsearchTest {
 	@Test
 	public void getByDbsIdHasNoIsilNoRedirect() {
 		running(fakeApplication(), () -> {
-			Result result = route(fakeRequest(GET, "/organisations/DBS-AT700"));
+			Result result = route(fakeRequest(GET, "/organisations/DBS-AA022"));
 			assertThat(Helpers.status(result)).isEqualTo(Status.OK);
 		});
 	}
