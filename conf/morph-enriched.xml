@@ -64,7 +64,7 @@
 				<data source="035E.f" name="typeurl">
 					<lookup in="libtype_map" />
 				</data>
-				<data source="name" name="typeurl">
+				<data source="nam" name="typeurl">
 					<constant value="Library" />
 				</data>
 			</choose>
@@ -88,7 +88,7 @@
 		
 		<group name="name">
 			<choose>
-				<data source="name" />
+				<data source="nam" />
 				<data source="029A.a">
 					<!-- sanitize entries like "Ruhr-Universita\u0308t Bochum,\n\t\t\t\t\tUniversita\u0308tsbibliothek" -->
 					<replace pattern="\t|\n|\(\s\)\s+" with="" />
