@@ -35,7 +35,7 @@ public class Dbs {
 	static Metamorph morphDbs(final FileOpener opener) {
 		opener.setEncoding("UTF-8");
 		final LineReader lines = new LineReader();
-		final CsvDecoder decoder = new CsvDecoder(',');
+		final CsvDecoder decoder = new CsvDecoder(';');
 		decoder.setHasHeader(true);
 		final Metamorph morph = new Metamorph("morph-dbs.xml");
 		final Metamorph morphDbs = opener//
