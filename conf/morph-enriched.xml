@@ -70,10 +70,10 @@
 			</choose>
 		</combine>
 		<choose name="rs">
-			<data source="stk_2007">
+			<data source="gvz_id">
 				<regexp match="\d{12}" />
 			</data>
-			<data source="stk_2007">
+			<data source="gvz_id">
 				<regexp match="(\d{11})" format="0${1}"/>
 			</data>
 			<data source="032P.n">
@@ -97,13 +97,13 @@
 		</group>
 		
 		<call-macro name="url-group" group_name="url" dbs_field="url" sigel_code="A"/>
-		<call-macro name="url-group" group_name="provides" dbs_field="opa" sigel_code="B"/>
+		<call-macro name="url-group" group_name="provides" dbs_field="opac" sigel_code="B"/>
 		
-		<data source="isil" name="isil"/>
+		<data source="isigel" name="isil"/>
 		<data source="inr" name="dbsID"/>
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
-			<data source="isil" name="id">
+			<data source="isigel" name="id">
 				<regexp match="(.*)" format="http://lobid.org/organisations/${1}#!" />
 			</data>
 			<combine name="id" value="http://lobid.org/organisations/DBS-${inr}#!">
@@ -136,7 +136,7 @@
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
 			<!-- Disabled for privacy reasons, see https://github.com/hbz/lobid-organisations/issues/111
-			<data source="ema" name="email">
+			<data source="email" name="email">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
 			 -->
@@ -159,13 +159,13 @@
 			<if>
 				<all>
 					<data source="addressCountry"> <not-equals string=""/> </data>
-					<data source="str"> <not-equals string=""/> </data>
+					<data source="strasse"> <not-equals string=""/> </data>
 					<data source="ort"> <not-equals string=""/> </data>
 					<data source="plz"> <not-equals string=""/> </data>
 				</all>
 			</if>
 			<data source="addressCountry" name="land"/>
-			<data source="str" name="str" />
+			<data source="strasse" name="strasse" />
 			<data source="ort" name="ort" />
 			<data source="plz" name="plz" />
 		</combine>	
@@ -180,7 +180,7 @@
 				<entity name="address" flushWith="record">
 					<choose>
 						<data source="streetAddressVisitor" name="streetAddress" />
-						<data source="str" name="streetAddress">
+						<data source="strasse" name="streetAddress">
 							<not-equals string="NULL"/>
 						</data>
 					</choose>
@@ -198,7 +198,7 @@
 						<data source="localityVisitor" name="type">
 							<constant value="PostalAddress" />
 						</data>
-						<data source="str" name="type">
+						<data source="strasse" name="type">
 							<not-equals string="NULL"/>
 							<constant value="PostalAddress" />
 						</data>
@@ -210,7 +210,7 @@
 					</data>
 					<choose>
 						<data source="openingHoursVisitor" name="description" />
-						<data source="oef" name="description" />
+						<data source="oeffnungszeiten" name="description" />
 					</choose>
 					<data source="openingCommentVisitor" name="comment" />
 				</entity>
@@ -324,7 +324,7 @@
 			</entity>
 		</entity>
 
-		<data source="isil" name="@wikidataMap">
+		<data source="isigel" name="@wikidataMap">
 			<lookup in="isil2wikidata_map" />
 		</data>
 		<entity name="alternateName[]" flushWith="record">
@@ -344,7 +344,7 @@
 					<occurrence only="1" />
 				</data>
 			</combine>
-			<data source="isil" name="sameAs">
+			<data source="isigel" name="sameAs">
 				<regexp match="(.*)"
 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
 				<occurrence only="1" />
