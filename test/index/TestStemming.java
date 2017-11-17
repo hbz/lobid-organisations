@@ -27,9 +27,9 @@ public class TestStemming extends ElasticsearchTest {
 	public static Collection<Object[]> data() {
 		// @formatter:off
 		return Arrays.asList(new Object[][] {
-			{ "_all", "köln", /*->*/ 3 },
-			{ "_all", "koeln", /*->*/ 3 },
-			{ "_all", "koln", /*->*/ 3 },
+			{ "_all", "köln", /*->*/ 2 },
+			{ "_all", "koeln", /*->*/ 2 },
+			{ "_all", "koln", /*->*/ 2 },
 			{ "name", "köln", /*->*/ 1 },
 			{ "name", "koeln", /*->*/ 1 },
 			{ "name", "koln", /*->*/ 1 },
@@ -42,11 +42,11 @@ public class TestStemming extends ElasticsearchTest {
 			{ "fundertype.label.de", "Körperschaft", /*->*/ 2 },
 			{ "fundertype.label.de", "Koerperschaft", /*->*/ 2 },
 			{ "fundertype.label.de", "Korperschaft", /*->*/ 2 },
-			{ "_all", "straße", /*->*/ 2 },
-			{ "_all", "strasse", /*->*/ 2 },
-			{ "name", "Preußischer", /*->*/ 1 },
-			{ "name", "Preussischer", /*->*/ 1 },
-			{ "name", "preuss", /*->*/ 1 }});
+			{ "_all", "straße", /*->*/ 1 },
+			{ "_all", "strasse", /*->*/ 1 },
+			{ "name", "Preußischer", /*->*/ 2 },
+			{ "name", "Preussischer", /*->*/ 2 },
+			{ "name", "preuss", /*->*/ 2 }});
 	} // @formatter:on
 
 	private String field;
