@@ -263,7 +263,7 @@
 		</entity>
 
 		<!-- Determine classification, fundertype, and stocksize ID, loop back '@' -->
-		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_text" dbs-lookup="libtype_value_to_id_map"
+		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_id" dbs-lookup="libtype_value_to_id_map"
 			uri-base="http://purl.org/lobid/libtype#n${1}" output-name="@classificationId"/>
 		<call-macro name="make-id" isil-field="035E.g" dbs-field="utr_id" dbs-lookup="fundertype_value_to_id_map"
 			uri-base="http://purl.org/lobid/fundertype#n${1}" output-name="@fundertypeId"/>
