@@ -75,7 +75,7 @@ public class TestTransformAll {
 						.as("transformation output with preferred Sigel data")
 						.contains("Hauptabteilung")//
 						.as("transformation output containing DBS data")
-						.contains("Grundschule");
+						.contains("Roemer-Museum");
 	}
 
 	@Test
