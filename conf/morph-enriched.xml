@@ -99,11 +99,11 @@
 		<call-macro name="url-group" group_name="url" dbs_field="url" sigel_code="A"/>
 		<call-macro name="url-group" group_name="provides" dbs_field="opac" sigel_code="B"/>
 		
-		<data source="isigel" name="isil"/>
+		<data source="isil" name="isil"/>
 		<data source="inr" name="dbsID"/>
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
 		<choose>
-			<data source="isigel" name="id">
+			<data source="isil" name="id">
 				<regexp match="(.*)" format="http://lobid.org/organisations/${1}#!" />
 			</data>
 			<combine name="id" value="http://lobid.org/organisations/DBS-${inr}#!">
