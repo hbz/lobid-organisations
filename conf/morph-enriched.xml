@@ -140,7 +140,7 @@
 		</entity>
 		
 		<!-- Lookup fields for visitor and other address -->
-		<combine name="@geoLookupDbs" value="${str}_${plz}_${ort}_${land}" flushWith="record">
+		<combine name="@geoLookupDbs" value="${strasse}_${plz}_${ort}_${land}" flushWith="record">
 			<if>
 				<all>
 					<data source="addressCountry"> <not-equals string=""/> </data>
@@ -158,7 +158,7 @@
 		<!-- Locations -->
 		<entity name="location[]" flushWith="record">
 			<entity name="place" flushWith="record">
-				<data source="localityVisitor|str" name="type">
+				<data source="localityVisitor|strasse" name="type">
 					<regexp match="(.*)" format="Place" />
 				</data>
 				<data source="descriptionVisitor" name="description"/>
