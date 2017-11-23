@@ -15,6 +15,7 @@
 		<data source="isil" name="isil">
 			<not-equals string="NULL"/>
 			<replace  pattern=" " with=""/>
+			<not-equals string=""/>
 			<replace  pattern="/" with="-"/>
 			<urlencode/>
 		</data>

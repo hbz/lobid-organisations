@@ -11,7 +11,7 @@
 					</record>
 					<record id="2">
 						<literal name="inr" value="xyz456" />
-						<literal name="isil" value="de-789" />
+						<literal name="isil" value=" " />
 						<literal name="iso" value="DEU" />
 					</record>
 					<record id="3">
@@ -35,7 +35,6 @@
 					<record id="2">
 						<literal name="_id" value="xyz456" />
 						<literal name="inr" value="xyz456" />
-						<literal name="isil" value="de-789" />
 						<literal name="addressCountry" value="DE" />
 					</record>
 					<record id="3">
