@@ -48,9 +48,6 @@
 						<literal name="opac" value="http://example.org/ opac" />
 					</record>
 					<record id="de-123">
-						<literal name="ema" value="some.one@example.com" />
-						<literal name="tvw" value="-221" />
-						<literal name="tel" value="123" />
 						<literal name="gvz_id" value="100460000000" />
 						<entity name="009Q">
 							<literal name="u" value="http://example.org " />
@@ -196,10 +193,6 @@
 						</entity>
 					</record>
 					<record id="de-123">
-						<!-- Disabled for privacy reasons, see https://github.com/hbz/lobid-organisations/issues/111
-						<literal name="telephone" value="0221 123" />
-						<literal name="email" value="mailto:some.one@example.com" />
-						 -->
 						 <literal name="rs" value="100460000000" />
 						 <literal name="url" value="http://example.org" />
 						 <literal name="provides" value="http://www.example.org/opac" />
