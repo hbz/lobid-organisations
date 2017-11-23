@@ -601,19 +601,22 @@
 			<entry value="http://purl.org/lobid/stocksize#n11" name="11" />
 		</map>
 		<map name="libtype_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
-			<entry value="http://purl.org/lobid/libtype#n11" name="20" />
-			<entry value="http://purl.org/lobid/libtype#n15" name="21" />
-			<entry value="http://purl.org/lobid/libtype#n21" name="22" />
-			<entry value="http://purl.org/lobid/libtype#n33" name="14" />
-			<entry value="http://purl.org/lobid/libtype#n36" name="19" />
-			<entry value="http://purl.org/lobid/libtype#n36" name="16" />
-			<entry value="http://purl.org/lobid/libtype#n36" name="18" />
-			<entry value="http://purl.org/lobid/libtype#n65" name="23" />
-			<entry value="http://purl.org/lobid/libtype#n73" name="24" />
-			<entry value="http://purl.org/lobid/libtype#n81" name="25" />
-			<entry value="http://purl.org/lobid/libtype#n81" name="17" />
-			<entry value="http://purl.org/lobid/libtype#n88" name="15" />
-			<entry value="http://purl.org/lobid/libtype#n91" name="26" />
+			<entry value="http://purl.org/lobid/libtype#n11" name="11" />
+			<entry value="http://purl.org/lobid/libtype#n15" name="15" />
+			<entry value="http://purl.org/lobid/libtype#n21" name="21" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="30" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="51" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="52" />
+			<entry value="http://purl.org/lobid/libtype#n36" name="53" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="54" />
+			<entry value="http://purl.org/lobid/libtype#n36" name="55" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="56" />
+			<entry value="http://purl.org/lobid/libtype#n36" name="58" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="59" />
+			<entry value="http://purl.org/lobid/libtype#n60" name="60" />
+			<entry value="http://purl.org/lobid/libtype#n70" name="70" />
+			<entry value="http://purl.org/lobid/libtype#n81" name="80" />
+			<entry value="http://purl.org/lobid/libtype#n91" name="91" />
 		</map>
 	</maps>
 </metamorph>
