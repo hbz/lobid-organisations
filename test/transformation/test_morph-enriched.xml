@@ -40,7 +40,7 @@
 						<literal name="009Q.z" value="B" />
 					</record>
 					<record id="de-10">
-						<literal name="typ_id" value="24" />
+						<literal name="typ_id" value="70" />
 						<literal name="utr_id" value="2" />
 						<literal name="bestandsgroessenklasse_id" value="10" />
 						<literal name="gvz_id" value="10510011011" />
@@ -168,11 +168,11 @@
 						<literal name="url" value="http://example.org" />
 						<literal name="provides" value="http://example.org/opac" />
 						<entity name="classification">
-							<literal name="id" value="http://purl.org/lobid/libtype#n73" />
+							<literal name="id" value="http://purl.org/lobid/libtype#n70" />
 							<literal name="type" value="Concept" />
 							<entity name="label">
-								<literal name="de" value="Abteilungsbibliothek, Fachbereichsbibliothek (Hochschule, nicht Universität)" />
-								<literal name="en" value="College's Departement Library, Faculty Library (not University)" />
+								<literal name="de" value="Zentrale Hochschulbibliothek, nicht Universität" />
+								<literal name="en" value="Central Academic Library, not University" />
 							</entity>
 						</entity>
 						<entity name="fundertype">
