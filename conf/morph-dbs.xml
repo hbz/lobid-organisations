@@ -12,7 +12,7 @@
 		<data source="inr" name="inr">
 			<replace  pattern=" "  with=""/>
 		</data>
-		<data source="isigel" name="isil">
+		<data source="isil" name="isil">
 			<not-equals string="NULL"/>
 			<replace  pattern=" " with=""/>
 			<replace  pattern="/" with="-"/>

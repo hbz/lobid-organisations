@@ -1,4 +1,4 @@
-inr,iso,typ_id,nam,plz,ort,strasse,gvz_id,isigel,fax,url,opac,oeffnungszeiten,bestandsgroessenklasse_id,sortiername,postfach,fachstelle_inr,dbv_id,utr_id
+inr,iso,typ_id,nam,plz,ort,strasse,gvz_id,isil,fax,url,opac,oeffnungszeiten,bestandsgroessenklasse_id,sortiername,postfach,fachstelle_inr,dbv_id,utr_id
 AA009,DEU,60,"Universitätsbibliothek Greifswald",17489,Greifswald,"Felix-Hausdorff-Str. 10",130750039039,DE-9,"(03834) 86 15 01",http://www.uni-greifswald.de/bibliothek/html,http://www.ub.uni-greifswald.de:2324/,"Mo-Fr.: 8-24, Sa: 9-24 Uhr",10,"Greifswald UB",NULL,,4,2
 AA022,DEU,21,"Staatsbibliothek Bamberg ",96049,Bamberg,"Neue Residenz, Domplatz 8",094610000000,NULL,"(0951) 9 55 03 - 145",https://www.staatsbibliothek-bamberg.de,https://katalog.ub.uni-bamberg.de,"Mo - Fr 9:00 - 17:00 Uhr, Sa 9:00 - 12:00 Uhr (im August Sa geschlossen)",9,"Bamberg SB",NULL,,4,2
 AA034,DEU,60,"Universitätsbibliothek Kassel - Landesbibliothek und Murhardsche Bibliothek der Stadt Kassel",34127,Kassel,"Diagonale 10",066110000000,DE-34,"(0561) 8 04-2125",http://www.uni-kassel.de/ub,https://hds.hebis.de/ubks,"Mo - Fr 8 bis 23 Uhr. Sa u. So 10 bis 21 Uhr",10,"Kassel UB",NULL,,4,2

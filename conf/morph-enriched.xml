@@ -309,7 +309,7 @@
 			</entity>
 		</entity>
 
-		<data source="isigel" name="@wikidataMap">
+		<data source="isil" name="@wikidataMap">
 			<lookup in="isil2wikidata_map" />
 		</data>
 		<entity name="alternateName[]" flushWith="record">
@@ -329,7 +329,7 @@
 					<occurrence only="1" />
 				</data>
 			</combine>
-			<data source="isigel" name="sameAs">
+			<data source="isil" name="sameAs">
 				<regexp match="(.*)"
 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
 				<occurrence only="1" />
