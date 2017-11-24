@@ -23,8 +23,8 @@ public class TransformDbs {
 		final FileOpener opener = new FileOpener();
 		StreamToTriples streamToTriples = new StreamToTriples();
 		streamToTriples.setRedirect(true);
-		opener.setEncoding("ISO-8859-1");
-		final CsvDecoder decoder = new CsvDecoder(';');
+		opener.setEncoding("UTF-8");
+		final CsvDecoder decoder = new CsvDecoder(',');
 		decoder.setHasHeader(true);
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id

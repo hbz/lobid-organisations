@@ -70,10 +70,10 @@
 			</choose>
 		</combine>
 		<choose name="rs">
-			<data source="stk_2007">
+			<data source="gvz_id">
 				<regexp match="\d{12}" />
 			</data>
-			<data source="stk_2007">
+			<data source="gvz_id">
 				<regexp match="(\d{11})" format="0${1}"/>
 			</data>
 			<data source="032P.n">
@@ -97,7 +97,7 @@
 		</group>
 		
 		<call-macro name="url-group" group_name="url" dbs_field="url" sigel_code="A"/>
-		<call-macro name="url-group" group_name="provides" dbs_field="opa" sigel_code="B"/>
+		<call-macro name="url-group" group_name="provides" dbs_field="opac" sigel_code="B"/>
 		
 		<data source="isil" name="isil"/>
 		<data source="inr" name="dbsID"/>
@@ -120,26 +120,11 @@
 				<data source="prefix" name="prefix" />
 				<data source="phone" name="phonenr" />
 			</combine>
-			<!-- Disabled for privacy reasons, see https://github.com/hbz/lobid-organisations/issues/111
-			<combine value="0${prefix} ${phonenr}" name="telephone" sameEntity="true">
-				<data source="tvw" name="prefix">
-					<regexp match="\d*"/>
-				</data>
-				<data source="tel" name="phonenr">
-					<not-equals string="NULL" />
-				</data>
-			</combine>
-			 -->
 		</choose>
 		<choose>
 			<data source="email" name="email">
 				<regexp match="(.*)" format="mailto:${1}" />
 			</data>
-			<!-- Disabled for privacy reasons, see https://github.com/hbz/lobid-organisations/issues/111
-			<data source="ema" name="email">
-				<regexp match="(.*)" format="mailto:${1}" />
-			</data>
-			 -->
 		</choose>
 		
 		<!-- Mailing address -->
@@ -155,17 +140,17 @@
 		</entity>
 		
 		<!-- Lookup fields for visitor and other address -->
-		<combine name="@geoLookupDbs" value="${str}_${plz}_${ort}_${land}" flushWith="record">
+		<combine name="@geoLookupDbs" value="${strasse}_${plz}_${ort}_${land}" flushWith="record">
 			<if>
 				<all>
 					<data source="addressCountry"> <not-equals string=""/> </data>
-					<data source="str"> <not-equals string=""/> </data>
+					<data source="strasse"> <not-equals string=""/> </data>
 					<data source="ort"> <not-equals string=""/> </data>
 					<data source="plz"> <not-equals string=""/> </data>
 				</all>
 			</if>
 			<data source="addressCountry" name="land"/>
-			<data source="str" name="str" />
+			<data source="strasse" name="strasse" />
 			<data source="ort" name="ort" />
 			<data source="plz" name="plz" />
 		</combine>	
@@ -173,14 +158,14 @@
 		<!-- Locations -->
 		<entity name="location[]" flushWith="record">
 			<entity name="place" flushWith="record">
-				<data source="localityVisitor|str" name="type">
+				<data source="localityVisitor|strasse" name="type">
 					<regexp match="(.*)" format="Place" />
 				</data>
 				<data source="descriptionVisitor" name="description"/>
 				<entity name="address" flushWith="record">
 					<choose>
 						<data source="streetAddressVisitor" name="streetAddress" />
-						<data source="str" name="streetAddress">
+						<data source="strasse" name="streetAddress">
 							<not-equals string="NULL"/>
 						</data>
 					</choose>
@@ -198,7 +183,7 @@
 						<data source="localityVisitor" name="type">
 							<constant value="PostalAddress" />
 						</data>
-						<data source="str" name="type">
+						<data source="strasse" name="type">
 							<not-equals string="NULL"/>
 							<constant value="PostalAddress" />
 						</data>
@@ -210,7 +195,7 @@
 					</data>
 					<choose>
 						<data source="openingHoursVisitor" name="description" />
-						<data source="oef" name="description" />
+						<data source="oeffnungszeiten" name="description" />
 					</choose>
 					<data source="openingCommentVisitor" name="comment" />
 				</entity>
@@ -263,11 +248,11 @@
 		</entity>
 
 		<!-- Determine classification, fundertype, and stocksize ID, loop back '@' -->
-		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_text" dbs-lookup="libtype_value_to_id_map" 
+		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_id" dbs-lookup="libtype_value_to_id_map"
 			uri-base="http://purl.org/lobid/libtype#n${1}" output-name="@classificationId"/>
-		<call-macro name="make-id" isil-field="035E.g" dbs-field="utr_text" dbs-lookup="fundertype_value_to_id_map" 
+		<call-macro name="make-id" isil-field="035E.g" dbs-field="utr_id" dbs-lookup="fundertype_value_to_id_map"
 			uri-base="http://purl.org/lobid/fundertype#n${1}" output-name="@fundertypeId"/>
-		<call-macro name="make-id" isil-field="035E.h" dbs-field="gro_text" dbs-lookup="stocksize_value_to_id_map" 
+		<call-macro name="make-id" isil-field="035E.h" dbs-field="bestandsgroessenklasse_id" dbs-lookup="stocksize_value_to_id_map"
 			uri-base="http://purl.org/lobid/stocksize#n${1}" output-name="@stocksizeId"/>
 
 		<!-- Use classification, fundertype, and stocksize ID for labels -->
@@ -574,47 +559,49 @@
 			<entry name="http://purl.org/lobid/libtype#n98" value="Service Institution" />
 		</map>
 		<map name="fundertype_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
-			<entry value="http://purl.org/lobid/fundertype#n01" name="Bundesrepublik Deutschland" />
-			<entry value="http://purl.org/lobid/fundertype#n02" name="Land" />
-			<entry value="http://purl.org/lobid/fundertype#n03" name="Kreis" />
-			<entry value="http://purl.org/lobid/fundertype#n04" name="Kommune/Gemeinde" />
-			<entry value="http://purl.org/lobid/fundertype#n05" name="Sonstige Gebietskörperschaft" />
-			<entry value="http://purl.org/lobid/fundertype#n06" name="Sonstige öffentliche Trägerschaft" />
-			<entry value="http://purl.org/lobid/fundertype#n07" name="Körperschaft/Stiftung des öff. Rechts" />
-			<entry value="http://purl.org/lobid/fundertype#n08" name="Körperschaft/Stiftung des priv. Rechts" />
-			<entry value="http://purl.org/lobid/fundertype#n09" name="Ev. Kirche" />
-			<entry value="http://purl.org/lobid/fundertype#n10" name="Kath. Kirche" />
-			<entry value="http://purl.org/lobid/fundertype#n11" name="Sonstige Religionsgemeinschaften" />
-			<entry value="http://purl.org/lobid/fundertype#n12" name="Private Trägerschaft" />
-			<entry value="http://purl.org/lobid/fundertype#n13" name="Ausländische Trägerschaft" />
+			<entry value="http://purl.org/lobid/fundertype#n01" name="1" />
+			<entry value="http://purl.org/lobid/fundertype#n02" name="2" />
+			<entry value="http://purl.org/lobid/fundertype#n03" name="3" />
+			<entry value="http://purl.org/lobid/fundertype#n04" name="4" />
+			<entry value="http://purl.org/lobid/fundertype#n06" name="5" />
+			<entry value="http://purl.org/lobid/fundertype#n07" name="6" />
+			<entry value="http://purl.org/lobid/fundertype#n08" name="7" />
+			<entry value="http://purl.org/lobid/fundertype#n09" name="8" />
+			<entry value="http://purl.org/lobid/fundertype#n10" name="9" />
+			<entry value="http://purl.org/lobid/fundertype#n11" name="10" />
+			<entry value="http://purl.org/lobid/fundertype#n12" name="11" />
+			<entry value="http://purl.org/lobid/fundertype#n13" name="12" />
 		</map>
 		<map name="stocksize_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
-			<entry value="http://purl.org/lobid/stocksize#n01" name="bis 1.000" />
-			<entry value="http://purl.org/lobid/stocksize#n02" name="1.001 - 2.000" />
-			<entry value="http://purl.org/lobid/stocksize#n03" name="2.001 - 3.000" />
-			<entry value="http://purl.org/lobid/stocksize#n04" name="3.001 - 5.000" />
-			<entry value="http://purl.org/lobid/stocksize#n05" name="5.001 - 10.000" />
-			<entry value="http://purl.org/lobid/stocksize#n06" name="10.001 - 30.000" />
-			<entry value="http://purl.org/lobid/stocksize#n07" name="30.001 - 100.000" />
-			<entry value="http://purl.org/lobid/stocksize#n08" name="100.001 - 300.000" />
-			<entry value="http://purl.org/lobid/stocksize#n09" name="300.001 - 1.000.000" />
-			<entry value="http://purl.org/lobid/stocksize#n10" name="1.000.001 und mehr" />
-			<entry value="http://purl.org/lobid/stocksize#n11" name="Zentrale ohne Bestand" />
+			<entry value="http://purl.org/lobid/stocksize#n01" name="1" />
+			<entry value="http://purl.org/lobid/stocksize#n02" name="2" />
+			<entry value="http://purl.org/lobid/stocksize#n03" name="3" />
+			<entry value="http://purl.org/lobid/stocksize#n04" name="4" />
+			<entry value="http://purl.org/lobid/stocksize#n05" name="5" />
+			<entry value="http://purl.org/lobid/stocksize#n06" name="6" />
+			<entry value="http://purl.org/lobid/stocksize#n07" name="7" />
+			<entry value="http://purl.org/lobid/stocksize#n08" name="8" />
+			<entry value="http://purl.org/lobid/stocksize#n09" name="9" />
+			<entry value="http://purl.org/lobid/stocksize#n10" name="10" />
+			<entry value="http://purl.org/lobid/stocksize#n11" name="11" />
 		</map>
 		<map name="libtype_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
-			<entry value="http://purl.org/lobid/libtype#n11" name="Nationalbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n15" name="Zentrale Fachbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n21" name="Regionalbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n33" name="Öffentliche Bibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n36" name="Blindenbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n36" name="Patientenbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n36" name="Gefangenenbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n60" name="Universitätsbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n73" name="Fach-/Hochschulbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n81" name="Spezialbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n81" name="Musikbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n88" name="Ergänzungsbibliothek" />
-			<entry value="http://purl.org/lobid/libtype#n91" name="Fachstelle für Bibliotheken" />
+			<entry value="http://purl.org/lobid/libtype#n11" name="11" />
+			<entry value="http://purl.org/lobid/libtype#n15" name="15" />
+			<entry value="http://purl.org/lobid/libtype#n21" name="21" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="30" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="51" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="52" />
+			<entry value="http://purl.org/lobid/libtype#n36" name="53" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="54" />
+			<entry value="http://purl.org/lobid/libtype#n36" name="55" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="56" />
+			<entry value="http://purl.org/lobid/libtype#n36" name="58" />
+			<entry value="http://purl.org/lobid/libtype#n33" name="59" />
+			<entry value="http://purl.org/lobid/libtype#n60" name="60" />
+			<entry value="http://purl.org/lobid/libtype#n70" name="70" />
+			<entry value="http://purl.org/lobid/libtype#n81" name="80" />
+			<entry value="http://purl.org/lobid/libtype#n91" name="91" />
 		</map>
 	</maps>
 </metamorph>
