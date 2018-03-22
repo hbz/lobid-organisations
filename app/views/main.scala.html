@@ -17,6 +17,8 @@
 <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/main.css")'>
 <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/maki-min.css")'>
 <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
+<script src='@controllers.routes.Assets.at("javascripts/jquery-1.10.2.min.js")'></script>
+<script src='@controllers.routes.Assets.at("javascripts/bootstrap.min.js")'></script>
 </head>
 <body>
 	<div class="container">
@@ -31,7 +33,7 @@
 						<span class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="/">
-						<span><img id="butterfly" src='@routes.Assets.at("images/butterfly.png")' height="50px" /></span> lobid
+						<span><img id="butterfly" src='@routes.Assets.at("images/lobid.png")'/></span>
 					</a>
 				</div>
 				<div class="navbar-collapse collapse" id="organisations-nav">
@@ -82,8 +84,6 @@
 			</div>
 		</div>
 	</div>
-	<script src='@controllers.routes.Assets.at("javascripts/jquery-1.10.2.min.js")'></script>
-	<script src='@controllers.routes.Assets.at("javascripts/bootstrap.min.js")'></script>
 	@scripts
 	<script>
 		function postPosition(lat, lon) {
