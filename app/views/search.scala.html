@@ -58,7 +58,7 @@
 	@defining((jsonResponse\"member").as[Seq[JsValue]]) { orgs => @if(orgs.size > 0) {
 	<div class="row" id="search-results">
 		<div class="col-md-2">
-		<div id='location-facet-loading'><span class="label label-info">@Messages.get("search.loading_locations")</span></div>
+		<div id='location-facet-loading'><span class="label label-primary">@Messages.get("search.loading_locations")</span></div>
 		<div style='display:none;' id='location-facet'>
 		<h4>@Messages.get("search.location") @if(!location.isEmpty){
 		<a href='@routes.Application.search()?from=@from&size=@size&q=@q'>
@@ -78,8 +78,45 @@
 				@(from+1)&mdash;@(Math.min(totalResults, from+size))
 				@if(totalResults > from+size){<a href='@routes.Application.search(q=q, from=from+size, location=location)'>@Messages.get("search.next") &RightArrow;</a>}
 				@if(play.mvc.Controller.session("position") != null){ | <a href="@routes.Application.removePosition()">
-				<span class="badge">@Messages.get("search.position_sort") <span class="glyphicon glyphicon-remove"></span></span>
-				</a>}
+				<span class="label label-primary">@Messages.get("search.position_sort") <span class="glyphicon glyphicon-remove"></span></span>
+				</a>} else {
+				<script>
+					function postPosition(lat, lon) {
+						var url = '/organisations/position?lat=' + lat + '&lon=' + lon;
+						$.ajax({
+							url: url,
+							type: 'POST',
+							success: function(data, textStatus, jqXHR) {
+								console.log('Success, server response: ' + data);
+								location.reload();
+							},
+							error: function(jqXHR, textStatus, errorThrown) {
+								console.log('Error, status: ' +textStatus + ", thrown: " + errorThrown);
+							}
+						});
+					}
+					function locate() {
+						var options = {
+							maximumAge: 5 * 60 * 1000,
+							timeout: 10 * 1000
+						}
+						var success = function(position) {
+							console.log("Found location: " + position.coords);
+							postPosition(position.coords.latitude, position.coords.longitude);
+						};
+						var error = function(error) {
+							console.log(error);
+							console.log('Could not look up location');
+						};
+						@if(play.mvc.Controller.session("position") == null) {
+							if (navigator.geolocation) {
+								navigator.geolocation.getCurrentPosition(success, error, options);
+							}
+						}
+					};
+				</script>
+				&nbsp;|&nbsp;<a href="javascript:void(0)" onclick="locate()">@Messages.get("search.position_sort")</a>
+				}
 			}
 			</p>
 			<p>
