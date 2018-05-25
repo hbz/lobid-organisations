@@ -16,6 +16,7 @@ main.navbar.api.title = Application programming interface
 
 main.footer.text = a LOD service by <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
 main.footer.imprint = Imprint
+main.footer.data_protection = Privacy
 
 # index
 

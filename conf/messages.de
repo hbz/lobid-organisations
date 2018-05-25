@@ -16,6 +16,7 @@ main.navbar.api.title = Programmierschnittstelle
 
 main.footer.text = ein LOD-Dienst des <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
 main.footer.imprint = Impressum
+main.footer.data_protection = Datenschutz
 
 # index
 
