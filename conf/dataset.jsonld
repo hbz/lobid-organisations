@@ -90,6 +90,19 @@
       "hbz"
     ]
   },
+  "isBasedOn":[
+    {
+      "id":"http://www.wikidata.org/entity/Q28657655",
+      "type":"Dataset",
+      "name":"Sigelverzeichnis im PicaPlus-XML-Format",
+      "license":"https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "label":"Stammdaten der Deutschen Bibliotheksstatistik",
+      "type":"Dataset",
+      "isPartOf": "http://www.wikidata.org/entity/Q1202218"
+    }
+  ],
   "distribution": [
     {
       "id": "http://lobid.org/organisations/search",
@@ -109,8 +122,8 @@
         "application/ld+json"
       ],
       "rights": {
-          "en": "The source data sets currently don't fully fall under an open license. While the ISIL data are <a href=\"http://www.dnb.de/dataservice\">available</a> from the German National Library (DNB) under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>, the DBS data is currently not openly licensed. Thus, unfortunately lobid-organisations data can not be provided under an open license yet.",
-          "de": "Die Quelldaten sind derzeit leider nicht vollständig offen lizenziert. Zwar werden die ISIL-Daten werden von der Deutschen Nationalbibliothek (DNB) unter einer <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>-Lizenz <a href=\"http://www.dnb.de/datendienst\">bereitgestellt</a>, für die DBS-Stammdaten gibt es derzeit aber keine offene Lizenzierung. Somit können die lobid-organisations-Daten leider noch nicht mit einer offenen Lizenz versehen werden."
+          "en": "The source data sets currently don't fully fall under an open license. While the ISIL data are <a href=\"http://www.dnb.de/dataservice\">available</a> from the German National Library (DNB) under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>, the DBS data is currently not openly licensed. Thus, unfortunately lobid-organisations data can not be provided under an open license.",
+          "de": "Die Quelldaten sind derzeit leider nicht vollständig offen lizenziert. Zwar werden die ISIL-Daten werden von der Deutschen Nationalbibliothek (DNB) unter einer <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>-Lizenz <a href=\"http://www.dnb.de/datendienst\">bereitgestellt</a>, für die DBS-Stammdaten gibt es derzeit aber keine offene Lizenzierung. Somit können die lobid-organisations-Daten leider nicht mit einer offenen Lizenz versehen werden."
       }
     }
   ]
