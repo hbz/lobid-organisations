@@ -11,19 +11,24 @@
       "@id": "http://purl.org/dc/elements/1.1/rights",
       "@container": "@language"
       },
+    "name":{
+       "@container":"@language"
+    },
     "alternateName": {
       "@container": "@language"
     },
     "description": {
       "@container": "@language"
     },
-    "Distribution": "http://www.w3.org/ns/dcat#Distribution",
-    "accessURL": "http://www.w3.org/ns/dcat#accessURL",
-    "mediaType": "http://www.w3.org/ns/dcat#mediaType"
+    "Concept": "http://www.w3.org/2004/02/skos/core#Concept"
+
   },
   "id": "http://lobid.org/organisations/dataset#!",
   "type": "Dataset",
-  "name": "lobid-organisations",
+  "name": {
+    "de": "lobid-organisations",
+    "en": "lobid-organisations"
+  },
   "alternateName": {
     "de": "Gedächtnisinstitutionen im deutschsprachigen Raum",
     "en": "Memory institutions in German-speaking countries"
@@ -42,6 +47,7 @@
   "spatial": [
     {
       "id": "http://www.wikidata.org/entity/Q183",
+      "type": "Place",
       "name": {
         "de": "Deutschland",
         "en": "Germany"
@@ -49,6 +55,7 @@
     },
     {
       "id": "http://www.wikidata.org/entity/Q39",
+      "type": "Place",
       "name": {
         "de": "Schweiz",
         "en": "Switzerland"
@@ -56,6 +63,7 @@
     },
     {
       "id": "http://www.wikidata.org/entity/Q40",
+      "type": "Place",
       "name": {
         "de": "Österreich",
         "en": "Austria"
@@ -66,6 +74,7 @@
   "contactPoint": "http://lobid.org/contact",
   "accrualPeriodicity": {
     "id": "http://purl.org/linked-data/sdmx/2009/code#freq-B",
+    "type": "Concept",
     "name": {
       "en": "Daily - business week",
       "de": "Täglich (werktags)"
@@ -77,6 +86,7 @@
   ],
   "publisher": {
     "id": "http://lobid.org/organisations/DE-605#!",
+    "type": "Organization",
     "name": {
       "de": "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen",
       "en": "North Rhine-Westphalian Library Service"
@@ -89,13 +99,26 @@
     {
       "id":"http://www.wikidata.org/entity/Q28657655",
       "type":"Dataset",
-      "name":"Sigelverzeichnis im PicaPlus-XML-Format",
+      "name":{
+        "de": "Sigelverzeichnis im PicaPlus-XML-Format",
+        "en": "ISIL registry in format PicaPlus XML"
+      },
       "license":"https://creativecommons.org/publicdomain/zero/1.0/"
     },
     {
-      "name":"Stammdaten der Deutschen Bibliotheksstatistik",
+      "name":{
+        "de": "Stammdaten der Deutschen Bibliotheksstatistik (DBS)",
+        "en": "Master data of the German and Austrian Library Statistics (DBS)"
+      },
       "type":"Dataset",
-      "isPartOf": "http://www.wikidata.org/entity/Q1202218"
+      "isPartOf": {
+        "id": "http://www.wikidata.org/entity/Q1202218",
+        "type": "Dataset",
+        "name":{
+          "de": "Deutsche und Österreichische Bibliotheksstatistik (DBS)",
+          "en": "German and Austrian Library Statistics"
+        },
+        }
     }
   ],
   "distribution": [
@@ -110,9 +133,9 @@
         "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP). For documentation see <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>",
         "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/de\">http://lobid.org/organisations/api/de</a>.</p>"
       },
-      "accessURL": "http://lobid.org/organisations/search",
+      "url": "http://lobid.org/organisations/search",
       "documentation": "http://lobid.org/organisations/api",
-      "mediaType": [
+      "encodingFormat": [
         "text/csv",
         "application/json",
         "application/ld+json"
