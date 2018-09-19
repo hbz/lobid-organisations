@@ -13,7 +13,7 @@
 		<tr>
 			<td>@Messages.get("dataset.title")</td>
 			<td><a href='@json.get("id").asText()'>
-				@json.get("name").asText()
+				@json.get("name").get(Application.currentLang()).asText() &mdash; @json.get("alternateName").get(Application.currentLang()).asText()
 			</a></td>
 		</tr>
 		<tr><td>@Messages.get("dataset.description")</td><td>@Html(json.get("description").get(Application.currentLang()).asText())</td></tr>
@@ -48,9 +48,10 @@
 		<tr><th width="20%"/><th width="80%"/></tr>
 		<tr><td>@Messages.get("dataset.distribution.title")</td><td>@dist.get("name").get(Application.currentLang()).asText()</td></tr>
 		<tr><td>@Messages.get("dataset.distribution.description")</td><td>@Html(dist.get("description").get(Application.currentLang()).asText())</td></tr>
-		<tr><td>@Messages.get("dataset.distribution.url")</td><td><a href='@dist.get("accessURL").asText()'>@dist.get("accessURL").asText()</a></td></tr>
+		<tr><td>@Messages.get("dataset.distribution.documentation")</td><td><a href='@dist.get("documentation").asText()'>@Html(dist.get("documentation").asText())</a></td></tr>
+		<tr><td>@Messages.get("dataset.distribution.url")</td><td><a href='@dist.get("url").asText()'>@dist.get("url").asText()</a></td></tr>
 		<tr><td>@Messages.get("dataset.distribution.license")</td><td>@Html(dist.get("rights").get(Application.currentLang()).asText())</td></tr>
-		<tr><td>@Messages.get("dataset.distribution.media")</td><td>@dist.get("mediaType").toString().replaceAll("\",\"", ", ").replaceAll("[\"\\[\\]]", "")</td></tr>
+		<tr><td>@Messages.get("dataset.distribution.media")</td><td>@dist.get("encodingFormat").toString().replaceAll("\",\"", ", ").replaceAll("[\"\\[\\]]", "")</td></tr>
 	</table>
 	}
 	<script type="application/ld+json">

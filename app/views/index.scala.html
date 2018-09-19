@@ -8,7 +8,7 @@
 @main("") {
 <div class="page-header">
 <img class="media-object nrw-logo pull-right" src="@routes.Assets.at("images/hbz.png")" alt="hbz">
-<h1>@json.get("name").asText()<small> &mdash; @json.get("alternateName").get(Application.currentLang()).asText()</small></h1>
+<h1>@json.get("name").get(Application.currentLang()).asText()<small> &mdash; @json.get("alternateName").get(Application.currentLang()).asText()</small></h1>
 </div>
 <div class="row">
 <div class="col-md-7">

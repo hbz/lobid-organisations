@@ -114,11 +114,11 @@
       "isPartOf": {
         "id": "http://www.wikidata.org/entity/Q1202218",
         "type": "Dataset",
-        "name":{
+        "name": {
           "de": "Deutsche und Österreichische Bibliotheksstatistik (DBS)",
           "en": "German and Austrian Library Statistics"
-        },
         }
+      }
     }
   ],
   "distribution": [
@@ -130,8 +130,8 @@
         "en": "lobid-organisations API"
       },
       "description": {
-        "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP). For documentation see <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>",
-        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/de\">http://lobid.org/organisations/api/de</a>.</p>"
+        "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP).</p>",
+        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP).</p>"
       },
       "url": "http://lobid.org/organisations/search",
       "documentation": "http://lobid.org/organisations/api",

@@ -14,6 +14,9 @@ main.navbar.browse.title = Browse the full organizations directory
 main.navbar.api.link = API
 main.navbar.api.title = Application programming interface
 
+main.navbar.info.dataset = Dataset description
+main.navbar.info.feedback = Feedback about current page
+
 main.footer.text = a LOD service by <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
 main.footer.imprint = Imprint
 main.footer.data_protection = Privacy
@@ -140,9 +143,10 @@ dataset.language = Language
 dataset.frequency = Accrual frequency
 dataset.contact = Contact
 
-dataset.distribution = Distribution
+dataset.distribution = API
 dataset.distribution.title = Title
 dataset.distribution.description = Description
+dataset.distribution.documentation = Documentation
 dataset.distribution.url = URL
 dataset.distribution.license = License
 dataset.distribution.media = Media types

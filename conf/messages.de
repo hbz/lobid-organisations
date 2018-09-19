@@ -14,6 +14,9 @@ main.navbar.browse.title = Das gesamte Organisationsverzeichnis erkunden
 main.navbar.api.link = API
 main.navbar.api.title = Programmierschnittstelle
 
+main.navbar.info.dataset = Datenbeschreibung
+main.navbar.info.feedback = Feedback zur aktuellen Seite
+
 main.footer.text = ein LOD-Dienst des <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
 main.footer.imprint = Impressum
 main.footer.data_protection = Datenschutz
@@ -129,7 +132,7 @@ organisation.notFound = Eine Organisation mit der ID {0} konnte nicht gefunden w
 
 # dataset
 
-dataset.caption = Datenbeschreibung
+dataset.caption = Daten
 dataset.title = Titel
 dataset.description = Beschreibung
 dataset.keywords = Schlagwörter
@@ -140,9 +143,10 @@ dataset.language = Sprache
 dataset.frequency = Ergänzungsfrquenz
 dataset.contact = Kontakt
 
-dataset.distribution = Datendistribution
+dataset.distribution = API
 dataset.distribution.title = Titel
 dataset.distribution.description = Beschreibung
+dataset.distribution.documentation = Dokumentation
 dataset.distribution.url = URL
 dataset.distribution.license = Lizenz
 dataset.distribution.media = Medientypen
