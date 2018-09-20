@@ -47,8 +47,8 @@
 						<li @if(controllers.Application.currentUri().contains("dataset")){class="active"} class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Info"><span class="glyphicon glyphicon-info-sign"></span><b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href='@routes.Application.dataset("")'>Datenbeschreibung</a></li>
-								<li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20zu%20lobid-organisations,%20aktuelle%20URL%20@controllers.Application.currentUri()">Feedback zur aktuellen Seite</a></li>
+								<li @if(controllers.Application.currentUri().contains("dataset")){class="active"}><a href='@routes.Application.dataset("")'>@Messages.get("main.navbar.info.dataset")</a></li>
+								<li><a href="mailto:semweb@@hbz-nrw.de?subject=Feedback%20lobid-organisations,%20URL%20@controllers.Application.currentUri()">@Messages.get("main.navbar.info.feedback")</a></li>
 							</ul>
 						</li>
 					</ul>

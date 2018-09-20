@@ -13,7 +13,7 @@
 		<tr>
 			<td>@Messages.get("dataset.title")</td>
 			<td><a href='@json.get("id").asText()'>
-				@json.get("name").asText()
+				@json.get("name").get(Application.currentLang()).asText() &mdash; @json.get("alternateName").get(Application.currentLang()).asText()
 			</a></td>
 		</tr>
 		<tr><td>@Messages.get("dataset.description")</td><td>@Html(json.get("description").get(Application.currentLang()).asText())</td></tr>
@@ -24,33 +24,34 @@
 		@defining(json.get("spatial").elements()) { spatial => 
 			@defining((spatial.next(), spatial.next(), spatial.next())) { case (s1, s2, s3) =>
 		<tr><td>@Messages.get("dataset.spatial")</td><td>
-			<a href='@s1.get("id").asText()'>@s1.get("label").get(Application.currentLang()).asText()</a>,
-			<a href='@s2.get("id").asText()'>@s2.get("label").get(Application.currentLang()).asText()</a>,
-			<a href='@s3.get("id").asText()'>@s3.get("label").get(Application.currentLang()).asText()</a>
+			<a href='@s1.get("id").asText()'>@s1.get("name").get(Application.currentLang()).asText()</a>,
+			<a href='@s2.get("id").asText()'>@s2.get("name").get(Application.currentLang()).asText()</a>,
+			<a href='@s3.get("id").asText()'>@s3.get("name").get(Application.currentLang()).asText()</a>
 		</td></tr>
 		}}
 		@defining(json.get("publisher")) { pub =>
 		<tr>
 			<td>@Messages.get("dataset.publisher")</td>
 			<td><a href='@pub.get("id").asText()'>
-				@pub.get("label").get(Application.currentLang()).asText() &mdash; @pub.get("alternateName").elements().next().asText()
+				@pub.get("name").get(Application.currentLang()).asText() &mdash; @pub.get("alternateName").elements().next().asText()
 			</a></td>
 		</tr>
 		}
 		<tr><td>@Messages.get("dataset.date")</td><td>@json.get("datePublished").asText()</td></tr>
 		<tr><td>@Messages.get("dataset.language")</td><td>@json.get("inLanguage").toString().replaceAll("\",\"", ", ").replaceAll("[\"\\[\\]]", "")</td></tr>
-		<tr><td>@Messages.get("dataset.frequency")</td><td>@json.get("accrualPeriodicity").get("label").get(Application.currentLang()).asText()</td></tr>
+		<tr><td>@Messages.get("dataset.frequency")</td><td>@json.get("accrualPeriodicity").get("name").get(Application.currentLang()).asText()</td></tr>
 		<tr><td>@Messages.get("dataset.contact")</td><td><a href='@json.get("contactPoint").asText()'>@json.get("contactPoint").asText()</a></td></tr>
 	</table>
 	<h3>@Messages.get("dataset.distribution")</h3>
 	@defining(json.get("distribution").elements().next()) { dist =>
 	<table class="table table-striped">
 		<tr><th width="20%"/><th width="80%"/></tr>
-		<tr><td>@Messages.get("dataset.distribution.title")</td><td>@dist.get("label").get(Application.currentLang()).asText()</td></tr>
+		<tr><td>@Messages.get("dataset.distribution.title")</td><td>@dist.get("name").get(Application.currentLang()).asText()</td></tr>
 		<tr><td>@Messages.get("dataset.distribution.description")</td><td>@Html(dist.get("description").get(Application.currentLang()).asText())</td></tr>
-		<tr><td>@Messages.get("dataset.distribution.url")</td><td><a href='@dist.get("accessURL").asText()'>@dist.get("accessURL").asText()</a></td></tr>
+		<tr><td>@Messages.get("dataset.distribution.documentation")</td><td><a href='@dist.get("documentation").asText()'>@Html(dist.get("documentation").asText())</a></td></tr>
+		<tr><td>@Messages.get("dataset.distribution.url")</td><td><a href='@dist.get("url").asText()'>@dist.get("url").asText()</a></td></tr>
 		<tr><td>@Messages.get("dataset.distribution.license")</td><td>@Html(dist.get("rights").get(Application.currentLang()).asText())</td></tr>
-		<tr><td>@Messages.get("dataset.distribution.media")</td><td>@dist.get("mediaType").toString().replaceAll("\",\"", ", ").replaceAll("[\"\\[\\]]", "")</td></tr>
+		<tr><td>@Messages.get("dataset.distribution.media")</td><td>@dist.get("encodingFormat").toString().replaceAll("\",\"", ", ").replaceAll("[\"\\[\\]]", "")</td></tr>
 	</table>
 	}
 	<script type="application/ld+json">

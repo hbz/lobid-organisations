@@ -11,9 +11,8 @@
       "@id": "http://purl.org/dc/elements/1.1/rights",
       "@container": "@language"
       },
-    "label": {
-      "@id": "http://www.w3.org/2000/01/rdf-schema#label",
-      "@container": "@language"
+    "name":{
+       "@container":"@language"
     },
     "alternateName": {
       "@container": "@language"
@@ -21,14 +20,15 @@
     "description": {
       "@container": "@language"
     },
-    "distribution": "http://www.w3.org/ns/dcat#distribution",
-    "Distribution": "http://www.w3.org/ns/dcat#Distribution",
-    "accessURL": "http://www.w3.org/ns/dcat#accessURL",
-    "mediaType": "http://www.w3.org/ns/dcat#mediaType"
+    "Concept": "http://www.w3.org/2004/02/skos/core#Concept"
+
   },
   "id": "http://lobid.org/organisations/dataset#!",
   "type": "Dataset",
-  "name": "lobid-organisations",
+  "name": {
+    "de": "lobid-organisations",
+    "en": "lobid-organisations"
+  },
   "alternateName": {
     "de": "Gedächtnisinstitutionen im deutschsprachigen Raum",
     "en": "Memory institutions in German-speaking countries"
@@ -47,21 +47,24 @@
   "spatial": [
     {
       "id": "http://www.wikidata.org/entity/Q183",
-      "label": {
+      "type": "Place",
+      "name": {
         "de": "Deutschland",
         "en": "Germany"
       }
     },
     {
       "id": "http://www.wikidata.org/entity/Q39",
-      "label": {
+      "type": "Place",
+      "name": {
         "de": "Schweiz",
         "en": "Switzerland"
       }
     },
     {
       "id": "http://www.wikidata.org/entity/Q40",
-      "label": {
+      "type": "Place",
+      "name": {
         "de": "Österreich",
         "en": "Austria"
       }
@@ -71,7 +74,8 @@
   "contactPoint": "http://lobid.org/contact",
   "accrualPeriodicity": {
     "id": "http://purl.org/linked-data/sdmx/2009/code#freq-B",
-    "label": {
+    "type": "Concept",
+    "name": {
       "en": "Daily - business week",
       "de": "Täglich (werktags)"
     }
@@ -82,7 +86,8 @@
   ],
   "publisher": {
     "id": "http://lobid.org/organisations/DE-605#!",
-    "label": {
+    "type": "Organization",
+    "name": {
       "de": "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen",
       "en": "North Rhine-Westphalian Library Service"
     },
@@ -90,27 +95,54 @@
       "hbz"
     ]
   },
+  "isBasedOn":[
+    {
+      "id":"http://www.wikidata.org/entity/Q28657655",
+      "type":"Dataset",
+      "name":{
+        "de": "Sigelverzeichnis im PicaPlus-XML-Format",
+        "en": "ISIL registry in format PicaPlus XML"
+      },
+      "license":"https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "name":{
+        "de": "Stammdaten der Deutschen Bibliotheksstatistik (DBS)",
+        "en": "Master data of the German and Austrian Library Statistics (DBS)"
+      },
+      "type":"Dataset",
+      "isPartOf": {
+        "id": "http://www.wikidata.org/entity/Q1202218",
+        "type": "Dataset",
+        "name": {
+          "de": "Deutsche und Österreichische Bibliotheksstatistik (DBS)",
+          "en": "German and Austrian Library Statistics"
+        }
+      }
+    }
+  ],
   "distribution": [
     {
       "id": "http://lobid.org/organisations/search",
-      "type": "Distribution",
-      "label": {
+      "type": "WebAPI",
+      "name": {
         "de": "lobid-organisations-API",
         "en": "lobid-organisations API"
       },
       "description": {
-        "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP). For documentation see <a href=\"http://lobid.org/organisations/api/en\">http://lobid.org/organisations/api/en</a>.</p>",
-        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP). Die Dokumentation befindet sich unter <a href=\"http://lobid.org/organisations/api/de\">http://lobid.org/organisations/api/de</a>.</p>"
+        "en": "<p>The API gives access to machine-readable data (JSON-LD via HTTP).</p>",
+        "de": "<p>Die API bietet Zugriff auf strukturierte Daten (JSON-LD via HTTP).</p>"
       },
-      "accessURL": "http://lobid.org/organisations/search",
-      "mediaType": [
+      "url": "http://lobid.org/organisations/search",
+      "documentation": "http://lobid.org/organisations/api",
+      "encodingFormat": [
         "text/csv",
         "application/json",
         "application/ld+json"
       ],
       "rights": {
-          "en": "The source data sets currently don't fully fall under an open license. While the ISIL data are <a href=\"http://www.dnb.de/dataservice\">available</a> from the German National Library (DNB) under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>, the DBS data is currently not openly licensed. Thus, unfortunately lobid-organisations data can not be provided under an open license yet.",
-          "de": "Die Quelldaten sind derzeit leider nicht vollständig offen lizenziert. Zwar werden die ISIL-Daten werden von der Deutschen Nationalbibliothek (DNB) unter einer <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>-Lizenz <a href=\"http://www.dnb.de/datendienst\">bereitgestellt</a>, für die DBS-Stammdaten gibt es derzeit aber keine offene Lizenzierung. Somit können die lobid-organisations-Daten leider noch nicht mit einer offenen Lizenz versehen werden."
+          "en": "The source data sets currently don't fully fall under an open license. While the ISIL data are <a href=\"http://www.dnb.de/dataservice\">available</a> from the German National Library (DNB) under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>, the DBS data is currently not openly licensed. Thus, unfortunately lobid-organisations data can not be provided under an open license.",
+          "de": "Die Quelldaten sind derzeit leider nicht vollständig offen lizenziert. Zwar werden die ISIL-Daten werden von der Deutschen Nationalbibliothek (DNB) unter einer <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>-Lizenz <a href=\"http://www.dnb.de/datendienst\">bereitgestellt</a>, für die DBS-Stammdaten gibt es derzeit aber keine offene Lizenzierung. Somit können die lobid-organisations-Daten leider nicht mit einer offenen Lizenz versehen werden."
       }
     }
   ]
