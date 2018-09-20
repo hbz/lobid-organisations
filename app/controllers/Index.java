@@ -149,7 +149,14 @@ public class Index extends Controller {
 		if (!aggregations.isEmpty()) {
 			searchRequest = withAggregations(searchRequest, aggregations.split(","));
 		}
-		return searchRequest.execute().actionGet();
+		try {
+			return searchRequest.execute().actionGet();
+		} catch (Throwable t) {
+			Logger.error("Could not execute request: {}, cause: {}", t.getMessage(),
+					t.getCause().getMessage());
+			Logger.debug("Could not execute request", t);
+			return null;
+		}
 	}
 
 	private static QueryBuilder preprocess(QueryBuilder query) {

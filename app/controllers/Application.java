@@ -402,10 +402,10 @@ public class Application extends Controller {
 		results.put("js", () -> {
 			String queryResultString =
 					searchQueryResult(q, location, from, size, "location");
-			String queryMetadata =
-					Json.parse(queryResultString).get("aggregation").toString();
-			JavaScript script =
-					views.js.facet_map.render(queryMetadata, q, location, from, size);
+			JsonNode queryMetadata = Json.parse(queryResultString).get("aggregation");
+			JavaScript script = views.js.facet_map.render(
+					queryMetadata == null ? "{}" : queryMetadata.toString(), q, location,
+					from, size);
 			return ok(script).as("application/javascript; charset=utf-8");
 		});
 		results.put("csv", () -> {
@@ -614,6 +614,9 @@ public class Application extends Controller {
 	}
 
 	private static String returnAsJson(SearchResponse queryResponse) {
+		if (queryResponse == null) {
+			return Json.newObject().toString();
+		}
 		List<Map<String, Object>> hits =
 				Arrays.asList(queryResponse.getHits().hits()).stream()
 						.map(hit -> hit.getSource()).collect(Collectors.toList());
