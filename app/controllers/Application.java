@@ -354,9 +354,13 @@ public class Application extends Controller {
 			Logger.debug("Caching search result for request: {}", cacheKey);
 			Cache.set(cacheKey, searchResult, ONE_DAY);
 			return searchResult;
-		} catch (IllegalArgumentException x) {
-			Logger.warn("Bad request: ", x.getMessage());
-			return badRequest("Bad request: " + x.getMessage());
+		} catch (Throwable t) {
+			String message = t.getMessage()
+					+ (t.getCause() != null ? ", cause: " + t.getCause().getMessage()
+							: "");
+			Logger.error("Error: {}", message);
+			return internalServerError(
+					views.html.error.render(q, "Error: " + message));
 		}
 	}
 
@@ -614,9 +618,6 @@ public class Application extends Controller {
 	}
 
 	private static String returnAsJson(SearchResponse queryResponse) {
-		if (queryResponse == null) {
-			return Json.newObject().toString();
-		}
 		List<Map<String, Object>> hits =
 				Arrays.asList(queryResponse.getHits().hits()).stream()
 						.map(hit -> hit.getSource()).collect(Collectors.toList());

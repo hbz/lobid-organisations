@@ -1,0 +1,12 @@
+@* Copyright 2018 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+
+@(q: String, message: String)
+
+@import play.i18n._
+
+@main(q) { 
+	<div class="panel panel-danger footer">
+		<div class='panel-heading'>@Messages.get("error")</div>
+		<div class='panel-body'>@message</div>
+	</div>
+}
