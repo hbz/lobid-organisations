@@ -55,7 +55,7 @@
 
 @defining(Json.parse(json)) { jsonResponse =>
 @main(q, location, facetMap()) {
-	@defining((jsonResponse\"member").as[Seq[JsValue]]) { orgs => @if(orgs.size > 0) {
+	@defining((jsonResponse\"member").asOpt[Seq[JsValue]].getOrElse(Seq())) { orgs => @if(orgs.size > 0) {
 	<div class="row" id="search-results">
 		<div class="col-md-2">
 		<div id='location-facet-loading'><span class="label label-primary">@Messages.get("search.loading_locations")</span></div>
@@ -155,5 +155,5 @@
 	@defining(if(!q.isEmpty) q else "*") { qParam =>
 	<p>@Html(Messages.get("search.footer.api_text", routes.Application.search(q=qParam, from=from, format="json", location=location), 
 	routes.Application.search(q=qParam, from=from, format="csv", location=location), routes.Application.api()))</p>
-	}} else { @if(!q.isEmpty) {<p>@Html(Messages.get("search.footer.no_results", q))</p>} } }
+	}} else { @if(!q.isEmpty) {<p class='footer'>@Html(Messages.get("search.footer.no_results", q))</p>} } }
 }}

@@ -354,9 +354,13 @@ public class Application extends Controller {
 			Logger.debug("Caching search result for request: {}", cacheKey);
 			Cache.set(cacheKey, searchResult, ONE_DAY);
 			return searchResult;
-		} catch (IllegalArgumentException x) {
-			Logger.warn("Bad request: ", x.getMessage());
-			return badRequest("Bad request: " + x.getMessage());
+		} catch (Throwable t) {
+			String message = t.getMessage()
+					+ (t.getCause() != null ? ", cause: " + t.getCause().getMessage()
+							: "");
+			Logger.error("Error: {}", message);
+			return internalServerError(
+					views.html.error.render(q, "Error: " + message));
 		}
 	}
 
@@ -402,10 +406,10 @@ public class Application extends Controller {
 		results.put("js", () -> {
 			String queryResultString =
 					searchQueryResult(q, location, from, size, "location");
-			String queryMetadata =
-					Json.parse(queryResultString).get("aggregation").toString();
-			JavaScript script =
-					views.js.facet_map.render(queryMetadata, q, location, from, size);
+			JsonNode queryMetadata = Json.parse(queryResultString).get("aggregation");
+			JavaScript script = views.js.facet_map.render(
+					queryMetadata == null ? "{}" : queryMetadata.toString(), q, location,
+					from, size);
 			return ok(script).as("application/javascript; charset=utf-8");
 		});
 		results.put("csv", () -> {

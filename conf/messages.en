@@ -150,3 +150,5 @@ dataset.distribution.documentation = Documentation
 dataset.distribution.url = URL
 dataset.distribution.license = License
 dataset.distribution.media = Media types
+
+error = Error
