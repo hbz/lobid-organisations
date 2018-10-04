@@ -1,3 +1,5 @@
+/* Copyright 2014-2016, hbz. Licensed under the EPL 2.0 */
+
 package index;
 
 import static org.junit.Assert.assertEquals;
