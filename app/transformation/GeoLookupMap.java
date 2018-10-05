@@ -1,3 +1,5 @@
+/* Copyright 2014-2017, hbz. Licensed under the EPL 2.0 */
+
 package transformation;
 
 import java.util.HashMap;

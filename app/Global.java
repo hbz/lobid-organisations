@@ -1,5 +1,4 @@
-
-/* Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 */
+/* Copyright 2014-2016, hbz. Licensed under the EPL 2.0 */
 
 import java.io.File;
 import java.io.IOException;
