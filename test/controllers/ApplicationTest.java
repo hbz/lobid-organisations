@@ -14,6 +14,8 @@ import static play.test.Helpers.running;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import index.ElasticsearchTest;
 import play.libs.Json;
 import play.mvc.Result;
@@ -67,6 +69,19 @@ public class ApplicationTest extends ElasticsearchTest {
 			assertThat(result).isNotNull();
 			assertThat(contentType(result)).isEqualTo("application/json");
 			assertThat(contentAsString(result)).startsWith("/**/jsonp(");
+		});
+	}
+
+	@Test
+	public void jsonRequestNoInternalUrl() {
+		running(fakeApplication(), () -> {
+			Result result =
+					route(fakeRequest(GET, "/organisations/search?q=*&format=json"));
+			assertThat(result).isNotNull();
+			assertThat(contentType(result)).isEqualTo("application/json");
+			JsonNode json = Json.parse(contentAsString(result));
+			assertThat(json.get("id").toString()).contains("lobid.org");
+			assertThat(json.get("@context").toString()).contains("lobid.org");
 		});
 	}
 

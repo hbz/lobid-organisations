@@ -623,8 +623,8 @@ public class Application extends Controller {
 						.map(hit -> hit.getSource()).collect(Collectors.toList());
 		ObjectNode object = Json.newObject();
 		object.put("@context",
-				"http://" + request().host() + routes.Application.context());
-		object.put("id", "http://" + request().host() + request().uri());
+				CONFIG.getString("host") + routes.Application.context());
+		object.put("id", CONFIG.getString("host") + request().uri());
 		object.put("totalItems", queryResponse.getHits().getTotalHits());
 		object.set("member", Json.toJson(hits));
 		JsonNode aggregations =
