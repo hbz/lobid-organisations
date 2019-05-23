@@ -5,6 +5,7 @@ env:
 before_install:
   - git clone https://github.com/hbz/metafacture-core.git
   - cd metafacture-core
+  - git checkout ea0fbaf720d4277590ce5716c22155c9f675f3e5
   - mvn clean install -DskipTests=true
   - cd ..
   - wget http://downloads.typesafe.com/typesafe-activator/${ACTIVATOR_VERSION}/typesafe-activator-${ACTIVATOR_VERSION}-minimal.zip
