@@ -99,6 +99,18 @@
 		<call-macro name="url-group" group_name="url" dbs_field="url" sigel_code="A"/>
 		<call-macro name="url-group" group_name="provides" dbs_field="opac" sigel_code="B"/>
 		
+		<!-- API descriptions, see #421 -->
+		<entity name="availableChannel">
+			<call-macro name="url-group" group_name="serviceUrl" dbs_field="opac" sigel_code="W" />
+			<data name="serviceType" source="009Q.x" />
+			<data name="type" source="009Q.x">
+				<constant value="ServiceChannel" />
+			</data>
+			<data name="type" source="009Q.x">
+				<constant value="WebAPI" />
+			</data>
+		</entity>
+
 		<data source="isil" name="isil"/>
 		<data source="inr" name="dbsID"/>
 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->

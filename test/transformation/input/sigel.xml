@@ -38,6 +38,11 @@
 					<ppxml:subf id="u">http://www.ub.uni-koeln.de</ppxml:subf>
 					<ppxml:subf id="z">A</ppxml:subf>
 				</ppxml:tag>
+				<ppxml:tag id="009Q" occ="">
+					<ppxml:subf id="u">http://info-test.de/openurl</ppxml:subf>
+					<ppxml:subf id="x">OpenURL</ppxml:subf>
+					<ppxml:subf id="z">W</ppxml:subf>
+				</ppxml:tag>
 				<ppxml:tag id="029@" occ="">
 					<ppxml:subf id="a">Ko&#x308;ln USB</ppxml:subf>
 					<ppxml:subf id="4">c</ppxml:subf>

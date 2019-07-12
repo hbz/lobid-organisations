@@ -9,6 +9,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.culturegraph.mf.framework.DefaultObjectReceiver;
+import org.culturegraph.mf.morph.Metamorph;
+import org.culturegraph.mf.stream.converter.FormetaEncoder;
+import org.culturegraph.mf.stream.converter.xml.PicaXmlHandler;
+import org.culturegraph.mf.stream.converter.xml.XmlDecoder;
 import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
 import org.culturegraph.mf.stream.source.FileOpener;
 import org.junit.AfterClass;
@@ -20,7 +25,7 @@ import controllers.Application;
 /**
  * For tests: sample data only, no updates.
  * 
- * @author Simon Ritter (SBRitter), Fabian Steeg (fsteeg)
+ * @author Simon Ritter (SBRitter), Fabian Steeg (fsteeg), Pascal Christoph (dr0i)
  */
 @SuppressWarnings("javadoc")
 public class TestTransformAll {
@@ -87,6 +92,30 @@ public class TestTransformAll {
 				TransformAll.DATA_OUTPUT_DIR);
 		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
 		sourceFileOpener.closeStream();
+	}
+
+	@Test
+	public void testContainsApiDescription() {
+		FormetaEncoder encoder = new FormetaEncoder();
+		StringBuilder resultCollector = new StringBuilder();
+		encoder.setReceiver(new DefaultObjectReceiver<String>() {
+			@Override
+			public void process(String obj) {
+				resultCollector.append(obj);
+			}
+		});
+		final FileOpener sourceFileOpener = new FileOpener();
+		sourceFileOpener.setReceiver(new XmlDecoder())
+				.setReceiver(new PicaXmlHandler())//
+				.setReceiver(new Metamorph("morph-sigel.xml"))//
+				.setReceiver(new Metamorph("morph-enriched.xml"))//
+				.setReceiver(encoder);
+		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
+		sourceFileOpener.closeStream();
+		assertThat(resultCollector.toString())//
+				.as("contains api description")//
+				.contains("availableChannel{serviceType:OpenURL,type:ServiceChannel,"//
+						+ "type:WebAPI,serviceUrl:http\\://info-test.de/openurl}");
 	}
 
 }
