@@ -39,8 +39,28 @@
 					<ppxml:subf id="z">A</ppxml:subf>
 				</ppxml:tag>
 				<ppxml:tag id="009Q" occ="">
+					<ppxml:subf id="u">http://info-test.de/sru</ppxml:subf>
+					<ppxml:subf id="x">SRU</ppxml:subf>
+					<ppxml:subf id="z">W</ppxml:subf>
+				</ppxml:tag>
+				<ppxml:tag id="009Q" occ="">
+					<ppxml:subf id="u">http://info-test.de/other</ppxml:subf>
+					<ppxml:subf id="x">other</ppxml:subf>
+					<ppxml:subf id="z">W</ppxml:subf>
+				</ppxml:tag>
+				<ppxml:tag id="009Q" occ="">
 					<ppxml:subf id="u">http://info-test.de/openurl</ppxml:subf>
 					<ppxml:subf id="x">OpenURL</ppxml:subf>
+					<ppxml:subf id="z">W</ppxml:subf>
+				</ppxml:tag>
+				<ppxml:tag id="009Q" occ="">
+					<ppxml:subf id="u">http://info-test.de/paia</ppxml:subf>
+					<ppxml:subf id="x">PAIA</ppxml:subf>
+					<ppxml:subf id="z">W</ppxml:subf>
+				</ppxml:tag>
+				<ppxml:tag id="009Q" occ="">
+					<ppxml:subf id="u">http://info-test.de/daia</ppxml:subf>
+					<ppxml:subf id="x">DAIA</ppxml:subf>
 					<ppxml:subf id="z">W</ppxml:subf>
 				</ppxml:tag>
 				<ppxml:tag id="029@" occ="">

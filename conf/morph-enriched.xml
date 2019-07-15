@@ -98,17 +98,27 @@
 		
 		<call-macro name="url-group" group_name="url" dbs_field="url" sigel_code="A"/>
 		<call-macro name="url-group" group_name="provides" dbs_field="opac" sigel_code="B"/>
-		
+
 		<!-- API descriptions, see #421 -->
-		<entity name="availableChannel">
-			<call-macro name="url-group" group_name="serviceUrl" dbs_field="opac" sigel_code="W" />
-			<data name="serviceType" source="009Q.x" />
+		<combine name="@serviceUrl" value="${a}" reset="true">
+			<data source="009Q.u" name="a">
+				<regexp match="http(.*)"/>
+				<replace pattern="\s+" with=""/>
+			</data>
+			<data source="009Q.z">
+				<equals string="W"/>
+			</data>
+		</combine>
+		<entity name="availableChannel" flushWith="@serviceUrl" reset="true" >
+			<data name="serviceType" source="009Q.x"/>
 			<data name="type" source="009Q.x">
-				<constant value="ServiceChannel" />
+				<constant value="ServiceChannel"/>
 			</data>
 			<data name="type" source="009Q.x">
-				<constant value="WebAPI" />
+				<regexp match="(SRU)|(DAIA)|(PAIA)|(OpenURL)" />
+				<constant value="WebAPI"/>
 			</data>
+			<data source="@serviceUrl" name="serviceUrl"/>
 		</entity>
 
 		<data source="isil" name="isil"/>
