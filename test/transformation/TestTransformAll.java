@@ -112,6 +112,7 @@ public class TestTransformAll {
 				.setReceiver(encoder);
 		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
 		sourceFileOpener.closeStream();
+		System.out.println(resultCollector.toString());
 		assertThat(resultCollector.toString())//
 				.as("contains api description")//
 				.contains("availableChannel{serviceType:OpenURL,type:ServiceChannel,"//
