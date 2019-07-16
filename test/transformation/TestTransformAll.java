@@ -25,7 +25,8 @@ import controllers.Application;
 /**
  * For tests: sample data only, no updates.
  * 
- * @author Simon Ritter (SBRitter), Fabian Steeg (fsteeg), Pascal Christoph (dr0i)
+ * @author Simon Ritter (SBRitter), Fabian Steeg (fsteeg), Pascal Christoph
+ *         (dr0i)
  */
 @SuppressWarnings("javadoc")
 public class TestTransformAll {
@@ -56,8 +57,8 @@ public class TestTransformAll {
 	@Test
 	public void multiLangAlternateName() throws IOException {
 		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "");
-		assertThat(
-				new String(Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
+		assertThat(new String(
+				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with multiLangAlternateName")
 						.contains("Leibniz Institute").contains("Berlin SBB");
 	}
@@ -65,8 +66,8 @@ public class TestTransformAll {
 	@Test
 	public void separateUrlAndProvidesFields() throws IOException {
 		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "");
-		assertThat(
-				new String(Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
+		assertThat(new String(
+				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with `url` and `provides`")
 						.contains("http://www.medpilot.de/?idb=ZBMED")
 						.contains("http://www.zbmed.de");
@@ -75,8 +76,8 @@ public class TestTransformAll {
 	@Test
 	public void preferSigelData() throws IOException {
 		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "");
-		assertThat(
-				new String(Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
+		assertThat(new String(
+				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with preferred Sigel data")
 						.contains("Hauptabteilung")//
 						.as("transformation output containing DBS data")
@@ -88,8 +89,8 @@ public class TestTransformAll {
 		final FileOpener sourceFileOpener = new FileOpener();
 		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
 				TransformSigel.DUMP_TOP_LEVEL_TAG, TransformSigel.DUMP_ENTITY);
-		TransformSigel.setupSigelSplitting(sourceFileOpener, xmlSplitter, DUMP_XPATH,
-				TransformAll.DATA_OUTPUT_DIR);
+		TransformSigel.setupSigelSplitting(sourceFileOpener, xmlSplitter,
+				DUMP_XPATH, TransformAll.DATA_OUTPUT_DIR);
 		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
 		sourceFileOpener.closeStream();
 	}
@@ -114,8 +115,12 @@ public class TestTransformAll {
 		sourceFileOpener.closeStream();
 		assertThat(resultCollector.toString())//
 				.as("contains api description")//
-				.contains("availableChannel{serviceType:OpenURL,type:ServiceChannel,"//
-						+ "type:WebAPI,serviceUrl:http\\://info-test.de/openurl}");
+				.contains(
+						"availableChannel{serviceType:SRU,type:ServiceChannel,type:WebAPI,serviceUrl:http\\://info-test.de/sru}"//
+								+ "availableChannel{serviceType:other,type:ServiceChannel,serviceUrl:http\\://info-test.de/other}"//
+								+ "availableChannel{serviceType:OpenURL,type:ServiceChannel,type:WebAPI,serviceUrl:http\\://info-test.de/openurl}"//
+								+ "availableChannel{serviceType:PAIA,type:ServiceChannel,type:WebAPI,serviceUrl:http\\://info-test.de/paia}"//
+								+ "availableChannel{serviceType:DAIA,type:ServiceChannel,type:WebAPI,serviceUrl:http\\://info-test.de/daia}");
 	}
 
 }

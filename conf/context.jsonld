@@ -96,6 +96,15 @@
 			"@type": "@id",
 			"@id": "http://schema.org/mainEntityOfPage"
 		},
+		"serviceUrl": {
+			"@type": "@id",
+			"@id": "https://schema.org/serviceUrl"
+		},
+		"availableChannel": {
+			"@id": "https://schema.org/availableChannel",
+			"@container" : "@set"
+		}
+		"serviceType": "https://schema.org/serviceType",
 		"Library": "http://schema.org/Library",
 		"Archive": "http://data.archiveshub.ac.uk/def/Repository",
 		"Museum": "http://schema.org/Museum",
@@ -106,6 +115,7 @@
 		"OpeningHoursSpecification": "http://schema.org/OpeningHoursSpecification",
 		"PostalAddress": "http://schema.org/PostalAddress",
 		"Place": "http://schema.org/Place",
-		"GeoCoordinates": "http://schema.org/GeoCoordinates"
+		"GeoCoordinates": "http://schema.org/GeoCoordinates",
+		"ServiceChannel": "https://schema.org/ServiceChannel"
 	}
 }
