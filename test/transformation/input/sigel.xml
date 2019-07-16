@@ -49,6 +49,11 @@
 					<ppxml:subf id="z">W</ppxml:subf>
 				</ppxml:tag>
 				<ppxml:tag id="009Q" occ="">
+					<ppxml:subf id="u">http://info-test.de/ignoreMe</ppxml:subf>
+					<ppxml:subf id="x">Weitere Information</ppxml:subf>
+					<ppxml:subf id="z">W</ppxml:subf>
+				</ppxml:tag>
+				<ppxml:tag id="009Q" occ="">
 					<ppxml:subf id="u">http://info-test.de/other</ppxml:subf>
 					<ppxml:subf id="x">other</ppxml:subf>
 					<ppxml:subf id="z">W</ppxml:subf>

@@ -103,6 +103,7 @@
 		<combine name="@serviceUrl" value="${a}" sameEntity="true" reset="true" flushWith="009Q.z" >
 			<data source="009Q.x">
 				<not-equals string="Weitere Informationen"/>
+				<not-equals string="Weitere Information"/>
 			</data>
 			<data source="009Q.u" name="a">
 				<regexp match="http(.*)"/>
@@ -119,6 +120,7 @@
 					<all reset="true">
 						<data source="009Q.x">
 							<not-equals string="Weitere Informationen"/>
+							<not-equals string="Weitere Information"/>
 						</data>
 					</all>
 				</if>
