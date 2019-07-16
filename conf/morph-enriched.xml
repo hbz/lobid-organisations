@@ -100,7 +100,10 @@
 		<call-macro name="url-group" group_name="provides" dbs_field="opac" sigel_code="B"/>
 
 		<!-- API descriptions, see #421 -->
-		<combine name="@serviceUrl" value="${a}" reset="true">
+		<combine name="@serviceUrl" value="${a}" sameEntity="true" reset="true" flushWith="009Q.z" >
+			<data source="009Q.x">
+				<not-equals string="Weitere Informationen"/>
+			</data>
 			<data source="009Q.u" name="a">
 				<regexp match="http(.*)"/>
 				<replace pattern="\s+" with=""/>
@@ -109,9 +112,17 @@
 				<equals string="W"/>
 			</data>
 		</combine>
+
 		<entity name="availableChannel[]" flushWith="record" >
 			<entity name="" flushWith="@serviceUrl" reset="true" >
-				<data name="serviceType" source="009Q.x"/>
+				<if>
+					<all reset="true">
+						<data source="009Q.x">
+							<not-equals string="Weitere Informationen"/>
+						</data>
+					</all>
+				</if>
+				<data name="serviceType" source="009Q.x" />
 				<data name="type" source="009Q.x">
 					<constant value="ServiceChannel"/>
 				</data>
