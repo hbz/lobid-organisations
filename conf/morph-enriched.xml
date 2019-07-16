@@ -109,16 +109,18 @@
 				<equals string="W"/>
 			</data>
 		</combine>
-		<entity name="availableChannel" flushWith="@serviceUrl" reset="true" >
-			<data name="serviceType" source="009Q.x"/>
-			<data name="type" source="009Q.x">
-				<constant value="ServiceChannel"/>
-			</data>
-			<data name="type" source="009Q.x">
-				<regexp match="(SRU)|(DAIA)|(PAIA)|(OpenURL)" />
-				<constant value="WebAPI"/>
-			</data>
-			<data source="@serviceUrl" name="serviceUrl"/>
+		<entity name="availableChannel[]" flushWith="record" >
+			<entity name="" flushWith="@serviceUrl" reset="true" >
+				<data name="serviceType" source="009Q.x"/>
+				<data name="type" source="009Q.x">
+					<constant value="ServiceChannel"/>
+				</data>
+				<data name="type" source="009Q.x">
+					<regexp match="(SRU)|(DAIA)|(PAIA)|(OpenURL)" />
+					<constant value="WebAPI"/>
+				</data>
+				<data source="@serviceUrl" name="serviceUrl"/>
+			</entity>
 		</entity>
 
 		<data source="isil" name="isil"/>
