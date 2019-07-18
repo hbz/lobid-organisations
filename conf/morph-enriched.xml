@@ -4,6 +4,9 @@
 <metamorph xmlns="http://www.culturegraph.org/metamorph"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
 	entityMarker=".">
+	<vars>
+		<var name="ns-schema" value="https://schema.org/"/>
+	</vars>
 	<macros>
 		<!-- url and provides: Handle urls without http:// or https:// and remove blanks -->
 		<macro name="url-group">
@@ -127,11 +130,11 @@
 				<data name="serviceType" source="009Q.x" />
 				<entity name="type[]" flushWith="@serviceUrl" reset="true" >
 					<data name="type" source="009Q.x">
-						<constant value="ServiceChannel"/>
+						<constant value="$[ns-schema]ServiceChannel"/>
 					</data>
 					<data name="type" source="009Q.x">
 						<regexp match="(SRU)|(DAIA)|(PAIA)|(OpenURL)" />
-						<constant value="WebAPI"/>
+						<constant value="$[ns-schema]WebAPI"/>
 					</data>
 				</entity>
 				<data source="@serviceUrl" name="serviceUrl" />
