@@ -113,14 +113,15 @@ public class TestTransformAll {
 				.setReceiver(encoder);
 		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
 		sourceFileOpener.closeStream();
+		System.out.println(resultCollector.toString());
 		assertThat(resultCollector.toString())//
 				.as("contains api description")//
 				.contains(
-						"availableChannel[]{{serviceType:SRU,type:ServiceChannel,type:WebAPI,serviceUrl:http\\://info-test.de/sru}"//
-								+ "{serviceType:other,type:ServiceChannel,serviceUrl:http\\://info-test.de/other}"//
-								+ "{serviceType:OpenURL,type:ServiceChannel,type:WebAPI,serviceUrl:http\\://info-test.de/openurl}"//
-								+ "{serviceType:PAIA,type:ServiceChannel,type:WebAPI,serviceUrl:http\\://info-test.de/paia}"//
-								+ "{serviceType:DAIA,type:ServiceChannel,type:WebAPI,serviceUrl:http\\://info-test.de/daia}}");
+						"availableChannel[]{{serviceType:SRU,type[]{type:https\\://schema.org/ServiceChannel,type:https\\://schema.org/WebAPI}serviceUrl:http\\://info-test.de/sru}"//
+								+ "{serviceType:other,type[]{type:https\\://schema.org/ServiceChannel}serviceUrl:http\\://info-test.de/other}"//
+								+ "{serviceType:OpenURL,type[]{type:https\\://schema.org/ServiceChannel,type:https\\://schema.org/WebAPI}serviceUrl:http\\://info-test.de/openurl}"//
+								+ "{serviceType:PAIA,type[]{type:https\\://schema.org/ServiceChannel,type:https\\://schema.org/WebAPI}serviceUrl:http\\://info-test.de/paia}"//
+								+ "{serviceType:DAIA,type[]{type:https\\://schema.org/ServiceChannel,type:https\\://schema.org/WebAPI}serviceUrl:http\\://info-test.de/daia}}");
 	}
 
 }
