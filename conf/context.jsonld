@@ -103,7 +103,7 @@
 		"availableChannel": {
 			"@id": "https://schema.org/availableChannel",
 			"@container" : "@set"
-		}
+		},
 		"serviceType": "https://schema.org/serviceType",
 		"Library": "http://schema.org/Library",
 		"Archive": "http://data.archiveshub.ac.uk/def/Repository",
