@@ -62,7 +62,7 @@ public class RdfConverter {
 			model.setNsPrefix("rdau", "http://rdaregistry.info/Elements/u/");
 			model.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 			model.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-			model.setNsPrefix("schema", "http://schema.org/");
+			model.setNsPrefix("schema", "https://schema.org/");
 			model.setNsPrefix("skos", "http://www.w3.org/2004/02/skos/core#");
 			model.setNsPrefix("wdrs", "http://www.w3.org/2007/05/powder-s#");
 			model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
