@@ -349,6 +349,7 @@
 		</entity>
 
 		<data source="isil" name="@wikidataMap">
+			<compose prefix='"' postfix='"'/>
 			<lookup in="isil2wikidata_map" />
 		</data>
 		<entity name="alternateName[]" flushWith="record">
