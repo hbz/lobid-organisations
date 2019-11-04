@@ -50,4 +50,10 @@ public class TestJsonLd extends ElasticsearchTest {
 		assertTrue(name.contains("Stadtbibliothek"));
 	}
 
+	@Test
+	public void testWikidataLink() {
+		assertTrue(
+				getSource("DE-38").contains("http://www.wikidata.org/entity/Q2496260"));
+	}
+
 }
