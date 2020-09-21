@@ -19,6 +19,8 @@
 			<replace  pattern="/" with="-"/>
 			<urlencode/>
 		</data>
+		<data source="lat" name="latDbs" />
+		<data source="lon" name="lonDbs" />
 		<data source="_else">
 			<not-equals string="NULL" />
 		</data>

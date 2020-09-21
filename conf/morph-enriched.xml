@@ -240,12 +240,14 @@
 				</entity>
 				<entity name="geo" flushWith="record">
 					<choose>
-						<data source="latVisitor" name="lat" />
-						<data source="@geoLookupDbs" name="lat">
+						<data source="latDbs" name="lat" /> <!-- dbs verzeichnis -->
+						<data source="latVisitor" name="lat" /> <!-- zdb sigel verzeichnis -->
+						<data source="@geoLookupDbs" name="lat"> <!-- geo lookup pelias -->
 							<lookup in="addLatMap" />
 						</data>
 					</choose>
 					<choose>
+						<data source="lonDbs" name="lon" />
 						<data source="lonVisitor" name="lon" />
 						<data source="@geoLookupDbs" name="lon">
 							<lookup in="addLongMap" />
