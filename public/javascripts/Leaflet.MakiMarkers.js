@@ -35,7 +35,7 @@
     defaultColor: "#0a0",
     defaultIcon: "circle-stroked",
     defaultSize: "m",
-    apiUrl: "https://lobid.org/v3/marker/",
+    apiUrl: "https://api.tiles.mapbox.com/v3/marker/",
     smallOptions: {
       iconSize: [20, 50],
       popupAnchor: [0,-20]
