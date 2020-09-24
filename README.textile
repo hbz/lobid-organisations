@@ -48,6 +48,7 @@ After the build steps above, edit @conf/application.conf@ as required (e.g. port
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip@
 * @wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml@
 * @cd ../../..@
+* @~/activator-1.3.10-minimal/bin/activator clean@
 * @~/activator-1.3.10-minimal/bin/activator "start 7201"@
 
 When startup is complete (@Listening for HTTP on /0.0.0.0:7201@), exit with @Ctrl+D@, output will be logged to @target/universal/stage/logs/application.log@.
@@ -142,6 +143,8 @@ h2. Index
 Indexing is triggered when the application starts but it can also be started separately when the application is running. You can use the following command to do so:
 
 * @curl -X POST "http://localhost:9000/organisations/index"@
+
+:warning: Because of bug https://github.com/hbz/lobid-organisations/issues/435 a restart afterwards is mandatory.
 
 h2. Query
 
