@@ -33,7 +33,7 @@
 						<span class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="/">
-						<span><img id="butterfly" src='@routes.Assets.at("images/lobid.png")'/></span>
+						<span><img id="butterfly" src='@routes.Assets.at("images/lobid.png")' alt="lobid"/></span>
 					</a>
 				</div>
 				<div class="navbar-collapse collapse" id="organisations-nav">
@@ -58,10 +58,10 @@
 		<p>
 		<form action="@routes.Application.search()" method="GET">
 			<div class="input-group">
-				<input style="width:100%" id="search" type="text" class="form-control" autocomplete="off" placeholder='@Messages.get("main.placeholder")' autofocus name="q"  @if(!q.isEmpty && q!="*") {value="@q"}>
+				<input style="width:100%" id="search" type="text" class="form-control" autocomplete="off" placeholder='@Messages.get("main.placeholder")' title='@Messages.get("main.placeholder")' autofocus name="q"  @if(!q.isEmpty && q!="*") {value="@q"}>
 				<input type="hidden" name="location" value="@location" />
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="submit">
+					<button class="btn btn-default" type="submit" title='@Messages.get("main.navbar.search.link")'>
 						<span class="glyphicon glyphicon-search"></span>
 					</button>
 				</span>
