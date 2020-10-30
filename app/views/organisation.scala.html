@@ -16,7 +16,7 @@
       <div class="row">
         <div class="col-md-@if(hasLocation){6}else{12}">
           <p>
-          <a title='@Messages.get("organisation.jsonld")' href='@routes.Application.getDotFormat(id=id, format="json")'><img class='link-icon' src='@routes.Assets.at("images/json-ld.png")'></a>
+          <a title='@Messages.get("organisation.jsonld")' href='@routes.Application.getDotFormat(id=id, format="json")'><img class='link-icon' src='@routes.Assets.at("images/json-ld.png")' alt='JSON'></a>
           @(parsedContent \ "sameAs") match {
             case JsArray(array) => {
               @for(v <- array; s <- v.asOpt[String]; if s.contains("wikidata")){
