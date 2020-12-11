@@ -15,13 +15,14 @@
 	}
 }
 
-var layer = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
+var layer = L.tileLayer('https://lobid.org/tiles/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 });
 var kassel = new L.LatLng(51.19, 9.30)
 var map = new L.Map("facet-map", {
   center: kassel,
   zoom: 5,
+  maxZoom: 17,
   minZoom: 0,
   scrollWheelZoom: true,
   attributionControl: true,

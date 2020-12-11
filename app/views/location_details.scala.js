@@ -47,13 +47,14 @@
 }
 
 function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
-  var layer = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
+  var layer = L.tileLayer('https://lobid.org/tiles/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   });
   var center = new L.LatLng(latCoord, lonCoord)
   var map = new L.Map("organisations-map" + i, {
    center: center,
    zoom: 5,
+   maxZoom: 17,
    scrollWheelZoom: true,
    attributionControl: true,
    zoomControl: true
