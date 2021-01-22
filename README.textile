@@ -14,7 +14,7 @@ This section contains information about building and deploying the repo, running
 
 h2. Build
 
-"!https://secure.travis-ci.org/hbz/lobid-organisations.png?branch=master!":https://travis-ci.org/hbz/lobid-organisations
+"!https://github.com/hbz/lobid-organisations/workflows/Build/badge.svg?branch=master!":https://github.com/hbz/lobid-organisations/actions?query=workflow%3ABuild
 
 Prerequisites: Java 8, Maven 3; verify with @mvn -version@
 
@@ -36,7 +36,7 @@ Get lobid-organisations, set up the Play application, and run the tests:
 * @unzip typesafe-activator-1.3.10-minimal.zip@
 * @cd git/lobid-organisations ; ~/activator-1.3.10-minimal/bin/activator test@
 
-See the @.travis.yml@ file for details on the CI config used by Travis.
+See the @.github/workflows/build.yml@ file for details on the CI config used by Github Actions.
 
 h2. Deployment
 
