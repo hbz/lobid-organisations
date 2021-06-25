@@ -26,6 +26,7 @@ Build the hbz metafacture-core fork:
 
 * @git clone https://github.com/hbz/metafacture-core.git@
 * @cd metafacture-core@
+* @git checkout 4.0.0-HBZ-SNAPSHOT
 * @mvn clean install -DskipTests@
 * @cd ..@
 
