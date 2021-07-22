@@ -78,6 +78,7 @@
                      <div id="postal-address" class="tab-pane">
                        <p>
                          <table class='table table-striped table-condensed'>
+                           @produceRow(Messages.get("organisation.location.streetAddress"), parsedContent \ "address" \ "streetAddress",  _ => None)
                            @produceRow(Messages.get("organisation.location.postOfficeBoxNumber"), parsedContent \ "address" \ "postOfficeBoxNumber",  _ => None)
                            @produceRow(Messages.get("organisation.location.postalCode"), parsedContent \ "address" \ "postalCode",  _ => None)
                            @produceRow(Messages.get("organisation.location.addressLocality"), parsedContent \ "address" \ "addressLocality",  _ => None)
