@@ -34,7 +34,7 @@ case $ACTION in
 		JAVA_OPTS="$JAVA_OPTS -XX:+HeapDumpOnOutOfMemoryError" $HOME/activator-dist-1.3.5/activator "start $PORT"
 		;;
 	stop)
-		kill $(cat target/universal/stage/RUNNING_PID)
+		kill -9 $(cat target/universal/stage/RUNNING_PID)
 		;;
 	*)
 		echo "usage: $USAGE"
