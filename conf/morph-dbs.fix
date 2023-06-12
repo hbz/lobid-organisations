@@ -1,0 +1,60 @@
+# <?xml version="1.0" encoding="UTF-8"?>
+# <!-- Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 -->
+# 
+# <metamorph xmlns="http://www.culturegraph.org/metamorph"
+# 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
+# 	entityMarker=".">
+# 	<rules>
+# 		<!-- use inr as _id -->
+# 		<data source="inr" name="_id">
+# 			<replace  pattern=" "  with=""/>
+# 		</data>	
+# 		<data source="inr" name="inr">
+# 			<replace  pattern=" "  with=""/>
+# 		</data>
+		replace_all("inr"," ","")
+		copy_field("inr","_id")
+
+		replace_all("isil"," ","")
+		replace_all("isil","/","-")
+		if any_match("isil","NULL")
+			remove_field("isil")
+		end
+					<urlencode/>
+
+
+
+
+		# <data source="lat" name="latDbs" />
+		# <data source="lon" name="lonDbs" />
+		copy_field("lat","latDbs")
+		copy_field("lon","lonDbs")
+		
+		# TODO: What to do here?
+		# <data source="_else">
+		# 	<not-equals string="NULL" />
+		# </data>
+
+
+		# <choose name="addressCountry">
+		# 	<data source="iso">
+		# 		<lookup in="iso3-iso2-map" />
+		# 	</data>
+		# 	<data source="_id">
+		# 		<constant value="DE"/>
+		# 	</data>
+		# </choose>
+
+		if exists("iso")
+			copy_field("iso","addressCountry")
+			lookup("iso","http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv")
+		else
+			add_field("addressCountry","DE")
+		end
+
+# 	</rules>
+# 	<maps>
+# 		<filemap name="iso3-iso2-map"
+# 			files="http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv" />
+# 	</maps>
+# </metamorph>
