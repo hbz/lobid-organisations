@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.culturegraph.mf.morph.Metamorph;
-import org.culturegraph.mf.stream.converter.JsonToElasticsearchBulk;
+import org.metafacture.morph.Metamorph;
+import org.metafacture.elasticsearch.JsonToElasticsearchBulk;
 
 import controllers.Application;
 import transformation.GeoLookupMap.LookupType;

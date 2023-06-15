@@ -14,19 +14,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import org.culturegraph.mf.morph.Metamorph;
-import org.culturegraph.mf.stream.converter.JsonEncoder;
-import org.culturegraph.mf.stream.converter.StreamToTriples;
-import org.culturegraph.mf.stream.converter.xml.PicaXmlHandler;
-import org.culturegraph.mf.stream.converter.xml.XmlDecoder;
-import org.culturegraph.mf.stream.pipe.TripleFilter;
-import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
-import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
-import org.culturegraph.mf.stream.sink.ObjectWriter;
-import org.culturegraph.mf.stream.sink.XmlFilenameWriter;
-import org.culturegraph.mf.stream.source.FileOpener;
-import org.culturegraph.mf.stream.source.OaiPmhOpener;
-import org.culturegraph.mf.stream.source.Opener;
+import org.metafacture.morph.Metamorph;
+import org.metafacture.json.JsonEncoder
+import org.metafacture.triples.StreamToTriples;
+import org.metafacture.biblio.pica.PicaXmlHandler;
+import org.metafacture.xml.XmlDecoder;
+import org.metafacture.triples.TripleFilter;
+import org.metafacture.xml.XmlElementSplitter;
+import org.metafacture.triples.TripleCollect;
+import org.metafacture.io.ObjectWriter;
+import org.metafacture.xml.XmlFilenameWriter;
+import org.metafacture.io.FileOpener;
+import org.metafacture.biblio.OaiPmhOpener;
+TODO_ import org.culturegraph.mf.stream.source.Opener;
 
 import controllers.Application;
 import play.Logger;
