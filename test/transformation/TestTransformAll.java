@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-TODO: import org.culturegraph.mf.framework.DefaultObjectReceiver;
+import org.metafacture.framework.helpers.DefaultObjectReceiver;
 import org.metafacture.morph.Metamorph;
 import org.metafacture.formeta.FormetaEncoder;
 import org.metafacture.biblio.pica.PicaXmlHandler;

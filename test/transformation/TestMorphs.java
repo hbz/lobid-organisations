@@ -2,8 +2,7 @@
 
 package transformation;
 
-TODO: import org.culturegraph.mf.test.MetamorphTestSuite;
-TODO: import org.culturegraph.mf.test.MetamorphTestSuite.TestDefinitions;
+import org.metafacture.metamorph.test.MetamorphTestSuite;
 import org.junit.runner.RunWith;
 
 @SuppressWarnings("javadoc")

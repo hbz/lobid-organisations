@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 import org.metafacture.morph.Metamorph;
-import org.metafacture.json.JsonEncoder
+import org.metafacture.json.JsonEncoder;
 import org.metafacture.triples.StreamToTriples;
 import org.metafacture.biblio.pica.PicaXmlHandler;
 import org.metafacture.xml.XmlDecoder;
@@ -26,7 +26,7 @@ import org.metafacture.io.ObjectWriter;
 import org.metafacture.xml.XmlFilenameWriter;
 import org.metafacture.io.FileOpener;
 import org.metafacture.biblio.OaiPmhOpener;
-TODO_ import org.culturegraph.mf.stream.source.Opener;
+
 
 import controllers.Application;
 import play.Logger;
@@ -181,7 +181,7 @@ public class TransformSigel {
 		return simpleDate.format(calender.getTime());
 	}
 
-	static XmlFilenameWriter setupSigelSplitting(final Opener opener,
+	static XmlFilenameWriter setupSigelSplitting(final OaiPmhOpener opener,
 			final XmlElementSplitter splitter, String xPath,
 			final String outputPath) {
 		final XmlDecoder xmlDecoder = new XmlDecoder();
