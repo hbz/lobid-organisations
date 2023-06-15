@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import org.metafacture.morph.Metamorph;
+import org.metafacture.metamorph.Metamorph;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.triples.StreamToTriples;
 import org.metafacture.biblio.pica.PicaXmlHandler;

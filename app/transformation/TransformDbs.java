@@ -2,7 +2,7 @@
 
 package transformation;
 
-import org.metafacture.morph.Metamorph;
+import org.metafacture.metamorph.Metamorph;
 import org.metafacture.csv.CsvDecoder;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.io.LineReader;

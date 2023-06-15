@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.metafacture.framework.helpers.DefaultObjectReceiver;
-import org.metafacture.morph.Metamorph;
+import org.metafacture.metamorph.Metamorph;
 import org.metafacture.formeta.FormetaEncoder;
 import org.metafacture.biblio.pica.PicaXmlHandler;
 import org.metafacture.xml.XmlDecoder;
