@@ -18,6 +18,7 @@ libraryDependencies ++= Seq(
   "com.github.jsonld-java" % "jsonld-java-jena" % "0.4.1" exclude("org.slf4j", "slf4j-log4j12"),
   "org.apache.jena" % "jena-arq" % "2.9.3",
   "org.metafacture" % "metamorph" % "5.6.0",
+  "org.metafacture" % "metamorph-test" % "5.6.0",
   "org.metafacture" % "metafacture-elasticsearch" % "5.6.0",
   "org.metafacture" % "metafacture-json" % "5.6.0",
   "org.metafacture" % "metafacture-csv" % "5.6.0",
