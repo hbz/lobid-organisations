@@ -16,7 +16,7 @@ jobs:
       run: |
         git clone https://github.com/hbz/metafacture-core.git
         cd metafacture-core
-        git checkout metafacture.core-5.6.0
+        git checkout metafacture-core-5.6.0
         ./gradlew installDist
     - name: Run tests
       run: sbt update test
