@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 
 @SuppressWarnings("javadoc")
 @RunWith(MetamorphTestSuite.class)
-@TestDefinitions({
+@MetamorphTestSuite.TestDefinitions({
 		//
 		"/test_morph-dbs.xml", //
 		"/test_morph-sigel.xml", //

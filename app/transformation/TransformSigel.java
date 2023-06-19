@@ -3,6 +3,7 @@
 package transformation;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -14,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+import org.metafacture.framework.ObjectReceiver;
+import org.metafacture.framework.helpers.DefaultObjectPipe;
 import org.metafacture.metamorph.Metamorph;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.triples.StreamToTriples;
@@ -181,7 +184,7 @@ public class TransformSigel {
 		return simpleDate.format(calender.getTime());
 	}
 
-	static XmlFilenameWriter setupSigelSplitting(final OaiPmhOpener opener,
+	static XmlFilenameWriter setupSigelSplitting(final DefaultObjectPipe<String, ObjectReceiver<Reader>> opener,
 			final XmlElementSplitter splitter, String xPath,
 			final String outputPath) {
 		final XmlDecoder xmlDecoder = new XmlDecoder();
