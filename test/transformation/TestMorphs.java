@@ -2,13 +2,12 @@
 
 package transformation;
 
-import org.culturegraph.mf.test.MetamorphTestSuite;
-import org.culturegraph.mf.test.MetamorphTestSuite.TestDefinitions;
+import org.metafacture.metamorph.test.MetamorphTestSuite;
 import org.junit.runner.RunWith;
 
 @SuppressWarnings("javadoc")
 @RunWith(MetamorphTestSuite.class)
-@TestDefinitions({
+@MetamorphTestSuite.TestDefinitions({
 		//
 		"/test_morph-dbs.xml", //
 		"/test_morph-sigel.xml", //

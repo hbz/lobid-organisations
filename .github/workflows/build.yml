@@ -12,11 +12,5 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Install metafacture-core 4.0.0-HBZ-SNAPSHOT
-      run: |
-        git clone https://github.com/hbz/metafacture-core.git
-        cd metafacture-core
-        git checkout 4.0.0-HBZ-SNAPSHOT
-        mvn clean install -DskipTests=true
     - name: Run tests
       run: sbt update test

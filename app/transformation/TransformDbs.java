@@ -2,15 +2,15 @@
 
 package transformation;
 
-import org.culturegraph.mf.morph.Metamorph;
-import org.culturegraph.mf.stream.converter.CsvDecoder;
-import org.culturegraph.mf.stream.converter.JsonEncoder;
-import org.culturegraph.mf.stream.converter.LineReader;
-import org.culturegraph.mf.stream.converter.StreamToTriples;
-import org.culturegraph.mf.stream.pipe.TripleFilter;
-import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
-import org.culturegraph.mf.stream.sink.ObjectWriter;
-import org.culturegraph.mf.stream.source.FileOpener;
+import org.metafacture.metamorph.Metamorph;
+import org.metafacture.csv.CsvDecoder;
+import org.metafacture.json.JsonEncoder;
+import org.metafacture.io.LineReader;
+import org.metafacture.triples.StreamToTriples;
+import org.metafacture.triples.TripleFilter;
+import org.metafacture.triples.TripleCollect;
+import org.metafacture.io.ObjectWriter;
+import org.metafacture.io.FileOpener;
 
 /**
  * Transformation from DBS CSV to JSON.

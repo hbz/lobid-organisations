@@ -3,6 +3,7 @@
 package transformation;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -14,19 +15,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import org.culturegraph.mf.morph.Metamorph;
-import org.culturegraph.mf.stream.converter.JsonEncoder;
-import org.culturegraph.mf.stream.converter.StreamToTriples;
-import org.culturegraph.mf.stream.converter.xml.PicaXmlHandler;
-import org.culturegraph.mf.stream.converter.xml.XmlDecoder;
-import org.culturegraph.mf.stream.pipe.TripleFilter;
-import org.culturegraph.mf.stream.pipe.XmlElementSplitter;
-import org.culturegraph.mf.stream.pipe.sort.TripleCollect;
-import org.culturegraph.mf.stream.sink.ObjectWriter;
-import org.culturegraph.mf.stream.sink.XmlFilenameWriter;
-import org.culturegraph.mf.stream.source.FileOpener;
-import org.culturegraph.mf.stream.source.OaiPmhOpener;
-import org.culturegraph.mf.stream.source.Opener;
+import org.metafacture.framework.ObjectReceiver;
+import org.metafacture.framework.helpers.DefaultObjectPipe;
+import org.metafacture.metamorph.Metamorph;
+import org.metafacture.json.JsonEncoder;
+import org.metafacture.triples.StreamToTriples;
+import org.metafacture.biblio.pica.PicaXmlHandler;
+import org.metafacture.xml.XmlDecoder;
+import org.metafacture.triples.TripleFilter;
+import org.metafacture.xml.XmlElementSplitter;
+import org.metafacture.triples.TripleCollect;
+import org.metafacture.io.ObjectWriter;
+import org.metafacture.xml.XmlFilenameWriter;
+import org.metafacture.io.FileOpener;
+import org.metafacture.biblio.OaiPmhOpener;
+
 
 import controllers.Application;
 import play.Logger;
@@ -181,7 +184,7 @@ public class TransformSigel {
 		return simpleDate.format(calender.getTime());
 	}
 
-	static XmlFilenameWriter setupSigelSplitting(final Opener opener,
+	static XmlFilenameWriter setupSigelSplitting(final DefaultObjectPipe<String, ObjectReceiver<Reader>> opener,
 			final XmlElementSplitter splitter, String xPath,
 			final String outputPath) {
 		final XmlDecoder xmlDecoder = new XmlDecoder();
