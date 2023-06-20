@@ -2,7 +2,7 @@
 
 package transformation;
 
-import org.metafacture.metamorph.Metamorph;
+import org.metafacture.metafix.Metafix;
 import org.metafacture.csv.CsvDecoder;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.io.LineReader;
@@ -12,6 +12,8 @@ import org.metafacture.triples.TripleCollect;
 import org.metafacture.io.ObjectWriter;
 import org.metafacture.io.FileOpener;
 
+import java.io.FileNotFoundException;
+
 /**
  * Transformation from DBS CSV to JSON.
  * 
@@ -19,7 +21,7 @@ import org.metafacture.io.FileOpener;
  *
  */
 public class TransformDbs {
-	static void process(final String outputPath, String geoLookupServer) {
+	static void process(final String outputPath, String geoLookupServer) throws FileNotFoundException {
 		final FileOpener opener = new FileOpener();
 		StreamToTriples streamToTriples = new StreamToTriples();
 		streamToTriples.setRedirect(true);
@@ -33,11 +35,11 @@ public class TransformDbs {
 		opener//
 				.setReceiver(new LineReader())//
 				.setReceiver(decoder)//
-				.setReceiver(new Metamorph("morph-dbs.xml"))//
+				.setReceiver(new Metafix("fix-dbs.fix"))//
 				.setReceiver(streamToTriples)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(new TripleCollect())//
-				.setReceiver(TransformAll.morphEnriched(geoLookupServer))//
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(new ObjectWriter<>(outputPath));

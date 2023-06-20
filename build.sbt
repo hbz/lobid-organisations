@@ -28,6 +28,7 @@ libraryDependencies ++= Seq(
   "org.metafacture" % "metafacture-biblio" % "5.6.0",
   "org.metafacture" % "metafacture-xml" % "5.6.0",
   "org.metafacture" % "metafacture-framework" % "5.6.0",
+  "org.metafacture" % "metafix" % "0.4.0",
   "org.xbib.elasticsearch.plugin" % "elasticsearch-plugin-bundle" % "2.3.2.0",
   "com.jayway.jsonpath" % "json-path" % "2.2.0",
   "net.java.dev.jna" % "jna" % "4.1.0",
@@ -37,6 +38,7 @@ libraryDependencies ++= Seq(
 // force play to use these versions (ignoring transitive dependencies)
 dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.2"
 dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-core" % "2.6.2"
+dependencyOverrides += "org.apache.jena" % "jena-core" % "2.11.1"
 
 resolvers += Resolver.mavenLocal
 

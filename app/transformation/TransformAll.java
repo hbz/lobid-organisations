@@ -3,12 +3,13 @@
 package transformation;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.metafacture.metamorph.Metamorph;
+import org.metafacture.metafix.Metafix;
 import org.metafacture.elasticsearch.JsonToElasticsearchBulk;
 
 import controllers.Application;
@@ -78,13 +79,13 @@ public class TransformAll {
 		return esBulk;
 	}
 
-	static Metamorph morphEnriched(String geoLookupServer) {
-		final Metamorph morphEnriched = new Metamorph("morph-enriched.xml");
+	static Metafix fixEnriched(String geoLookupServer) throws FileNotFoundException {
+		final Metafix fixEnriched = new Metafix("fix-enriched.fix");
 		if (geoLookupServer != null && !geoLookupServer.isEmpty()) {
-			morphEnriched.putMap("addLatMap", new GeoLookupMap(LookupType.LAT));
-			morphEnriched.putMap("addLongMap", new GeoLookupMap(LookupType.LON));
+			fixEnriched.putMap("addLatMap", new GeoLookupMap(LookupType.LAT));
+			fixEnriched.putMap("addLongMap", new GeoLookupMap(LookupType.LON));
 		}
-		return morphEnriched;
+		return fixEnriched;
 	}
 
 }
