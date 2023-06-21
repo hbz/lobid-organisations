@@ -11,6 +11,8 @@ import org.metafacture.triples.TripleFilter;
 import org.metafacture.triples.TripleCollect;
 import org.metafacture.io.ObjectWriter;
 import org.metafacture.io.FileOpener;
+import org.metafacture.metafix.Metafix;
+import java.io.FileNotFoundException;
 
 /**
  * Transformation from DBS CSV to JSON.

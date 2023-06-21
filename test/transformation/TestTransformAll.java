@@ -5,12 +5,14 @@ package transformation;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.metafacture.framework.helpers.DefaultObjectReceiver;
 import org.metafacture.metamorph.Metamorph;
+import org.metafacture.metafix.Metafix;
 import org.metafacture.formeta.FormetaEncoder;
 import org.metafacture.biblio.pica.PicaXmlHandler;
 import org.metafacture.xml.XmlDecoder;
@@ -96,7 +98,7 @@ public class TestTransformAll {
 	}
 
 	@Test
-	public void testContainsApiDescription() {
+	public void testContainsApiDescription() throws FileNotFoundException {
 		FormetaEncoder encoder = new FormetaEncoder();
 		StringBuilder resultCollector = new StringBuilder();
 		encoder.setReceiver(new DefaultObjectReceiver<String>() {

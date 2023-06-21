@@ -19,6 +19,7 @@ import org.metafacture.framework.ObjectReceiver;
 import org.metafacture.framework.helpers.DefaultObjectPipe;
 import org.metafacture.metamorph.Metamorph;
 import org.metafacture.json.JsonEncoder;
+import org.metafacture.metafix.Metafix;
 import org.metafacture.triples.StreamToTriples;
 import org.metafacture.biblio.pica.PicaXmlHandler;
 import org.metafacture.xml.XmlDecoder;
