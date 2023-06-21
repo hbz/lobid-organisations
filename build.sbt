@@ -28,7 +28,7 @@ libraryDependencies ++= Seq(
   "org.metafacture" % "metafacture-biblio" % "5.6.0",
   "org.metafacture" % "metafacture-xml" % "5.6.0",
   "org.metafacture" % "metafacture-framework" % "5.6.0",
-  "org.metafacture" % "metafix" % "0.4.0",
+  "org.metafacture" % "metafix" % "0.5.1",
   "org.xbib.elasticsearch.plugin" % "elasticsearch-plugin-bundle" % "2.3.2.0",
   "com.jayway.jsonpath" % "json-path" % "2.2.0",
   "net.java.dev.jna" % "jna" % "4.1.0",
