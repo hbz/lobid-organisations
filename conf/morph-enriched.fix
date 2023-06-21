@@ -1,246 +1,121 @@
-# <?xml version="1.0" encoding="UTF-8"?>
-# <!-- Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 -->
-# 
-# <metamorph xmlns="http://www.culturegraph.org/metamorph"
-# 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
-# 	entityMarker=".">
-# 	<macros>
-# 		<!-- url and provides: Handle urls without http:// or https:// and remove blanks -->
-# 		<macro name="url-group">
-# 			<group name="$[group_name]">
-# 				<choose>
-# 					<data source="$[dbs_field]">
-# 						<regexp match="http(.*)" />
-# 						<replace pattern="\s+" with=""/>
-# 					</data>
-# 					<data source="$[dbs_field]">
-# 						<regexp match="(www(.*))" format="http://${1}"/>
-# 						<replace pattern="\s+" with=""/>
-# 					</data>
-# 					<combine value="${hp}" name="$[group_name]" sameEntity="true" flushWith="009Q.z" reset="true">
-# 						<if>
-# 							<data source="009Q.z">
-# 								<equals string="$[sigel_code]" />
-# 							</data>
-# 						</if>
-# 						<choose sameEntity="true" flushWith="009Q.z" reset="true">
-# 							<data source="009Q.u" name="hp">
-# 								<regexp match="http(.*)" />
-# 								<replace pattern="\s+" with=""/>
-# 							</data>
-# 							<data source="009Q.u" name="hp">
-# 								<regexp match="(www(.*))" format="http://${1}"/>
-# 								<replace pattern="\s+" with=""/>
-# 							</data>
-# 						</choose>
-# 					</combine>
-# 				</choose>
-# 			</group>
-# 		</macro>
-# 		<macro name="make-id">
-# 			<choose>
-# 				<data source="$[isil-field]" name="$[output-name]">
-# 					<regexp match="(.*)" format="$[uri-base]" />
-# 				</data>
-# 				<data source="$[dbs-field]" name="$[output-name]">
-# 					<lookup in="$[dbs-lookup]" />
-# 				</data>
-# 			</choose>
-# 		</macro>
-# 	</macros>
-
-# 	<maps>
-# 		<filemap name="isil2wikidata_map"
-# 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/isil2wikidata.csv" />
-# 		<filemap name="libtype_map"
-# 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/libtype-map.csv"/>
-# 		<filemap name="ags_map"
-# 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/plz-ags-map.csv" />
-# 		<filemap name="rs_map"
-# 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/ags-rs-map.csv" />
-# 		<filemap name="geonames_map"
-# 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
-# 		<filemap name="plz_blacklist" files="plz-blacklist.csv" />
-# 		<map name="fundertype_id_to_value_map">
-# 			<entry name="http://purl.org/lobid/fundertype#n01" value="Bundesrepublik Deutschland" />
-# 			<entry name="http://purl.org/lobid/fundertype#n02" value="Land" />
-# 			<entry name="http://purl.org/lobid/fundertype#n03" value="Kreis" />
-# 			<entry name="http://purl.org/lobid/fundertype#n04" value="Gemeinde" />
-# 			<entry name="http://purl.org/lobid/fundertype#n05" value="Sonstige Gebietskörperschaft" />
-# 			<entry name="http://purl.org/lobid/fundertype#n06" value="Sonstige öffentliche Trägerschaft" />
-# 			<entry name="http://purl.org/lobid/fundertype#n07" value="Körperschaft oder Stiftung des öffentlichen Rechts" />
-# 			<entry name="http://purl.org/lobid/fundertype#n08" value="Körperschaft oder Stiftung des privaten Rechts" />
-# 			<entry name="http://purl.org/lobid/fundertype#n09" value="Evangelische Kirche" />
-# 			<entry name="http://purl.org/lobid/fundertype#n10" value="Katholische Kirche" />
-# 			<entry name="http://purl.org/lobid/fundertype#n11" value="Sonstige Religionsgemeinschaften" />
-# 			<entry name="http://purl.org/lobid/fundertype#n12" value="Private Trägerschaft (natürliche Personen)" />
-# 			<entry name="http://purl.org/lobid/fundertype#n13" value="Ausländische Trägerschaft" />
-# 		</map>
-# 		<map name="stocksize_id_to_value_map">
-# 			<entry name="http://purl.org/lobid/stocksize#n01" value="bis 1.000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n02" value="1.001 - 2.000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n03" value="2.001 - 3.000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n04" value="3.001 - 5.000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n05" value="5.001 - 10.000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n06" value="10.001 - 30.000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n07" value="30.001 - 100.000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n08" value="100.001 - 300.000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n09" value="300.001 - 1.000.000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n10" value="1.000.001 und mehr" />
-# 			<entry name="http://purl.org/lobid/stocksize#n11" value="Einrichtung ohne Bestand" />
-# 		</map>
-# 		<map name="libtype_id_to_value_map">
-# 			<entry name="http://purl.org/lobid/libtype#n11" value="Nationalbibliothek" />
-# 			<entry name="http://purl.org/lobid/libtype#n15" value="Zentrale Fachbibliothek" />
-# 			<entry name="http://purl.org/lobid/libtype#n21" value="Regionalbibliothek" />
-# 			<entry name="http://purl.org/lobid/libtype#n33" value="Öffentliche Bibliothek" />
-# 			<entry name="http://purl.org/lobid/libtype#n34" value="Mediathek" />
-# 			<entry name="http://purl.org/lobid/libtype#n36" value="Öffentliche Bibliothek für besondere Benutzergruppen" />
-# 			<entry name="http://purl.org/lobid/libtype#n39" value="Fahrbibliothek" />
-# 			<entry name="http://purl.org/lobid/libtype#n51" value="Archiv (staatlich)" />
-# 			<entry name="http://purl.org/lobid/libtype#n52" value="Archiv (kommunal)" />
-# 			<entry name="http://purl.org/lobid/libtype#n53" value="Archiv (kirchlich)" />
-# 			<entry name="http://purl.org/lobid/libtype#n54" value="Archiv (Herrschafts-/Familienarchiv)" />
-# 			<entry name="http://purl.org/lobid/libtype#n55" value="Archiv (Wirtschaft)" />
-# 			<entry name="http://purl.org/lobid/libtype#n56" value="Archiv (Parlament, Partei, Stiftung oder Verband)" />
-# 			<entry name="http://purl.org/lobid/libtype#n57" value="Archiv (Medienarchiv)" />
-# 			<entry name="http://purl.org/lobid/libtype#n58" value="Archiv (Hochschule, Wissenschaft)" />
-# 			<entry name="http://purl.org/lobid/libtype#n59" value="Archiv (Sonstiges)" />
-# 			<entry name="http://purl.org/lobid/libtype#n60" value="Zentrale Universitätsbibliothek" />
-# 			<entry name="http://purl.org/lobid/libtype#n65" value="Abteilungsbibliothek, Fachbereichsbibliothek, Institutsbibliothek (Universität)" />
-# 			<entry name="http://purl.org/lobid/libtype#n70" value="Zentrale Hochschulbibliothek, nicht Universität" />
-# 			<entry name="http://purl.org/lobid/libtype#n73" value="Abteilungsbibliothek, Fachbereichsbibliothek (Hochschule, nicht Universität)" />
-# 			<entry name="http://purl.org/lobid/libtype#n81" value="Wissenschaftliche Spezialbibliothek" />
-# 			<entry name="http://purl.org/lobid/libtype#n82" value="Einrichtung der Denkmalpflege" />
-# 			<entry name="http://purl.org/lobid/libtype#n84" value="Forschungseinrichtung" />
-# 			<entry name="http://purl.org/lobid/libtype#n86" value="Museum" />
-# 			<entry name="http://purl.org/lobid/libtype#n87" value="Verlag" />
-# 			<entry name="http://purl.org/lobid/libtype#n88" value="Sonstige Einrichtung" />
-# 			<entry name="http://purl.org/lobid/libtype#n89" value="Paket elektronischer Ressourcen" />
-# 			<entry name="http://purl.org/lobid/libtype#n91" value="Fachstelle für Bibliotheken" />
-# 			<entry name="http://purl.org/lobid/libtype#n94" value="Regionaler Zentralkatalog / Leihverkehrszentrale" />
-# 			<entry name="http://purl.org/lobid/libtype#n95" value="Virtuelle Bibliothek / Portal" />
-# 			<entry name="http://purl.org/lobid/libtype#n96" value="Verbundsystem/ -kataloge" />
-# 			<entry name="http://purl.org/lobid/libtype#n98" value="Serviceeinrichtung" />
-# 		</map>
-# 		<map name="fundertype_id_to_value_en_map">
-# 			<entry name="http://purl.org/lobid/fundertype#n01" value="Federal Republic of Germany" />
-# 			<entry name="http://purl.org/lobid/fundertype#n02" value="Federal State" />
-# 			<entry name="http://purl.org/lobid/fundertype#n03" value="County" />
-# 			<entry name="http://purl.org/lobid/fundertype#n04" value="Commune" />
-# 			<entry name="http://purl.org/lobid/fundertype#n05" value="Other Territorial Authority" />
-# 			<entry name="http://purl.org/lobid/fundertype#n06" value="Other Public Sector Funder" />
-# 			<entry name="http://purl.org/lobid/fundertype#n07" value="Corporate Body or Foundation under Public Law" />
-# 			<entry name="http://purl.org/lobid/fundertype#n08" value="Corporate Body or Foundation under Private Law" />
-# 			<entry name="http://purl.org/lobid/fundertype#n09" value="Protestant Church" />
-# 			<entry name="http://purl.org/lobid/fundertype#n10" value="Catholic Church" />
-# 			<entry name="http://purl.org/lobid/fundertype#n11" value="Other Religious Communities" />
-# 			<entry name="http://purl.org/lobid/fundertype#n12" value="Private Funding Body (Natural Person)" />
-# 			<entry name="http://purl.org/lobid/fundertype#n13" value="Foreign Funding Body" />
-# 		</map>
-# 		<map name="stocksize_id_to_value_en_map">
-# 			<entry name="http://purl.org/lobid/stocksize#n01" value="up to 1,000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n02" value="1,001 - 2,000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n03" value="2,001 - 3,000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n04" value="3,001 - 5,000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n05" value="5,001 - 10,000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n06" value="10,001 - 30,000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n07" value="30,001 - 100,000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n08" value="100,001 - 300,000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n09" value="300,001 - 1,000,000" />
-# 			<entry name="http://purl.org/lobid/stocksize#n10" value="1,000,001 and more" />
-# 			<entry name="http://purl.org/lobid/stocksize#n11" value="Institution without holdings" />
-# 		</map>
-# 		<map name="libtype_id_to_value_en_map">
-# 			<entry name="http://purl.org/lobid/libtype#n11" value="National Library" />
-# 			<entry name="http://purl.org/lobid/libtype#n15" value="Central Subject Library" />
-# 			<entry name="http://purl.org/lobid/libtype#n21" value="Regional Library" />
-# 			<entry name="http://purl.org/lobid/libtype#n33" value="Public Library" />
-# 			<entry name="http://purl.org/lobid/libtype#n34" value="Media Library" />
-# 			<entry name="http://purl.org/lobid/libtype#n36" value="Public Library for Special User Groups" />
-# 			<entry name="http://purl.org/lobid/libtype#n39" value="Mobile Library" />
-# 			<entry name="http://purl.org/lobid/libtype#n51" value="Archive (State)" />
-# 			<entry name="http://purl.org/lobid/libtype#n52" value="Archive (Municipal)" />
-# 			<entry name="http://purl.org/lobid/libtype#n53" value="Archive (Church)" />
-# 			<entry name="http://purl.org/lobid/libtype#n54" value="Archive ((Noble) Families)" />
-# 			<entry name="http://purl.org/lobid/libtype#n55" value="Archive (Enterprise)" />
-# 			<entry name="http://purl.org/lobid/libtype#n56" value="Archive (Parliament, Party, Foundation or Federation)" />
-# 			<entry name="http://purl.org/lobid/libtype#n57" value="Archive (Media)" />
-# 			<entry name="http://purl.org/lobid/libtype#n58" value="Archive (University, Academia)" />
-# 			<entry name="http://purl.org/lobid/libtype#n59" value="Archive (Miscellaneous)" />
-# 			<entry name="http://purl.org/lobid/libtype#n60" value="Central University Library" />
-# 			<entry name="http://purl.org/lobid/libtype#n65" value="University's Departement Library, Faculty Library, Institute Library" />
-# 			<entry name="http://purl.org/lobid/libtype#n70" value="Central Academic Library, not University" />
-# 			<entry name="http://purl.org/lobid/libtype#n73" value="College's Departement Library, Faculty Library (not University)" />
-# 			<entry name="http://purl.org/lobid/libtype#n81" value="Academic Special Library" />
-# 			<entry name="http://purl.org/lobid/libtype#n82" value="Institution for Preservation of Historical Monuments" />
-# 			<entry name="http://purl.org/lobid/libtype#n84" value="Research Institution" />
-# 			<entry name="http://purl.org/lobid/libtype#n86" value="Museum" />
-# 			<entry name="http://purl.org/lobid/libtype#n87" value="Publisher" />
-# 			<entry name="http://purl.org/lobid/libtype#n88" value="Other Organization" />
-# 			<entry name="http://purl.org/lobid/libtype#n89" value="Collection of electronic resources" />
-# 			<entry name="http://purl.org/lobid/libtype#n91" value="State Public Library Office" />
-# 			<entry name="http://purl.org/lobid/libtype#n94" value="Regional Catalogue" />
-# 			<entry name="http://purl.org/lobid/libtype#n95" value="Virtual Library / Portal" />
-# 			<entry name="http://purl.org/lobid/libtype#n96" value="Union Catalogue" />
-# 			<entry name="http://purl.org/lobid/libtype#n98" value="Service Institution" />
-# 		</map>
-# 		<map name="fundertype_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
-# 			<entry value="http://purl.org/lobid/fundertype#n01" name="1" />
-# 			<entry value="http://purl.org/lobid/fundertype#n02" name="2" />
-# 			<entry value="http://purl.org/lobid/fundertype#n03" name="3" />
-# 			<entry value="http://purl.org/lobid/fundertype#n04" name="4" />
-# 			<entry value="http://purl.org/lobid/fundertype#n06" name="5" />
-# 			<entry value="http://purl.org/lobid/fundertype#n07" name="6" />
-# 			<entry value="http://purl.org/lobid/fundertype#n08" name="7" />
-# 			<entry value="http://purl.org/lobid/fundertype#n09" name="8" />
-# 			<entry value="http://purl.org/lobid/fundertype#n10" name="9" />
-# 			<entry value="http://purl.org/lobid/fundertype#n11" name="10" />
-# 			<entry value="http://purl.org/lobid/fundertype#n12" name="11" />
-# 			<entry value="http://purl.org/lobid/fundertype#n13" name="12" />
-# 		</map>
-# 		<map name="stocksize_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
-# 			<entry value="http://purl.org/lobid/stocksize#n01" name="1" />
-# 			<entry value="http://purl.org/lobid/stocksize#n02" name="2" />
-# 			<entry value="http://purl.org/lobid/stocksize#n03" name="3" />
-# 			<entry value="http://purl.org/lobid/stocksize#n04" name="4" />
-# 			<entry value="http://purl.org/lobid/stocksize#n05" name="5" />
-# 			<entry value="http://purl.org/lobid/stocksize#n06" name="6" />
-# 			<entry value="http://purl.org/lobid/stocksize#n07" name="7" />
-# 			<entry value="http://purl.org/lobid/stocksize#n08" name="8" />
-# 			<entry value="http://purl.org/lobid/stocksize#n09" name="9" />
-# 			<entry value="http://purl.org/lobid/stocksize#n10" name="10" />
-# 			<entry value="http://purl.org/lobid/stocksize#n11" name="11" />
-# 		</map>
-# 		<map name="libtype_value_to_id_map"> <!-- Note: swapped value/name positions for readable formatting -->
-# 			<entry value="http://purl.org/lobid/libtype#n11" name="11" />
-# 			<entry value="http://purl.org/lobid/libtype#n15" name="15" />
-# 			<entry value="http://purl.org/lobid/libtype#n21" name="21" />
-# 			<entry value="http://purl.org/lobid/libtype#n33" name="30" />
-# 			<entry value="http://purl.org/lobid/libtype#n33" name="51" />
-# 			<entry value="http://purl.org/lobid/libtype#n33" name="52" />
-# 			<entry value="http://purl.org/lobid/libtype#n36" name="53" />
-# 			<entry value="http://purl.org/lobid/libtype#n33" name="54" />
-# 			<entry value="http://purl.org/lobid/libtype#n36" name="55" />
-# 			<entry value="http://purl.org/lobid/libtype#n33" name="56" />
-# 			<entry value="http://purl.org/lobid/libtype#n36" name="58" />
-# 			<entry value="http://purl.org/lobid/libtype#n33" name="59" />
-# 			<entry value="http://purl.org/lobid/libtype#n60" name="60" />
-# 			<entry value="http://purl.org/lobid/libtype#n70" name="70" />
-# 			<entry value="http://purl.org/lobid/libtype#n81" name="80" />
-# 			<entry value="http://purl.org/lobid/libtype#n91" name="91" />
-# 		</map>
-# 	</maps>
-
-
-# 	<rules>
-# 		<choose name="@postalCodeForLookups">
-# 			<data source="plz"/>
-# 			<data source="postalCodeVisitor"/>
-# 			<data source="postalCodeMail"/>
-# 			<data source="postalCodeOther"/>
-# 		</choose>
-
+## <?xml version="1.0" encoding="UTF-8"?>
+## <!-- Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 -->
+## 
+## <metamorph xmlns="http://www.culturegraph.org/metamorph"
+## 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
+## 	entityMarker=".">
+## 	<macros>
+## 		<!-- url and provides: Handle urls without http:// or https:// and remove blanks -->
+## 		<macro name="url-group">
+## 			<group name="$[group_name]">
+## 				<choose>
+## 					<data source="$[dbs_field]">
+## 						<regexp match="http(.*)" />
+## 						<replace pattern="\s+" with=""/>
+## 					</data>
+## 					<data source="$[dbs_field]">
+## 						<regexp match="(www(.*))" format="http://${1}"/>
+## 						<replace pattern="\s+" with=""/>
+## 					</data>
+## 					<combine value="${hp}" name="$[group_name]" sameEntity="true" flushWith="009Q.z" reset="true">
+## 						<if>
+## 							<data source="009Q.z">
+## 								<equals string="$[sigel_code]" />
+## 							</data>
+## 						</if>
+## 						<choose sameEntity="true" flushWith="009Q.z" reset="true">
+## 							<data source="009Q.u" name="hp">
+## 								<regexp match="http(.*)" />
+## 								<replace pattern="\s+" with=""/>
+## 							</data>
+## 							<data source="009Q.u" name="hp">
+## 								<regexp match="(www(.*))" format=""http://${1}"/>
+## 								<replace pattern="\s+" with=""/>
+## 							</data>
+## 						</choose>
+## 					</combine>
+## 				</choose>
+## 			</group>
+## 		</macro>
+# do put_macro("url-group")
+# 	if any_match("$[dbs_field]","http(.*)")
+# 		copy_field("$[dbs_field]","@url-group")
+# 	elsif any_match("$[dbs_field]","(www(.*))")
+# 		copy_field("$[dbs_field]","@url-group")
+# 		replace_all("@url-group","(www(.*))","http://$1")
+# 	elsif exists("009Q")
+# 		do list(path:"009Q","var":"$i")
+# 			if any_equal("$i.z","$[sigel_code]")
+# 				if any_match("$i.u","http(.*)")
+# 					copy_field("$i.u","@url-group")
+# 				elsif any_match("$i.u","(www(.*))")
+# 					copy_field("$i.u","@url-group")
+# 					replace_all("@url-group","(www(.*))","http://$1")
+# 				end
+# 			end
+# 		end
+# 	end
+# 	replace_all("@url-group","\s+","")
+# 	move_field("@url-group","$[group_name]")
+# end
+#
+#		
+#
+## 		<macro name="make-id">
+## 			<choose>
+## 				<data source="$[isil-field]" name="$[output-name]">
+## 					<regexp match="(.*)" format="$[uri-base]" />
+## 				</data>
+## 				<data source="$[dbs-field]" name="$[output-name]">
+## 					<lookup in="$[dbs-lookup]" />
+## 				</data>
+## 			</choose>
+## 		</macro>
+# do put macro("make-id")
+# 	if any_match("$[isil-field]","(.*)")
+# 		copy_field("$[isil-field]","$[output-name]")
+# 		replace_all("$[output-name]","(.*)","$[uri-base]")
+# 	else
+# 		copy_field("$[dbs-field]","$[output-name]")
+# 		# lookup("$[output-name]","$[dbs-lookup]")
+# 	end
+# end
+#
+#
+## 	</macros>
+#
+## 	<maps>
+## 		<filemap name="isil2wikidata_map"
+## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/isil2wikidata.csv" />
+## 		<filemap name="libtype_map"
+## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/libtype-map.csv"/>
+## 		<filemap name="ags_map"
+## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/plz-ags-map.csv" />
+## 		<filemap name="rs_map"
+## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/ags-rs-map.csv" />
+## 		<filemap name="geonames_map"
+## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
+## 		<filemap name="plz_blacklist" files="plz-blacklist.csv" />
+#do once("maps")
+#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_map",target:"prefLabel", language:"de")
+#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_en_map",target:"prefLabel", language:"en")
+#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_value_to_id_map",target:"notation")    
+#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_map",target:"prefLabel", language:"de")   
+#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_en_map",target:"prefLabel", language:"en")
+#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_value_to_id_map",target:"notation") 
+#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_map",target:"prefLabel", language:"de")
+#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_en_map",target:"prefLabel", language:"en")
+#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_value_to_id_map",target:"notation") 
+#end
+#
+## 	<rules>
+## 		<choose name="@postalCodeForLookups">
+## 			<data source="plz"/>
+## 			<data source="postalCodeVisitor"/>
+## 			<data source="postalCodeMail"/>
+## 			<data source="postalCodeOther"/>
+## 		</choose>
+#
 if exists("plz")
 	copy_field("plz","@postalCodeForLookups")
 elsif exists("postalCodeVisitor")
@@ -250,78 +125,78 @@ elsif exists("postalCodeMail")
 elsif exists("postalCodeOther")
 	copy_field("postalCodeOther","@postalCodeForLookups")
 end
-
-# TODO: What is nam?
-# 		<data source="nam|029A.a" name="\@context">
-# 			<constant value="http://lobid.org/organisations/context.jsonld" />
-# 		</data>		
+#
+## TODO: What is nam?
+## 		<data source="nam|029A.a" name="\@context">
+## 			<constant value="http://lobid.org/organisations/context.jsonld" />
+## 		</data>		
 add_field("@context","http://lobid.org/organisations/context.jsonld")
-
-# 		<combine name="type" value="${typeurl}">
-# 			<data source="nam|029A.a" name="type" />
-# 			<choose>
-# 				<data source="035E.f" name="typeurl">
-# 					<lookup in="libtype_map" />
-# 				</data>
-# 				<data source="nam" name="typeurl">
-# 					<constant value="Library" />
-# 				</data>
-# 			</choose>
-# 		</combine>
-
-
+#
+## 		<combine name="type" value="${typeurl}">
+## 			<data source="nam|029A.a" name="type" />
+## 			<choose>
+## 				<data source="035E.f" name="typeurl">
+## 					<lookup in="libtype_map" />
+## 				</data>
+## 				<data source="nam" name="typeurl">
+## 					<constant value="Library" />
+## 				</data>
+## 			</choose>
+## 		</combine>
+#
+#
 copy_field("035E.f","@libType")
-lookup("@libType","libtype_map")
+# TODO: lookup("@libType","libtype_map")
 if exists("@libType")
 	copy_field("@libType","type")
 else
 	add_field("type","Library")
 end
-
-
-# 		<choose name="rs">
-# 			<data source="gvz_id">
-# 				<regexp match="\d{12}" />
-# 			</data>
-# 			<data source="gvz_id">
-# 				<regexp match="(\d{11})" format="0${1}"/>
-# 			</data>
-# 			<data source="032P.n">
-# 				<lookup in="rs_map" />
-# 			</data>
-# 			<data source="@postalCodeForLookups">
-# 				<blacklist map="plz_blacklist"/>
-# 				<lookup in="ags_map" />
-# 				<lookup in="rs_map" />
-# 			</data>
-# 		</choose>
-
-# TODO: No blacklist exists.
-
-if any_match("gvz_id","\d{11,12}")
+#
+#
+## 		<choose name="rs">
+## 			<data source="gvz_id">
+## 				<regexp match="\d{12}" />
+## 			</data>
+## 			<data source="gvz_id">
+## 				<regexp match="(\d{11})" format="0${1}"/>
+## 			</data>
+## 			<data source="032P.n">
+## 				<lookup in="rs_map" />
+## 			</data>
+## 			<data source="@postalCodeForLookups">
+## 				<blacklist map="plz_blacklist"/>
+## 				<lookup in="ags_map" />
+## 				<lookup in="rs_map" />
+## 			</data>
+## 		</choose>
+#
+## TODO: No blacklist exists.
+#
+if any_match("gvz_id","\\d{11,12}")
 	copy_field("gvz_id","@rs")
-	replace_all("@rs","^(\d{11})$","0${1}")
+	replace_all("@rs","^(\\d{11})$","0$1")
 elsif exists("032P.n")
 	copy_field("032P.n","@rs")
 else
 	copy_field("@postalCodeForLookups","@rs")
-# 				<blacklist map="plz_blacklist"/>
-	lookup("@rs","ags_map")
+# 				<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
+#	lookup("@rs","ags_map") TODO: Add map locally.
 end
 
-lookup("@rs","rs_map")
+# lookup("@rs","rs_map")
 copy_field("@rs","rs")
-# 		
-# 		<group name="name">
-# 			<choose>
-# 				<data source="nam" />
-# 				<data source="029A.a">
-# 					<!-- sanitize entries like "Ruhr-Universita\u0308t Bochum,\n\t\t\t\t\tUniversita\u0308tsbibliothek" -->
-# 					<replace pattern="\t|\n|\(\s\)\s+" with="" />
-# 				</data>
-# 			</choose>
-# 		</group>
-
+## 		
+## 		<group name="name">
+## 			<choose>
+## 				<data source="nam" />
+## 				<data source="029A.a">
+## 					<!-- sanitize entries like "Ruhr-Universita\u0308t Bochum,\n\t\t\t\t\tUniversita\u0308tsbibliothek" -->
+## 					<replace pattern="\t|\n|\(\s\)\s+" with="" />
+## 				</data>
+## 			</choose>
+## 		</group>
+#
 if exists("nam")
 	copy_field("nam","name")
 else
@@ -330,53 +205,53 @@ else
 	replace_all("@name","\\t|\\n|\\(\\s\\)\\s+","")
 	copy_field("@name","name")
 end
-
-# 		
-# 		<call-macro name="url-group" group_name="url" dbs_field="url" sigel_code="A"/>
-# 		<call-macro name="url-group" group_name="provides" dbs_field="opac" sigel_code="B"/>
-# 
-
-
-
-# 		<!-- API descriptions, see #421 -->
-# 		<combine name="@serviceUrl" value="${a}" sameEntity="true" reset="true" flushWith="009Q.z" >
-# 			<data source="009Q.x">
-# 				<not-equals string="Weitere Informationen"/>
-# 				<not-equals string="Weitere Information"/>
-# 			</data>
-# 			<data source="009Q.u" name="a">
-# 				<regexp match="http(.*)"/>
-# 				<replace pattern="\s+" with=""/>
-# 			</data>
-# 			<data source="009Q.z">
-# 				<equals string="W"/>
-# 			</data>
-# 		</combine>
-# 
-# 		<entity name="availableChannel[]" flushWith="record">
-# 			<entity name="" flushWith="@serviceUrl" reset="true">
-# 				<if>
-# 					<all reset="true">
-# 						<data source="009Q.x">
-# 							<not-equals string="Weitere Informationen"/>
-# 							<not-equals string="Weitere Information"/>
-# 						</data>
-# 					</all>
-# 				</if>
-# 				<data name="serviceType" source="009Q.x" />
-# 				<entity name="type[]" flushWith="@serviceUrl" reset="true" >
-# 					<data name="type" source="009Q.x">
-# 						<constant value="ServiceChannel"/>
-# 					</data>
-# 					<data name="type" source="009Q.x">
-# 						<regexp match="(SRU)|(DAIA)|(PAIA)|(OpenURL)" />
-# 						<constant value="WebAPI"/>
-# 					</data>
-# 				</entity>
-# 				<data source="@serviceUrl" name="serviceUrl" />
-# 			</entity>
-# 		</entity>
-
+#
+## 		
+#call_macro (name="url-group", group_name="url", dbs_field="url", sigel_code="A")
+#call_macro (name="url-group", group_name="provides", dbs_field="opac", sigel_code="B")
+## 
+#
+#
+#
+## 		<!-- API descriptions, see #421 -->
+## 		<combine name="@serviceUrl" value="${a}" sameEntity="true" reset="true" flushWith="009Q.z" >
+## 			<data source="009Q.x">
+## 				<not-equals string="Weitere Informationen"/>
+## 				<not-equals string="Weitere Information"/>
+## 			</data>
+## 			<data source="009Q.u" name="a">
+## 				<regexp match="http(.*)"/>
+## 				<replace pattern="\s+" with=""/>
+## 			</data>
+## 			<data source="009Q.z">
+## 				<equals string="W"/>
+## 			</data>
+## 		</combine>
+## 
+## 		<entity name="availableChannel[]" flushWith="record">
+## 			<entity name="" flushWith="@serviceUrl" reset="true">
+## 				<if>
+## 					<all reset="true">
+## 						<data source="009Q.x">
+## 							<not-equals string="Weitere Informationen"/>
+## 							<not-equals string="Weitere Information"/>
+## 						</data>
+## 					</all>
+## 				</if>
+## 				<data name="serviceType" source="009Q.x" />
+## 				<entity name="type[]" flushWith="@serviceUrl" reset="true" >
+## 					<data name="type" source="009Q.x">
+## 						<constant value="ServiceChannel"/>
+## 					</data>
+## 					<data name="type" source="009Q.x">
+## 						<regexp match="(SRU)|(DAIA)|(PAIA)|(OpenURL)" />
+## 						<constant value="WebAPI"/>
+## 					</data>
+## 				</entity>
+## 				<data source="@serviceUrl" name="serviceUrl" />
+## 			</entity>
+## 		</entity>
+#
 set_array("availableChannel[]")
 
 do list (path: "0090","var":"$i")
@@ -391,291 +266,302 @@ do list (path: "0090","var":"$i")
 				copy_field("$i.u","availableChannel[].$last.serviceUrl")
 			end
 		end
-
-# 
-# 		<data source="isil" name="isil"/>
-# keep isil
-
-# 		<data source="inr" name="dbsID"/>
-copy_field("inr","dbsID")
-
-# 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
-# 		<choose>
-# 			<data source="isil" name="id">
-# 				<regexp match="(.*)" format="http://lobid.org/organisations/${1}#!" />
-# 			</data>
-# 			<combine name="id" value="http://lobid.org/organisations/DBS-${inr}#!">
-# 				<data source="inr" name="inr">
-# 					<not-equals string="NULL" />
-# 				</data>
-# 			</combine>
-# 		</choose>
-if exists("isil")
-	paste("id","~http://lobid.org/organisations/","isil","~#!")
-else
-	unless any_equal("inr"."NULL")
-		paste("id","~http://lobid.org/organisations/DBS-","inr","~#!")
 	end
 end
-
-# 		
-# 		<!-- Telephone and email -->
-# 		<choose>	
-# 			<combine value="00${countryCode} ${prefix} ${phonenr}" name="telephone" sameEntity="true">
-# 				<data source="countryCode" name="countryCode" />
-# 				<data source="prefix" name="prefix" />
-# 				<data source="phone" name="phonenr" />
-# 			</combine>
-# 		</choose>
-# 		<choose>
-# 			<data source="email" name="email">
-# 				<regexp match="(.*)" format="mailto:${1}" />
-# 			</data>
-# 		</choose>
-
+#
+## 
+## 		<data source="isil" name="isil"/>
+## keep isil
+#
+## 		<data source="inr" name="dbsID"/>
+copy_field("inr","dbsID")
+#
+## 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
+## 		<choose>
+## 			<data source="isil" name="id">
+## 				<regexp match="(.*)" format="http://lobid.org/organisations/${1}#!" />
+## 			</data>
+## 			<combine name="id" value="http://lobid.org/organisations/DBS-${inr}#!">
+## 				<data source="inr" name="inr">
+## 					<not-equals string="NULL" />
+## 				</data>
+## 			</combine>
+## 		</choose>
+if exists("isil")
+	paste("id","~http://lobid.org/organisations/","isil","~#!",join_char:"")
+else
+	unless any_equal("inr","NULL")
+		paste("id","~http://lobid.org/organisations/DBS-","inr","~#!",join_char:"")
+	end
+end
+#
+## 		
+## 		<!-- Telephone and email -->
+## 		<choose>	
+## 			<combine value="00${countryCode} ${prefix} ${phonenr}" name="telephone" sameEntity="true">
+## 				<data source="countryCode" name="countryCode" />
+## 				<data source="prefix" name="prefix" />
+## 				<data source="phone" name="phonenr" />
+## 			</combine>
+## 		</choose>
+## 		<choose>
+## 			<data source="email" name="email">
+## 				<regexp match="(.*)" format="mailto:${1}" />
+## 			</data>
+## 		</choose>
+#
 paste("telephone","~00","contryCode","prefix","phonenr")
 paste("email","~mailto:","email")
-
-# 		<!-- Mailing address -->
-# 		<entity name="address" flushWith="record">
-# 			<data source="streetAddressMail" name="streetAddress" />
-# 			<data source="postOfficeBoxNumber" name="postOfficeBoxNumber" />
-# 			<data source="localityMail" name="addressLocality" />
-# 			<data source="postalCodeMail" name="postalCode" />
-# 			<data source="countryMail" name="addressCountry"/>
-# 			<data source="localityMail" name="type">
-# 				<constant value="PostalAddress" />
-# 			</data>
-# 		</entity>
-
+#
+## 		<!-- Mailing address -->
+## 		<entity name="address" flushWith="record">
+## 			<data source="streetAddressMail" name="streetAddress" />
+## 			<data source="postOfficeBoxNumber" name="postOfficeBoxNumber" />
+## 			<data source="localityMail" name="addressLocality" />
+## 			<data source="postalCodeMail" name="postalCode" />
+## 			<data source="countryMail" name="addressCountry"/>
+## 			<data source="localityMail" name="type">
+## 				<constant value="PostalAddress" />
+## 			</data>
+## 		</entity>
+#
 copy_field("streetAddressMail","address.streetAddress")
 copy_field("postOfficeBoxNumber","address.postOfficeBoxNumber")
 copy_field("localityMail","address.addressLocality")
 copy_field("postalCodeMail","address.postalCode")
 copy_field("countryMail","address.addressCountry")
 add_field("address.type","PostalAddress")
-
-# 		
-# 		<!-- Lookup fields for visitor and other address -->
-# 		<combine name="@geoLookupDbs" value="${strasse}_${plz}_${ort}_${land}" flushWith="record">
-# 			<if>
-# 				<all>
-# 					<data source="addressCountry"> <not-equals string=""/> </data>
-# 					<data source="strasse"> <not-equals string=""/> </data>
-# 					<data source="ort"> <not-equals string=""/> </data>
-# 					<data source="plz"> <not-equals string=""/> </data>
-# 				</all>
-# 			</if>
-# 			<data source="addressCountry" name="land"/>
-# 			<data source="strasse" name="strasse" />
-# 			<data source="ort" name="ort" />
-# 			<data source="plz" name="plz" />
-# 		</combine>	
-
-paste("@geoLookupDbs","strasse","plz","ort","addressCountry",sep_char:"_")
-
-
-# 		
-# 		<!-- Locations -->
-# 		<entity name="location[]" flushWith="record">
+#
+## 		
+## 		<!-- Lookup fields for visitor and other address -->
+## 		<combine name="@geoLookupDbs" value="${strasse}_${plz}_${ort}_${land}" flushWith="record">
+## 			<if>
+## 				<all>
+## 					<data source="addressCountry"> <not-equals string=""/> </data>
+## 					<data source="strasse"> <not-equals string=""/> </data>
+## 					<data source="ort"> <not-equals string=""/> </data>
+## 					<data source="plz"> <not-equals string=""/> </data>
+## 				</all>
+## 			</if>
+## 			<data source="addressCountry" name="land"/>
+## 			<data source="strasse" name="strasse" />
+## 			<data source="ort" name="ort" />
+## 			<data source="plz" name="plz" />
+## 		</combine>	
+#
+paste("@geoLookupDbs","strasse","plz","ort","addressCountry",join_char:"_")
+#
+#
+## 		
+## 		<!-- Locations -->
+## 		<entity name="location[]" flushWith="record">
 set_array("location[]")
-
-# 			<entity name="place" flushWith="record">
-# 				<data source="localityVisitor|strasse" name="type">
-# 					<regexp match="(.*)" format="Place" />
-# 				</data>
+#
+## 			<entity name="place" flushWith="record">
+## 				<data source="localityVisitor|strasse" name="type">
+## 					<regexp match="(.*)" format="Place" />
+## 				</data>
 add_field("location[].$append.type","Place")
-
-# 				<data source="descriptionVisitor" name="description"/>
+#
+## 				<data source="descriptionVisitor" name="description"/>
 copy_field("descriptionVisitor","location[].$last.description")
-# 				<entity name="address" flushWith="record">
-# 					<choose>
-# 						<data source="streetAddressVisitor" name="streetAddress" />
-# 						<data source="strasse" name="streetAddress">
-# 							<not-equals string="NULL"/>
-# 						</data>
+## 				<entity name="address" flushWith="record">
+## 					<choose>
+## 						<data source="streetAddressVisitor" name="streetAddress" />
+## 						<data source="strasse" name="streetAddress">
+## 							<not-equals string="NULL"/>
+## 						</data>
 if exists("streetAddressVisitor")
 	copy_field("streetAddressVisitor","location[].$last.address.streetAddress")
-elsif not_equal("strasse","NULL")
-	copy_field("strasse","location[].$last.address.streetAddress")
+else
+	unless any_equal("strasse","NULL")
+		copy_field("strasse","location[].$last.address.streetAddress")
+	end
 end
-
-# 					</choose>
-# 					<choose>
-# 						<data source="localityVisitor" name="addressLocality" />
-# 						<data source="ort" name="addressLocality" />
-# 					</choose>
-# 					<choose>
-# 						<data source="localityVisitor" name="type">
-# 							<constant value="PostalAddress" />
-# 						</data>
-# 						<data source="strasse" name="type">
-# 							<not-equals string="NULL"/>
-# 							<constant value="PostalAddress" />
-# 						</data>
-# 					</choose>
-
+## 					</choose>
+## 					<choose>
+## 						<data source="localityVisitor" name="addressLocality" />
+## 						<data source="ort" name="addressLocality" />
+## 					</choose>
+## 					<choose>
+## 						<data source="localityVisitor" name="type">
+## 							<constant value="PostalAddress" />
+## 						</data>
+## 						<data source="strasse" name="type">
+## 							<not-equals string="NULL"/>
+## 							<constant value="PostalAddress" />
+## 						</data>
+## 					</choose>
+#
 if exists("localityVisitor")
 	copy_field("localityVisitor","location[].$last.address.addressLocality")
 	add_field("location[].$last.address.type","PostalAddress")
-elsif not_equal("ort","NULL")
-	copy_field("ort","location[].$last.address.addressLocality")
-	add_field("location[].$last.address.type","PostalAddress")
+else 
+	unless any_equal("ort","NULL")
+		copy_field("ort","location[].$last.address.addressLocality")
+		add_field("location[].$last.address.type","PostalAddress")
+	end
 end
-
-# 					<data source="postalCodeVisitor" name="postalCode" />
-# 					<data source="plz" name="postalCode" />
-
-if exists("postalCodeVisitor")
-	copy_field("postalCodeVisitor","location[].$last.address.postalCode")
-elsif not_equal("plz","NULL")
-	copy_field("plz","location[].$last.address.postalCode")
-end
-# 					<choose>
-# 						<data source="countryVisitor" name="addressCountry"/>
-# 						<data source="addressCountry" name="addressCountry"/>
-# 					</choose>
+#
+## 					<data source="postalCodeVisitor" name="postalCode" />
+## 					<data source="plz" name="postalCode" />
+#
+	if exists("postalCodeVisitor")
+		copy_field("postalCodeVisitor","location[].$last.address.postalCode")
+	else
+		unless any_equal("plz","NULL")
+			copy_field("plz","location[].$last.address.postalCode")
+		end
+	end
+## 					<choose>
+## 						<data source="countryVisitor" name="addressCountry"/>
+## 						<data source="addressCountry" name="addressCountry"/>
+## 					</choose>
 if exists("countryVisitor")
 	copy_field("countryVisitor","location[].$last.address.addressCountry")
-elsif not_equal("addressCountry","NULL")
-	copy_field("addressCountry","location[].$last.address.addressCountry")
+else
+	unless any_equal("addressCountry","NULL")
+		copy_field("addressCountry","location[].$last.address.addressCountry")
+	end
 end
-
-
-
-# 				</entity>
-# 				<entity name="openingHoursSpecification" flushWith="record">
-# 					<data source="openingHoursVisitor|oef" name="type">
-# 						<constant value="OpeningHoursSpecification" />
-# 					</data>
+#
+#
+#
+## 				</entity>
+## 				<entity name="openingHoursSpecification" flushWith="record">
+## 					<data source="openingHoursVisitor|oef" name="type">
+## 						<constant value="OpeningHoursSpecification" />
+## 					</data>
 add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
-
-# 					<choose>
-# 						<data source="openingHoursVisitor" name="description" />
-# 						<data source="oeffnungszeiten" name="description" />
-# 					</choose>
+#
+## 					<choose>
+## 						<data source="openingHoursVisitor" name="description" />
+## 						<data source="oeffnungszeiten" name="description" />
+## 					</choose>
 if exists("openingHoursVisitor")
 	copy_field("openingHoursVisitor","location[].$last.openingHoursSpecification.description")
-elsif not_equal("oeffnungszeiten","NULL")
-	copy_field("oeffnungszeiten","location[].$last.openingHoursSpecification.description")
+else
+	unless any_equal("oeffnungszeiten","NULL")
+		copy_field("oeffnungszeiten","location[].$last.openingHoursSpecification.description")
+	end
 end
-
-
-# 					<data source="openingCommentVisitor" name="comment" />
+#
+#
+## 					<data source="openingCommentVisitor" name="comment" />
 copy_field("openingCommentVisitor","location[].$last.openingHoursSpecification.comment")
-
-# 				</entity>
-# 				<entity name="geo" flushWith="record">
-# 					<choose>
-# 						<data source="latDbs" name="lat" /> <!-- dbs verzeichnis -->
-# 						<data source="latVisitor" name="lat" /> <!-- zdb sigel verzeichnis -->
-# 						<data source="@geoLookupDbs" name="lat"> <!-- geo lookup pelias -->
-# 							<lookup in="addLatMap" />
-# 						</data>
-# 					</choose>
+#
+## 				</entity>
+## 				<entity name="geo" flushWith="record">
+## 					<choose>
+## 						<data source="latDbs" name="lat" /> <!-- dbs verzeichnis -->
+## 						<data source="latVisitor" name="lat" /> <!-- zdb sigel verzeichnis -->
+## 						<data source="@geoLookupDbs" name="lat"> <!-- geo lookup pelias -->
+## 							<lookup in="addLatMap" />
+## 						</data>
+## 					</choose>
 if exists("latDbs")
 	copy_field("latDbs","location[].$last.geo.lat")
 elsif exists("latVisitor")
 	copy_field("latVisitor","location[].$last.geo.lat")
 elsif exists("@geoLookupDbs")
-	lookup("@geoLookupDbs","addLatMap" )
+#	lookup("@geoLookupDbs","addLatMap" )
 	copy_field("@geoLookupDbs","location[].$last.geo.lat")
 end
-
-# 					<choose>
-# 						<data source="lonDbs" name="lon" />
-# 						<data source="lonVisitor" name="lon" />
-# 						<data source="@geoLookupDbs" name="lon">
-# 							<lookup in="addLongMap" />
-# 						</data>
-# 					</choose>
-
+#
+## 					<choose>
+## 						<data source="lonDbs" name="lon" />
+## 						<data source="lonVisitor" name="lon" />
+## 						<data source="@geoLookupDbs" name="lon">
+## 							<lookup in="addLongMap" />
+## 						</data>
+## 					</choose>
+#
 if exists("lonDbs")
 	copy_field("lonDbs","location[].$last.geo.lon")
 elsif exists("lonVisitor")
 	copy_field("lonVisitor","location[].$last.geo.lon")
 elsif exists("@geoLookupDbs")
-	lookup("@geoLookupDbs","addlongMap" )
+#	lookup("@geoLookupDbs","addlongMap" )
 	copy_field("@geoLookupDbs","location[].$last.geo.lon")
 end
-
-# 				</entity>
-# 			</entity>
-# 			<entity name="place" flushWith="record">
-# 				<data source="localityOther" name="type">
-# 					<regexp match="(.*)" format="Place" />
-# 				</data>				
+#
+## 				</entity>
+## 			</entity>
+## 			<entity name="place" flushWith="record">
+## 				<data source="localityOther" name="type">
+## 					<regexp match="(.*)" format="Place" />
+## 				</data>				
 add_field("location[].$append.place.type","Place")
-
-# 				<data source="descriptionOther" name="description"/>
+#
+## 				<data source="descriptionOther" name="description"/>
 copy_field("descriptionOther","location[].$last.description")
-# 				<entity name="address" flushWith="record">
-# 					<data source="streetAddressOther" name="streetAddress" />
+## 				<entity name="address" flushWith="record">
+## 					<data source="streetAddressOther" name="streetAddress" />
 copy_field("streetAddressOther","location[].$last.address.streetAddress")
-
-# 					<data source="localityOther" name="addressLocality" />
+#
+## 					<data source="localityOther" name="addressLocality" />
 copy_field("localityOther","location[].$last.address.addressLocality")
-# 					<data source="postalCodeOther" name="postalCode" />
+## 					<data source="postalCodeOther" name="postalCode" />
 copy_field("postalCodeOther","location[].$last.address.postalCode")
-# 					<data source="countryOther" name="addressCountry" />
+## 					<data source="countryOther" name="addressCountry" />
 copy_field("countryOther","location[].$last.address.addressCountry")
-# 					<data source="localityOther" name="type">
-# 						<constant value="PostalAddress" />
-# 					</data>
+## 					<data source="localityOther" name="type">
+## 						<constant value="PostalAddress" />
+## 					</data>
 add_field("location[].$last.address.type","PostalAddress")
-# 				</entity>
-# 				<entity name="openingHoursSpecification" flushWith="record">
-# 					<data source="openingHoursOther" name="type">
-# 						<constant value="OpeningHoursSpecification" />
-# 					</data>						
+## 				</entity>
+## 				<entity name="openingHoursSpecification" flushWith="record">
+## 					<data source="openingHoursOther" name="type">
+## 						<constant value="OpeningHoursSpecification" />
+## 					</data>						
 add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
-
-# 					<data source="openingHoursOther" name="description" />
+#
+## 					<data source="openingHoursOther" name="description" />
 copy_field("countryOther","location[].$last.openingHoursSpecification.description")
-# 					<data source="openingCommentOther" name="comment" />
-# 				</entity>
-# 				<!-- combine field for look in coordinate maps -->
-# 				<entity name="geo" flushWith="record">
-# 					<choose>
-# 						<data source="latOther" name="lat" />
-# 					</choose>
+## 					<data source="openingCommentOther" name="comment" />
+## 				</entity>
+## 				<!-- combine field for look in coordinate maps -->
+## 				<entity name="geo" flushWith="record">
+## 					<choose>
+## 						<data source="latOther" name="lat" />
+## 					</choose>
 copy_field("latOther","location[].$last.geo.lat")
-# 					<choose>
-# 						<data source="lonOther" name="lon" />
-# 					</choose>
+## 					<choose>
+## 						<data source="lonOther" name="lon" />
+## 					</choose>
 copy_field("lonOther","location[].$last.geo.lon")
-# 				</entity>
-# 			</entity>
-# 		</entity>
-# 
-
-
+## 				</entity>
+## 			</entity>
+## 		</entity>
+## 
+#
+#
 # TODO:
-# 		<!-- Determine classification, fundertype, and stocksize ID, loop back '@' -->
-# 		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_id" dbs-lookup="libtype_value_to_id_map"
-# 			uri-base="http://purl.org/lobid/libtype#n${1}" output-name="@classificationId"/>
-# 		<call-macro name="make-id" isil-field="035E.g" dbs-field="utr_id" dbs-lookup="fundertype_value_to_id_map"
-# 			uri-base="http://purl.org/lobid/fundertype#n${1}" output-name="@fundertypeId"/>
-# 		<call-macro name="make-id" isil-field="035E.h" dbs-field="bestandsgroessenklasse_id" dbs-lookup="stocksize_value_to_id_map"
-# 			uri-base="http://purl.org/lobid/stocksize#n${1}" output-name="@stocksizeId"/>
-# 
-# 		<!-- Use classification, fundertype, and stocksize ID for labels -->
-# 		<entity name="classification" flushWith="record">
-# 			<data source="@classificationId" name="id"/>
-# 			<data source="@classificationId" name="type">
-# 				<constant value="Concept" />
-# 			</data>
-# 			<entity name="label" flushWith="record">
-# 				<data source="@classificationId" name="de">
-# 					<lookup in="libtype_id_to_value_map" />
-# 				</data>
-# 				<data source="@classificationId" name="en">
-# 					<lookup in="libtype_id_to_value_en_map" />
-# 				</data>
-# 			</entity>
-# 		</entity>
+## 		<!-- Determine classification, fundertype, and stocksize ID, loop back '@' -->
+## 		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_id" dbs-lookup="libtype_value_to_id_map"
+## 			uri-base="http://purl.org/lobid/libtype#n${1}" output-name="@classificationId"/>
+## 		<call-macro name="make-id" isil-field="035E.g" dbs-field="utr_id" dbs-lookup="fundertype_value_to_id_map"
+## 			uri-base="http://purl.org/lobid/fundertype#n${1}" output-name="@fundertypeId"/>
+## 		<call-macro name="make-id" isil-field="035E.h" dbs-field="bestandsgroessenklasse_id" dbs-lookup="stocksize_value_to_id_map"
+## 			uri-base="http://purl.org/lobid/stocksize#n${1}" output-name="@stocksizeId"/>
 
-do list(path:"@classificationId",,"var":"$i")
+## 		<!-- Use classification, fundertype, and stocksize ID for labels -->
+## 		<entity name="classification" flushWith="record">
+## 			<data source="@classificationId" name="id"/>
+## 			<data source="@classificationId" name="type">
+## 				<constant value="Concept" />
+## 			</data>
+## 			<entity name="label" flushWith="record">
+## 				<data source="@classificationId" name="de">
+## 					<lookup in="libtype_id_to_value_map" />
+## 				</data>
+## 				<data source="@classificationId" name="en">
+## 					<lookup in="libtype_id_to_value_en_map" />
+## 				</data>
+## 			</entity>
+## 		</entity>
+#
+do list(path:"@classificationId","var":"$i")
 	copy_field("$i","classification.id")
 	add_field("classification.type","Concept")
 	copy_field("$i","classification.label.de")
@@ -683,24 +569,24 @@ do list(path:"@classificationId",,"var":"$i")
 	copy_field("$i","classification.label.en")
 	lookup("classification.label.en","libtype_id_to_value_en_map")
 end
-
-# 
-# 		<entity name="fundertype" flushWith="record">
-# 			<data source="@fundertypeId" name="id"/>
-# 			<data source="@fundertypeId" name="type">
-# 				<constant value="Concept" />
-# 			</data>
-# 			<entity name="label" flushWith="record">
-# 				<data source="@fundertypeId" name="de">
-# 					<lookup in="fundertype_id_to_value_map" />
-# 				</data>
-# 				<data source="@fundertypeId" name="en">
-# 					<lookup in="fundertype_id_to_value_en_map" />
-# 				</data>
-# 			</entity>
-# 		</entity>
-
-do list(path:"@funderTypeId",,"var":"$i")
+#
+## 
+## 		<entity name="fundertype" flushWith="record">
+## 			<data source="@fundertypeId" name="id"/>
+## 			<data source="@fundertypeId" name="type">
+## 				<constant value="Concept" />
+## 			</data>
+## 			<entity name="label" flushWith="record">
+## 				<data source="@fundertypeId" name="de">
+## 					<lookup in="fundertype_id_to_value_map" />
+## 				</data>
+## 				<data source="@fundertypeId" name="en">
+## 					<lookup in="fundertype_id_to_value_en_map" />
+## 				</data>
+## 			</entity>
+## 		</entity>
+#
+do list(path:"@funderTypeId","var":"$i")
 	copy_field("$i","funderType.id")
 	add_field("funderType.type","Concept")
 	copy_field("$i","funderType.label.de")
@@ -708,33 +594,33 @@ do list(path:"@funderTypeId",,"var":"$i")
 	copy_field("$i","funderType.label.en")
 	lookup("funderType.label.en","fundertype_id_to_value_en_map")
 end
-
-
-# 
-# 		<entity name="collects" flushWith="record">
-# 			<data name="type" source="@stocksizeId">
-# 				<constant value="Collection"/>
-# 			</data>
-# 			<entity name="extent" flushWith="record">
-# 				<data source="@stocksizeId" name="id"/>
-# 				<data source="@stocksizeId" name="type">
-# 					<constant value="Concept" />
-# 				</data>
-# 				<entity name="label" flushWith="record">
-# 					<data source="@stocksizeId" name="de">
-# 						<lookup in="stocksize_id_to_value_map" />
-# 					</data>
-# 					<data source="@stocksizeId" name="en">
-# 						<lookup in="stocksize_id_to_value_en_map" />
-# 					</data>
-# 				</entity>
-# 			</entity>
-# 			<entity name="subject[]" flushWith="record">
-# 				<data source="035G.a" name="subject" />
-# 			</entity>
-# 		</entity>
-
-do list(path:"@stocksizeId",,"var":"$i")
+#
+#
+## 
+## 		<entity name="collects" flushWith="record">
+## 			<data name="type" source="@stocksizeId">
+## 				<constant value="Collection"/>
+## 			</data>
+## 			<entity name="extent" flushWith="record">
+## 				<data source="@stocksizeId" name="id"/>
+## 				<data source="@stocksizeId" name="type">
+## 					<constant value="Concept" />
+## 				</data>
+## 				<entity name="label" flushWith="record">
+## 					<data source="@stocksizeId" name="de">
+## 						<lookup in="stocksize_id_to_value_map" />
+## 					</data>
+## 					<data source="@stocksizeId" name="en">
+## 						<lookup in="stocksize_id_to_value_en_map" />
+## 					</data>
+## 				</entity>
+## 			</entity>
+## 			<entity name="subject[]" flushWith="record">
+## 				<data source="035G.a" name="subject" />
+## 			</entity>
+## 		</entity>
+#
+do list(path:"@stocksizeId","var":"$i")
 	copy_field("$i","collects.id")
 	add_field("collects.type","Collection")
 	copy_field("$i","collects.label.de")
@@ -747,30 +633,33 @@ set_array("collects.subject[]")
 do list(path:"035G","var":"$i")
 	copy_field("$i.a","collects.subject[].$append")
 end
-
-
-# 
-# 		<data source="isil" name="@wikidataMap">
-# 			<compose prefix='"' postfix='"'/>
-# 			<lookup in="isil2wikidata_map" />
-# 		</data>
-paste("@wikidataMap","~","isil","~",sep_char:"")
-
-# 		<entity name="alternateName[]" flushWith="record">
-# 			<combine name="${code}" value="${label}" sameEntity="true" reset="true">
-# 				<if><data source="029@.4"><not-equals string="d"/></data></if>
-# 				<data source="029@.a" name="label"/>
-# 				<data source="029@.4" name="code"/>
-# 			</combine>
-# 		</entity>
-# 		<combine name="name_en" value="${label}" sameEntity="true" reset="true">
-# 			<if><data source="029@.4"><equals string="d"/></data></if>
-# 			<data source="029@.a" name="label"/>
-# 		</combine>
+#
+#
+## 
+## 		<data source="isil" name="@wikidataMap">
+## 			<compose prefix='"' postfix='"'/>
+## 			<lookup in="isil2wikidata_map" />
+## 		</data>
+copy_field("isil","@wikidataMap")
+prepend("@wikidataMap",'"')
+append("@wikidataMap",'"')
+# lookup ("@wikidataMap","isil2wikidata_map")
+##
+## 		<entity name="alternateName[]" flushWith="record">
+## 			<combine name="${code}" value="${label}" sameEntity="true" reset="true">
+## 				<if><data source="029@.4"><not-equals string="d"/></data></if>
+## 				<data source="029@.a" name="label"/>
+## 				<data source="029@.4" name="code"/>
+## 			</combine>
+## 		</entity>
+## 		<combine name="name_en" value="${label}" sameEntity="true" reset="true">
+## 			<if><data source="029@.4"><equals string="d"/></data></if>
+## 			<data source="029@.a" name="label"/>
+## 		</combine>
 set_array("alternateName[]")
 do list(path:"029@","var":"$i")
 	if any_equal("$i.4","d")
-		copy_field("$i.name_en")
+		copy_field("$i.name_en","alternateName[].$append")
 	else
 		set_array("$i.@alternateName")
 		copy_field("$i.4","$i.@alternateName.1")
@@ -779,173 +668,196 @@ do list(path:"029@","var":"$i")
 		copy_field("$i.@alternateName","alternateName[].$append")
 	end
 end
-
-
-
-# 		<entity name="sameAs[]" flushWith="record">
+#
+#
+#
+## 		<entity name="sameAs[]" flushWith="record">
 set_array("sameAs[]")
-
-# 			<combine name="sameAs" value="${wikidataQid}">
-# 				<data source="@wikidataMap" name="wikidataQid">
-# 					<occurrence only="1" />
-# 				</data>
-# 			</combine>
+#
+## 			<combine name="sameAs" value="${wikidataQid}">
+## 				<data source="@wikidataMap" name="wikidataQid">
+## 					<occurrence only="1" />
+## 				</data>
+## 			</combine>
 copy_field("@wikidataMap","sameAs[].$append")
-
-# 			<data source="isil" name="sameAs">
-# 				<regexp match="(.*)"
-# 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
-# 				<occurrence only="1" />
-# 			</data>
+#
+## 			<data source="isil" name="sameAs">
+## 				<regexp match="(.*)"
+## 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
+## 				<occurrence only="1" />
+## 			</data>
 paste("sameAs[].$append","~http://ld.zdb-services.de/resource/organisations/","isil",join_char:"" )
-
-# 		</entity>
-# 		
-# 		<!-- Prepare "Gemeindeschlüssel" for lookup in geonames map and "ags" -->
-# 		<choose>
-# 			<data source="gemeindekennzahl" name="@ags">
-# 				<regexp match="(\d{5})(\d{4})(\d{3})" format="${1}${3}" />
-# 			</data>
-# 			<data source="gemeindekennzahl" name="@ags">
-# 				<regexp match="(\d{4})(\d{4})(\d{3})" format="${1}${3}" />
-# 			</data>
-if any_match("gemeindekennzahl","\d{11,12}")
+#
+## 		</entity>
+## 		
+## 		<!-- Prepare "Gemeindeschlüssel" for lookup in geonames map and "ags" -->
+## 		<choose>
+## 			<data source="gemeindekennzahl" name="@ags">
+## 				<regexp match="(\d{5})(\d{4})(\d{3})" format="${1}${3}" />
+## 			</data>
+## 			<data source="gemeindekennzahl" name="@ags">
+## 				<regexp match="(\d{4})(\d{4})(\d{3})" format="${1}${3}" />
+## 			</data>
+if any_match("gemeindekennzahl","\\d{11,12}")
 	copy_field("gemeindekennzahl","@ags")
-	replace_all("@ags","^(\d{11})$","0${1}")
-	replace_all("@ags","(\d{5})(\d{4})(\d{3})","${1}${3}")
+	replace_all("@ags","^(\\d{11})$","0$1")
+	replace_all("@ags","(\\d{5})(\\d{4})(\\d{3})","$1$3")
 
-# 			<data source="032P.n" name="@ags">
-# 				<regexp match="0(\d{7})" format="${1}" />
-# 			</data>
-# 			<data source="032P.n" name="@ags">
-# 				<regexp match="\d{8}" />
-# 			</data>
+## 			<data source="032P.n" name="@ags">
+## 				<regexp match="0(\d{7})" format="${1}" />
+## 			</data>
+## 			<data source="032P.n" name="@ags">
+## 				<regexp match="\d{8}" />
+## 			</data>
 elsif any_match("032P.n","\\d{8}")
 	copy_field("032P.n","@ags")
-	replace_all("@ags","^0().*)$","${1}")
+	replace_all("@ags","^0(.*)$","$1")
 
-	 			<data source="@postalCodeForLookups" name="@ags">
-# 				<blacklist map="plz_blacklist"/>
-# 				<lookup in="ags_map" />
-# 			</data>
-# 		</choose>
+#	 			<data source="@postalCodeForLookups" name="@ags">
+## 				<blacklist map="plz_blacklist"/>
+## 				<lookup in="ags_map" />
+## 			</data>
+## 		</choose>
 else
 	copy_field("@postalCodeForLookups","@ags")
 # 				TODO: <blacklist map="plz_blacklist"/>
-	lookup("@ags","ags_map")
+#TODO:	lookup("@ags","ags_map")
 end
-
-
 #
-# 		<combine name="containedIn" value="http://sws.geonames.org/${geoname}/">
-# 			<data source="@ags" name="geoname">
-# 				<lookup in="geonames_map" />
-# 			</data>
-# 		</combine>
-lookup("@ags","geonames_map")
+#
+##
+## 		<combine name="containedIn" value="http://sws.geonames.org/${geoname}/">
+## 			<data source="@ags" name="geoname">
+## 				<lookup in="geonames_map" />
+## 			</data>
+## 		</combine>
+#TODO: lookup("@ags","geonames_map")
 paste("containedIn","http://sws.geonames.org/","@ags")
-
-
-
-# 
-# 		<!-- Entities with id and label for 'linkedTo' -->
+#
+#
+#
+## 
+## 		<!-- Entities with id and label for 'linkedTo' -->
 do list(path: "035I","var":"$i")
-# 		<entity name="linkedTo" >
-# 			<data source="035I.c" name="id">
-# 				<regexp match="(?i).*gbv" format="http://lobid.org/organisations/DE-601#!" />
-# 			</data>
-# 			<data source="035I.c" name="label">
-# 				<regexp match="(?i).*gbv" format="Verbundzentrale des GBV (VZG)"/>
-# 			</data>
-# 		</entity>
+## 		<entity name="linkedTo" >
+## 			<data source="035I.c" name="id">
+## 				<regexp match="(?i).*gbv" format="http://lobid.org/organisations/DE-601#!" />
+## 			</data>
+## 			<data source="035I.c" name="label">
+## 				<regexp match="(?i).*gbv" format="Verbundzentrale des GBV (VZG)"/>
+## 			</data>
+## 		</entity>
 	if any_contain("$i.c","gbv")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-601#!")
 		add_field("linkedTo.label","Verbundzentrale des GBV (VZG)")
 		# 		<entity name="linkedTo">
-# 			<data source="035I.c" name="id">
-# 				<regexp match="(?i).*bvb" format="http://lobid.org/organisations/DE-604#!" />
-# 			</data>
-# 			<data source="035I.c" name="label">
-# 				<regexp match="(?i).*bvb" format="Bibliotheksverbund Bayern"/>
-# 			</data>
-# 		</entity>
+## 			<data source="035I.c" name="id">
+## 				<regexp match="(?i).*bvb" format="http://lobid.org/organisations/DE-604#!" />
+## 			</data>
+## 			<data source="035I.c" name="label">
+## 				<regexp match="(?i).*bvb" format="Bibliotheksverbund Bayern"/>
+## 			</data>
+## 		</entity>
 	elsif  any_contain("$i.c","bvb")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-604#!")
 		add_field("linkedTo.label","Bibliotheksverbund Bayern (BVB)")
 
 
 
-# 		<entity name="linkedTo">
-# 			<data source="035I.c" name="id">
-# 				<regexp match="(?i).*hebis" format="http://lobid.org/organisations/DE-603#!" />
-# 			</data>
-# 			<data source="035I.c" name="label">
-# 				<regexp match="(?i).*hebis" format="Hessisches BibliotheksInformationsSystem HeBIS" />
-# 			</data>
-# 		</entity>
-	elsif  any_contain("$i.c","hebis")
+## 		<entity name="linkedTo">
+## 			<data source="035I.c" name="id">
+## 				<regexp match="(?i).*hebis" format="http://lobid.org/organisations/DE-603#!" />
+## 			</data>
+## 			<data source="035I.c" name="label">
+## 				<regexp match="(?i).*hebis" format="Hessisches BibliotheksInformationsSystem HeBIS" />
+## 			</data>
+## 		</entity>
+#	elsif  any_contain("$i.c","hebis")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-603#!")
 		add_field("linkedTo.label","Hessisches BibliotheksInformationsSystem HeBIS")
 
 
-# 		<entity name="linkedTo">
-# 			<data source="035I.c" name="id">
-# 				<regexp match="(?i).*hbz" format="http://lobid.org/organisations/DE-605#!" />
-# 			</data>
-# 			<data source="035I.c" name="label">
-# 				<regexp match="(?i).*hbz" format="Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)" />
-# 			</data>
-# 		</entity>
+## 		<entity name="linkedTo">
+## 			<data source="035I.c" name="id">
+## 				<regexp match="(?i).*hbz" format="http://lobid.org/organisations/DE-605#!" />
+## 			</data>
+## 			<data source="035I.c" name="label">
+## 				<regexp match="(?i).*hbz" format="Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)" />
+## 			</data>
+## 		</entity>
 	elsif  any_contain("$i.c","hbz")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-605#!")
 		add_field("linkedTo.label","Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)")
 
-# 		<entity name="linkedTo">
-# 			<data source="035I.c" name="id">
-# 				<regexp match="(?i).*kobv" format="http://lobid.org/organisations/DE-602#!" />
-# 			</data>
-# 			<data source="035I.c" name="label">
-# 				<regexp match="(?i).*kobv" format="Kooperativer Bibliotheksverbund Berlin-Brandenburg" />
-# 			</data>
-# 		</entity>
+## 		<entity name="linkedTo">
+## 			<data source="035I.c" name="id">
+## 				<regexp match="(?i).*kobv" format="http://lobid.org/organisations/DE-602#!" />
+## 			</data>
+## 			<data source="035I.c" name="label">
+## 				<regexp match="(?i).*kobv" format="Kooperativer Bibliotheksverbund Berlin-Brandenburg" />
+## 			</data>
+## 		</entity>
 	elsif  any_contain("$i.c","kobv")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-602#!")
 		add_field("linkedTo.label","Kooperativer Bibliotheksverbund Berlin-Brandenburg")
 
-# 		<entity name="linkedTo">
-# 			<data source="035I.c" name="id">
-# 				<regexp match="(?i).*swb" format="http://lobid.org/organisations/DE-576#!" />
-# 			</data>
-# 			<data source="035I.c" name="label">
-# 				<regexp match="(?i).*swb" format="Bibliotheksservice-Zentrum Baden-Württemberg (BSZ)" />
-# 			</data>
-# 		</entity>
+## 		<entity name="linkedTo">
+## 			<data source="035I.c" name="id">
+## 				<regexp match="(?i).*swb" format="http://lobid.org/organisations/DE-576#!" />
+## 			</data>
+## 			<data source="035I.c" name="label">
+## 				<regexp match="(?i).*swb" format="Bibliotheksservice-Zentrum Baden-Württemberg (BSZ)" />
+## 			</data>
+## 		</entity>
 	elsif  any_contain("$i.c","swb")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-576#!")
 		add_field("linkedTo.label","Bibliotheksservice-Zentrum Baden-Württemberg (BSZ)")
+	end
+end
 
-
-
-# 		<entity name="mainEntityOfPage">
-# 			<data source="isil" name="id">
-# 				<regexp match="(.*)" format="http://lobid.org/organisations/${1}" />
-# 			</data>
-# 			<data source="001A.0" name="dateCreated">
-# 				<replace pattern="^.+?:" with="" />
-# 			</data>
-# 			<data source="001B.0" name="dateModified">
-# 				<replace pattern="^.+?:" with="" />
-# 			</data>
-# 		</entity>
-# 	</rules>
-
+## 		<entity name="mainEntityOfPage">
+## 			<data source="isil" name="id">
+## 				<regexp match="(.*)" format="http://lobid.org/organisations/${1}" />
+## 			</data>
+## 			<data source="001A.0" name="dateCreated">
+## 				<replace pattern="^.+?:" with="" />
+## 			</data>
+## 			<data source="001B.0" name="dateModified">
+## 				<replace pattern="^.+?:" with="" />
+## 			</data>
+## 		</entity>
+## 	</rules>
+#
 copy_field("id","mainEntityOfPage.id")
 copy_field("001A.0","mainEntityOfPage.dateCreated")
 copy_field("001B.0","mainEntityOfPage.dateModified")
 
 replace_all("mainEntityOfPage.dateCreated","^.+?:","")
 replace_all("mainEntityOfPage.dateCreated","^.+?:","")
-
-
-# </metamorph>
-# 
+#
+#
+## </metamorph>
+## 
+#
+retain(
+	"address",
+	"alternateName[]",
+	"availableChannel[]",
+	"collects",
+	"containedIn",
+	"dbsID",
+	"email",
+	"funderType",
+	"id",
+	"isil",
+	"location[]",
+	"linkedTo",
+	"mainEntityOfPage",
+	"name",
+	"provides",
+	"rs",
+	"sameAs[]",
+	"telephone",
+	"type",
+	"url"
+	)

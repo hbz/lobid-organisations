@@ -1,217 +1,23 @@
-# <?xml version="1.0" encoding="UTF-8"?>
-# <!-- Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 -->
-# 
-# <metamorph xmlns="http://www.culturegraph.org/metamorph"
-# 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
-# 	entityMarker=".">
-# 	<rules>
 # 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
 # 		
 # 		<!-- internal ID: Use DBS ID (.b) if available, use ISIL (.e) if not -->
-# 		<choose>
-# 			<data name="_id" source="008H.b">
-# 				<replace  pattern=" "  with=""/>
-# 				<regexp match="[A-Z]{2}\d{3}"/>
-# 			</data>
-# 			<data name="_id" source="008H.e">
-# 				<replace  pattern=" "  with=""/>
-# 			</data>
-# 		</choose>
-# 
-# 		<data name="inr" source="008H.b">
-# 			<replace  pattern=" "  with=""/>
-# 			<regexp match="[A-Z]{2}\d{3}"/>
-# 		</data>
-# 		<data name="isil" source="008H.e">
-# 			<replace  pattern=" "  with=""/>
-# 		</data>
+
 copy_field("008H.b","@dbsId")
 copy_field("008H.e","isil") 
-replace_all("@dbsId|isil"," ","")
+replace_all("@dbsId"," ","")
+replace_all("isil"," ","")
 if any_match("@dbsId","[A-Z]{2}\\d{3}")
 	copy_field("@dbsId","_id")
 	copy_field("@dbsId","inr")
 else
-	copy_field("@isil","_id")
+	copy_field("isil","_id")
 end
 
+do list(path: "032P","var":"$i")
 
-# 				
 # 		<!-- Different types of addresses -->
 # 		<!-- 1. Main address / address for visitors (type "S") -->		
-# 		<combine name="streetAddressVisitor" value="${strAdr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.a" name="strAdr" />
-# 		</combine>
-# 		<combine name="localityVisitor" value="${loc}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.b" name="loc" />
-# 		</combine>
-# 		<combine name="countryVisitor" value="${cntr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.d" name="cntr" />
-# 		</combine>
-# 		<combine name="postalCodeVisitor" value="${pstCd}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.e" name="pstCd" />
-# 		</combine>
-# 		<combine name="openingHoursVisitor" value="${opening}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.i" name="opening" />
-# 		</combine>
-# 		<combine name="openingCommentVisitor" value="${comment}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.j" name="comment" />
-# 		</combine>
-# 		<combine name="latVisitor" value="${lat}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.l" name="lat" />
-# 		</combine>
-# 		<combine name="lonVisitor" value="${lon}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.k" name="lon" />
-# 		</combine>
-# 		<combine name="@descriptionVisitorField3" value="${descr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data name="descr" source="032P.3" />
-# 		</combine>	
-# 		<combine name="@descriptionVisitorFieldZ" value="${descr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data name="descr" source="032P.z" />
-# 		</combine>
-# 		<concat delimiter=", " name="descriptionVisitor">
-# 			<data source="@descriptionVisitorField3" />
-# 			<data source="@descriptionVisitorFieldZ" />
-# 		</concat>
-# 		<!-- 2. Other address (type "W")-->
-# 		<combine name="streetAddressOther" value="${strAdr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.a" name="strAdr" />
-# 		</combine>
-# 		<combine name="localityOther" value="${loc}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.b" name="loc" />
-# 		</combine>		
-# 		<combine name="countryOther" value="${cntr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.d" name="cntr" />
-# 		</combine>
-# 		<combine name="postalCodeOther" value="${pstCd}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.e" name="pstCd" />
-# 		</combine>
-# 		<combine name="openingHoursOther" value="${opening}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.i" name="opening" />
-# 		</combine>
-# 		<combine name="openingCommentOther" value="${comment}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.j" name="comment" />
-# 		</combine>
-# 		<combine name="latOther" value="${lat}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.l" name="lat" />
-# 		</combine>
-# 		<combine name="lonOther" value="${lon}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.k" name="lon" />
-# 		</combine>
-# 		<combine name="@descriptionOtherField3" value="${descr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data name="descr" source="032P.3" />
-# 		</combine>	
-# 		<combine name="@descriptionOtherFieldZ" value="${descr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "W" />
-# 				</data>
-# 			</if>
-# 			<data name="descr" source="032P.z" />
-# 		</combine>
-# 		<concat delimiter=", " name="descriptionOther">
-# 			<data source="@descriptionOtherField3" />
-# 			<data source="@descriptionOtherFieldZ" />
-# 		</concat>
-# 		
-
-do list(path: "032P","var":"$i")
-	if any_match("$i.2","S")
+	if any_equal("$i.2","S")
 		copy_field("$i.a","streetAddressVisitor")
 		copy_field("$i.b","localityVisitor")
 		copy_field("$i.d","countryVisitor")
@@ -223,7 +29,9 @@ do list(path: "032P","var":"$i")
 		copy_field("$i.3","descriptionVisitor.$append")
 		copy_field("$i.z","descriptionVisitor.$append")		
 		join_field("descriptionVisitor",", ")
-	elsif any_match("$i.2","W")
+
+# 		<!-- 2. Other address (type "W")-->
+	elsif any_equal("$i.2","W")
 		copy_field("$i.a","streetAddressOther")
 		copy_field("$i.b","localityOther")
 		copy_field("$i.d","countryOther")
@@ -237,47 +45,7 @@ do list(path: "032P","var":"$i")
 		join_field("descriptionOther",", ")
 
 		# 		<!-- 3. Mailing address (type "P") -->
-# 		<combine name="streetAddressMail" value="${strAdr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "P" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.a" name="strAdr" />
-# 		</combine>
-# 		<combine name="postOfficeBoxNumber" value="${mlbx}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "P" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.g" name="mlbx" />
-# 		</combine>
-# 		<combine name="localityMail" value="${loc}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "P" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.b" name="loc" />
-# 		</combine>
-# 		<combine name="countryMail" value="${cntr}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "P" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.d" name="cntr" />
-# 		</combine>
-# 		<combine name="postalCodeMail" value="${pstCd}" sameEntity="true">
-# 			<if>
-# 				<data source="032P.2">
-# 					<equals string = "P" />
-# 				</data>
-# 			</if>
-# 			<data source="032P.e" name="pstCd" />
-# 		</combine>
-	elsif any_match("$i.2","P")
+	elsif any_equal("$i.2","P")
 		copy_field("$i.a","streetAddressMail")
 		copy_field("$i.b","localityMail")
 		copy_field("$i.d","countryMail")
@@ -285,49 +53,10 @@ do list(path: "032P","var":"$i")
 		copy_field("$i.g","postOfficeBoxNumber")
 	end
 end
-
-
-
-
-
-
-
-# 		
+	
 # 		<!-- Phone and email address of type "S" -->
-# 		<combine name="countryCode" value="${countryCode}" sameEntity="true">
-# 			<if>
-# 				<data source="035B.a">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="035B.d" name="countryCode" />
-# 		</combine>
-# 		<combine name="prefix" value="${prefix}" sameEntity="true">
-# 			<if>
-# 				<data source="035B.a">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="035B.e" name="prefix" />
-# 		</combine>
-# 		<combine name="phone" value="${phonenr}" sameEntity="true">
-# 			<if>
-# 				<data source="035B.a">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="035B.f" name="phonenr" />
-# 		</combine>	
-# 		<combine name="email" value="${mail}" sameEntity="true">
-# 			<if>
-# 				<data source="035B.a">
-# 					<equals string = "S" />
-# 				</data>
-# 			</if>
-# 			<data source="035B.k" name="mail" />
-# 		</combine>
 
-do list(path: "03B","var":"$i")
+do list(path: "035B","var":"$i")
 	if any_match("$i.a","S")
 		copy_field("$i.d","countryCode")
 		copy_field("$i.e","prefix")
@@ -335,9 +64,3 @@ do list(path: "03B","var":"$i")
 		copy_field("$i.k","email")
 	end
 end
-
-
-# TODO: What to do here?
-# 		<data source="_else"></data>
-# 	</rules>
-# </metamorph>

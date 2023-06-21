@@ -1,6 +1,14 @@
 # <?xml version="1.0" encoding="UTF-8"?>
 # <!-- Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 -->
 # 
+# 	<maps>
+# 		<filemap name="iso3-iso2-map"
+# 			files="http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv" />
+# 	</maps>
+do once("maps")
+	put_filemap("http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv","iso3-iso2-map", sep_char:"\t")
+end
+
 # <metamorph xmlns="http://www.culturegraph.org/metamorph"
 # 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
 # 	entityMarker=".">
@@ -12,6 +20,8 @@
 # 		<data source="inr" name="inr">
 # 			<replace  pattern=" "  with=""/>
 # 		</data>
+
+
 		replace_all("inr"," ","")
 		copy_field("inr","_id")
 
@@ -20,7 +30,7 @@
 		if any_match("isil","NULL")
 			remove_field("isil")
 		end
-					<urlencode/>
+		uri_encode("isil")
 
 
 
@@ -47,14 +57,11 @@
 
 		if exists("iso")
 			copy_field("iso","addressCountry")
-			lookup("iso","http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv")
+			lookup("iso","iso3-iso2-map")
 		else
 			add_field("addressCountry","DE")
 		end
 
 # 	</rules>
-# 	<maps>
-# 		<filemap name="iso3-iso2-map"
-# 			files="http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv" />
-# 	</maps>
+
 # </metamorph>
