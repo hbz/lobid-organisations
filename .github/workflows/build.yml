@@ -12,5 +12,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Install metafacture-core 5.5.1-rc1
+      run: |
+        git clone https://github.com/metafacture/metafacture-core.git
+        cd metafacture-core
+        git checkout 5.5.1-rc1
+        ./gradlew installDist
     - name: Run tests
       run: sbt update test
