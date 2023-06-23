@@ -37,28 +37,6 @@
 ## 				</choose>
 ## 			</group>
 ## 		</macro>
-
-# do put_macro("url-group")
-# 	if any_match("$[dbs_field]","http(.*)")
-# 		copy_field("$[dbs_field]","@url-group")
-# 	elsif any_match("$[dbs_field]","(www(.*))")
-# 		copy_field("$[dbs_field]","@url-group")
-# 		replace_all("@url-group","(www(.*))","http://$1")
-# 	elsif exists("009Q")
-# 		do list(path:"009Q","var":"$i")
-# 			if any_equal("$i.z","$[sigel_code]")
-# 				if any_match("$i.u","http(.*)")
-# 					copy_field("$i.u","@url-group")
-# 				elsif any_match("$i.u","(www(.*))")
-# 					copy_field("$i.u","@url-group")
-# 					replace_all("@url-group","(www(.*))","http://$1")
-# 				end
-# 			end
-# 		end
-# 	end
-# 	replace_all("@url-group","\s+","")
-# 	move_field("@url-group","$[group_name]")
-# end
 #
 #		
 #
@@ -72,15 +50,6 @@
 ## 				</data>
 ## 			</choose>
 ## 		</macro>
-# do put macro("make-id")
-# 	if any_match("$[isil-field]","(.*)")
-# 		copy_field("$[isil-field]","$[output-name]")
-# 		replace_all("$[output-name]","(.*)","$[uri-base]")
-# 	else
-# 		copy_field("$[dbs-field]","$[output-name]")
-# 		# lookup("$[output-name]","$[dbs-lookup]")
-# 	end
-# end
 #
 #
 ## 	</macros>
@@ -95,24 +64,55 @@
 # <filemap name="rs_map"
 # 	files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/ags-rs-map.csv" />
 # <filemap name="geonames_map"
-# 	files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
-# ## 		<filemap name="plz_blacklist" files="plz-blacklist.csv" />
-do once("maps")
-		put_filemap("conf/isil2wikidata.csv","isil2wikidata_map", sep_char:"\t")
-		put_filemap("conf/libtype-map.csv","libtype-map", sep_char:"\t")
-		put_filemap("conf/plz-ags-map.csv","ags-map", sep_char:"\t")		
-		put_filemap("conf/ags-rs-map.csv","rs-map", sep_char:"\t")		
-		put_filemap("conf/geonames-map.csv","geonames-map", sep_char:"\t")	
-		put_filemap("conf/plz-blacklist.csv","plz_blacklist", sep_char:"\t")						
-    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_map",target:"prefLabel", language:"de")
-    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_en_map",target:"prefLabel", language:"en")
-    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_value_to_id_map",target:"notation")    
-    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_map",target:"prefLabel", language:"de")   
-    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_en_map",target:"prefLabel", language:"en")
-    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_value_to_id_map",target:"notation") 
-    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_map",target:"prefLabel", language:"de")
-    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_en_map",target:"prefLabel", language:"en")
-    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_value_to_id_map",target:"notation") 
+#	files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
+## 		<filemap name="plz_blacklist" files="plz-blacklist.csv" />
+do once("mapsAndMacros")
+	put_filemap("conf/isil2wikidata.csv","isil2wikidata_map", sep_char:"\t")
+	put_filemap("conf/libtype-map.csv","libtype-map", sep_char:"\t")
+	put_filemap("conf/plz-ags-map.csv","ags-map", sep_char:"\t")		
+	put_filemap("conf/ags-rs-map.csv","rs-map", sep_char:"\t")		
+	put_filemap("conf/geonames-map.csv","geonames-map", sep_char:"\t")	
+	put_filemap("conf/plz-blacklist.csv","plz_blacklist", sep_char:"\t")						
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_map",target:"prefLabel", language:"de")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_en_map",target:"prefLabel", language:"en")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_value_to_id_map",target:"notation")    
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_map",target:"prefLabel", language:"de")   
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_en_map",target:"prefLabel", language:"en")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_value_to_id_map",target:"notation") 
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_map",target:"prefLabel", language:"de")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_en_map",target:"prefLabel", language:"en")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_value_to_id_map",target:"notation") 
+	do put_macro("url-group")
+		if any_match("$[dbs_field]","http(.*)")
+			copy_field("$[dbs_field]","@url-group")
+		elsif any_match("$[dbs_field]","(www(.*))")
+			copy_field("$[dbs_field]","@url-group")
+			replace_all("@url-group","(www(.*))","http://$1")
+		elsif exists("009Q")
+			do list(path:"009Q","var":"$i")
+				if any_equal("$i.z","$[sigel_code]")
+					if any_match("$i.u","http(.*)")
+						copy_field("$i.u","@url-group")
+					elsif any_match("$i.u","(www(.*))")
+						copy_field("$i.u","@url-group")
+						replace_all("@url-group","(www(.*))","http://$1")
+					end
+				end
+			end
+		end
+		replace_all("@url-group","\\s+","")
+		move_field("@url-group","$[group_name]")
+	end
+
+	do put_macro("make-id")
+	if any_match("$[isil-field]","(.*)")
+		copy_field("$[isil-field]","$[output-name]")
+		replace_all("$[output-name]","(.*)","$[uri-base]")
+	else
+		copy_field("$[dbs-field]","$[output-name]")
+		lookup("$[output-name]","$[dbs-lookup]")
+	end
+end
 end
 #
 ## 	<rules>
@@ -214,8 +214,8 @@ else
 end
 #
 ## 		
-#call_macro (name="url-group", group_name="url", dbs_field="url", sigel_code="A")
-#call_macro (name="url-group", group_name="provides", dbs_field="opac", sigel_code="B")
+call_macro ("url-group", group_name:"url", dbs_field:"url", sigel_code:"A")
+call_macro ("url-group", group_name:"provides", dbs_field:"opac", sigel_code:"B")
 ## 
 #
 #
@@ -543,7 +543,7 @@ copy_field("lonOther","location[].$last.geo.lon")
 ## 
 #
 #
-# TODO:
+
 ## 		<!-- Determine classification, fundertype, and stocksize ID, loop back '@' -->
 ## 		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_id" dbs-lookup="libtype_value_to_id_map"
 ## 			uri-base="http://purl.org/lobid/libtype#n${1}" output-name="@classificationId"/>
@@ -551,6 +551,10 @@ copy_field("lonOther","location[].$last.geo.lon")
 ## 			uri-base="http://purl.org/lobid/fundertype#n${1}" output-name="@fundertypeId"/>
 ## 		<call-macro name="make-id" isil-field="035E.h" dbs-field="bestandsgroessenklasse_id" dbs-lookup="stocksize_value_to_id_map"
 ## 			uri-base="http://purl.org/lobid/stocksize#n${1}" output-name="@stocksizeId"/>
+
+call_macro("make-id", "isil-field":"035E.f", "dbs-field":"typ_id", "dbs-lookup":"libtype_value_to_id_map", "uri-base":"http://purl.org/lobid/libtype#n$1","output-name":"@classificationId")
+call_macro("make-id", "isil-field":"035E.g", "dbs-field":"utr_id", "dbs-lookup":"fundertype_value_to_id_map", "uri-base":"http://purl.org/lobid/fundertype#n$1","output-name":"@fundertypeId")
+call_macro("make-id", "isil-field":"035E.h", "dbs-field":"bestandsgroessenklasse_id", "dbs-lookup":"stocksize_value_to_id_map", "uri-base":"http://purl.org/lobid/stocksize#n$1","output-name":"@stocksizeId")
 
 ## 		<!-- Use classification, fundertype, and stocksize ID for labels -->
 ## 		<entity name="classification" flushWith="record">
@@ -650,7 +654,7 @@ end
 copy_field("isil","@wikidataMap")
 prepend("@wikidataMap",'"')
 append("@wikidataMap",'"')
-# lookup ("@wikidataMap","isil2wikidata_map")
+lookup ("@wikidataMap","isil2wikidata_map")
 ##
 ## 		<entity name="alternateName[]" flushWith="record">
 ## 			<combine name="${code}" value="${label}" sameEntity="true" reset="true">
@@ -727,8 +731,8 @@ elsif any_match("032P.n","\\d{8}")
 ## 		</choose>
 else
 	copy_field("@postalCodeForLookups","@ags")
-# 				TODO: <blacklist map="plz_blacklist"/>
-#TODO:	lookup("@ags","ags_map")
+#				TODO: <blacklist map="plz_blacklist"/>
+lookup("@ags","ags_map")
 end
 #
 #

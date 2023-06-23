@@ -80,13 +80,13 @@ public class TransformAll {
 		return esBulk;
 	}
 
-	static Metamorph morphEnriched(String geoLookupServer) {
-		final Metamorph morphEnriched = new Metamorph("morph-enriched.xml");
+	static Metafix fixEnriched(String geoLookupServer) throws FileNotFoundException {
+		final Metafix fixEnriched = new Metafix("conf/fix-enriched.fix");
 		if (geoLookupServer != null && !geoLookupServer.isEmpty()) {
-			morphEnriched.putMap("addLatMap", new GeoLookupMap(LookupType.LAT));
-			morphEnriched.putMap("addLongMap", new GeoLookupMap(LookupType.LON));
+			fixEnriched.putMap("addLatMap", new GeoLookupMap(LookupType.LAT));
+			fixEnriched.putMap("addLongMap", new GeoLookupMap(LookupType.LON));
 		}
-		return morphEnriched;
+		return fixEnriched;
 	}
 
 }

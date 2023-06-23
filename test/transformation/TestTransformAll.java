@@ -56,6 +56,7 @@ public class TestTransformAll {
 		assertThat(output.length()).as("output file size").isGreaterThan(0);
 	}
 
+
 	@Test
 	public void multiLangAlternateName() throws IOException {
 		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "");
@@ -111,7 +112,7 @@ public class TestTransformAll {
 		sourceFileOpener.setReceiver(new XmlDecoder())
 				.setReceiver(new PicaXmlHandler())//
 				.setReceiver(new Metafix("conf/fix-sigel.fix"))//
-				.setReceiver(new Metamorph("morph-enriched.xml"))//
+				.setReceiver(new Metafix("conf/fix-enriched.fix"))//
 				.setReceiver(encoder);
 		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
 		sourceFileOpener.closeStream();
@@ -124,5 +125,6 @@ public class TestTransformAll {
 								+ "{serviceType:PAIA,type[]{type:ServiceChannel,type:WebAPI}serviceUrl:http\\://info-test.de/paia}"//
 								+ "{serviceType:DAIA,type[]{type:ServiceChannel,type:WebAPI}serviceUrl:http\\://info-test.de/daia}}");
 	}
+
 
 }

@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 import org.metafacture.framework.ObjectReceiver;
 import org.metafacture.framework.helpers.DefaultObjectPipe;
-import org.metafacture.metamorph.Metamorph;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.metafix.Metafix;
 import org.metafacture.triples.StreamToTriples;
@@ -68,7 +67,7 @@ public class TransformSigel {
 				.setReceiver(streamToTriples)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(new TripleCollect())//
-				.setReceiver(TransformAll.morphEnriched(geoLookupServer))//
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(new ObjectWriter<>(outputPath));

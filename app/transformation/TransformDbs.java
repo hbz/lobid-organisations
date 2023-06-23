@@ -2,7 +2,7 @@
 
 package transformation;
 
-import org.metafacture.metamorph.Metamorph;
+import org.metafacture.metafix.Metafix;
 import org.metafacture.csv.CsvDecoder;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.io.LineReader;
@@ -39,7 +39,7 @@ public class TransformDbs {
 				.setReceiver(streamToTriples)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(new TripleCollect())//
-				.setReceiver(TransformAll.morphEnriched(geoLookupServer))//
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(new ObjectWriter<>(outputPath));
