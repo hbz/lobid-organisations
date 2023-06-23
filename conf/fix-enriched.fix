@@ -37,6 +37,7 @@
 ## 				</choose>
 ## 			</group>
 ## 		</macro>
+
 # do put_macro("url-group")
 # 	if any_match("$[dbs_field]","http(.*)")
 # 		copy_field("$[dbs_field]","@url-group")
@@ -85,28 +86,34 @@
 ## 	</macros>
 #
 ## 	<maps>
-## 		<filemap name="isil2wikidata_map"
-## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/isil2wikidata.csv" />
-## 		<filemap name="libtype_map"
-## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/libtype-map.csv"/>
-## 		<filemap name="ags_map"
-## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/plz-ags-map.csv" />
-## 		<filemap name="rs_map"
-## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/ags-rs-map.csv" />
-## 		<filemap name="geonames_map"
-## 			files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
-## 		<filemap name="plz_blacklist" files="plz-blacklist.csv" />
-#do once("maps")
-#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_map",target:"prefLabel", language:"de")
-#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_en_map",target:"prefLabel", language:"en")
-#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_value_to_id_map",target:"notation")    
-#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_map",target:"prefLabel", language:"de")   
-#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_en_map",target:"prefLabel", language:"en")
-#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_value_to_id_map",target:"notation") 
-#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_map",target:"prefLabel", language:"de")
-#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_en_map",target:"prefLabel", language:"en")
-#    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_value_to_id_map",target:"notation") 
-#end
+# <filemap name="isil2wikidata_map"
+# 	files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/isil2wikidata.csv" />
+# <filemap name="libtype_map"
+# 	files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/libtype-map.csv"/>
+# <filemap name="ags_map"
+# 	files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/plz-ags-map.csv" />
+# <filemap name="rs_map"
+# 	files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/ags-rs-map.csv" />
+# <filemap name="geonames_map"
+# 	files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
+# ## 		<filemap name="plz_blacklist" files="plz-blacklist.csv" />
+do once("maps")
+		put_filemap("conf/isil2wikidata.csv","isil2wikidata_map", sep_char:"\t")
+		put_filemap("conf/libtype-map.csv","libtype-map", sep_char:"\t")
+		put_filemap("conf/plz-ags-map.csv","ags-map", sep_char:"\t")		
+		put_filemap("conf/ags-rs-map.csv","rs-map", sep_char:"\t")		
+		put_filemap("conf/geonames-map.csv","geonames-map", sep_char:"\t")	
+		put_filemap("conf/plz-blacklist.csv","plz_blacklist", sep_char:"\t")						
+    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_map",target:"prefLabel", language:"de")
+    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_en_map",target:"prefLabel", language:"en")
+    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_value_to_id_map",target:"notation")    
+    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_map",target:"prefLabel", language:"de")   
+    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_en_map",target:"prefLabel", language:"en")
+    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_value_to_id_map",target:"notation") 
+    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_map",target:"prefLabel", language:"de")
+    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_en_map",target:"prefLabel", language:"en")
+    put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_value_to_id_map",target:"notation") 
+end
 #
 ## 	<rules>
 ## 		<choose name="@postalCodeForLookups">
@@ -146,7 +153,7 @@ add_field("@context","http://lobid.org/organisations/context.jsonld")
 #
 #
 copy_field("035E.f","@libType")
-# TODO: lookup("@libType","libtype_map")
+lookup("@libType","libtype_map")
 if exists("@libType")
 	copy_field("@libType","type")
 else
@@ -180,11 +187,11 @@ elsif exists("032P.n")
 	copy_field("032P.n","@rs")
 else
 	copy_field("@postalCodeForLookups","@rs")
-# 				<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
-#	lookup("@rs","ags_map") TODO: Add map locally.
+## TODO: No blacklist exists in fix:			<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
+lookup("@rs","ags_map")
 end
 
-# lookup("@rs","rs_map")
+lookup("@rs","rs_map")
 copy_field("@rs","rs")
 ## 		
 ## 		<group name="name">
@@ -464,7 +471,7 @@ if exists("latDbs")
 elsif exists("latVisitor")
 	copy_field("latVisitor","location[].$last.geo.lat")
 elsif exists("@geoLookupDbs")
-#	lookup("@geoLookupDbs","addLatMap" )
+#TODO: Not sure if this map works with fix: lookup("@geoLookupDbs","addLatMap" )
 	copy_field("@geoLookupDbs","location[].$last.geo.lat")
 end
 #
@@ -481,7 +488,7 @@ if exists("lonDbs")
 elsif exists("lonVisitor")
 	copy_field("lonVisitor","location[].$last.geo.lon")
 elsif exists("@geoLookupDbs")
-#	lookup("@geoLookupDbs","addlongMap" )
+#	Not sure if this works with fix: lookup("@geoLookupDbs","addlongMap" )
 	copy_field("@geoLookupDbs","location[].$last.geo.lon")
 end
 #
