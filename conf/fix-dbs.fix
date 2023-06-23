@@ -6,7 +6,7 @@
 # 			files="http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv" />
 # 	</maps>
 do once("maps")
-	put_filemap("http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv","iso3-iso2-map", sep_char:"\t")
+	put_filemap("conf/iso3-iso2-map.csv","iso3-iso2-map", sep_char:"\t")
 end
 
 # <metamorph xmlns="http://www.culturegraph.org/metamorph"
@@ -30,7 +30,7 @@ end
 		if any_match("isil","NULL")
 			remove_field("isil")
 		end
-		uri_encode("isil")
+		# TODO: uri_encode("isil")
 
 
 

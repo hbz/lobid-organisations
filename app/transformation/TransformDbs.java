@@ -35,7 +35,7 @@ public class TransformDbs {
 		opener//
 				.setReceiver(new LineReader())//
 				.setReceiver(decoder)//
-				.setReceiver(new Metafix("fix-dbs.fix"))//
+				.setReceiver(new Metafix("conf/fix-dbs.fix"))//
 				.setReceiver(streamToTriples)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(new TripleCollect())//

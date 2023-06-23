@@ -110,8 +110,8 @@ public class TestTransformAll {
 		final FileOpener sourceFileOpener = new FileOpener();
 		sourceFileOpener.setReceiver(new XmlDecoder())
 				.setReceiver(new PicaXmlHandler())//
-				.setReceiver(new Metafix("fix-sigel.fix"))//
-				.setReceiver(new Metafix("fix-enriched.fix"))//
+				.setReceiver(new Metafix("conf/fix-sigel.fix"))//
+				.setReceiver(new Metamorph("morph-enriched.xml"))//
 				.setReceiver(encoder);
 		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
 		sourceFileOpener.closeStream();
