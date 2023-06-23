@@ -64,7 +64,7 @@ public class TransformSigel {
 		splitFileOpener//
 				.setReceiver(new XmlDecoder())//
 				.setReceiver(new PicaXmlHandler())//
-				.setReceiver(new Metamorph("morph-sigel.xml"))//
+				.setReceiver(new Metafix("fix-sigel.fix"))//
 				.setReceiver(streamToTriples)//
 				.setReceiver(tripleFilter)//
 				.setReceiver(new TripleCollect())//
