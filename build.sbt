@@ -15,9 +15,8 @@ libraryDependencies ++= Seq(
       // otherwise javaWs won't work
       exclude ("io.netty", "netty"),
   "com.fasterxml.jackson.core" % "jackson-annotations" % "2.15.1",
-  "com.github.jsonld-java" % "jsonld-java" % "0.4.1",
-  "com.github.jsonld-java" % "jsonld-java-jena" % "0.4.1" exclude("org.slf4j", "slf4j-log4j12"),
-  "org.apache.jena" % "jena-arq" % "2.9.3",
+  "com.github.jsonld-java" % "jsonld-java" % "0.13.4",
+  "org.apache.jena" % "jena-arq" % "3.17.0",
   "org.metafacture" % "metamorph" % "5.7.0-rc1",
   "org.metafacture" % "metafacture-elasticsearch" % "5.7.0-rc1",
   "org.metafacture" % "metamorph-test" % "5.7.0-rc1",
@@ -38,7 +37,6 @@ libraryDependencies ++= Seq(
 // force play to use these versions (ignoring transitive dependencies)
 dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.2"
 dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-core" % "2.6.2"
-dependencyOverrides += "org.apache.jena" % "jena-core" % "2.11.1"
 
 resolvers += Resolver.mavenLocal
 
