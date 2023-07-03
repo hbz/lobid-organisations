@@ -1,6 +1,6 @@
 /* Copyright 2017 Fabian Steeg, hbz. Licensed under the EPL 2.0 */
 
-package controllers.resources;
+package controllers;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
