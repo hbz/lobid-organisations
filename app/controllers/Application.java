@@ -712,8 +712,8 @@ public class Application extends Controller {
 		return resultSupplier == null ? rdfSupplier.get() : resultSupplier.get();
 	}
 
-	static Status responseFor(JsonNode responseJson, String responseFormat)
-			throws JsonProcessingException {
+	private static Pair<String, String> contentAndType(JsonNode responseJson,
+			String responseFormat) {
 		String content = "";
 		String contentType = "";
 		switch (responseFormat) {
@@ -733,13 +733,11 @@ public class Application extends Controller {
 			break;
 		}
 		default: {
-			content = new ObjectMapper().writerWithDefaultPrettyPrinter()
-					.writeValueAsString(responseJson);
+			content = prettyJsonOk(responseJson);
 			contentType = Accept.Format.JSON_LD.types[0];
 		}
 		}
-		return content.isEmpty() ? internalServerError("No content")
-				: ok(content).as(contentType + "; charset=utf-8");
+		return Pair.of(content, contentType + "; charset=utf-8");
 	}
 
 	private static String prettyJsonOk(JsonNode jsonNode) {
