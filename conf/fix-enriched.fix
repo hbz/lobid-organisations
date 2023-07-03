@@ -105,9 +105,9 @@ do once("mapsAndMacros")
 	end
 
 	do put_macro("make-id")
-	if any_match("$[isil-field]","(.*)")
+	if exists("$[isil-field]")
 		copy_field("$[isil-field]","$[output-name]")
-		replace_all("$[output-name]","(.*)","$[uri-base]")
+		replace_all("$[output-name]","^(.*)$","$[uri-base]")
 	else
 		copy_field("$[dbs-field]","$[output-name]")
 		lookup("$[output-name]","$[dbs-lookup]")
@@ -261,12 +261,12 @@ call_macro ("url-group", group_name:"provides", dbs_field:"opac", sigel_code:"B"
 #
 set_array("availableChannel[]")
 
-do list (path: "0090","var":"$i")
-	unless any_contain("$i.x","Weitere Information")
+do list (path: "009Q","var":"$i")
+	unless any_contain("$i.x","Information")
 		if any_equal("$i.z","W")
 			set_array("availableChannel[].$append.type[]","ServiceChannel")
-			if any_match("$i.x","(SRU)|(DAIA)|(PAIA)|(OpenURL)")
-				add_field("availableChannel[].$append.type[]","WebAPI")
+			if any_match("$i.x",".*(SRU|DAIA|PAIA|OpenURL).*")
+				add_field("availableChannel[].$last.type[].$append","WebAPI")
 			end
 			copy_field("$i.x","availableChannel[].$last.serviceType")
 			if any_match("$i.u","http(.*)")
@@ -296,7 +296,7 @@ copy_field("inr","dbsID")
 ## 		</choose>
 if exists("isil")
 	paste("id","~http://lobid.org/organisations/","isil","~#!",join_char:"")
-else
+elsif exists("inr")
 	unless any_equal("inr","NULL")
 		paste("id","~http://lobid.org/organisations/DBS-","inr","~#!",join_char:"")
 	end
@@ -317,8 +317,12 @@ end
 ## 			</data>
 ## 		</choose>
 #
-paste("telephone","~00","contryCode","prefix","phonenr")
-paste("email","~mailto:","email")
+if exists ("phonenr")
+	paste("telephone","~00","contryCode","prefix","phonenr")
+end
+if exists("email")
+	paste("email","~mailto:","email")
+end
 #
 ## 		<!-- Mailing address -->
 ## 		<entity name="address" flushWith="record">
@@ -471,7 +475,7 @@ if exists("latDbs")
 elsif exists("latVisitor")
 	copy_field("latVisitor","location[].$last.geo.lat")
 elsif exists("@geoLookupDbs")
-#TODO: Not sure if this map works with fix: lookup("@geoLookupDbs","addLatMap" )
+	lookup("@geoLookupDbs","addLatMap" )
 	copy_field("@geoLookupDbs","location[].$last.geo.lat")
 end
 #
@@ -488,7 +492,7 @@ if exists("lonDbs")
 elsif exists("lonVisitor")
 	copy_field("lonVisitor","location[].$last.geo.lon")
 elsif exists("@geoLookupDbs")
-#	Not sure if this works with fix: lookup("@geoLookupDbs","addlongMap" )
+	lookup("@geoLookupDbs","addlongMap" )
 	copy_field("@geoLookupDbs","location[].$last.geo.lon")
 end
 #
@@ -546,7 +550,7 @@ copy_field("lonOther","location[].$last.geo.lon")
 
 ## 		<!-- Determine classification, fundertype, and stocksize ID, loop back '@' -->
 ## 		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_id" dbs-lookup="libtype_value_to_id_map"
-## 			uri-base="http://purl.org/lobid/libtype#n${1}" output-name="@classificationId"/>
+## 			uri-base="http://purl.org/lobid/libtype#n$1" output-name="@classificationId"/>
 ## 		<call-macro name="make-id" isil-field="035E.g" dbs-field="utr_id" dbs-lookup="fundertype_value_to_id_map"
 ## 			uri-base="http://purl.org/lobid/fundertype#n${1}" output-name="@fundertypeId"/>
 ## 		<call-macro name="make-id" isil-field="035E.h" dbs-field="bestandsgroessenklasse_id" dbs-lookup="stocksize_value_to_id_map"
@@ -576,10 +580,12 @@ do list(path:"@classificationId","var":"$i")
 	copy_field("$i","classification.id")
 	add_field("classification.type","Concept")
 	copy_field("$i","classification.label.de")
-	lookup("classification.label.de","libtype_id_to_value_map")
+
 	copy_field("$i","classification.label.en")
-	lookup("classification.label.en","libtype_id_to_value_en_map")
 end
+lookup("classification.label.de","libtype_id_to_value_map")
+lookup("classification.label.en","libtype_id_to_value_en_map")
+
 #
 ## 
 ## 		<entity name="fundertype" flushWith="record">
@@ -601,10 +607,12 @@ do list(path:"@funderTypeId","var":"$i")
 	copy_field("$i","funderType.id")
 	add_field("funderType.type","Concept")
 	copy_field("$i","funderType.label.de")
-	lookup("funderType.label.de","fundertype_id_to_value_map" )
 	copy_field("$i","funderType.label.en")
-	lookup("funderType.label.en","fundertype_id_to_value_en_map")
+	
 end
+
+lookup("funderType.label.de","fundertype_id_to_value_map" )
+lookup("funderType.label.en","fundertype_id_to_value_en_map")
 #
 #
 ## 
@@ -635,10 +643,10 @@ do list(path:"@stocksizeId","var":"$i")
 	copy_field("$i","collects.id")
 	add_field("collects.type","Collection")
 	copy_field("$i","collects.label.de")
-	lookup("collects.label.de","stocksize_id_to_value_map" )
 	copy_field("$i","collects.label.en")
-	lookup("collects.label.en","stocksize_id_to_value_en_map")
 end
+lookup("collects.label.de","stocksize_id_to_value_map" )
+lookup("collects.label.en","stocksize_id_to_value_en_map")
 
 set_array("collects.subject[]")
 do list(path:"035G","var":"$i")
@@ -670,13 +678,9 @@ lookup ("@wikidataMap","isil2wikidata_map")
 set_array("alternateName[]")
 do list(path:"029@","var":"$i")
 	if any_equal("$i.4","d")
-		copy_field("$i.name_en","alternateName[].$append")
+		copy_field("$i.a","name_en")
 	else
-		set_array("$i.@alternateName")
-		copy_field("$i.4","$i.@alternateName.1")
-		copy_field("$i.a","$i.@alternateName.2")
-		hash("$i.@alternateName")
-		copy_field("$i.@alternateName","alternateName[].$append")
+		copy_field("$i.a","alternateName[].$append")
 	end
 end
 #
@@ -697,7 +701,9 @@ copy_field("@wikidataMap","sameAs[].$append")
 ## 					format="http://ld.zdb-services.de/resource/organisations/${1}" />
 ## 				<occurrence only="1" />
 ## 			</data>
-paste("sameAs[].$append","~http://ld.zdb-services.de/resource/organisations/","isil",join_char:"" )
+if exists("isil")
+	paste("sameAs[].$append","~http://ld.zdb-services.de/resource/organisations/","isil",join_char:"" )
+end
 #
 ## 		</entity>
 ## 		
@@ -742,8 +748,10 @@ end
 ## 				<lookup in="geonames_map" />
 ## 			</data>
 ## 		</combine>
-#TODO: lookup("@ags","geonames_map")
-paste("containedIn","http://sws.geonames.org/","@ags")
+lookup("@ags","geonames_map")
+if exists("@ags")
+	paste("containedIn","http://sws.geonames.org/","@ags")
+end
 #
 #
 #
@@ -850,6 +858,9 @@ replace_all("mainEntityOfPage.dateCreated","^.+?:","")
 ## </metamorph>
 ## 
 #
+
+vacuum()
+
 retain(
 	"address",
 	"alternateName[]",
@@ -865,6 +876,7 @@ retain(
 	"linkedTo",
 	"mainEntityOfPage",
 	"name",
+	"name_en",
 	"provides",
 	"rs",
 	"sameAs[]",
