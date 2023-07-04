@@ -37,7 +37,7 @@ end
 		if any_match("isil","NULL")
 			remove_field("isil")
 		end
-		uri_encode("isil")
+		# uri_encode("isil")
 
 
 

@@ -2,7 +2,7 @@
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D9#!"
+		"_id": "http://lobid.org/organisations/DE-9#!"
 	}
 }
 {
@@ -20,7 +20,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D9#!"
+		"id": "http://lobid.org/organisations/DE-9#!"
 	},
 	"url": "http://www.uni-greifswald.de/bibliothek/html",
 	"funderType": {
@@ -65,8 +65,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D9#!",
-	"isil": "DE%2D9",
+	"id": "http://lobid.org/organisations/DE-9#!",
+	"isil": "DE-9",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n10",
 		"type": "Collection",
@@ -77,8 +77,8 @@
 	},
 	"dbsID": "AA009",
 	"sameAs": [
-		"\"DE%2D9\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D9"
+		"http://www.wikidata.org/entity/Q2496314",
+		"http://ld.zdb-services.de/resource/organisations/DE-9"
 	]
 }
 {
@@ -163,7 +163,7 @@
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D34#!"
+		"_id": "http://lobid.org/organisations/DE-34#!"
 	}
 }
 {
@@ -181,7 +181,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D34#!"
+		"id": "http://lobid.org/organisations/DE-34#!"
 	},
 	"url": "http://www.uni-kassel.de/ub",
 	"funderType": {
@@ -226,8 +226,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D34#!",
-	"isil": "DE%2D34",
+	"id": "http://lobid.org/organisations/DE-34#!",
+	"isil": "DE-34",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n10",
 		"type": "Collection",
@@ -238,15 +238,15 @@
 	},
 	"dbsID": "AA034",
 	"sameAs": [
-		"\"DE%2D34\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D34"
+		"http://www.wikidata.org/entity/Q2496316",
+		"http://ld.zdb-services.de/resource/organisations/DE-34"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D46#!"
+		"_id": "http://lobid.org/organisations/DE-46#!"
 	}
 }
 {
@@ -264,7 +264,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D46#!"
+		"id": "http://lobid.org/organisations/DE-46#!"
 	},
 	"url": "http://www.suub.uni-bremen.de",
 	"funderType": {
@@ -308,8 +308,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D46#!",
-	"isil": "DE%2D46",
+	"id": "http://lobid.org/organisations/DE-46#!",
+	"isil": "DE-46",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n10",
 		"type": "Collection",
@@ -320,15 +320,15 @@
 	},
 	"dbsID": "AA046",
 	"sameAs": [
-		"\"DE%2D46\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D46"
+		"http://www.wikidata.org/entity/Q1680376",
+		"http://ld.zdb-services.de/resource/organisations/DE-46"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D58#!"
+		"_id": "http://lobid.org/organisations/DE-58#!"
 	}
 }
 {
@@ -346,7 +346,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D58#!"
+		"id": "http://lobid.org/organisations/DE-58#!"
 	},
 	"url": "http://www.nla.niedersachsen.de",
 	"funderType": {
@@ -390,8 +390,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D58#!",
-	"isil": "DE%2D58",
+	"id": "http://lobid.org/organisations/DE-58#!",
+	"isil": "DE-58",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n07",
 		"type": "Collection",
@@ -402,8 +402,8 @@
 	},
 	"dbsID": "AA058",
 	"sameAs": [
-		"\"DE%2D58\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D58"
+		"http://www.wikidata.org/entity/Q1483614",
+		"http://ld.zdb-services.de/resource/organisations/DE-58"
 	]
 }
 {
@@ -488,7 +488,7 @@
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D95#!"
+		"_id": "http://lobid.org/organisations/DE-95#!"
 	}
 }
 {
@@ -506,7 +506,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D95#!"
+		"id": "http://lobid.org/organisations/DE-95#!"
 	},
 	"url": "http://www.tiho-hannover.de",
 	"funderType": {
@@ -551,8 +551,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D95#!",
-	"isil": "DE%2D95",
+	"id": "http://lobid.org/organisations/DE-95#!",
+	"isil": "DE-95",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n08",
 		"type": "Collection",
@@ -563,15 +563,15 @@
 	},
 	"dbsID": "AA095",
 	"sameAs": [
-		"\"DE%2D95\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D95"
+		"http://www.wikidata.org/entity/Q28731327",
+		"http://ld.zdb-services.de/resource/organisations/DE-95"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D149#!"
+		"_id": "http://lobid.org/organisations/DE-149#!"
 	}
 }
 {
@@ -589,7 +589,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D149#!"
+		"id": "http://lobid.org/organisations/DE-149#!"
 	},
 	"url": "http://www.memmingen.de/468.html",
 	"funderType": {
@@ -633,8 +633,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D149#!",
-	"isil": "DE%2D149",
+	"id": "http://lobid.org/organisations/DE-149#!",
+	"isil": "DE-149",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n07",
 		"type": "Collection",
@@ -645,8 +645,8 @@
 	},
 	"dbsID": "AA149",
 	"sameAs": [
-		"\"DE%2D149\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D149"
+		"http://www.wikidata.org/entity/Q1478335",
+		"http://ld.zdb-services.de/resource/organisations/DE-149"
 	]
 }
 {
@@ -731,7 +731,7 @@
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D174#!"
+		"_id": "http://lobid.org/organisations/DE-174#!"
 	}
 }
 {
@@ -749,7 +749,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D174#!"
+		"id": "http://lobid.org/organisations/DE-174#!"
 	},
 	"url": "http://www.stadtbibliothek-ge.de/",
 	"funderType": {
@@ -794,8 +794,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D174#!",
-	"isil": "DE%2D174",
+	"id": "http://lobid.org/organisations/DE-174#!",
+	"isil": "DE-174",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n01",
 		"type": "Collection",
@@ -806,15 +806,15 @@
 	},
 	"dbsID": "AA174",
 	"sameAs": [
-		"\"DE%2D174\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D174"
+		"http://www.wikidata.org/entity/Q28681662",
+		"http://ld.zdb-services.de/resource/organisations/DE-174"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D186#!"
+		"_id": "http://lobid.org/organisations/DE-186#!"
 	}
 }
 {
@@ -832,7 +832,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D186#!"
+		"id": "http://lobid.org/organisations/DE-186#!"
 	},
 	"url": "http://www.bibliothek.potsdam.de",
 	"funderType": {
@@ -877,8 +877,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D186#!",
-	"isil": "DE%2D186",
+	"id": "http://lobid.org/organisations/DE-186#!",
+	"isil": "DE-186",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n09",
 		"type": "Collection",
@@ -889,15 +889,15 @@
 	},
 	"dbsID": "AA186",
 	"sameAs": [
-		"\"DE%2D186\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D186"
+		"http://www.wikidata.org/entity/Q2326335",
+		"http://ld.zdb-services.de/resource/organisations/DE-186"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D198#!"
+		"_id": "http://lobid.org/organisations/DE-198#!"
 	}
 }
 {
@@ -915,7 +915,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D198#!"
+		"id": "http://lobid.org/organisations/DE-198#!"
 	},
 	"url": "http://www.bibliothek-nb.de",
 	"funderType": {
@@ -960,8 +960,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D198#!",
-	"isil": "DE%2D198",
+	"id": "http://lobid.org/organisations/DE-198#!",
+	"isil": "DE-198",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n08",
 		"type": "Collection",
@@ -972,15 +972,15 @@
 	},
 	"dbsID": "AA198",
 	"sameAs": [
-		"\"DE%2D198\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D198"
+		"http://www.wikidata.org/entity/Q2138279",
+		"http://ld.zdb-services.de/resource/organisations/DE-198"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D204#!"
+		"_id": "http://lobid.org/organisations/DE-204#!"
 	}
 }
 {
@@ -998,7 +998,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D204#!"
+		"id": "http://lobid.org/organisations/DE-204#!"
 	},
 	"url": "http://www.iai.spk-berlin.de/",
 	"funderType": {
@@ -1043,8 +1043,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D204#!",
-	"isil": "DE%2D204",
+	"id": "http://lobid.org/organisations/DE-204#!",
+	"isil": "DE-204",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n10",
 		"type": "Collection",
@@ -1055,15 +1055,15 @@
 	},
 	"dbsID": "AA204",
 	"sameAs": [
-		"\"DE%2D204\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D204"
+		"http://www.wikidata.org/entity/Q28737641",
+		"http://ld.zdb-services.de/resource/organisations/DE-204"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D228#!"
+		"_id": "http://lobid.org/organisations/DE-228#!"
 	}
 }
 {
@@ -1081,7 +1081,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D228#!"
+		"id": "http://lobid.org/organisations/DE-228#!"
 	},
 	"url": "http://www.hameln.de/kultur/kultur/buecherei/index.htm",
 	"funderType": {
@@ -1126,8 +1126,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D228#!",
-	"isil": "DE%2D228",
+	"id": "http://lobid.org/organisations/DE-228#!",
+	"isil": "DE-228",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n08",
 		"type": "Collection",
@@ -1138,15 +1138,15 @@
 	},
 	"dbsID": "AA228",
 	"sameAs": [
-		"\"DE%2D228\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D228"
+		"http://www.wikidata.org/entity/Q28661800",
+		"http://ld.zdb-services.de/resource/organisations/DE-228"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D241#!"
+		"_id": "http://lobid.org/organisations/DE-241#!"
 	}
 }
 {
@@ -1164,7 +1164,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D241#!"
+		"id": "http://lobid.org/organisations/DE-241#!"
 	},
 	"url": "http://www.buecherei-kulmbach.de",
 	"funderType": {
@@ -1209,8 +1209,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D241#!",
-	"isil": "DE%2D241",
+	"id": "http://lobid.org/organisations/DE-241#!",
+	"isil": "DE-241",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n07",
 		"type": "Collection",
@@ -1221,15 +1221,15 @@
 	},
 	"dbsID": "AA241",
 	"sameAs": [
-		"\"DE%2D241\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D241"
+		"http://www.wikidata.org/entity/Q28733510",
+		"http://ld.zdb-services.de/resource/organisations/DE-241"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D253#!"
+		"_id": "http://lobid.org/organisations/DE-253#!"
 	}
 }
 {
@@ -1247,7 +1247,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D253#!"
+		"id": "http://lobid.org/organisations/DE-253#!"
 	},
 	"url": "http://www.vti.bund.de",
 	"funderType": {
@@ -1291,8 +1291,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D253#!",
-	"isil": "DE%2D253",
+	"id": "http://lobid.org/organisations/DE-253#!",
+	"isil": "DE-253",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n08",
 		"type": "Collection",
@@ -1303,8 +1303,8 @@
 	},
 	"dbsID": "AA253",
 	"sameAs": [
-		"\"DE%2D253\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D253"
+		"\"DE-253\"",
+		"http://ld.zdb-services.de/resource/organisations/DE-253"
 	]
 }
 {
@@ -1389,7 +1389,7 @@
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D289#!"
+		"_id": "http://lobid.org/organisations/DE-289#!"
 	}
 }
 {
@@ -1407,7 +1407,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D289#!"
+		"id": "http://lobid.org/organisations/DE-289#!"
 	},
 	"url": "http://kiz.uni-ulm.de",
 	"funderType": {
@@ -1452,8 +1452,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D289#!",
-	"isil": "DE%2D289",
+	"id": "http://lobid.org/organisations/DE-289#!",
+	"isil": "DE-289",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n09",
 		"type": "Collection",
@@ -1464,8 +1464,8 @@
 	},
 	"dbsID": "AA289",
 	"sameAs": [
-		"\"DE%2D289\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D289"
+		"http://www.wikidata.org/entity/Q1755249",
+		"http://ld.zdb-services.de/resource/organisations/DE-289"
 	]
 }
 {
@@ -1549,7 +1549,7 @@
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D356#!"
+		"_id": "http://lobid.org/organisations/DE-356#!"
 	}
 }
 {
@@ -1567,7 +1567,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D356#!"
+		"id": "http://lobid.org/organisations/DE-356#!"
 	},
 	"url": "http://www.stadtbibliothek.bad-kreuznach.de",
 	"funderType": {
@@ -1612,8 +1612,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D356#!",
-	"isil": "DE%2D356",
+	"id": "http://lobid.org/organisations/DE-356#!",
+	"isil": "DE-356",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n07",
 		"type": "Collection",
@@ -1624,15 +1624,15 @@
 	},
 	"dbsID": "AA356",
 	"sameAs": [
-		"\"DE%2D356\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D356"
+		"http://www.wikidata.org/entity/Q28681672",
+		"http://ld.zdb-services.de/resource/organisations/DE-356"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D368#!"
+		"_id": "http://lobid.org/organisations/DE-368#!"
 	}
 }
 {
@@ -1650,7 +1650,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D368#!"
+		"id": "http://lobid.org/organisations/DE-368#!"
 	},
 	"url": "http://www.bibliothek.hattingen.de",
 	"funderType": {
@@ -1695,8 +1695,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D368#!",
-	"isil": "DE%2D368",
+	"id": "http://lobid.org/organisations/DE-368#!",
+	"isil": "DE-368",
 	"collects": {
 		"id": "0",
 		"type": "Collection",
@@ -1707,8 +1707,8 @@
 	},
 	"dbsID": "AA368",
 	"sameAs": [
-		"\"DE%2D368\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D368"
+		"http://www.wikidata.org/entity/Q28681879",
+		"http://ld.zdb-services.de/resource/organisations/DE-368"
 	]
 }
 {
@@ -1793,7 +1793,7 @@
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D393#!"
+		"_id": "http://lobid.org/organisations/DE-393#!"
 	}
 }
 {
@@ -1811,7 +1811,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D393#!"
+		"id": "http://lobid.org/organisations/DE-393#!"
 	},
 	"url": "https://buecherei.juelich.de/",
 	"funderType": {
@@ -1856,8 +1856,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D393#!",
-	"isil": "DE%2D393",
+	"id": "http://lobid.org/organisations/DE-393#!",
+	"isil": "DE-393",
 	"collects": {
 		"id": "0",
 		"type": "Collection",
@@ -1868,15 +1868,15 @@
 	},
 	"dbsID": "AA393",
 	"sameAs": [
-		"\"DE%2D393\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D393"
+		"http://www.wikidata.org/entity/Q2327025",
+		"http://ld.zdb-services.de/resource/organisations/DE-393"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D411#!"
+		"_id": "http://lobid.org/organisations/DE-411#!"
 	}
 }
 {
@@ -1894,7 +1894,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D411#!"
+		"id": "http://lobid.org/organisations/DE-411#!"
 	},
 	"url": "http://www.stadtbuecherei-coesfeld.de",
 	"funderType": {
@@ -1939,8 +1939,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D411#!",
-	"isil": "DE%2D411",
+	"id": "http://lobid.org/organisations/DE-411#!",
+	"isil": "DE-411",
 	"collects": {
 		"id": "0",
 		"type": "Collection",
@@ -1951,15 +1951,15 @@
 	},
 	"dbsID": "AA411",
 	"sameAs": [
-		"\"DE%2D411\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D411"
+		"http://www.wikidata.org/entity/Q28661850",
+		"http://ld.zdb-services.de/resource/organisations/DE-411"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D423#!"
+		"_id": "http://lobid.org/organisations/DE-423#!"
 	}
 }
 {
@@ -1977,7 +1977,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D423#!"
+		"id": "http://lobid.org/organisations/DE-423#!"
 	},
 	"url": "http://www.buecherei-warendorf.de",
 	"funderType": {
@@ -2022,8 +2022,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D423#!",
-	"isil": "DE%2D423",
+	"id": "http://lobid.org/organisations/DE-423#!",
+	"isil": "DE-423",
 	"collects": {
 		"id": "0",
 		"type": "Collection",
@@ -2034,15 +2034,15 @@
 	},
 	"dbsID": "AA423",
 	"sameAs": [
-		"\"DE%2D423\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D423"
+		"http://www.wikidata.org/entity/Q28661868",
+		"http://ld.zdb-services.de/resource/organisations/DE-423"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D435#!"
+		"_id": "http://lobid.org/organisations/DE-435#!"
 	}
 }
 {
@@ -2060,7 +2060,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D435#!"
+		"id": "http://lobid.org/organisations/DE-435#!"
 	},
 	"url": "http://www.huerth.de/kultur/stadtbuecherei/index.php",
 	"funderType": {
@@ -2105,8 +2105,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D435#!",
-	"isil": "DE%2D435",
+	"id": "http://lobid.org/organisations/DE-435#!",
+	"isil": "DE-435",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n01",
 		"type": "Collection",
@@ -2117,15 +2117,15 @@
 	},
 	"dbsID": "AA435",
 	"sameAs": [
-		"\"DE%2D435\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D435"
+		"http://www.wikidata.org/entity/Q28661883",
+		"http://ld.zdb-services.de/resource/organisations/DE-435"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D447#!"
+		"_id": "http://lobid.org/organisations/DE-447#!"
 	}
 }
 {
@@ -2143,7 +2143,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D447#!"
+		"id": "http://lobid.org/organisations/DE-447#!"
 	},
 	"url": "http://www.muenster.de/stadt/buecherei",
 	"funderType": {
@@ -2188,8 +2188,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D447#!",
-	"isil": "DE%2D447",
+	"id": "http://lobid.org/organisations/DE-447#!",
+	"isil": "DE-447",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n09",
 		"type": "Collection",
@@ -2200,15 +2200,15 @@
 	},
 	"dbsID": "AA447",
 	"sameAs": [
-		"\"DE%2D447\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D447"
+		"http://www.wikidata.org/entity/Q1528212",
+		"http://ld.zdb-services.de/resource/organisations/DE-447"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D472#!"
+		"_id": "http://lobid.org/organisations/DE-472#!"
 	}
 }
 {
@@ -2226,7 +2226,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D472#!"
+		"id": "http://lobid.org/organisations/DE-472#!"
 	},
 	"url": "http://www.ingolstadt.de/stadtbuecherei",
 	"funderType": {
@@ -2271,8 +2271,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D472#!",
-	"isil": "DE%2D472",
+	"id": "http://lobid.org/organisations/DE-472#!",
+	"isil": "DE-472",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n08",
 		"type": "Collection",
@@ -2283,8 +2283,8 @@
 	},
 	"dbsID": "AA472",
 	"sameAs": [
-		"\"DE%2D472\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D472"
+		"http://www.wikidata.org/entity/Q28661790",
+		"http://ld.zdb-services.de/resource/organisations/DE-472"
 	]
 }
 {
@@ -2368,7 +2368,7 @@
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D502#!"
+		"_id": "http://lobid.org/organisations/DE-502#!"
 	}
 }
 {
@@ -2386,7 +2386,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D502#!"
+		"id": "http://lobid.org/organisations/DE-502#!"
 	},
 	"url": "zossen.bbopac.de",
 	"funderType": {
@@ -2430,8 +2430,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D502#!",
-	"isil": "DE%2D502",
+	"id": "http://lobid.org/organisations/DE-502#!",
+	"isil": "DE-502",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n06",
 		"type": "Collection",
@@ -2442,15 +2442,15 @@
 	},
 	"dbsID": "AA502",
 	"sameAs": [
-		"\"DE%2D502\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D502"
+		"http://www.wikidata.org/entity/Q28685196",
+		"http://ld.zdb-services.de/resource/organisations/DE-502"
 	]
 }
 {
 	"index": {
 		"_index": "organisations",
 		"_type": "organisation",
-		"_id": "http://lobid.org/organisations/DE%2D514#!"
+		"_id": "http://lobid.org/organisations/DE-514#!"
 	}
 }
 {
@@ -2468,7 +2468,7 @@
 		}
 	},
 	"mainEntityOfPage": {
-		"id": "http://lobid.org/organisations/DE%2D514#!"
+		"id": "http://lobid.org/organisations/DE-514#!"
 	},
 	"url": "http://www.stadtbibliothek-rathenow.de",
 	"funderType": {
@@ -2512,8 +2512,8 @@
 			}
 		}
 	],
-	"id": "http://lobid.org/organisations/DE%2D514#!",
-	"isil": "DE%2D514",
+	"id": "http://lobid.org/organisations/DE-514#!",
+	"isil": "DE-514",
 	"collects": {
 		"id": "http://purl.org/lobid/stocksize#n07",
 		"type": "Collection",
@@ -2524,8 +2524,8 @@
 	},
 	"dbsID": "AA514",
 	"sameAs": [
-		"\"DE%2D514\"",
-		"http://ld.zdb-services.de/resource/organisations/DE%2D514"
+		"http://www.wikidata.org/entity/Q28682011",
+		"http://ld.zdb-services.de/resource/organisations/DE-514"
 	]
 }
 {
