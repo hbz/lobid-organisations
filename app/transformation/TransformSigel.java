@@ -19,6 +19,7 @@ import org.metafacture.framework.ObjectReceiver;
 import org.metafacture.framework.helpers.DefaultObjectPipe;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.metafix.Metafix;
+import org.metafacture.plumbing.StreamTee;
 import org.metafacture.triples.StreamToTriples;
 import org.metafacture.biblio.pica.PicaXmlHandler;
 import org.metafacture.xml.XmlDecoder;
@@ -53,13 +54,18 @@ public class TransformSigel {
 	static void process(String startOfUpdates, int intervalSize,
 			final String outputPath, String geoLookupServer) throws IOException {
 		splitUpSigelDump();
+		final StreamTee tee = new StreamTee();
 		final FileOpener splitFileOpener = new FileOpener();
 		StreamToTriples streamToTriples = new StreamToTriples();
 		streamToTriples.setRedirect(true);
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		JsonEncoder encodeJson = new JsonEncoder();
-		encodeJson.setPrettyPrinting(true);
+		encodeJson.setReceiver(TransformAll.esBulk()//
+				.setReceiver(new ObjectWriter<>(outputPath)));
+		JsonEncoder encodePrettyJson = new JsonEncoder();
+		encodePrettyJson.setPrettyPrinting(true);
+		encodePrettyJson.setReceiver(new ObjectWriter<>(outputPath + "-pretty.json"));
 		splitFileOpener//
 				.setReceiver(new XmlDecoder())//
 				.setReceiver(new PicaXmlHandler())//
@@ -68,9 +74,10 @@ public class TransformSigel {
 				.setReceiver(tripleFilter)//
 				.setReceiver(new TripleCollect())//
 				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
-				.setReceiver(encodeJson)//
-				.setReceiver(TransformAll.esBulk())//
-				.setReceiver(new ObjectWriter<>(outputPath));
+				.setReceiver(tee);
+		tee //
+				.addReceiver(encodeJson) //
+				.addReceiver(encodePrettyJson);
 		if (!startOfUpdates.isEmpty()) {
 			processSigelUpdates(startOfUpdates, intervalSize);
 		}

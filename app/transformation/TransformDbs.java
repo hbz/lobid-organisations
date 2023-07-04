@@ -11,6 +11,7 @@ import org.metafacture.triples.TripleFilter;
 import org.metafacture.triples.TripleCollect;
 import org.metafacture.io.ObjectWriter;
 import org.metafacture.io.FileOpener;
+import org.metafacture.plumbing.StreamTee;
 import org.metafacture.metafix.Metafix;
 import java.io.FileNotFoundException;
 
@@ -22,6 +23,7 @@ import java.io.FileNotFoundException;
  */
 public class TransformDbs {
 	static void process(final String outputPath, String geoLookupServer) throws FileNotFoundException {
+		final StreamTee tee = new StreamTee();
 		final FileOpener opener = new FileOpener();
 		StreamToTriples streamToTriples = new StreamToTriples();
 		streamToTriples.setRedirect(true);
@@ -31,7 +33,12 @@ public class TransformDbs {
 		final TripleFilter tripleFilter = new TripleFilter();
 		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		JsonEncoder encodeJson = new JsonEncoder();
-		encodeJson.setPrettyPrinting(true);
+		encodeJson.setReceiver(TransformAll.esBulk()//
+				.setReceiver(new ObjectWriter<>(outputPath)));
+		JsonEncoder encodePrettyJson = new JsonEncoder();
+		encodePrettyJson.setPrettyPrinting(true);
+		encodePrettyJson.setReceiver(new ObjectWriter<>( outputPath + "-pretty.json" ));
+
 		opener//
 				.setReceiver(new LineReader())//
 				.setReceiver(decoder)//
@@ -40,10 +47,12 @@ public class TransformDbs {
 				.setReceiver(tripleFilter)//
 				.setReceiver(new TripleCollect())//
 				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
-				.setReceiver(encodeJson)//
-				.setReceiver(TransformAll.esBulk())//
-				.setReceiver(new ObjectWriter<>(outputPath));
+				.setReceiver(tee);
+		tee //
+				.addReceiver(encodeJson) //
+				.addReceiver(encodePrettyJson);
 		opener.process(TransformAll.DATA_INPUT_DIR + "dbs.csv");
 		opener.closeStream();
 	}
+
 }
