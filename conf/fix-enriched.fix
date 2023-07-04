@@ -702,7 +702,7 @@ end
 copy_field("isil","@wikidataMap")
 prepend("@wikidataMap",'"')
 append("@wikidataMap",'"')
-lookup ("@wikidataMap","isil2wikidata_map")
+lookup ("@wikidataMap","isil2wikidata_map",delete:"true")
 ##
 ## 		<entity name="alternateName[]" flushWith="record">
 ## 			<combine name="${code}" value="${label}" sameEntity="true" reset="true">

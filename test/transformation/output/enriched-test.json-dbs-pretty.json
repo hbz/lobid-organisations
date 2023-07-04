@@ -1102,7 +1102,7 @@
       "en" : "100,001 - 300,000"
     }
   },
-  "sameAs" : [ "\"DE-253\"", "http://ld.zdb-services.de/resource/organisations/DE-253" ],
+  "sameAs" : [ "http://ld.zdb-services.de/resource/organisations/DE-253" ],
   "containedIn" : "38116",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-253#!"
