@@ -23,7 +23,6 @@ data/*
 *.txt
 app/transformation/input/*.xml
 app/transformation/input/*.csv
-test/transformation/output/*
 .cache*
 /bin/
 application-log*.gz
