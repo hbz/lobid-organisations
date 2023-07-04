@@ -73,15 +73,57 @@ do once("mapsAndMacros")
 	put_filemap("conf/ags-rs-map.csv","rs-map", sep_char:"\t")		
 	put_filemap("conf/geonames-map.csv","geonames-map", sep_char:"\t")	
 	put_filemap("conf/plz-blacklist.csv","plz_blacklist", sep_char:"\t")						
-	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_map",target:"skos:prefLabel", select_language:"de")
-	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_en_map",target:"skos:prefLabel", select_language:"en")
-	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_value_to_id_map",target:"notation")    
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","funderType_id_to_value_map",target:"skos:prefLabel", select_language:"de")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","funderType_id_to_value_en_map",target:"skos:prefLabel", select_language:"en")
 	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_map",target:"skos:prefLabel", select_language:"de")   
 	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_en_map",target:"skos:prefLabel", select_language:"en")
-	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_value_to_id_map",target:"notation") 
 	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_map",target:"skos:prefLabel", select_language:"de")
 	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_en_map",target:"skos:prefLabel", select_language:"en")
-	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_value_to_id_map",target:"notation") 
+ 	put_map("dbs_funderType_value_to_id_map", # values of dbs are not the same as the skos:notations
+			"1":"http://purl.org/lobid/fundertype#n01" ,
+			"2":"http://purl.org/lobid/fundertype#n02" ,
+			"3":"http://purl.org/lobid/fundertype#n03" ,
+			"4":"http://purl.org/lobid/fundertype#n04" ,
+			"5":"http://purl.org/lobid/fundertype#n06" ,
+			"6":"http://purl.org/lobid/fundertype#n07" ,
+			"7":"http://purl.org/lobid/fundertype#n08" ,
+			"8":"http://purl.org/lobid/fundertype#n09" ,
+			"9":"http://purl.org/lobid/fundertype#n10" ,
+			"10":"http://purl.org/lobid/fundertype#n11",
+			"11":"http://purl.org/lobid/fundertype#n12",
+			"12":"http://purl.org/lobid/fundertype#n13"
+	)
+	put_map("dbs_stocksize_value_to_id_map", # values of dbs are not the same as the skos:notations
+			"1":"http://purl.org/lobid/stocksize#n01" ,
+			"2":"http://purl.org/lobid/stocksize#n02" ,
+			"3":"http://purl.org/lobid/stocksize#n03" ,
+			"4":"http://purl.org/lobid/stocksize#n04" ,
+			"5":"http://purl.org/lobid/stocksize#n05" ,
+			"6":"http://purl.org/lobid/stocksize#n06" ,
+			"7":"http://purl.org/lobid/stocksize#n07" ,
+			"8":"http://purl.org/lobid/stocksize#n08" ,
+			"9":"http://purl.org/lobid/stocksize#n09" ,
+			"10":"http://purl.org/lobid/stocksize#n10",
+			"11":"http://purl.org/lobid/stocksize#n11"
+	)
+	put_map("dbs_libtype_value_to_id_map", # values of dbs are not the same as the skos:notations
+			"11":"http://purl.org/lobid/libtype#n11",
+			"15":"http://purl.org/lobid/libtype#n15",
+			"21":"http://purl.org/lobid/libtype#n21",
+			"30":"http://purl.org/lobid/libtype#n33",
+			"51":"http://purl.org/lobid/libtype#n33",
+			"52":"http://purl.org/lobid/libtype#n33",
+			"53":"http://purl.org/lobid/libtype#n36",
+			"54":"http://purl.org/lobid/libtype#n33",
+			"55":"http://purl.org/lobid/libtype#n36",
+			"56":"http://purl.org/lobid/libtype#n33",
+			"58":"http://purl.org/lobid/libtype#n36",
+			"59":"http://purl.org/lobid/libtype#n33",
+			"60":"http://purl.org/lobid/libtype#n60",
+			"70":"http://purl.org/lobid/libtype#n70",
+			"80":"http://purl.org/lobid/libtype#n81",
+			"91":"http://purl.org/lobid/libtype#n91"
+	)
 	do put_macro("url-group")
 		if any_match("$[dbs_field]","http(.*)")
 			copy_field("$[dbs_field]","@url-group")
@@ -105,14 +147,14 @@ do once("mapsAndMacros")
 	end
 
 	do put_macro("make-id")
-	if exists("$[isil-field]")
-		copy_field("$[isil-field]","$[output-name]")
-		replace_all("$[output-name]","^(.*)$","$[uri-base]")
-	else
-		copy_field("$[dbs-field]","$[output-name]")
-		lookup("$[output-name]","$[dbs-lookup]")
+		if exists("$[isil-field]")
+			copy_field("$[isil-field]","$[output-name]")
+			replace_all("$[output-name]","^(.*)$","$[uri-base]")
+		else
+			copy_field("$[dbs-field]","$[output-name]")
+			lookup("$[output-name]","$[dbs-lookup]")
+		end
 	end
-end
 end
 #
 ## 	<rules>
@@ -548,19 +590,19 @@ copy_field("lonOther","location[].$last.geo.lon")
 #
 #
 
-## 		<!-- Determine classification, fundertype, and stocksize ID, loop back '@' -->
-## 		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_id" dbs-lookup="libtype_value_to_id_map"
+## 		<!-- Determine classification, funderType, and stocksize ID, loop back '@' -->
+## 		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_id" dbs-lookup="dbs_libtype_value_to_id_map"
 ## 			uri-base="http://purl.org/lobid/libtype#n$1" output-name="@classificationId"/>
-## 		<call-macro name="make-id" isil-field="035E.g" dbs-field="utr_id" dbs-lookup="fundertype_value_to_id_map"
-## 			uri-base="http://purl.org/lobid/fundertype#n${1}" output-name="@fundertypeId"/>
-## 		<call-macro name="make-id" isil-field="035E.h" dbs-field="bestandsgroessenklasse_id" dbs-lookup="stocksize_value_to_id_map"
+## 		<call-macro name="make-id" isil-field="035E.g" dbs-field="utr_id" dbs-lookup="dbs_funderType_value_to_id_map"
+## 			uri-base="http://purl.org/lobid/fundertype#n${1}" output-name="@funderTypeId"/>
+## 		<call-macro name="make-id" isil-field="035E.h" dbs-field="bestandsgroessenklasse_id" dbs-lookup="dbs_stocksize_value_to_id_map"
 ## 			uri-base="http://purl.org/lobid/stocksize#n${1}" output-name="@stocksizeId"/>
 
-call_macro("make-id", "isil-field":"035E.f", "dbs-field":"typ_id", "dbs-lookup":"libtype_value_to_id_map", "uri-base":"http://purl.org/lobid/libtype#n$1","output-name":"@classificationId")
-call_macro("make-id", "isil-field":"035E.g", "dbs-field":"utr_id", "dbs-lookup":"fundertype_value_to_id_map", "uri-base":"http://purl.org/lobid/fundertype#n$1","output-name":"@fundertypeId")
-call_macro("make-id", "isil-field":"035E.h", "dbs-field":"bestandsgroessenklasse_id", "dbs-lookup":"stocksize_value_to_id_map", "uri-base":"http://purl.org/lobid/stocksize#n$1","output-name":"@stocksizeId")
+call_macro("make-id", "isil-field":"035E.f", "dbs-field":"typ_id", "dbs-lookup":"dbs_libtype_value_to_id_map", "uri-base":"http://purl.org/lobid/libtype#n$1","output-name":"@classificationId")
+call_macro("make-id", "isil-field":"035E.g", "dbs-field":"utr_id", "dbs-lookup":"dbs_funderType_value_to_id_map", "uri-base":"http://purl.org/lobid/fundertype#n$1","output-name":"@funderTypeId")
+call_macro("make-id", "isil-field":"035E.h", "dbs-field":"bestandsgroessenklasse_id", "dbs-lookup":"dbs_stocksize_value_to_id_map", "uri-base":"http://purl.org/lobid/stocksize#n$1","output-name":"@stocksizeId")
 
-## 		<!-- Use classification, fundertype, and stocksize ID for labels -->
+## 		<!-- Use classification, funderType, and stocksize ID for labels -->
 ## 		<entity name="classification" flushWith="record">
 ## 			<data source="@classificationId" name="id"/>
 ## 			<data source="@classificationId" name="type">
@@ -580,7 +622,6 @@ do list(path:"@classificationId","var":"$i")
 	copy_field("$i","classification.id")
 	add_field("classification.type","Concept")
 	copy_field("$i","classification.label.de")
-
 	copy_field("$i","classification.label.en")
 end
 lookup("classification.label.de","libtype_id_to_value_map")
@@ -588,17 +629,17 @@ lookup("classification.label.en","libtype_id_to_value_en_map")
 
 #
 ## 
-## 		<entity name="fundertype" flushWith="record">
-## 			<data source="@fundertypeId" name="id"/>
-## 			<data source="@fundertypeId" name="type">
+## 		<entity name="funderType" flushWith="record">
+## 			<data source="@funderTypeId" name="id"/>
+## 			<data source="@funderTypeId" name="type">
 ## 				<constant value="Concept" />
 ## 			</data>
 ## 			<entity name="label" flushWith="record">
-## 				<data source="@fundertypeId" name="de">
-## 					<lookup in="fundertype_id_to_value_map" />
+## 				<data source="@funderTypeId" name="de">
+## 					<lookup in="funderType_id_to_value_map" />
 ## 				</data>
-## 				<data source="@fundertypeId" name="en">
-## 					<lookup in="fundertype_id_to_value_en_map" />
+## 				<data source="@funderTypeId" name="en">
+## 					<lookup in="funderType_id_to_value_en_map" />
 ## 				</data>
 ## 			</entity>
 ## 		</entity>
@@ -608,11 +649,10 @@ do list(path:"@funderTypeId","var":"$i")
 	add_field("funderType.type","Concept")
 	copy_field("$i","funderType.label.de")
 	copy_field("$i","funderType.label.en")
-	
 end
 
-lookup("funderType.label.de","fundertype_id_to_value_map" )
-lookup("funderType.label.en","fundertype_id_to_value_en_map")
+lookup("funderType.label.de","funderType_id_to_value_map" )
+lookup("funderType.label.en","funderType_id_to_value_en_map")
 #
 #
 ## 
@@ -865,6 +905,7 @@ retain(
 	"address",
 	"alternateName[]",
 	"availableChannel[]",
+	"classification",
 	"collects",
 	"containedIn",
 	"dbsID",
