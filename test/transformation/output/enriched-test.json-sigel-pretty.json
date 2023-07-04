@@ -11,9 +11,6 @@
     "serviceUrl" : "http://www.nationallizenzen.de/angebote/nlproduct.2011-05-11.8008587391"
   } ],
   "id" : "http://lobid.org/organisations/ZDB-1-AAS4#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -247,9 +244,6 @@
   } ],
   "dbsID" : "AB038",
   "id" : "http://lobid.org/organisations/DE-38#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -316,9 +310,6 @@
   "provides" : "http://www.medpilot.de/?idb=ZBMED",
   "dbsID" : "BJ038",
   "id" : "http://lobid.org/organisations/DE-38M#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {

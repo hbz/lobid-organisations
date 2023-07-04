@@ -7,9 +7,6 @@
   "provides" : "http://www.ub.uni-greifswald.de:2324/",
   "dbsID" : "AA009",
   "id" : "http://lobid.org/organisations/DE-9#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -76,9 +73,6 @@
   "provides" : "https://katalog.ub.uni-bamberg.de",
   "dbsID" : "AA022",
   "id" : "http://lobid.org/organisations/DBS-AA022#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -145,9 +139,6 @@
   "provides" : "https://hds.hebis.de/ubks",
   "dbsID" : "AA034",
   "id" : "http://lobid.org/organisations/DE-34#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -214,9 +205,6 @@
   "name" : "Staats- und Universitätsbibliothek Bremen",
   "dbsID" : "AA046",
   "id" : "http://lobid.org/organisations/DE-46#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -283,9 +271,6 @@
   "name" : "Fürstliche Schaumburg-Lippische Hofbibliothek In Verwaltung des Niedersächsischen Landesarchivs - Standort Bückeburg -",
   "dbsID" : "AA058",
   "id" : "http://lobid.org/organisations/DE-58#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -352,9 +337,6 @@
   "provides" : "http://portal.ub.tu-berlin.de",
   "dbsID" : "AA083",
   "id" : "http://lobid.org/organisations/DBS-AA083#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -421,9 +403,6 @@
   "provides" : "http://opac.hobsy.de/cgi-bin/nph-wwwp3?DB=BES5.SYS8&LANG=DU&EXT=ON",
   "dbsID" : "AA095",
   "id" : "http://lobid.org/organisations/DE-95#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -491,9 +470,6 @@
   "provides" : "http://www.datronic.de/cgi-bin/findus.pl?customer=memmingen",
   "dbsID" : "AA149",
   "id" : "http://lobid.org/organisations/DE-149#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -559,9 +535,6 @@
   "provides" : "http://opac.sbnd.de",
   "dbsID" : "AA150",
   "id" : "http://lobid.org/organisations/DBS-AA150#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -628,9 +601,6 @@
   "provides" : "http://katalog.stadtbibliothek-ge.de/opac/de/user_frm.html.S",
   "dbsID" : "AA174",
   "id" : "http://lobid.org/organisations/DE-174#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -698,9 +668,6 @@
   "provides" : "http://www.bibliothek.potsdam.de",
   "dbsID" : "AA186",
   "id" : "http://lobid.org/organisations/DE-186#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -768,9 +735,6 @@
   "provides" : "http://62.159.150.4/wwwopac/",
   "dbsID" : "AA198",
   "id" : "http://lobid.org/organisations/DE-198#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -838,9 +802,6 @@
   "provides" : "http://www.iaicat.de",
   "dbsID" : "AA204",
   "id" : "http://lobid.org/organisations/DE-204#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -908,9 +869,6 @@
   "provides" : "http://www.stadtbuecherei.hameln.de",
   "dbsID" : "AA228",
   "id" : "http://lobid.org/organisations/DE-228#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -978,9 +936,6 @@
   "provides" : "http://www.buecherei-kulmbach.de",
   "dbsID" : "AA241",
   "id" : "http://lobid.org/organisations/DE-241#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1047,9 +1002,6 @@
   "name" : "Thünen-Institut, Fachinformationszentrum Ländliche Räume",
   "dbsID" : "AA253",
   "id" : "http://lobid.org/organisations/DE-253#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1116,9 +1068,6 @@
   "provides" : "https://katalog.stadtbuecherei.frankfurt.de",
   "dbsID" : "AA277",
   "id" : "http://lobid.org/organisations/DBS-AA277#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1185,9 +1134,6 @@
   "provides" : "http://www.uni-ulm.de/index.php?id=1357",
   "dbsID" : "AA289",
   "id" : "http://lobid.org/organisations/DE-289#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1253,9 +1199,6 @@
   "name" : "Universitätsbibliothek Dortmund",
   "dbsID" : "AA290",
   "id" : "http://lobid.org/organisations/DBS-AA290#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1322,9 +1265,6 @@
   "provides" : "http://webopac.kh-int.de/opax/de/qsim.html.S",
   "dbsID" : "AA356",
   "id" : "http://lobid.org/organisations/DE-356#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1392,9 +1332,6 @@
   "provides" : "http://webopac.hattingen.de/webopac/index.asp?DB=web_biblio",
   "dbsID" : "AA368",
   "id" : "http://lobid.org/organisations/DE-368#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1461,9 +1398,6 @@
   "provides" : "http://www.kataloge.dortmund.de",
   "dbsID" : "AA381",
   "id" : "http://lobid.org/organisations/DBS-AA381#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1530,9 +1464,6 @@
   "provides" : "https://buecherei.juelich.de/Recherche/Suche.aspx",
   "dbsID" : "AA393",
   "id" : "http://lobid.org/organisations/DE-393#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1600,9 +1531,6 @@
   "provides" : "http://opac.coesfeld.de/index.asp?DB=BIBLIO53",
   "dbsID" : "AA411",
   "id" : "http://lobid.org/organisations/DE-411#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1670,9 +1598,6 @@
   "provides" : "http://www.bibliothek-im-netz.de/index.asp?DB=ALL",
   "dbsID" : "AA423",
   "id" : "http://lobid.org/organisations/DE-423#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1740,9 +1665,6 @@
   "provides" : "http://buecherei.huerth.de/webopac/index.asp?DB=w_huerth",
   "dbsID" : "AA435",
   "id" : "http://lobid.org/organisations/DE-435#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1810,9 +1732,6 @@
   "provides" : "http://www.stadt-muenster.de/opac",
   "dbsID" : "AA447",
   "id" : "http://lobid.org/organisations/DE-447#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1880,9 +1799,6 @@
   "provides" : "http://www.ingolstadt.de/stadtbuecherei",
   "dbsID" : "AA472",
   "id" : "http://lobid.org/organisations/DE-472#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -1948,9 +1864,6 @@
   "name" : "Stadtbücherei",
   "dbsID" : "AA496",
   "id" : "http://lobid.org/organisations/DBS-AA496#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -2016,9 +1929,6 @@
   "name" : "Stadtbibliothek Zossen",
   "dbsID" : "AA502",
   "id" : "http://lobid.org/organisations/DE-502#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -2085,9 +1995,6 @@
   "name" : "Stadtbibliothek Rathenow",
   "dbsID" : "AA514",
   "id" : "http://lobid.org/organisations/DE-514#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -2153,9 +2060,6 @@
   "name" : "Patientenbücherei in der Hunsrück Klinik der Kreuznacher Diakonie",
   "dbsID" : "AA600",
   "id" : "http://lobid.org/organisations/DBS-AA600#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {
@@ -2220,9 +2124,6 @@
   "provides" : "https://webopac.stadt-hildesheim.de/libero/WebOpac.cls",
   "dbsID" : "DB675",
   "id" : "http://lobid.org/organisations/DBS-DB675#!",
-  "address" : {
-    "type" : "PostalAddress"
-  },
   "location" : [ {
     "type" : "Place",
     "address" : {

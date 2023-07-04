@@ -388,8 +388,9 @@ copy_field("postOfficeBoxNumber","address.postOfficeBoxNumber")
 copy_field("localityMail","address.addressLocality")
 copy_field("postalCodeMail","address.postalCode")
 copy_field("countryMail","address.addressCountry")
-add_field("address.type","PostalAddress")
-#
+if exists("address")
+	add_field("address.type","PostalAddress")
+end
 ## 		
 ## 		<!-- Lookup fields for visitor and other address -->
 ## 		<combine name="@geoLookupDbs" value="${strasse}_${plz}_${ort}_${land}" flushWith="record">
@@ -419,10 +420,8 @@ set_array("location[]")
 ## 				<data source="localityVisitor|strasse" name="type">
 ## 					<regexp match="(.*)" format="Place" />
 ## 				</data>
-add_field("location[].$append.type","Place")
 #
-## 				<data source="descriptionVisitor" name="description"/>
-copy_field("descriptionVisitor","location[].$last.description")
+
 ## 				<entity name="address" flushWith="record">
 ## 					<choose>
 ## 						<data source="streetAddressVisitor" name="streetAddress" />
@@ -430,13 +429,19 @@ copy_field("descriptionVisitor","location[].$last.description")
 ## 							<not-equals string="NULL"/>
 ## 						</data>
 if exists("streetAddressVisitor")
+	add_field("location[].$append.type","Place")
 	copy_field("streetAddressVisitor","location[].$last.address.streetAddress")
 else
 	unless any_equal("strasse","NULL")
+		add_field("location[].$append.type","Place")
 		copy_field("strasse","location[].$last.address.streetAddress")
 	end
 end
 ## 					</choose>
+
+## 				<data source="descriptionVisitor" name="description"/>
+copy_field("descriptionVisitor","location[].$last.description")
+
 ## 					<choose>
 ## 						<data source="localityVisitor" name="addressLocality" />
 ## 						<data source="ort" name="addressLocality" />
