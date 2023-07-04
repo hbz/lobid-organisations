@@ -119,11 +119,11 @@ public class TestTransformAll {
 		assertThat(resultCollector.toString())//
 				.as("contains api description")//
 				.contains(
-						"availableChannel[]{{type[]{type:ServiceChannel,type:WebAPI},serviceUrl:http\\://info-test.de/sru}"//
-								+ "{serviceType:other,type[]{type:ServiceChannel}serviceUrl:http\\://info-test.de/other}"//
-								+ "{serviceType:OpenURL,type[]{type:ServiceChannel,type:WebAPI}serviceUrl:http\\://info-test.de/openurl}"//
-								+ "{serviceType:PAIA,type[]{type:ServiceChannel,type:WebAPI}serviceUrl:http\\://info-test.de/paia}"//
-								+ "{serviceType:DAIA,type[]{type:ServiceChannel,type:WebAPI}serviceUrl:http\\://info-test.de/daia}}");
+						"availableChannel[]{1{type[]{1:ServiceChannel,2:WebAPI}serviceType:SRU,serviceUrl:http\\://info-test.de/sru}"//
+								+ "2{type[]{1:ServiceChannel}serviceType:other,serviceUrl:http\\://info-test.de/other}"//
+								+ "3{type[]{1:ServiceChannel,2:WebAPI}serviceType:OpenURL,serviceUrl:http\\://info-test.de/openurl}"//
+								+ "4{type[]{1:ServiceChannel,2:WebAPI}serviceType:PAIA,serviceUrl:http\\://info-test.de/paia}"//
+								+ "5{type[]{1:ServiceChannel,2:WebAPI}serviceType:DAIA,serviceUrl:http\\://info-test.de/daia}}");
 	}
 
 
