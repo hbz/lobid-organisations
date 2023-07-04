@@ -229,8 +229,13 @@ elsif exists("032P.n")
 	copy_field("032P.n","@rs")
 else
 	copy_field("@postalCodeForLookups","@rs")
-## TODO: No blacklist exists in fix:			<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
-lookup("@rs","ags_map")
+	## TODO: No blacklist exists in fix:			<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
+	lookup("@rs","plz_blacklist")
+	if any_equal("@rs","blacklist")
+		remove_field("@rs")
+	else
+		lookup("@rs","ags_map")
+	end
 end
 
 lookup("@rs","rs_map")
