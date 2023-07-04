@@ -1,8 +1,8 @@
 {
   "isil" : "ZDB-1-AAS4",
   "email" : "mailto:ssg-nationallizenzen@sbb.spk-berlin.de",
-  "type" : "89",
-  "rs" : "10785",
+  "type" : "Collection",
+  "rs" : "110000000000",
   "name" : "American Antiquarian Society (AAS)Historical Periodicals Collection : Series 4 (1853-1865)[Nationallizenz]",
   "url" : "http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=h9k",
   "availableChannel" : [ {
@@ -51,7 +51,7 @@
   },
   "alternateName" : [ "Nationallizenz AAS Series4" ],
   "sameAs" : [ "http://ld.zdb-services.de/resource/organisations/ZDB-1-AAS4" ],
-  "containedIn" : "10785",
+  "containedIn" : "6547539",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/ZDB-1-AAS4#!",
     "dateCreated" : "25-05-11",
@@ -61,8 +61,8 @@
 {
   "isil" : "DE-1a",
   "email" : "mailto:info@sbb.spk-berlin.de",
-  "type" : "11",
-  "rs" : "11000000",
+  "type" : "Library",
+  "rs" : "110000000000",
   "name" : "Staatsbibliothek zu Berlin - Preußischer Kulturbesitz,Haus Potsdamer Straße",
   "url" : "http://www.staatsbibliothek-berlin.de",
   "provides" : "http://stabikat.de",
@@ -135,7 +135,7 @@
   "alternateName" : [ "SBB-PK, Potsdamer Straße", "Berlin SBB Haus Potsdamer Str" ],
   "name_en" : "Leibniz Institute for Zoo and Wildlife Research Berlin, Library",
   "sameAs" : [ "http://www.wikidata.org/entity/Q170109", "http://ld.zdb-services.de/resource/organisations/DE-1a" ],
-  "containedIn" : "11000000",
+  "containedIn" : "6547539",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-1a#!",
     "dateCreated" : "18-11-99",
@@ -145,8 +145,8 @@
 {
   "isil" : "DE-294",
   "email" : "mailto:benutzung.ub@ruhr-uni-bochum.de",
-  "type" : "60",
-  "rs" : "05911000",
+  "type" : "Library",
+  "rs" : "059110000000",
   "name" : "Ruhr-Universität Bochum,Universitätsbibliothek",
   "url" : "http://www.ub.ruhr-uni-bochum.de",
   "provides" : "https://opac.ub.ruhr-uni-bochum.de/webOPACClient/start.do",
@@ -207,7 +207,7 @@
   },
   "alternateName" : [ "Bochum UB" ],
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496285", "http://ld.zdb-services.de/resource/organisations/DE-294" ],
-  "containedIn" : "5911000",
+  "containedIn" : "6553132",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-294#!",
     "dateCreated" : "18-11-99",
@@ -217,8 +217,8 @@
 {
   "isil" : "DE-38",
   "email" : "mailto:Fernleihe@ub.uni-koeln.de",
-  "type" : "60",
-  "rs" : "05315000",
+  "type" : "Library",
+  "rs" : "053150000000",
   "name" : "Universitäts- und Stadtbibliothek Köln, Hauptabteilung",
   "url" : "http://www.ub.uni-koeln.de",
   "availableChannel" : [ {
@@ -293,7 +293,7 @@
   },
   "alternateName" : [ "Köln USB" ],
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496260", "http://ld.zdb-services.de/resource/organisations/DE-38" ],
-  "containedIn" : "5315000",
+  "containedIn" : "6553049",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-38#!",
     "dateCreated" : "18-11-99",
@@ -303,8 +303,8 @@
 {
   "isil" : "DE-38M",
   "email" : "mailto:info@zbmed.de",
-  "type" : "15",
-  "rs" : "05315000",
+  "type" : "Library",
+  "rs" : "053150000000",
   "name" : "Deutsche Zentralbibliothek für Medizin - ZB MED Medizin. Gesundheit.",
   "url" : "http://www.zbmed.de",
   "provides" : "http://www.medpilot.de/?idb=ZBMED",
@@ -365,7 +365,7 @@
   },
   "alternateName" : [ "Köln ZB MED" ],
   "sameAs" : [ "http://www.wikidata.org/entity/Q1204536", "http://ld.zdb-services.de/resource/organisations/DE-38M" ],
-  "containedIn" : "5315000",
+  "containedIn" : "6553049",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-38M#!",
     "dateCreated" : "18-11-99",

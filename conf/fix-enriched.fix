@@ -68,10 +68,10 @@
 ## 		<filemap name="plz_blacklist" files="plz-blacklist.csv" />
 do once("mapsAndMacros")
 	put_filemap("conf/isil2wikidata.csv","isil2wikidata_map", sep_char:"\t")
-	put_filemap("conf/libtype-map.csv","libtype-map", sep_char:"\t")
-	put_filemap("conf/plz-ags-map.csv","ags-map", sep_char:"\t")		
-	put_filemap("conf/ags-rs-map.csv","rs-map", sep_char:"\t")		
-	put_filemap("conf/geonames-map.csv","geonames-map", sep_char:"\t")	
+	put_filemap("conf/libtype-map.csv","libtype_map", sep_char:"\t")
+	put_filemap("conf/plz-ags-map.csv","ags_map", sep_char:"\t")		
+	put_filemap("conf/ags-rs-map.csv","rs_map", sep_char:"\t")		
+	put_filemap("conf/geonames-map.csv","geonames_map", sep_char:"\t")	
 	put_filemap("conf/plz-blacklist.csv","plz_blacklist", sep_char:"\t")						
 	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","funderType_id_to_value_map",target:"skos:prefLabel", select_language:"de")
 	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","funderType_id_to_value_en_map",target:"skos:prefLabel", select_language:"en")
@@ -152,7 +152,7 @@ do once("mapsAndMacros")
 			replace_all("$[output-name]","^(.*)$","$[uri-base]")
 		else
 			copy_field("$[dbs-field]","$[output-name]")
-			lookup("$[output-name]","$[dbs-lookup]")
+			lookup("$[output-name]","$[dbs-lookup]", delete:"true")
 		end
 	end
 end
@@ -195,7 +195,7 @@ add_field("@context","http://lobid.org/organisations/context.jsonld")
 #
 #
 copy_field("035E.f","@libType")
-lookup("@libType","libtype_map")
+lookup("@libType","libtype_map", delete:"true")
 if exists("@libType")
 	copy_field("@libType","type")
 else
@@ -234,7 +234,7 @@ else
 	if any_equal("@rs","blacklist")
 		remove_field("@rs")
 	else
-		lookup("@rs","ags_map")
+		lookup("@rs","ags_map", delete:"true")
 	end
 end
 
@@ -527,7 +527,7 @@ if exists("latDbs")
 elsif exists("latVisitor")
 	copy_field("latVisitor","location[].$last.geo.lat")
 elsif exists("@geoLookupDbs")
-	lookup("@geoLookupDbs","addLatMap" )
+	lookup("@geoLookupDbs","addLatMap", delete:"true")
 	copy_field("@geoLookupDbs","location[].$last.geo.lat")
 end
 #
@@ -544,7 +544,7 @@ if exists("lonDbs")
 elsif exists("lonVisitor")
 	copy_field("lonVisitor","location[].$last.geo.lon")
 elsif exists("@geoLookupDbs")
-	lookup("@geoLookupDbs","addlongMap" )
+	lookup("@geoLookupDbs","addlongMap" , delete:"true")
 	copy_field("@geoLookupDbs","location[].$last.geo.lon")
 end
 #
@@ -787,8 +787,13 @@ elsif any_match("032P.n","\\d{8}")
 ## 		</choose>
 else
 	copy_field("@postalCodeForLookups","@ags")
-#				TODO: <blacklist map="plz_blacklist"/>
-lookup("@ags","ags_map")
+	## TODO: No blacklist exists in fix:			<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
+	lookup("@ags","plz_blacklist")
+	if any_equal("@ags","blacklist")
+		remove_field("@ags")
+	else
+		lookup("@ags","ags_map", delete:"true")
+	end
 end
 #
 #
@@ -798,7 +803,7 @@ end
 ## 				<lookup in="geonames_map" />
 ## 			</data>
 ## 		</combine>
-lookup("@ags","geonames_map")
+lookup("@ags","geonames_map", delete:"true")
 if exists("@ags")
 	paste("containedIn","http://sws.geonames.org/","@ags")
 end

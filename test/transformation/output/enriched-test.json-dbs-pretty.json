@@ -19,10 +19,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo-Fr.: 8-24, Sa: 9-24 Uhr"
-    },
-    "geo" : {
-      "lat" : "Felix-Hausdorff-Str. 10_17489_Greifswald_DEU",
-      "lon" : "Felix-Hausdorff-Str. 10_17489_Greifswald_DEU"
     }
   }, {
     "place" : {
@@ -60,7 +56,7 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496314", "http://ld.zdb-services.de/resource/organisations/DE-9" ],
-  "containedIn" : "17489",
+  "containedIn" : "6551180",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-9#!"
   }
@@ -85,10 +81,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo - Fr 9:00 - 17:00 Uhr, Sa 9:00 - 12:00 Uhr (im August Sa geschlossen)"
-    },
-    "geo" : {
-      "lat" : "Neue Residenz, Domplatz 8_96049_Bamberg_DEU",
-      "lon" : "Neue Residenz, Domplatz 8_96049_Bamberg_DEU"
     }
   }, {
     "place" : {
@@ -125,7 +117,6 @@
       "en" : "300,001 - 1,000,000"
     }
   },
-  "containedIn" : "96049",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-AA022#!"
   }
@@ -151,10 +142,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo - Fr 8 bis 23 Uhr. Sa u. So 10 bis 21 Uhr"
-    },
-    "geo" : {
-      "lat" : "Diagonale 10_34127_Kassel_DEU",
-      "lon" : "Diagonale 10_34127_Kassel_DEU"
     }
   }, {
     "place" : {
@@ -192,7 +179,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496316", "http://ld.zdb-services.de/resource/organisations/DE-34" ],
-  "containedIn" : "34127",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-34#!"
   }
@@ -217,10 +203,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo-Fr 8.00-22.00 h. Sa 10.00-18.00 h"
-    },
-    "geo" : {
-      "lat" : "Bibliothekstr._28359_Bremen_DEU",
-      "lon" : "Bibliothekstr._28359_Bremen_DEU"
     }
   }, {
     "place" : {
@@ -258,7 +240,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1680376", "http://ld.zdb-services.de/resource/organisations/DE-46" ],
-  "containedIn" : "28359",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-46#!"
   }
@@ -283,10 +264,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo, Di, Do 9.00-16.00 Uhr, Mi 9.00-18.00 Uhr, Fr 9.00-13 Uhr"
-    },
-    "geo" : {
-      "lat" : "Schlossplatz 2_31675_Bückeburg_DEU",
-      "lon" : "Schlossplatz 2_31675_Bückeburg_DEU"
     }
   }, {
     "place" : {
@@ -324,7 +301,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1483614", "http://ld.zdb-services.de/resource/organisations/DE-58" ],
-  "containedIn" : "31675",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-58#!"
   }
@@ -349,10 +325,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Zentralbibliothek: Mo-Fr 9-22 Uhr, Sa 10-18 Uhr"
-    },
-    "geo" : {
-      "lat" : "Fasanenstraße 88 (im VOLKSWAGEN-Haus)_10623_Berlin_DEU",
-      "lon" : "Fasanenstraße 88 (im VOLKSWAGEN-Haus)_10623_Berlin_DEU"
     }
   }, {
     "place" : {
@@ -389,7 +361,7 @@
       "en" : "1,000,001 and more"
     }
   },
-  "containedIn" : "10623",
+  "containedIn" : "6547539",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-AA083#!"
   }
@@ -415,10 +387,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo., Mi., Fr.   11 - 19, Di., Do. 9 - 17, Sa. 10 - 13"
-    },
-    "geo" : {
-      "lat" : "Bünteweg 2_30559_Hannover_DEU",
-      "lon" : "Bünteweg 2_30559_Hannover_DEU"
     }
   }, {
     "place" : {
@@ -456,7 +424,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28731327", "http://ld.zdb-services.de/resource/organisations/DE-95" ],
-  "containedIn" : "30559",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-95#!"
   }
@@ -481,10 +448,6 @@
     },
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification"
-    },
-    "geo" : {
-      "lat" : "Martin-Luther-Platz 1_87700_Memmingen_DEU",
-      "lon" : "Martin-Luther-Platz 1_87700_Memmingen_DEU"
     }
   }, {
     "place" : {
@@ -522,7 +485,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1478335", "http://ld.zdb-services.de/resource/organisations/DE-149" ],
-  "containedIn" : "87700",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-149#!"
   }
@@ -547,10 +509,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo 13.30-16.00. Di 13.30-18.00. Mi 13.30-16.00. Do 10.00-12.00 und 13.30-16.00. Fr 10.00-13.30"
-    },
-    "geo" : {
-      "lat" : "Karlspl. A 17_86633_Neuburg/Donau_DEU",
-      "lon" : "Karlspl. A 17_86633_Neuburg/Donau_DEU"
     }
   }, {
     "place" : {
@@ -587,7 +545,6 @@
       "en" : "30,001 - 100,000"
     }
   },
-  "containedIn" : "86633",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-AA150#!"
   }
@@ -613,10 +570,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo-Fr 11.00-19.00 , Sa 10.00-13.00"
-    },
-    "geo" : {
-      "lat" : "Ebertstr. 19_45875_Gelsenkirchen_DEU",
-      "lon" : "Ebertstr. 19_45875_Gelsenkirchen_DEU"
     }
   }, {
     "place" : {
@@ -654,7 +607,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28681662", "http://ld.zdb-services.de/resource/organisations/DE-174" ],
-  "containedIn" : "45875",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-174#!"
   }
@@ -680,10 +632,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo 15 - 19   Di - Fr 10 - 19   Sa 10 - 16 "
-    },
-    "geo" : {
-      "lat" : "Am Kanal 47_14467_Potsdam_DEU",
-      "lon" : "Am Kanal 47_14467_Potsdam_DEU"
     }
   }, {
     "place" : {
@@ -721,7 +669,7 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2326335", "http://ld.zdb-services.de/resource/organisations/DE-186" ],
-  "containedIn" : "14467",
+  "containedIn" : "7602560",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-186#!"
   }
@@ -747,10 +695,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo/Mi 13.00-18.00  Di 10.00-19.00  Do/Frei 10.00-18.00  Sa 10.00 - 13.00 "
-    },
-    "geo" : {
-      "lat" : "Marktplatz 1_17033_Neubrandenburg_DEU",
-      "lon" : "Marktplatz 1_17033_Neubrandenburg_DEU"
     }
   }, {
     "place" : {
@@ -788,7 +732,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2138279", "http://ld.zdb-services.de/resource/organisations/DE-198" ],
-  "containedIn" : "17033",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-198#!"
   }
@@ -814,10 +757,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo-Fr. 9.00-19.00 Uhr, Sa 9.00-13.00 Uhr"
-    },
-    "geo" : {
-      "lat" : "Potsdamer Str. 37_10785_Berlin_DEU",
-      "lon" : "Potsdamer Str. 37_10785_Berlin_DEU"
     }
   }, {
     "place" : {
@@ -855,7 +794,7 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28737641", "http://ld.zdb-services.de/resource/organisations/DE-204" ],
-  "containedIn" : "10785",
+  "containedIn" : "6547539",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-204#!"
   }
@@ -881,10 +820,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Di und Do-Fr 12.00-18.00. Mi 10.00-16.00. Sa 10.00-13.00"
-    },
-    "geo" : {
-      "lat" : "Sudetenstr. 1_31785_Hameln_DEU",
-      "lon" : "Sudetenstr. 1_31785_Hameln_DEU"
     }
   }, {
     "place" : {
@@ -922,7 +857,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28661800", "http://ld.zdb-services.de/resource/organisations/DE-228" ],
-  "containedIn" : "31785",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-228#!"
   }
@@ -948,10 +882,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo  - 14:00 - 19:30, Di 10:00 - 17:00, Mi 9:30 - 14:00 -  , Do 10:00 - 17:00, Fr 10:00 - 14:00  -   "
-    },
-    "geo" : {
-      "lat" : "Pestalozzistr. 11_95326_Kulmbach_DEU",
-      "lon" : "Pestalozzistr. 11_95326_Kulmbach_DEU"
     }
   }, {
     "place" : {
@@ -989,7 +919,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28733510", "http://ld.zdb-services.de/resource/organisations/DE-241" ],
-  "containedIn" : "95326",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-241#!"
   }
@@ -1014,10 +943,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "9-16.30"
-    },
-    "geo" : {
-      "lat" : "Bundesallee 50_38116_Braunschweig_DEU",
-      "lon" : "Bundesallee 50_38116_Braunschweig_DEU"
     }
   }, {
     "place" : {
@@ -1055,7 +980,6 @@
     }
   },
   "sameAs" : [ "http://ld.zdb-services.de/resource/organisations/DE-253" ],
-  "containedIn" : "38116",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-253#!"
   }
@@ -1080,10 +1004,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo-Fr 11.00-19.00. Sa 11.00-16.00"
-    },
-    "geo" : {
-      "lat" : "Hasengasse 4_60311_Frankfurt/Main_DEU",
-      "lon" : "Hasengasse 4_60311_Frankfurt/Main_DEU"
     }
   }, {
     "place" : {
@@ -1120,7 +1040,6 @@
       "en" : "300,001 - 1,000,000"
     }
   },
-  "containedIn" : "60311",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-AA277#!"
   }
@@ -1146,10 +1065,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo - Fr 8:00 - 22:00 Uhr, Sa 10:00 - 20:00 Uhr"
-    },
-    "geo" : {
-      "lat" : "Albert-Einstein-Allee 37_89081_Ulm/Donau_DEU",
-      "lon" : "Albert-Einstein-Allee 37_89081_Ulm/Donau_DEU"
     }
   }, {
     "place" : {
@@ -1187,7 +1102,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1755249", "http://ld.zdb-services.de/resource/organisations/DE-289" ],
-  "containedIn" : "89081",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-289#!"
   }
@@ -1211,10 +1125,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo-Fr 7.00-1.00h. Sa+So 9.00-1.00h, Bereichsbibliotheken s. homepage"
-    },
-    "geo" : {
-      "lat" : "Vogelpothsweg 76_44227_Dortmund_DEU",
-      "lon" : "Vogelpothsweg 76_44227_Dortmund_DEU"
     }
   }, {
     "place" : {
@@ -1251,7 +1161,6 @@
       "en" : "1,000,001 and more"
     }
   },
-  "containedIn" : "44227",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-AA290#!"
   }
@@ -1277,10 +1186,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo und Mi 14.00-18.00. Di,Do,Fr 10.00-18.00. Sa 10.00-13.00"
-    },
-    "geo" : {
-      "lat" : "Kreuzstr. 69_55543_Bad Kreuznach_DEU",
-      "lon" : "Kreuzstr. 69_55543_Bad Kreuznach_DEU"
     }
   }, {
     "place" : {
@@ -1318,7 +1223,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28681672", "http://ld.zdb-services.de/resource/organisations/DE-356" ],
-  "containedIn" : "55543",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-356#!"
   }
@@ -1344,10 +1248,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo 10.00-19.00. Di 10.00-19.00. Do 10.00-19.00. Fr 10.00-19.00. Sa 10.00-14.00"
-    },
-    "geo" : {
-      "lat" : "Reschop Carré 1_45525_Hattingen_DEU",
-      "lon" : "Reschop Carré 1_45525_Hattingen_DEU"
     }
   }, {
     "place" : {
@@ -1376,16 +1276,7 @@
       "en" : "Commune"
     }
   },
-  "collects" : {
-    "id" : "0",
-    "type" : "Collection",
-    "label" : {
-      "de" : "0",
-      "en" : "0"
-    }
-  },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28681879", "http://ld.zdb-services.de/resource/organisations/DE-368" ],
-  "containedIn" : "45525",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-368#!"
   }
@@ -1410,10 +1301,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Di-Fr 10.00 bis 19.00  und Sa 10.00 bis 15.00"
-    },
-    "geo" : {
-      "lat" : "Max-von-der-Grün-Platz 1-3_44137_Dortmund_DEU",
-      "lon" : "Max-von-der-Grün-Platz 1-3_44137_Dortmund_DEU"
     }
   }, {
     "place" : {
@@ -1442,15 +1329,6 @@
       "en" : "Commune"
     }
   },
-  "collects" : {
-    "id" : "0",
-    "type" : "Collection",
-    "label" : {
-      "de" : "0",
-      "en" : "0"
-    }
-  },
-  "containedIn" : "44137",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-AA381#!"
   }
@@ -1476,10 +1354,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Di u. Fr. 10.00 bis 18.00 Uhr. Mi 15.00 bis 18.00 Uhr. Sa 10.00 bis 13.00 Uhr"
-    },
-    "geo" : {
-      "lat" : "Kleine Rurstr. 20 (Kulturhaus am Hexenturm)_52428_Jülich_DEU",
-      "lon" : "Kleine Rurstr. 20 (Kulturhaus am Hexenturm)_52428_Jülich_DEU"
     }
   }, {
     "place" : {
@@ -1508,16 +1382,7 @@
       "en" : "Commune"
     }
   },
-  "collects" : {
-    "id" : "0",
-    "type" : "Collection",
-    "label" : {
-      "de" : "0",
-      "en" : "0"
-    }
-  },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2327025", "http://ld.zdb-services.de/resource/organisations/DE-393" ],
-  "containedIn" : "52428",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-393#!"
   }
@@ -1543,10 +1408,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Di. u. Do 10-13 und 15-18 Uhr, Mi 15-18 Uhr, Fr 9-13 und 15-18 Uhr , Sa 10-13 Uhr"
-    },
-    "geo" : {
-      "lat" : "Walkenbrückenstr. 25_48653_Coesfeld_DEU",
-      "lon" : "Walkenbrückenstr. 25_48653_Coesfeld_DEU"
     }
   }, {
     "place" : {
@@ -1575,16 +1436,7 @@
       "en" : "Commune"
     }
   },
-  "collects" : {
-    "id" : "0",
-    "type" : "Collection",
-    "label" : {
-      "de" : "0",
-      "en" : "0"
-    }
-  },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28661850", "http://ld.zdb-services.de/resource/organisations/DE-411" ],
-  "containedIn" : "48653",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-411#!"
   }
@@ -1610,10 +1462,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo 10.00-13.00. Mi 14.00-18.00. Di,Do,Fr 10.00-18.00"
-    },
-    "geo" : {
-      "lat" : "Kurze Kesselstr. 17_48231_Warendorf_DEU",
-      "lon" : "Kurze Kesselstr. 17_48231_Warendorf_DEU"
     }
   }, {
     "place" : {
@@ -1642,16 +1490,7 @@
       "en" : "Commune"
     }
   },
-  "collects" : {
-    "id" : "0",
-    "type" : "Collection",
-    "label" : {
-      "de" : "0",
-      "en" : "0"
-    }
-  },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28661868", "http://ld.zdb-services.de/resource/organisations/DE-423" ],
-  "containedIn" : "48231",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-423#!"
   }
@@ -1677,10 +1516,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Di 10.00-17.00. Mi 14.00-17.00. Do 10.00-12.00 und 14.00-19.00. Fr 10.00-12.00 und 14.00-17.00. Sa 10.00-14.00"
-    },
-    "geo" : {
-      "lat" : "Friedrich-Ebert-Str. 40_50354_Hürth_DEU",
-      "lon" : "Friedrich-Ebert-Str. 40_50354_Hürth_DEU"
     }
   }, {
     "place" : {
@@ -1718,7 +1553,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28661883", "http://ld.zdb-services.de/resource/organisations/DE-435" ],
-  "containedIn" : "50354",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-435#!"
   }
@@ -1744,10 +1578,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo-Fr 10.00-19.00. Sa 10.00-18.00"
-    },
-    "geo" : {
-      "lat" : "Alter Steinweg 11_48143_Münster_DEU",
-      "lon" : "Alter Steinweg 11_48143_Münster_DEU"
     }
   }, {
     "place" : {
@@ -1785,7 +1615,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1528212", "http://ld.zdb-services.de/resource/organisations/DE-447" ],
-  "containedIn" : "48143",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-447#!"
   }
@@ -1811,10 +1640,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo 10:00 - 18:00, Di 10:00 - 18:00, Mi 10:00 - 18:00, Do 10:00 - 18:00, Fr 10:00 - 18:00, Sa 10:00 - 15:00"
-    },
-    "geo" : {
-      "lat" : "Hallstraße 2-4_85049_Ingolstadt_DEU",
-      "lon" : "Hallstraße 2-4_85049_Ingolstadt_DEU"
     }
   }, {
     "place" : {
@@ -1852,7 +1677,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28661790", "http://ld.zdb-services.de/resource/organisations/DE-472" ],
-  "containedIn" : "85049",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-472#!"
   }
@@ -1876,10 +1700,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo-Fr 10.00-13.00 und 15.00-19.00"
-    },
-    "geo" : {
-      "lat" : "Kopernikusstr. 1 (Bildungszentrum)_25541_Brunsbüttel_DEU",
-      "lon" : "Kopernikusstr. 1 (Bildungszentrum)_25541_Brunsbüttel_DEU"
     }
   }, {
     "place" : {
@@ -1916,7 +1736,6 @@
       "en" : "10,001 - 30,000"
     }
   },
-  "containedIn" : "25541",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-AA496#!"
   }
@@ -1941,10 +1760,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo 13:00-18:00,   Di 13:00-18:00,   Do 10:00-19:00,   Fr 13:00-18:00,   Sa 10:00-13:00"
-    },
-    "geo" : {
-      "lat" : "Kirchplatz 2_15806_Zossen_DEU",
-      "lon" : "Kirchplatz 2_15806_Zossen_DEU"
     }
   }, {
     "place" : {
@@ -1982,7 +1797,6 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28685196", "http://ld.zdb-services.de/resource/organisations/DE-502" ],
-  "containedIn" : "15806",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-502#!"
   }
@@ -2007,10 +1821,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Mo, Di, Do: 10.00-18.00,   Fr: 10.00-14.00"
-    },
-    "geo" : {
-      "lat" : "Schleusenplatz 4_14712_Rathenow_DEU",
-      "lon" : "Schleusenplatz 4_14712_Rathenow_DEU"
     }
   }, {
     "place" : {
@@ -2048,7 +1858,7 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28682011", "http://ld.zdb-services.de/resource/organisations/DE-514" ],
-  "containedIn" : "14712",
+  "containedIn" : "6550611",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-514#!"
   }
@@ -2071,10 +1881,6 @@
     },
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification"
-    },
-    "geo" : {
-      "lat" : "Holzbacher Str. 1_55469_Simmern_DEU",
-      "lon" : "Holzbacher Str. 1_55469_Simmern_DEU"
     }
   }, {
     "place" : {
@@ -2111,7 +1917,6 @@
       "en" : "up to 1,000"
     }
   },
-  "containedIn" : "55469",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-AA600#!"
   }
@@ -2136,10 +1941,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
       "description" : "Di. Mi.: 09.00 - 16.00 Uhr. Do: 09.00 - 18.00 Uhr"
-    },
-    "geo" : {
-      "lat" : "Am Steine 1/2_31134_Hildesheim_DEU",
-      "lon" : "Am Steine 1/2_31134_Hildesheim_DEU"
     }
   }, {
     "place" : {
@@ -2176,7 +1977,6 @@
       "en" : "30,001 - 100,000"
     }
   },
-  "containedIn" : "31134",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-DB675#!"
   }
