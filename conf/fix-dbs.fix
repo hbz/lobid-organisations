@@ -20,6 +20,13 @@ end
 # 		<data source="inr" name="inr">
 # 			<replace  pattern=" "  with=""/>
 # 		</data>
+#		<data source="isil" name="isil">
+#			<not-equals string="NULL"/>
+#			<replace  pattern=" " with=""/>
+#			<not-equals string=""/>
+#			<replace  pattern="/" with="-"/>
+#			<urlencode/>
+#		</data>
 
 
 		replace_all("inr"," ","")
@@ -30,7 +37,7 @@ end
 		if any_match("isil","NULL")
 			remove_field("isil")
 		end
-		# TODO: uri_encode("isil")
+		uri_encode("isil")
 
 
 
