@@ -695,13 +695,14 @@ lookup("funderType.label.en","funderType_id_to_value_en_map")
 ## 		</entity>
 #
 do list(path:"@stocksizeId","var":"$i")
-	copy_field("$i","collects.id")
 	add_field("collects.type","Collection")
-	copy_field("$i","collects.label.de")
-	copy_field("$i","collects.label.en")
+	copy_field("$i","collects.extent.id")
+	add_field("collects.extent.type","Concept")
+	copy_field("$i","collects.extent.label.de")
+	copy_field("$i","collects.extent.label.en")
 end
-lookup("collects.label.de","stocksize_id_to_value_map" )
-lookup("collects.label.en","stocksize_id_to_value_en_map")
+lookup("collects.extent.label.de","stocksize_id_to_value_map" )
+lookup("collects.extent.label.en","stocksize_id_to_value_en_map")
 
 set_array("collects.subject[]")
 do list(path:"035G","var":"$i")

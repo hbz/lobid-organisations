@@ -43,11 +43,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n09",
     "type" : "Collection",
-    "label" : {
-      "de" : "300.001 - 1.000.000",
-      "en" : "300,001 - 1,000,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n09",
+      "type" : "Concept",
+      "label" : {
+        "de" : "300.001 - 1.000.000",
+        "en" : "300,001 - 1,000,000"
+      }
     },
     "subject" : [ "Medizin" ]
   },
@@ -104,11 +107,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
-    "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n10",
+      "type" : "Concept",
+      "label" : {
+        "de" : "1.000.001 und mehr",
+        "en" : "1,000,001 and more"
+      }
     }
   },
   "alternateName" : [ "Bochum UB" ],
@@ -178,11 +184,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
-    "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n10",
+      "type" : "Concept",
+      "label" : {
+        "de" : "1.000.001 und mehr",
+        "en" : "1,000,001 and more"
+      }
     }
   },
   "alternateName" : [ "Köln USB" ],
@@ -250,11 +259,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
-    "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n10",
+      "type" : "Concept",
+      "label" : {
+        "de" : "1.000.001 und mehr",
+        "en" : "1,000,001 and more"
+      }
     },
     "subject" : [ "Recht", "Orientalistik", "Osteuropa", "Ostasien", "Afrika", "Amtsdruckschriften", "Handschriften", "Karten", "Geistes- und Sozialwissenschaften" ]
   },

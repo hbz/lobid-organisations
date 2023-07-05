@@ -39,11 +39,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
-    "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n10",
+      "type" : "Concept",
+      "label" : {
+        "de" : "1.000.001 und mehr",
+        "en" : "1,000,001 and more"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496314", "http://ld.zdb-services.de/resource/organisations/DE-9" ],
@@ -92,11 +95,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n09",
     "type" : "Collection",
-    "label" : {
-      "de" : "300.001 - 1.000.000",
-      "en" : "300,001 - 1,000,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n09",
+      "type" : "Concept",
+      "label" : {
+        "de" : "300.001 - 1.000.000",
+        "en" : "300,001 - 1,000,000"
+      }
     }
   },
   "mainEntityOfPage" : {
@@ -144,11 +150,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
-    "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n10",
+      "type" : "Concept",
+      "label" : {
+        "de" : "1.000.001 und mehr",
+        "en" : "1,000,001 and more"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496316", "http://ld.zdb-services.de/resource/organisations/DE-34" ],
@@ -196,11 +205,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
-    "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n10",
+      "type" : "Concept",
+      "label" : {
+        "de" : "1.000.001 und mehr",
+        "en" : "1,000,001 and more"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1680376", "http://ld.zdb-services.de/resource/organisations/DE-46" ],
@@ -248,11 +260,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n07",
     "type" : "Collection",
-    "label" : {
-      "de" : "30.001 - 100.000",
-      "en" : "30,001 - 100,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n07",
+      "type" : "Concept",
+      "label" : {
+        "de" : "30.001 - 100.000",
+        "en" : "30,001 - 100,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1483614", "http://ld.zdb-services.de/resource/organisations/DE-58" ],
@@ -300,11 +315,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
-    "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n10",
+      "type" : "Concept",
+      "label" : {
+        "de" : "1.000.001 und mehr",
+        "en" : "1,000,001 and more"
+      }
     }
   },
   "containedIn" : "6547539",
@@ -353,11 +371,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n08",
     "type" : "Collection",
-    "label" : {
-      "de" : "100.001 - 300.000",
-      "en" : "100,001 - 300,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n08",
+      "type" : "Concept",
+      "label" : {
+        "de" : "100.001 - 300.000",
+        "en" : "100,001 - 300,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28731327", "http://ld.zdb-services.de/resource/organisations/DE-95" ],
@@ -405,11 +426,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n07",
     "type" : "Collection",
-    "label" : {
-      "de" : "30.001 - 100.000",
-      "en" : "30,001 - 100,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n07",
+      "type" : "Concept",
+      "label" : {
+        "de" : "30.001 - 100.000",
+        "en" : "30,001 - 100,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1478335", "http://ld.zdb-services.de/resource/organisations/DE-149" ],
@@ -457,11 +481,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n07",
     "type" : "Collection",
-    "label" : {
-      "de" : "30.001 - 100.000",
-      "en" : "30,001 - 100,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n07",
+      "type" : "Concept",
+      "label" : {
+        "de" : "30.001 - 100.000",
+        "en" : "30,001 - 100,000"
+      }
     }
   },
   "mainEntityOfPage" : {
@@ -509,11 +536,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n01",
     "type" : "Collection",
-    "label" : {
-      "de" : "bis 1.000",
-      "en" : "up to 1,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n01",
+      "type" : "Concept",
+      "label" : {
+        "de" : "bis 1.000",
+        "en" : "up to 1,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28681662", "http://ld.zdb-services.de/resource/organisations/DE-174" ],
@@ -562,11 +592,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n09",
     "type" : "Collection",
-    "label" : {
-      "de" : "300.001 - 1.000.000",
-      "en" : "300,001 - 1,000,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n09",
+      "type" : "Concept",
+      "label" : {
+        "de" : "300.001 - 1.000.000",
+        "en" : "300,001 - 1,000,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2326335", "http://ld.zdb-services.de/resource/organisations/DE-186" ],
@@ -616,11 +649,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n08",
     "type" : "Collection",
-    "label" : {
-      "de" : "100.001 - 300.000",
-      "en" : "100,001 - 300,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n08",
+      "type" : "Concept",
+      "label" : {
+        "de" : "100.001 - 300.000",
+        "en" : "100,001 - 300,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2138279", "http://ld.zdb-services.de/resource/organisations/DE-198" ],
@@ -669,11 +705,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
-    "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n10",
+      "type" : "Concept",
+      "label" : {
+        "de" : "1.000.001 und mehr",
+        "en" : "1,000,001 and more"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28737641", "http://ld.zdb-services.de/resource/organisations/DE-204" ],
@@ -723,11 +762,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n08",
     "type" : "Collection",
-    "label" : {
-      "de" : "100.001 - 300.000",
-      "en" : "100,001 - 300,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n08",
+      "type" : "Concept",
+      "label" : {
+        "de" : "100.001 - 300.000",
+        "en" : "100,001 - 300,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28661800", "http://ld.zdb-services.de/resource/organisations/DE-228" ],
@@ -776,11 +818,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n07",
     "type" : "Collection",
-    "label" : {
-      "de" : "30.001 - 100.000",
-      "en" : "30,001 - 100,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n07",
+      "type" : "Concept",
+      "label" : {
+        "de" : "30.001 - 100.000",
+        "en" : "30,001 - 100,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28733510", "http://ld.zdb-services.de/resource/organisations/DE-241" ],
@@ -828,11 +873,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n08",
     "type" : "Collection",
-    "label" : {
-      "de" : "100.001 - 300.000",
-      "en" : "100,001 - 300,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n08",
+      "type" : "Concept",
+      "label" : {
+        "de" : "100.001 - 300.000",
+        "en" : "100,001 - 300,000"
+      }
     }
   },
   "sameAs" : [ "http://ld.zdb-services.de/resource/organisations/DE-253" ],
@@ -880,11 +928,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n09",
     "type" : "Collection",
-    "label" : {
-      "de" : "300.001 - 1.000.000",
-      "en" : "300,001 - 1,000,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n09",
+      "type" : "Concept",
+      "label" : {
+        "de" : "300.001 - 1.000.000",
+        "en" : "300,001 - 1,000,000"
+      }
     }
   },
   "mainEntityOfPage" : {
@@ -932,11 +983,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n09",
     "type" : "Collection",
-    "label" : {
-      "de" : "300.001 - 1.000.000",
-      "en" : "300,001 - 1,000,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n09",
+      "type" : "Concept",
+      "label" : {
+        "de" : "300.001 - 1.000.000",
+        "en" : "300,001 - 1,000,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1755249", "http://ld.zdb-services.de/resource/organisations/DE-289" ],
@@ -983,11 +1037,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
-    "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n10",
+      "type" : "Concept",
+      "label" : {
+        "de" : "1.000.001 und mehr",
+        "en" : "1,000,001 and more"
+      }
     }
   },
   "mainEntityOfPage" : {
@@ -1035,11 +1092,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n07",
     "type" : "Collection",
-    "label" : {
-      "de" : "30.001 - 100.000",
-      "en" : "30,001 - 100,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n07",
+      "type" : "Concept",
+      "label" : {
+        "de" : "30.001 - 100.000",
+        "en" : "30,001 - 100,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28681672", "http://ld.zdb-services.de/resource/organisations/DE-356" ],
@@ -1311,11 +1371,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n01",
     "type" : "Collection",
-    "label" : {
-      "de" : "bis 1.000",
-      "en" : "up to 1,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n01",
+      "type" : "Concept",
+      "label" : {
+        "de" : "bis 1.000",
+        "en" : "up to 1,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28661883", "http://ld.zdb-services.de/resource/organisations/DE-435" ],
@@ -1364,11 +1427,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n09",
     "type" : "Collection",
-    "label" : {
-      "de" : "300.001 - 1.000.000",
-      "en" : "300,001 - 1,000,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n09",
+      "type" : "Concept",
+      "label" : {
+        "de" : "300.001 - 1.000.000",
+        "en" : "300,001 - 1,000,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q1528212", "http://ld.zdb-services.de/resource/organisations/DE-447" ],
@@ -1417,11 +1483,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n08",
     "type" : "Collection",
-    "label" : {
-      "de" : "100.001 - 300.000",
-      "en" : "100,001 - 300,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n08",
+      "type" : "Concept",
+      "label" : {
+        "de" : "100.001 - 300.000",
+        "en" : "100,001 - 300,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28661790", "http://ld.zdb-services.de/resource/organisations/DE-472" ],
@@ -1468,11 +1537,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n06",
     "type" : "Collection",
-    "label" : {
-      "de" : "10.001 - 30.000",
-      "en" : "10,001 - 30,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n06",
+      "type" : "Concept",
+      "label" : {
+        "de" : "10.001 - 30.000",
+        "en" : "10,001 - 30,000"
+      }
     }
   },
   "mainEntityOfPage" : {
@@ -1519,11 +1591,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n06",
     "type" : "Collection",
-    "label" : {
-      "de" : "10.001 - 30.000",
-      "en" : "10,001 - 30,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n06",
+      "type" : "Concept",
+      "label" : {
+        "de" : "10.001 - 30.000",
+        "en" : "10,001 - 30,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28685196", "http://ld.zdb-services.de/resource/organisations/DE-502" ],
@@ -1571,11 +1646,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n07",
     "type" : "Collection",
-    "label" : {
-      "de" : "30.001 - 100.000",
-      "en" : "30,001 - 100,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n07",
+      "type" : "Concept",
+      "label" : {
+        "de" : "30.001 - 100.000",
+        "en" : "30,001 - 100,000"
+      }
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28682011", "http://ld.zdb-services.de/resource/organisations/DE-514" ],
@@ -1619,11 +1697,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n01",
     "type" : "Collection",
-    "label" : {
-      "de" : "bis 1.000",
-      "en" : "up to 1,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n01",
+      "type" : "Concept",
+      "label" : {
+        "de" : "bis 1.000",
+        "en" : "up to 1,000"
+      }
     }
   },
   "mainEntityOfPage" : {
@@ -1670,11 +1751,14 @@
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n07",
     "type" : "Collection",
-    "label" : {
-      "de" : "30.001 - 100.000",
-      "en" : "30,001 - 100,000"
+    "extent" : {
+      "id" : "http://purl.org/lobid/stocksize#n07",
+      "type" : "Concept",
+      "label" : {
+        "de" : "30.001 - 100.000",
+        "en" : "30,001 - 100,000"
+      }
     }
   },
   "mainEntityOfPage" : {
