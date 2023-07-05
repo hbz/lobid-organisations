@@ -22,7 +22,7 @@ jobs:
       run: |
         git clone https://github.com/metafacture/metafacture-fix.git
         cd metafacture-fix
-        git checkout 0.6.0-SNAPSHOT
+        git checkout master
         ./gradlew publishToMavenLocal
     - name: Run tests
       run: sbt update test
