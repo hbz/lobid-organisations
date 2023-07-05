@@ -18,22 +18,11 @@
       "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
       "comment" : "Ausleihe/Allg. Information: Mo-Fr 9.00-21.00, Sa 9.00-12.00; Fachauskunft: Mo 9.00-13.00; Di-Fr 9.00-16.00; weitere Schließtage s.Homepage"
     },
     "geo" : {
       "lat" : "50.92466",
       "lon" : "6.91666"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
     }
   } ],
   "classification" : {
@@ -94,19 +83,6 @@
       "type" : "PostalAddress",
       "postalCode" : "44801",
       "addressCountry" : "DE"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
     }
   } ],
   "classification" : {
@@ -180,19 +156,6 @@
       "type" : "PostalAddress",
       "postalCode" : "50931",
       "addressCountry" : "DE"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
     }
   } ],
   "classification" : {
@@ -259,22 +222,11 @@
       "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
       "comment" : "Öffnungszeiten besonderer Bereiche s. Homepage"
     },
     "geo" : {
       "lat" : "52.50771",
       "lon" : "13.37063"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
     }
   } ],
   "classification" : {
@@ -334,22 +286,9 @@
       "postalCode" : "10785",
       "addressCountry" : "DE"
     },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
-    },
     "geo" : {
       "lat" : "52.50771",
       "lon" : "13.37063"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
     }
   } ],
   "classification" : {

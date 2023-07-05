@@ -431,7 +431,7 @@ set_array("location[]")
 if exists("streetAddressVisitor")
 	add_field("location[].$append.type","Place")
 	copy_field("streetAddressVisitor","location[].$last.address.streetAddress")
-else
+elsif exists("strasse")
 	unless any_equal("strasse","NULL")
 		add_field("location[].$append.type","Place")
 		copy_field("strasse","location[].$last.address.streetAddress")
@@ -459,7 +459,7 @@ copy_field("descriptionVisitor","location[].$last.description")
 if exists("localityVisitor")
 	copy_field("localityVisitor","location[].$last.address.addressLocality")
 	add_field("location[].$last.address.type","PostalAddress")
-else 
+elsif exists("ort") 
 	unless any_equal("ort","NULL")
 		copy_field("ort","location[].$last.address.addressLocality")
 		add_field("location[].$last.address.type","PostalAddress")
@@ -471,7 +471,7 @@ end
 #
 	if exists("postalCodeVisitor")
 		copy_field("postalCodeVisitor","location[].$last.address.postalCode")
-	else
+	elsif exists("plz")
 		unless any_equal("plz","NULL")
 			copy_field("plz","location[].$last.address.postalCode")
 		end
@@ -495,7 +495,6 @@ end
 ## 					<data source="openingHoursVisitor|oef" name="type">
 ## 						<constant value="OpeningHoursSpecification" />
 ## 					</data>
-add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
 #
 ## 					<choose>
 ## 						<data source="openingHoursVisitor" name="description" />
@@ -503,9 +502,11 @@ add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecifi
 ## 					</choose>
 if exists("openingHoursVisitor")
 	copy_field("openingHoursVisitor","location[].$last.openingHoursSpecification.description")
-else
+	add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
+elsif exists("oeffnungszeiten")
 	unless any_equal("oeffnungszeiten","NULL")
 		copy_field("oeffnungszeiten","location[].$last.openingHoursSpecification.description")
+		add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
 	end
 end
 #
@@ -554,33 +555,31 @@ end
 ## 				<data source="localityOther" name="type">
 ## 					<regexp match="(.*)" format="Place" />
 ## 				</data>				
-add_field("location[].$append.place.type","Place")
 #
 ## 				<data source="descriptionOther" name="description"/>
-copy_field("descriptionOther","location[].$last.description")
+copy_field("descriptionOther","@otherLocation.description")
 ## 				<entity name="address" flushWith="record">
 ## 					<data source="streetAddressOther" name="streetAddress" />
-copy_field("streetAddressOther","location[].$last.address.streetAddress")
+copy_field("streetAddressOther","@otherLocation.address.streetAddress")
 #
 ## 					<data source="localityOther" name="addressLocality" />
-copy_field("localityOther","location[].$last.address.addressLocality")
+copy_field("localityOther","@otherLocation.address.addressLocality")
 ## 					<data source="postalCodeOther" name="postalCode" />
-copy_field("postalCodeOther","location[].$last.address.postalCode")
+copy_field("postalCodeOther","@otherLocation.address.postalCode")
 ## 					<data source="countryOther" name="addressCountry" />
-copy_field("countryOther","location[].$last.address.addressCountry")
+copy_field("countryOther","@otherLocation.address.addressCountry")
 ## 					<data source="localityOther" name="type">
 ## 						<constant value="PostalAddress" />
 ## 					</data>
-add_field("location[].$last.address.type","PostalAddress")
 ## 				</entity>
 ## 				<entity name="openingHoursSpecification" flushWith="record">
 ## 					<data source="openingHoursOther" name="type">
 ## 						<constant value="OpeningHoursSpecification" />
 ## 					</data>						
-add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
+
 #
 ## 					<data source="openingHoursOther" name="description" />
-copy_field("countryOther","location[].$last.openingHoursSpecification.description")
+copy_field("countryOther","@otherLocation.openingHoursSpecification.description")
 ## 					<data source="openingCommentOther" name="comment" />
 ## 				</entity>
 ## 				<!-- combine field for look in coordinate maps -->
@@ -588,17 +587,23 @@ copy_field("countryOther","location[].$last.openingHoursSpecification.descriptio
 ## 					<choose>
 ## 						<data source="latOther" name="lat" />
 ## 					</choose>
-copy_field("latOther","location[].$last.geo.lat")
+copy_field("latOther","@otherLocation.geo.lat")
 ## 					<choose>
 ## 						<data source="lonOther" name="lon" />
 ## 					</choose>
-copy_field("lonOther","location[].$last.geo.lon")
+copy_field("lonOther","@otherLocation.geo.lon")
 ## 				</entity>
 ## 			</entity>
 ## 		</entity>
 ## 
-#
-#
+if exists("@otherLocation")
+	add_field("@otherLocation.address.type","PostalAddress")
+	add_field("@otherLocation.place.type","Place")
+	add_field("@otherLocation.openingHoursSpecification.type","OpeningHoursSpecification")
+end
+
+copy_field("@otherLocation","location[].$append")
+
 
 ## 		<!-- Determine classification, funderType, and stocksize ID, loop back '@' -->
 ## 		<call-macro name="make-id" isil-field="035E.f" dbs-field="typ_id" dbs-lookup="dbs_libtype_value_to_id_map"

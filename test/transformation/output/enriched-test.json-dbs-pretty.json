@@ -17,17 +17,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo-Fr.: 8-24, Sa: 9-24 Uhr"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo-Fr.: 8-24, Sa: 9-24 Uhr",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -79,17 +69,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo - Fr 9:00 - 17:00 Uhr, Sa 9:00 - 12:00 Uhr (im August Sa geschlossen)"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo - Fr 9:00 - 17:00 Uhr, Sa 9:00 - 12:00 Uhr (im August Sa geschlossen)",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -140,17 +120,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo - Fr 8 bis 23 Uhr. Sa u. So 10 bis 21 Uhr"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo - Fr 8 bis 23 Uhr. Sa u. So 10 bis 21 Uhr",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -201,17 +171,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo-Fr 8.00-22.00 h. Sa 10.00-18.00 h"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo-Fr 8.00-22.00 h. Sa 10.00-18.00 h",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -262,17 +222,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo, Di, Do 9.00-16.00 Uhr, Mi 9.00-18.00 Uhr, Fr 9.00-13 Uhr"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo, Di, Do 9.00-16.00 Uhr, Mi 9.00-18.00 Uhr, Fr 9.00-13 Uhr",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -323,17 +273,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Zentralbibliothek: Mo-Fr 9-22 Uhr, Sa 10-18 Uhr"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Zentralbibliothek: Mo-Fr 9-22 Uhr, Sa 10-18 Uhr",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -385,17 +325,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo., Mi., Fr.   11 - 19, Di., Do. 9 - 17, Sa. 10 - 13"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo., Mi., Fr.   11 - 19, Di., Do. 9 - 17, Sa. 10 - 13",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -449,16 +379,6 @@
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification"
     }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
-    }
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n21",
@@ -507,17 +427,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo 13.30-16.00. Di 13.30-18.00. Mi 13.30-16.00. Do 10.00-12.00 und 13.30-16.00. Fr 10.00-13.30"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo 13.30-16.00. Di 13.30-18.00. Mi 13.30-16.00. Do 10.00-12.00 und 13.30-16.00. Fr 10.00-13.30",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -568,17 +478,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo-Fr 11.00-19.00 , Sa 10.00-13.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo-Fr 11.00-19.00 , Sa 10.00-13.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -630,17 +530,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo 15 - 19   Di - Fr 10 - 19   Sa 10 - 16 "
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo 15 - 19   Di - Fr 10 - 19   Sa 10 - 16 ",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -693,17 +583,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo/Mi 13.00-18.00  Di 10.00-19.00  Do/Frei 10.00-18.00  Sa 10.00 - 13.00 "
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo/Mi 13.00-18.00  Di 10.00-19.00  Do/Frei 10.00-18.00  Sa 10.00 - 13.00 ",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -755,17 +635,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo-Fr. 9.00-19.00 Uhr, Sa 9.00-13.00 Uhr"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo-Fr. 9.00-19.00 Uhr, Sa 9.00-13.00 Uhr",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -818,17 +688,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Di und Do-Fr 12.00-18.00. Mi 10.00-16.00. Sa 10.00-13.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Di und Do-Fr 12.00-18.00. Mi 10.00-16.00. Sa 10.00-13.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -880,17 +740,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo  - 14:00 - 19:30, Di 10:00 - 17:00, Mi 9:30 - 14:00 -  , Do 10:00 - 17:00, Fr 10:00 - 14:00  -   "
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo  - 14:00 - 19:30, Di 10:00 - 17:00, Mi 9:30 - 14:00 -  , Do 10:00 - 17:00, Fr 10:00 - 14:00  -   ",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -941,17 +791,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "9-16.30"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "9-16.30",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1002,17 +842,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo-Fr 11.00-19.00. Sa 11.00-16.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo-Fr 11.00-19.00. Sa 11.00-16.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1063,17 +893,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo - Fr 8:00 - 22:00 Uhr, Sa 10:00 - 20:00 Uhr"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo - Fr 8:00 - 22:00 Uhr, Sa 10:00 - 20:00 Uhr",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1123,17 +943,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo-Fr 7.00-1.00h. Sa+So 9.00-1.00h, Bereichsbibliotheken s. homepage"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo-Fr 7.00-1.00h. Sa+So 9.00-1.00h, Bereichsbibliotheken s. homepage",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1184,17 +994,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo und Mi 14.00-18.00. Di,Do,Fr 10.00-18.00. Sa 10.00-13.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo und Mi 14.00-18.00. Di,Do,Fr 10.00-18.00. Sa 10.00-13.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1246,17 +1046,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo 10.00-19.00. Di 10.00-19.00. Do 10.00-19.00. Fr 10.00-19.00. Sa 10.00-14.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo 10.00-19.00. Di 10.00-19.00. Do 10.00-19.00. Fr 10.00-19.00. Sa 10.00-14.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1299,17 +1089,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Di-Fr 10.00 bis 19.00  und Sa 10.00 bis 15.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Di-Fr 10.00 bis 19.00  und Sa 10.00 bis 15.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1352,17 +1132,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Di u. Fr. 10.00 bis 18.00 Uhr. Mi 15.00 bis 18.00 Uhr. Sa 10.00 bis 13.00 Uhr"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Di u. Fr. 10.00 bis 18.00 Uhr. Mi 15.00 bis 18.00 Uhr. Sa 10.00 bis 13.00 Uhr",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1406,17 +1176,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Di. u. Do 10-13 und 15-18 Uhr, Mi 15-18 Uhr, Fr 9-13 und 15-18 Uhr , Sa 10-13 Uhr"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Di. u. Do 10-13 und 15-18 Uhr, Mi 15-18 Uhr, Fr 9-13 und 15-18 Uhr , Sa 10-13 Uhr",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1460,17 +1220,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo 10.00-13.00. Mi 14.00-18.00. Di,Do,Fr 10.00-18.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo 10.00-13.00. Mi 14.00-18.00. Di,Do,Fr 10.00-18.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1514,17 +1264,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Di 10.00-17.00. Mi 14.00-17.00. Do 10.00-12.00 und 14.00-19.00. Fr 10.00-12.00 und 14.00-17.00. Sa 10.00-14.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Di 10.00-17.00. Mi 14.00-17.00. Do 10.00-12.00 und 14.00-19.00. Fr 10.00-12.00 und 14.00-17.00. Sa 10.00-14.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1576,17 +1316,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo-Fr 10.00-19.00. Sa 10.00-18.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo-Fr 10.00-19.00. Sa 10.00-18.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1638,17 +1368,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo 10:00 - 18:00, Di 10:00 - 18:00, Mi 10:00 - 18:00, Do 10:00 - 18:00, Fr 10:00 - 18:00, Sa 10:00 - 15:00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo 10:00 - 18:00, Di 10:00 - 18:00, Mi 10:00 - 18:00, Do 10:00 - 18:00, Fr 10:00 - 18:00, Sa 10:00 - 15:00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1698,17 +1418,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo-Fr 10.00-13.00 und 15.00-19.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo-Fr 10.00-13.00 und 15.00-19.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1758,17 +1468,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo 13:00-18:00,   Di 13:00-18:00,   Do 10:00-19:00,   Fr 13:00-18:00,   Sa 10:00-13:00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo 13:00-18:00,   Di 13:00-18:00,   Do 10:00-19:00,   Fr 13:00-18:00,   Sa 10:00-13:00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1819,17 +1519,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Mo, Di, Do: 10.00-18.00,   Fr: 10.00-14.00"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Mo, Di, Do: 10.00-18.00,   Fr: 10.00-14.00",
       "type" : "OpeningHoursSpecification"
     }
   } ],
@@ -1878,19 +1568,6 @@
       "type" : "PostalAddress",
       "postalCode" : "55469",
       "addressCountry" : "DEU"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
     }
   } ],
   "classification" : {
@@ -1939,17 +1616,7 @@
       "addressCountry" : "DEU"
     },
     "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification",
-      "description" : "Di. Mi.: 09.00 - 16.00 Uhr. Do: 09.00 - 18.00 Uhr"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
+      "description" : "Di. Mi.: 09.00 - 16.00 Uhr. Do: 09.00 - 18.00 Uhr",
       "type" : "OpeningHoursSpecification"
     }
   } ],
