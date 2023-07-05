@@ -922,6 +922,7 @@ replace_all("mainEntityOfPage.dateCreated","^.+?:","")
 vacuum()
 
 retain(
+	"@context",
 	"address",
 	"alternateName[]",
 	"availableChannel[]",

@@ -1,6 +1,7 @@
 {
   "isil" : "DE-9",
   "url" : "http://www.uni-greifswald.de/bibliothek/html",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "130750039039",
   "name" : "Universitätsbibliothek Greifswald",
@@ -53,6 +54,7 @@
 }
 {
   "url" : "https://www.staatsbibliothek-bamberg.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "094610000000",
   "name" : "Staatsbibliothek Bamberg ",
@@ -104,6 +106,7 @@
 {
   "isil" : "DE-34",
   "url" : "http://www.uni-kassel.de/ub",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "066110000000",
   "name" : "Universitätsbibliothek Kassel - Landesbibliothek und Murhardsche Bibliothek der Stadt Kassel",
@@ -156,6 +159,7 @@
 {
   "isil" : "DE-46",
   "url" : "http://www.suub.uni-bremen.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "040110000000",
   "name" : "Staats- und Universitätsbibliothek Bremen",
@@ -207,6 +211,7 @@
 {
   "isil" : "DE-58",
   "url" : "http://www.nla.niedersachsen.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "032570009009",
   "name" : "Fürstliche Schaumburg-Lippische Hofbibliothek In Verwaltung des Niedersächsischen Landesarchivs - Standort Bückeburg -",
@@ -257,6 +262,7 @@
 }
 {
   "url" : "http://www.ub.tu-berlin.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "110000000000",
   "name" : "Technische Universität Berlin Universitätsbibliothek",
@@ -309,6 +315,7 @@
 {
   "isil" : "DE-95",
   "url" : "http://www.tiho-hannover.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "032410001001",
   "name" : "Stiftung Tierärztliche Hochschule Hannover. Bibliothek",
@@ -361,6 +368,7 @@
 {
   "isil" : "DE-149",
   "url" : "http://www.memmingen.de/468.html",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "097640000000",
   "name" : "Stadtbibliothek Memmingen",
@@ -411,6 +419,7 @@
 }
 {
   "url" : "http://www.sbnd.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "091850149149",
   "name" : "Staatliche Bibliothek Neuburg/Donau",
@@ -462,6 +471,7 @@
 {
   "isil" : "DE-174",
   "url" : "http://www.stadtbibliothek-ge.de/",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "055130000000",
   "name" : "Stadtbibliothek Gelsenkirchen",
@@ -514,6 +524,7 @@
 {
   "isil" : "DE-186",
   "url" : "http://www.bibliothek.potsdam.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "120540000000",
   "name" : "Stadt- und Landesbibliothek im Bildungsforum Potsdam",
@@ -567,6 +578,7 @@
 {
   "isil" : "DE-198",
   "url" : "http://www.bibliothek-nb.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "130710107107",
   "name" : "Regionalbibliothek",
@@ -619,6 +631,7 @@
 {
   "isil" : "DE-204",
   "url" : "http://www.iai.spk-berlin.de/",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "110000000000",
   "name" : "Ibero-Amerikanisches Institut Preußischer Kulturbesitz. Bibliothek",
@@ -672,6 +685,7 @@
 {
   "isil" : "DE-228",
   "url" : "http://www.hameln.de/kultur/kultur/buecherei/index.htm",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "032520006006",
   "name" : "Stadtbücherei in der Pfortmühle",
@@ -724,6 +738,7 @@
 {
   "isil" : "DE-241",
   "url" : "http://www.buecherei-kulmbach.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "094770128128",
   "name" : "Bücherei am Stadtpark",
@@ -776,6 +791,7 @@
 {
   "isil" : "DE-253",
   "url" : "http://www.vti.bund.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "031010000000",
   "name" : "Thünen-Institut, Fachinformationszentrum Ländliche Räume",
@@ -826,6 +842,7 @@
 }
 {
   "url" : "http://www.stadtbuecherei.frankfurt.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "064120000000",
   "name" : "Stadtbücherei Frankfurt am Main",
@@ -877,6 +894,7 @@
 {
   "isil" : "DE-289",
   "url" : "http://kiz.uni-ulm.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "084210000000",
   "name" : "Kommunikations- und Informationszentrum der Universität Ulm (kiz) / Abt. Informationsversorgung und Abt. Informationsmedien",
@@ -928,6 +946,7 @@
 }
 {
   "url" : "http://www.ub.uni-dortmund.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "059130000000",
   "name" : "Universitätsbibliothek Dortmund",
@@ -978,6 +997,7 @@
 {
   "isil" : "DE-356",
   "url" : "http://www.stadtbibliothek.bad-kreuznach.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "071330006006",
   "name" : "Stadtbibliothek",
@@ -1030,6 +1050,7 @@
 {
   "isil" : "DE-368",
   "url" : "http://www.bibliothek.hattingen.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "059540016016",
   "name" : "Stadtbibliothek Hattingen",
@@ -1073,6 +1094,7 @@
 }
 {
   "url" : "http://www.bibliothek.dortmund.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "059130000000",
   "name" : "Stadt- und Landesbibliothek Dortmund",
@@ -1116,6 +1138,7 @@
 {
   "isil" : "DE-393",
   "url" : "https://buecherei.juelich.de/",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "053580024024",
   "name" : "Stadtbücherei Jülich",
@@ -1160,6 +1183,7 @@
 {
   "isil" : "DE-411",
   "url" : "http://www.stadtbuecherei-coesfeld.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "055580012012",
   "name" : "Stadtbücherei Coesfeld",
@@ -1204,6 +1228,7 @@
 {
   "isil" : "DE-423",
   "url" : "http://www.buecherei-warendorf.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "055700052052",
   "name" : "Stadtbücherei Warendorf",
@@ -1248,6 +1273,7 @@
 {
   "isil" : "DE-435",
   "url" : "http://www.huerth.de/kultur/stadtbuecherei/index.php",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "053620028028",
   "name" : "Stadtbücherei Hürth",
@@ -1300,6 +1326,7 @@
 {
   "isil" : "DE-447",
   "url" : "http://www.muenster.de/stadt/buecherei",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "055150000000",
   "name" : "Stadtbücherei Münster",
@@ -1352,6 +1379,7 @@
 {
   "isil" : "DE-472",
   "url" : "http://www.ingolstadt.de/stadtbuecherei",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "091610000000",
   "name" : "Stadtbücherei",
@@ -1403,6 +1431,7 @@
 }
 {
   "url" : "http://www.brunsbuettel.de/kultur/stadtbuecherei.php",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "010510011011",
   "name" : "Stadtbücherei",
@@ -1453,6 +1482,7 @@
 {
   "isil" : "DE-502",
   "url" : "zossen.bbopac.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "120720477477",
   "name" : "Stadtbibliothek Zossen",
@@ -1504,6 +1534,7 @@
 {
   "isil" : "DE-514",
   "url" : "http://www.stadtbibliothek-rathenow.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "120630252252",
   "name" : "Stadtbibliothek Rathenow",
@@ -1555,6 +1586,7 @@
 }
 {
   "url" : "NULL",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "071405007144",
   "name" : "Patientenbücherei in der Hunsrück Klinik der Kreuznacher Diakonie",
@@ -1600,6 +1632,7 @@
 }
 {
   "url" : "http://www.stadtarchiv-hildesheim.de",
+  "@context" : "http://lobid.org/organisations/context.jsonld",
   "type" : "Library",
   "rs" : "032540021021",
   "name" : "Roemer-Museum, Bibliothek",
