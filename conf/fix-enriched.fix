@@ -581,6 +581,7 @@ copy_field("countryOther","@otherLocation.address.addressCountry")
 ## 					<data source="openingHoursOther" name="description" />
 copy_field("countryOther","@otherLocation.openingHoursSpecification.description")
 ## 					<data source="openingCommentOther" name="comment" />
+copy_field("openingCommentOther","@otherLocation.openingHoursSpecification.comment")
 ## 				</entity>
 ## 				<!-- combine field for look in coordinate maps -->
 ## 				<entity name="geo" flushWith="record">
