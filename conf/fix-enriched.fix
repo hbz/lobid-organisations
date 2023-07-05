@@ -428,19 +428,18 @@ set_array("location[]")
 ## 						<data source="strasse" name="streetAddress">
 ## 							<not-equals string="NULL"/>
 ## 						</data>
+# @visitorLocation
 if exists("streetAddressVisitor")
-	add_field("location[].$append.type","Place")
-	copy_field("streetAddressVisitor","location[].$last.address.streetAddress")
+	copy_field("streetAddressVisitor","@visitorLocation.address.streetAddress")
 elsif exists("strasse")
 	unless any_equal("strasse","NULL")
-		add_field("location[].$append.type","Place")
-		copy_field("strasse","location[].$last.address.streetAddress")
+		copy_field("strasse","@visitorLocation.address.streetAddress")
 	end
 end
 ## 					</choose>
 
 ## 				<data source="descriptionVisitor" name="description"/>
-copy_field("descriptionVisitor","location[].$last.description")
+copy_field("descriptionVisitor","@visitorLocation.description")
 
 ## 					<choose>
 ## 						<data source="localityVisitor" name="addressLocality" />
@@ -457,10 +456,10 @@ copy_field("descriptionVisitor","location[].$last.description")
 ## 					</choose>
 #
 if exists("localityVisitor")
-	copy_field("localityVisitor","location[].$last.address.addressLocality")
+	copy_field("localityVisitor","@visitorLocation.address.addressLocality")
 elsif exists("ort") 
 	unless any_equal("ort","NULL")
-		copy_field("ort","location[].$last.address.addressLocality")
+		copy_field("ort","@visitorLocation.address.addressLocality")
 	end
 end
 #
@@ -468,10 +467,10 @@ end
 ## 					<data source="plz" name="postalCode" />
 #
 	if exists("postalCodeVisitor")
-		copy_field("postalCodeVisitor","location[].$last.address.postalCode")
+		copy_field("postalCodeVisitor","@visitorLocation.address.postalCode")
 	elsif exists("plz")
 		unless any_equal("plz","NULL")
-			copy_field("plz","location[].$last.address.postalCode")
+			copy_field("plz","@visitorLocation.address.postalCode")
 		end
 	end
 ## 					<choose>
@@ -479,16 +478,14 @@ end
 ## 						<data source="addressCountry" name="addressCountry"/>
 ## 					</choose>
 if exists("countryVisitor")
-	copy_field("countryVisitor","location[].$last.address.addressCountry")
+	copy_field("countryVisitor","@visitorLocation.address.addressCountry")
 else
 	unless any_equal("addressCountry","NULL")
-		copy_field("addressCountry","location[].$last.address.addressCountry")
+		copy_field("addressCountry","@visitorLocation.address.addressCountry")
 	end
 end
 
-if exists("location[].$last.address")
-	add_field("location[].$last.address.type","PostalAddress")
-end
+
 #
 #
 #
@@ -503,19 +500,16 @@ end
 ## 						<data source="oeffnungszeiten" name="description" />
 ## 					</choose>
 if exists("openingHoursVisitor")
-	copy_field("openingHoursVisitor","location[].$last.openingHoursSpecification.description")
+	copy_field("openingHoursVisitor","@visitorLocation.openingHoursSpecification.description")
 elsif exists("oeffnungszeiten")
 	unless any_equal("oeffnungszeiten","NULL")
-		copy_field("oeffnungszeiten","location[].$last.openingHoursSpecification.description")
+		copy_field("oeffnungszeiten","@visitorLocation.openingHoursSpecification.description")
 	end
 end
 #
 #
 ## 					<data source="openingCommentVisitor" name="comment" />
-copy_field("openingCommentVisitor","location[].$last.openingHoursSpecification.comment")
-if exists("location[].$last.openingHoursSpecification")
-	add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
-end
+copy_field("openingCommentVisitor","@visitorLocation.openingHoursSpecification.comment")
 #
 ## 				</entity>
 ## 				<entity name="geo" flushWith="record">
@@ -527,12 +521,12 @@ end
 ## 						</data>
 ## 					</choose>
 if exists("latDbs")
-	copy_field("latDbs","location[].$last.geo.lat")
+	copy_field("latDbs","@visitorLocation.geo.lat")
 elsif exists("latVisitor")
-	copy_field("latVisitor","location[].$last.geo.lat")
+	copy_field("latVisitor","@visitorLocation.geo.lat")
 elsif exists("@geoLookupDbs")
 	lookup("@geoLookupDbs","addLatMap", delete:"true")
-	copy_field("@geoLookupDbs","location[].$last.geo.lat")
+	copy_field("@geoLookupDbs","@visitorLocation.geo.lat")
 end
 #
 ## 					<choose>
@@ -544,13 +538,26 @@ end
 ## 					</choose>
 #
 if exists("lonDbs")
-	copy_field("lonDbs","location[].$last.geo.lon")
+	copy_field("lonDbs","@visitorLocation.geo.lon")
 elsif exists("lonVisitor")
-	copy_field("lonVisitor","location[].$last.geo.lon")
+	copy_field("lonVisitor","@visitorLocation.geo.lon")
 elsif exists("@geoLookupDbs")
 	lookup("@geoLookupDbs","addlongMap" , delete:"true")
-	copy_field("@geoLookupDbs","location[].$last.geo.lon")
+	copy_field("@geoLookupDbs","@visitorLocation.eo.lon")
 end
+
+if exists("@visitorLocation")
+	add_field("@visitorLocation.type","Place")
+end
+if exists("@visitorLocation.address")
+	add_field("@visitorLocation.address.type","PostalAddress")
+end
+if exists("@visitorLocation.openingHoursSpecification")
+	add_field("@visitorLocation.openingHoursSpecification.type","OpeningHoursSpecification")
+end
+
+copy_field("@visitorLocation","location[].$append")
+
 #
 ## 				</entity>
 ## 			</entity>
@@ -600,9 +607,14 @@ copy_field("lonOther","@otherLocation.geo.lon")
 ## 			</entity>
 ## 		</entity>
 ## 
+
 if exists("@otherLocation")
+	add_field("@otherLocation.type","Place")
+end
+if exists("@otherLocation.address")
 	add_field("@otherLocation.address.type","PostalAddress")
-	add_field("@otherLocation.place.type","Place")
+end
+if exists("@otherLocation.openingHoursSpecification")
 	add_field("@otherLocation.openingHoursSpecification.type","OpeningHoursSpecification")
 end
 

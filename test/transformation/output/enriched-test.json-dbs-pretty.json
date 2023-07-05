@@ -9,7 +9,6 @@
   "dbsID" : "AA009",
   "id" : "http://lobid.org/organisations/DE-9#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Felix-Hausdorff-Str. 10",
       "addressLocality" : "Greifswald",
@@ -20,7 +19,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo-Fr.: 8-24, Sa: 9-24 Uhr",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n60",
@@ -65,7 +65,6 @@
   "dbsID" : "AA022",
   "id" : "http://lobid.org/organisations/DBS-AA022#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Neue Residenz, Domplatz 8",
       "addressLocality" : "Bamberg",
@@ -76,7 +75,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo - Fr 9:00 - 17:00 Uhr, Sa 9:00 - 12:00 Uhr (im August Sa geschlossen)",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n21",
@@ -120,7 +120,6 @@
   "dbsID" : "AA034",
   "id" : "http://lobid.org/organisations/DE-34#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Diagonale 10",
       "addressLocality" : "Kassel",
@@ -131,7 +130,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo - Fr 8 bis 23 Uhr. Sa u. So 10 bis 21 Uhr",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n60",
@@ -175,7 +175,6 @@
   "dbsID" : "AA046",
   "id" : "http://lobid.org/organisations/DE-46#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Bibliothekstr.",
       "addressLocality" : "Bremen",
@@ -186,7 +185,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 8.00-22.00 h. Sa 10.00-18.00 h",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n60",
@@ -230,7 +230,6 @@
   "dbsID" : "AA058",
   "id" : "http://lobid.org/organisations/DE-58#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Schlossplatz 2",
       "addressLocality" : "Bückeburg",
@@ -241,7 +240,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo, Di, Do 9.00-16.00 Uhr, Mi 9.00-18.00 Uhr, Fr 9.00-13 Uhr",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n21",
@@ -285,7 +285,6 @@
   "dbsID" : "AA083",
   "id" : "http://lobid.org/organisations/DBS-AA083#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Fasanenstraße 88 (im VOLKSWAGEN-Haus)",
       "addressLocality" : "Berlin",
@@ -296,7 +295,8 @@
     "openingHoursSpecification" : {
       "description" : "Zentralbibliothek: Mo-Fr 9-22 Uhr, Sa 10-18 Uhr",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n60",
@@ -341,7 +341,6 @@
   "dbsID" : "AA095",
   "id" : "http://lobid.org/organisations/DE-95#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Bünteweg 2",
       "addressLocality" : "Hannover",
@@ -352,7 +351,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo., Mi., Fr.   11 - 19, Di., Do. 9 - 17, Sa. 10 - 13",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n70",
@@ -397,7 +397,6 @@
   "dbsID" : "AA149",
   "id" : "http://lobid.org/organisations/DE-149#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Martin-Luther-Platz 1",
       "addressLocality" : "Memmingen",
@@ -407,7 +406,8 @@
     },
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n21",
@@ -451,7 +451,6 @@
   "dbsID" : "AA150",
   "id" : "http://lobid.org/organisations/DBS-AA150#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Karlspl. A 17",
       "addressLocality" : "Neuburg/Donau",
@@ -462,7 +461,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo 13.30-16.00. Di 13.30-18.00. Mi 13.30-16.00. Do 10.00-12.00 und 13.30-16.00. Fr 10.00-13.30",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n21",
@@ -506,7 +506,6 @@
   "dbsID" : "AA174",
   "id" : "http://lobid.org/organisations/DE-174#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Ebertstr. 19",
       "addressLocality" : "Gelsenkirchen",
@@ -517,7 +516,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 11.00-19.00 , Sa 10.00-13.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -562,7 +562,6 @@
   "dbsID" : "AA186",
   "id" : "http://lobid.org/organisations/DE-186#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Am Kanal 47",
       "addressLocality" : "Potsdam",
@@ -573,7 +572,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo 15 - 19   Di - Fr 10 - 19   Sa 10 - 16 ",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -619,7 +619,6 @@
   "dbsID" : "AA198",
   "id" : "http://lobid.org/organisations/DE-198#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Marktplatz 1",
       "addressLocality" : "Neubrandenburg",
@@ -630,7 +629,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo/Mi 13.00-18.00  Di 10.00-19.00  Do/Frei 10.00-18.00  Sa 10.00 - 13.00 ",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -675,7 +675,6 @@
   "dbsID" : "AA204",
   "id" : "http://lobid.org/organisations/DE-204#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Potsdamer Str. 37",
       "addressLocality" : "Berlin",
@@ -686,7 +685,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo-Fr. 9.00-19.00 Uhr, Sa 9.00-13.00 Uhr",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n81",
@@ -732,7 +732,6 @@
   "dbsID" : "AA228",
   "id" : "http://lobid.org/organisations/DE-228#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Sudetenstr. 1",
       "addressLocality" : "Hameln",
@@ -743,7 +742,8 @@
     "openingHoursSpecification" : {
       "description" : "Di und Do-Fr 12.00-18.00. Mi 10.00-16.00. Sa 10.00-13.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -788,7 +788,6 @@
   "dbsID" : "AA241",
   "id" : "http://lobid.org/organisations/DE-241#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Pestalozzistr. 11",
       "addressLocality" : "Kulmbach",
@@ -799,7 +798,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo  - 14:00 - 19:30, Di 10:00 - 17:00, Mi 9:30 - 14:00 -  , Do 10:00 - 17:00, Fr 10:00 - 14:00  -   ",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -843,7 +843,6 @@
   "dbsID" : "AA253",
   "id" : "http://lobid.org/organisations/DE-253#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Bundesallee 50",
       "addressLocality" : "Braunschweig",
@@ -854,7 +853,8 @@
     "openingHoursSpecification" : {
       "description" : "9-16.30",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n81",
@@ -898,7 +898,6 @@
   "dbsID" : "AA277",
   "id" : "http://lobid.org/organisations/DBS-AA277#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Hasengasse 4",
       "addressLocality" : "Frankfurt/Main",
@@ -909,7 +908,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 11.00-19.00. Sa 11.00-16.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -953,7 +953,6 @@
   "dbsID" : "AA289",
   "id" : "http://lobid.org/organisations/DE-289#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Albert-Einstein-Allee 37",
       "addressLocality" : "Ulm/Donau",
@@ -964,7 +963,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo - Fr 8:00 - 22:00 Uhr, Sa 10:00 - 20:00 Uhr",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n60",
@@ -1007,7 +1007,6 @@
   "dbsID" : "AA290",
   "id" : "http://lobid.org/organisations/DBS-AA290#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Vogelpothsweg 76",
       "addressLocality" : "Dortmund",
@@ -1018,7 +1017,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 7.00-1.00h. Sa+So 9.00-1.00h, Bereichsbibliotheken s. homepage",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n60",
@@ -1062,7 +1062,6 @@
   "dbsID" : "AA356",
   "id" : "http://lobid.org/organisations/DE-356#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Kreuzstr. 69",
       "addressLocality" : "Bad Kreuznach",
@@ -1073,7 +1072,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo und Mi 14.00-18.00. Di,Do,Fr 10.00-18.00. Sa 10.00-13.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1118,7 +1118,6 @@
   "dbsID" : "AA368",
   "id" : "http://lobid.org/organisations/DE-368#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Reschop Carré 1",
       "addressLocality" : "Hattingen",
@@ -1129,7 +1128,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo 10.00-19.00. Di 10.00-19.00. Do 10.00-19.00. Fr 10.00-19.00. Sa 10.00-14.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1162,7 +1162,6 @@
   "dbsID" : "AA381",
   "id" : "http://lobid.org/organisations/DBS-AA381#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Max-von-der-Grün-Platz 1-3",
       "addressLocality" : "Dortmund",
@@ -1173,7 +1172,8 @@
     "openingHoursSpecification" : {
       "description" : "Di-Fr 10.00 bis 19.00  und Sa 10.00 bis 15.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1206,7 +1206,6 @@
   "dbsID" : "AA393",
   "id" : "http://lobid.org/organisations/DE-393#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Kleine Rurstr. 20 (Kulturhaus am Hexenturm)",
       "addressLocality" : "Jülich",
@@ -1217,7 +1216,8 @@
     "openingHoursSpecification" : {
       "description" : "Di u. Fr. 10.00 bis 18.00 Uhr. Mi 15.00 bis 18.00 Uhr. Sa 10.00 bis 13.00 Uhr",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1251,7 +1251,6 @@
   "dbsID" : "AA411",
   "id" : "http://lobid.org/organisations/DE-411#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Walkenbrückenstr. 25",
       "addressLocality" : "Coesfeld",
@@ -1262,7 +1261,8 @@
     "openingHoursSpecification" : {
       "description" : "Di. u. Do 10-13 und 15-18 Uhr, Mi 15-18 Uhr, Fr 9-13 und 15-18 Uhr , Sa 10-13 Uhr",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1296,7 +1296,6 @@
   "dbsID" : "AA423",
   "id" : "http://lobid.org/organisations/DE-423#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Kurze Kesselstr. 17",
       "addressLocality" : "Warendorf",
@@ -1307,7 +1306,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo 10.00-13.00. Mi 14.00-18.00. Di,Do,Fr 10.00-18.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1341,7 +1341,6 @@
   "dbsID" : "AA435",
   "id" : "http://lobid.org/organisations/DE-435#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Friedrich-Ebert-Str. 40",
       "addressLocality" : "Hürth",
@@ -1352,7 +1351,8 @@
     "openingHoursSpecification" : {
       "description" : "Di 10.00-17.00. Mi 14.00-17.00. Do 10.00-12.00 und 14.00-19.00. Fr 10.00-12.00 und 14.00-17.00. Sa 10.00-14.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1397,7 +1397,6 @@
   "dbsID" : "AA447",
   "id" : "http://lobid.org/organisations/DE-447#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Alter Steinweg 11",
       "addressLocality" : "Münster",
@@ -1408,7 +1407,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 10.00-19.00. Sa 10.00-18.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1453,7 +1453,6 @@
   "dbsID" : "AA472",
   "id" : "http://lobid.org/organisations/DE-472#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Hallstraße 2-4",
       "addressLocality" : "Ingolstadt",
@@ -1464,7 +1463,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo 10:00 - 18:00, Di 10:00 - 18:00, Mi 10:00 - 18:00, Do 10:00 - 18:00, Fr 10:00 - 18:00, Sa 10:00 - 15:00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1507,7 +1507,6 @@
   "dbsID" : "AA496",
   "id" : "http://lobid.org/organisations/DBS-AA496#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Kopernikusstr. 1 (Bildungszentrum)",
       "addressLocality" : "Brunsbüttel",
@@ -1518,7 +1517,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 10.00-13.00 und 15.00-19.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1561,7 +1561,6 @@
   "dbsID" : "AA502",
   "id" : "http://lobid.org/organisations/DE-502#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Kirchplatz 2",
       "addressLocality" : "Zossen",
@@ -1572,7 +1571,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo 13:00-18:00,   Di 13:00-18:00,   Do 10:00-19:00,   Fr 13:00-18:00,   Sa 10:00-13:00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1616,7 +1616,6 @@
   "dbsID" : "AA514",
   "id" : "http://lobid.org/organisations/DE-514#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Schleusenplatz 4",
       "addressLocality" : "Rathenow",
@@ -1627,7 +1626,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo, Di, Do: 10.00-18.00,   Fr: 10.00-14.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n33",
@@ -1671,14 +1671,14 @@
   "dbsID" : "AA600",
   "id" : "http://lobid.org/organisations/DBS-AA600#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Holzbacher Str. 1",
       "addressLocality" : "Simmern",
       "postalCode" : "55469",
       "addressCountry" : "DE",
       "type" : "PostalAddress"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n36",
@@ -1721,7 +1721,6 @@
   "dbsID" : "DB675",
   "id" : "http://lobid.org/organisations/DBS-DB675#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Am Steine 1/2",
       "addressLocality" : "Hildesheim",
@@ -1732,7 +1731,8 @@
     "openingHoursSpecification" : {
       "description" : "Di. Mi.: 09.00 - 16.00 Uhr. Do: 09.00 - 18.00 Uhr",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n81",

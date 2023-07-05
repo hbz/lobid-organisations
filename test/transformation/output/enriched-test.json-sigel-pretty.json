@@ -10,7 +10,6 @@
   "dbsID" : "BJ038",
   "id" : "http://lobid.org/organisations/DE-38M#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Gleueler Str. 60",
       "addressLocality" : "Köln",
@@ -26,7 +25,8 @@
     "geo" : {
       "lat" : "50.92466",
       "lon" : "6.91666"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n15",
@@ -87,7 +87,6 @@
     "type" : "PostalAddress"
   },
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Universitätsstr. 150",
       "addressLocality" : "Bochum",
@@ -98,7 +97,8 @@
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 8.00-24.00, Sa 11.00-20.00, So 11.00-18.00",
       "type" : "OpeningHoursSpecification"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n60",
@@ -172,14 +172,14 @@
   "dbsID" : "AB038",
   "id" : "http://lobid.org/organisations/DE-38#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Universitätsstr. 33",
       "addressLocality" : "Köln",
       "postalCode" : "50931",
       "addressCountry" : "DE",
       "type" : "PostalAddress"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n60",
@@ -244,7 +244,6 @@
     "type" : "PostalAddress"
   },
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Potsdamer Str. 33",
       "addressLocality" : "Berlin",
@@ -260,7 +259,8 @@
     "geo" : {
       "lat" : "52.50771",
       "lon" : "13.37063"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n11",
@@ -319,7 +319,6 @@
   } ],
   "id" : "http://lobid.org/organisations/ZDB-1-AAS4#!",
   "location" : [ {
-    "type" : "Place",
     "address" : {
       "streetAddress" : "Staatsbibliothek zu Berlin - Preußischer\t\t\t\t\tKulturbesitz",
       "addressLocality" : "Berlin",
@@ -330,7 +329,8 @@
     "geo" : {
       "lat" : "52.50771",
       "lon" : "13.37063"
-    }
+    },
+    "type" : "Place"
   } ],
   "classification" : {
     "id" : "http://purl.org/lobid/libtype#n89",
