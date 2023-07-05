@@ -14,14 +14,14 @@
     "address" : {
       "streetAddress" : "Gleueler Str. 60",
       "addressLocality" : "Köln",
-      "type" : "PostalAddress",
       "postalCode" : "50931",
-      "addressCountry" : "DE"
+      "addressCountry" : "DE",
+      "type" : "PostalAddress"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 9.00-21.00, Sa 9.00-17.00, So und Feiertags 12.00-17.00 (Lesesaal)",
-      "type" : "OpeningHoursSpecification",
-      "comment" : "Ausleihe/Allg. Information: Mo-Fr 9.00-21.00, Sa 9.00-12.00; Fachauskunft: Mo 9.00-13.00; Di-Fr 9.00-16.00; weitere Schließtage s.Homepage"
+      "comment" : "Ausleihe/Allg. Information: Mo-Fr 9.00-21.00, Sa 9.00-12.00; Fachauskunft: Mo 9.00-13.00; Di-Fr 9.00-16.00; weitere Schließtage s.Homepage",
+      "type" : "OpeningHoursSpecification"
     },
     "geo" : {
       "lat" : "50.92466",
@@ -91,9 +91,9 @@
     "address" : {
       "streetAddress" : "Universitätsstr. 150",
       "addressLocality" : "Bochum",
-      "type" : "PostalAddress",
       "postalCode" : "44801",
-      "addressCountry" : "DE"
+      "addressCountry" : "DE",
+      "type" : "PostalAddress"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 8.00-24.00, Sa 11.00-20.00, So 11.00-18.00",
@@ -176,9 +176,9 @@
     "address" : {
       "streetAddress" : "Universitätsstr. 33",
       "addressLocality" : "Köln",
-      "type" : "PostalAddress",
       "postalCode" : "50931",
-      "addressCountry" : "DE"
+      "addressCountry" : "DE",
+      "type" : "PostalAddress"
     }
   } ],
   "classification" : {
@@ -248,14 +248,14 @@
     "address" : {
       "streetAddress" : "Potsdamer Str. 33",
       "addressLocality" : "Berlin",
-      "type" : "PostalAddress",
       "postalCode" : "10785",
-      "addressCountry" : "DE"
+      "addressCountry" : "DE",
+      "type" : "PostalAddress"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 9.00-21.00, Sa 9.00-19.00",
-      "type" : "OpeningHoursSpecification",
-      "comment" : "Öffnungszeiten besonderer Bereiche s. Homepage"
+      "comment" : "Öffnungszeiten besonderer Bereiche s. Homepage",
+      "type" : "OpeningHoursSpecification"
     },
     "geo" : {
       "lat" : "52.50771",
@@ -323,9 +323,9 @@
     "address" : {
       "streetAddress" : "Staatsbibliothek zu Berlin - Preußischer\t\t\t\t\tKulturbesitz",
       "addressLocality" : "Berlin",
-      "type" : "PostalAddress",
       "postalCode" : "10785",
-      "addressCountry" : "DE"
+      "addressCountry" : "DE",
+      "type" : "PostalAddress"
     },
     "geo" : {
       "lat" : "52.50771",

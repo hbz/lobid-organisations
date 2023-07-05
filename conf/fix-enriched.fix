@@ -458,11 +458,9 @@ copy_field("descriptionVisitor","location[].$last.description")
 #
 if exists("localityVisitor")
 	copy_field("localityVisitor","location[].$last.address.addressLocality")
-	add_field("location[].$last.address.type","PostalAddress")
 elsif exists("ort") 
 	unless any_equal("ort","NULL")
 		copy_field("ort","location[].$last.address.addressLocality")
-		add_field("location[].$last.address.type","PostalAddress")
 	end
 end
 #
@@ -487,6 +485,10 @@ else
 		copy_field("addressCountry","location[].$last.address.addressCountry")
 	end
 end
+
+if exists("location[].$last.address")
+	add_field("location[].$last.address.type","PostalAddress")
+end
 #
 #
 #
@@ -502,17 +504,18 @@ end
 ## 					</choose>
 if exists("openingHoursVisitor")
 	copy_field("openingHoursVisitor","location[].$last.openingHoursSpecification.description")
-	add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
 elsif exists("oeffnungszeiten")
 	unless any_equal("oeffnungszeiten","NULL")
 		copy_field("oeffnungszeiten","location[].$last.openingHoursSpecification.description")
-		add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
 	end
 end
 #
 #
 ## 					<data source="openingCommentVisitor" name="comment" />
 copy_field("openingCommentVisitor","location[].$last.openingHoursSpecification.comment")
+if exists("location[].$last.openingHoursSpecification")
+	add_field("location[].$last.openingHoursSpecification.type","OpeningHoursSpecification")
+end
 #
 ## 				</entity>
 ## 				<entity name="geo" flushWith="record">
