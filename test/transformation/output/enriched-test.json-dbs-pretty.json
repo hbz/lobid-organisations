@@ -30,7 +30,7 @@
       "en" : "Central University Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n02",
     "type" : "Concept",
     "label" : {
@@ -86,7 +86,7 @@
       "en" : "Regional Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n02",
     "type" : "Concept",
     "label" : {
@@ -141,7 +141,7 @@
       "en" : "Central University Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n02",
     "type" : "Concept",
     "label" : {
@@ -196,7 +196,7 @@
       "en" : "Central University Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n02",
     "type" : "Concept",
     "label" : {
@@ -251,7 +251,7 @@
       "en" : "Regional Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n12",
     "type" : "Concept",
     "label" : {
@@ -306,7 +306,7 @@
       "en" : "Central University Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n07",
     "type" : "Concept",
     "label" : {
@@ -362,7 +362,7 @@
       "en" : "Central Academic Library, not University"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n02",
     "type" : "Concept",
     "label" : {
@@ -417,7 +417,7 @@
       "en" : "Regional Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -472,7 +472,7 @@
       "en" : "Regional Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n02",
     "type" : "Concept",
     "label" : {
@@ -527,7 +527,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -583,7 +583,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n06",
     "type" : "Concept",
     "label" : {
@@ -640,7 +640,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n06",
     "type" : "Concept",
     "label" : {
@@ -696,7 +696,7 @@
       "en" : "Academic Special Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n07",
     "type" : "Concept",
     "label" : {
@@ -753,7 +753,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -809,7 +809,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -864,7 +864,7 @@
       "en" : "Academic Special Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n01",
     "type" : "Concept",
     "label" : {
@@ -919,7 +919,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -974,7 +974,7 @@
       "en" : "Central University Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n02",
     "type" : "Concept",
     "label" : {
@@ -1028,7 +1028,7 @@
       "en" : "Central University Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n02",
     "type" : "Concept",
     "label" : {
@@ -1083,7 +1083,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1139,7 +1139,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1183,7 +1183,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1227,7 +1227,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1272,7 +1272,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1317,7 +1317,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1362,7 +1362,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1418,7 +1418,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1474,7 +1474,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n03",
     "type" : "Concept",
     "label" : {
@@ -1528,7 +1528,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1582,7 +1582,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n06",
     "type" : "Concept",
     "label" : {
@@ -1637,7 +1637,7 @@
       "en" : "Public Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {
@@ -1688,7 +1688,7 @@
       "en" : "Public Library for Special User Groups"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n09",
     "type" : "Concept",
     "label" : {
@@ -1742,7 +1742,7 @@
       "en" : "Academic Special Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n04",
     "type" : "Concept",
     "label" : {

@@ -36,7 +36,7 @@
       "en" : "Central Subject Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n06",
     "type" : "Concept",
     "label" : {
@@ -108,7 +108,7 @@
       "en" : "Central University Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n07",
     "type" : "Concept",
     "label" : {
@@ -189,7 +189,7 @@
       "en" : "Central University Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n02",
     "type" : "Concept",
     "label" : {
@@ -270,7 +270,7 @@
       "en" : "National Library"
     }
   },
-  "funderType" : {
+  "fundertype" : {
     "id" : "http://purl.org/lobid/fundertype#n07",
     "type" : "Concept",
     "label" : {
