@@ -1,100 +1,29 @@
 {
-  "isil" : "ZDB-1-AAS4",
-  "email" : "mailto:ssg-nationallizenzen@sbb.spk-berlin.de",
-  "type" : "Collection",
-  "rs" : "110000000000",
-  "name" : "American Antiquarian Society (AAS)Historical Periodicals Collection : Series 4 (1853-1865)[Nationallizenz]",
-  "url" : "http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=h9k",
-  "availableChannel" : [ {
-    "type" : [ "ServiceChannel" ],
-    "serviceType" : "Produktinfo",
-    "serviceUrl" : "http://www.nationallizenzen.de/angebote/nlproduct.2011-05-11.8008587391"
-  } ],
-  "id" : "http://lobid.org/organisations/ZDB-1-AAS4#!",
-  "location" : [ {
-    "type" : "Place",
-    "address" : {
-      "streetAddress" : "Staatsbibliothek zu Berlin - Preußischer\t\t\t\t\tKulturbesitz",
-      "addressLocality" : "Berlin",
-      "type" : "PostalAddress",
-      "postalCode" : "10785",
-      "addressCountry" : "DE"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
-    },
-    "geo" : {
-      "lat" : "52.50771",
-      "lon" : "13.37063"
-    }
-  }, {
-    "place" : {
-      "type" : "Place"
-    },
-    "address" : {
-      "type" : "PostalAddress"
-    },
-    "openingHoursSpecification" : {
-      "type" : "OpeningHoursSpecification"
-    }
-  } ],
-  "classification" : {
-    "id" : "http://purl.org/lobid/libtype#n89",
-    "type" : "Concept",
-    "label" : {
-      "de" : "Paket elektronischer Ressourcen",
-      "en" : "Collection of Electronic Resources"
-    }
-  },
-  "collects" : {
-    "subject" : [ "E-Journals", "Die American Antiquarian Society (AAS)\t\t\t\t\tHistorical Periodicals Collection dokumentiert das Leben der\t\t\t\t\tamerikanischen Bevölkerung und die amerikanische Perspektive auf\t\t\t\t\tdas Weltgeschehen und die Wissenschaften von der Kolonialära über\t\t\t\t\tden Bürgerkrieg bis zur Zeit des Wiederaufbaus im 19. Jahrhundert.\t\t\t\t\tDer vierte Teil der Kollektion deckt ca. 1.800 Zeitschriften aus\t\t\t\t\tdem Zeitraum von 1853 bis 1865 ab" ]
-  },
-  "alternateName" : [ "Nationallizenz AAS Series4" ],
-  "sameAs" : [ "http://ld.zdb-services.de/resource/organisations/ZDB-1-AAS4" ],
-  "containedIn" : "6547539",
-  "mainEntityOfPage" : {
-    "id" : "http://lobid.org/organisations/ZDB-1-AAS4#!",
-    "dateCreated" : "25-05-11",
-    "dateModified" : "9006:08-06-15"
-  }
-}
-{
-  "isil" : "DE-1a",
-  "email" : "mailto:info@sbb.spk-berlin.de",
+  "isil" : "DE-38M",
+  "email" : "mailto:info@zbmed.de",
   "type" : "Library",
-  "rs" : "110000000000",
-  "name" : "Staatsbibliothek zu Berlin - Preußischer Kulturbesitz,Haus Potsdamer Straße",
-  "url" : "http://www.staatsbibliothek-berlin.de",
-  "provides" : "http://stabikat.de",
-  "availableChannel" : [ {
-    "type" : [ "ServiceChannel" ],
-    "serviceType" : "Online-Auskunft",
-    "serviceUrl" : "http://staatsbibliothek-berlin.de/service/auskunft/"
-  } ],
-  "dbsID" : "AK001",
-  "id" : "http://lobid.org/organisations/DE-1a#!",
-  "address" : {
-    "addressLocality" : "Berlin",
-    "postalCode" : "10772",
-    "addressCountry" : "DE",
-    "type" : "PostalAddress"
-  },
+  "rs" : "053150000000",
+  "name" : "Deutsche Zentralbibliothek für Medizin - ZB MED Medizin. Gesundheit.",
+  "url" : "http://www.zbmed.de",
+  "provides" : "http://www.medpilot.de/?idb=ZBMED",
+  "dbsID" : "BJ038",
+  "id" : "http://lobid.org/organisations/DE-38M#!",
   "location" : [ {
     "type" : "Place",
     "address" : {
-      "streetAddress" : "Potsdamer Str. 33",
-      "addressLocality" : "Berlin",
+      "streetAddress" : "Gleueler Str. 60",
+      "addressLocality" : "Köln",
       "type" : "PostalAddress",
-      "postalCode" : "10785",
+      "postalCode" : "50931",
       "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
-      "comment" : "Öffnungszeiten besonderer Bereiche s. Homepage"
+      "comment" : "Ausleihe/Allg. Information: Mo-Fr 9.00-21.00, Sa 9.00-12.00; Fachauskunft: Mo 9.00-13.00; Di-Fr 9.00-16.00; weitere Schließtage s.Homepage"
     },
     "geo" : {
-      "lat" : "52.50771",
-      "lon" : "13.37063"
+      "lat" : "50.92466",
+      "lon" : "6.91666"
     }
   }, {
     "place" : {
@@ -108,38 +37,37 @@
     }
   } ],
   "classification" : {
-    "id" : "http://purl.org/lobid/libtype#n11",
+    "id" : "http://purl.org/lobid/libtype#n15",
     "type" : "Concept",
     "label" : {
-      "de" : "Nationalbibliothek",
-      "en" : "National Library"
+      "de" : "Zentrale Fachbibliothek",
+      "en" : "Central Subject Library"
     }
   },
   "funderType" : {
-    "id" : "http://purl.org/lobid/fundertype#n07",
+    "id" : "http://purl.org/lobid/fundertype#n06",
     "type" : "Concept",
     "label" : {
-      "de" : "Körperschaft oder Stiftung des öffentlichen Rechts",
-      "en" : "Corporate Body or Foundation under Public Law"
+      "de" : "Sonstige öffentliche Trägerschaft",
+      "en" : "Other Public Sector Funder"
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n10",
+    "id" : "http://purl.org/lobid/stocksize#n09",
     "type" : "Collection",
     "label" : {
-      "de" : "1.000.001 und mehr",
-      "en" : "1,000,001 and more"
+      "de" : "300.001 - 1.000.000",
+      "en" : "300,001 - 1,000,000"
     },
-    "subject" : [ "Recht", "Orientalistik", "Osteuropa", "Ostasien", "Afrika", "Amtsdruckschriften", "Handschriften", "Karten", "Geistes- und Sozialwissenschaften" ]
+    "subject" : [ "Medizin" ]
   },
-  "alternateName" : [ "SBB-PK, Potsdamer Straße", "Berlin SBB Haus Potsdamer Str" ],
-  "name_en" : "Leibniz Institute for Zoo and Wildlife Research Berlin, Library",
-  "sameAs" : [ "http://www.wikidata.org/entity/Q170109", "http://ld.zdb-services.de/resource/organisations/DE-1a" ],
-  "containedIn" : "6547539",
+  "alternateName" : [ "Köln ZB MED" ],
+  "sameAs" : [ "http://www.wikidata.org/entity/Q1204536", "http://ld.zdb-services.de/resource/organisations/DE-38M" ],
+  "containedIn" : "6553049",
   "mainEntityOfPage" : {
-    "id" : "http://lobid.org/organisations/DE-1a#!",
+    "id" : "http://lobid.org/organisations/DE-38M#!",
     "dateCreated" : "18-11-99",
-    "dateModified" : "9006:16-05-12"
+    "dateModified" : "9042:27-03-13"
   }
 }
 {
@@ -301,31 +229,42 @@
   }
 }
 {
-  "isil" : "DE-38M",
-  "email" : "mailto:info@zbmed.de",
+  "isil" : "DE-1a",
+  "email" : "mailto:info@sbb.spk-berlin.de",
   "type" : "Library",
-  "rs" : "053150000000",
-  "name" : "Deutsche Zentralbibliothek für Medizin - ZB MED Medizin. Gesundheit.",
-  "url" : "http://www.zbmed.de",
-  "provides" : "http://www.medpilot.de/?idb=ZBMED",
-  "dbsID" : "BJ038",
-  "id" : "http://lobid.org/organisations/DE-38M#!",
+  "rs" : "110000000000",
+  "name" : "Staatsbibliothek zu Berlin - Preußischer Kulturbesitz,Haus Potsdamer Straße",
+  "url" : "http://www.staatsbibliothek-berlin.de",
+  "provides" : "http://stabikat.de",
+  "availableChannel" : [ {
+    "type" : [ "ServiceChannel" ],
+    "serviceType" : "Online-Auskunft",
+    "serviceUrl" : "http://staatsbibliothek-berlin.de/service/auskunft/"
+  } ],
+  "dbsID" : "AK001",
+  "id" : "http://lobid.org/organisations/DE-1a#!",
+  "address" : {
+    "addressLocality" : "Berlin",
+    "postalCode" : "10772",
+    "addressCountry" : "DE",
+    "type" : "PostalAddress"
+  },
   "location" : [ {
     "type" : "Place",
     "address" : {
-      "streetAddress" : "Gleueler Str. 60",
-      "addressLocality" : "Köln",
+      "streetAddress" : "Potsdamer Str. 33",
+      "addressLocality" : "Berlin",
       "type" : "PostalAddress",
-      "postalCode" : "50931",
+      "postalCode" : "10785",
       "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification",
-      "comment" : "Ausleihe/Allg. Information: Mo-Fr 9.00-21.00, Sa 9.00-12.00; Fachauskunft: Mo 9.00-13.00; Di-Fr 9.00-16.00; weitere Schließtage s.Homepage"
+      "comment" : "Öffnungszeiten besonderer Bereiche s. Homepage"
     },
     "geo" : {
-      "lat" : "50.92466",
-      "lon" : "6.91666"
+      "lat" : "52.50771",
+      "lon" : "13.37063"
     }
   }, {
     "place" : {
@@ -339,36 +278,97 @@
     }
   } ],
   "classification" : {
-    "id" : "http://purl.org/lobid/libtype#n15",
+    "id" : "http://purl.org/lobid/libtype#n11",
     "type" : "Concept",
     "label" : {
-      "de" : "Zentrale Fachbibliothek",
-      "en" : "Central Subject Library"
+      "de" : "Nationalbibliothek",
+      "en" : "National Library"
     }
   },
   "funderType" : {
-    "id" : "http://purl.org/lobid/fundertype#n06",
+    "id" : "http://purl.org/lobid/fundertype#n07",
     "type" : "Concept",
     "label" : {
-      "de" : "Sonstige öffentliche Trägerschaft",
-      "en" : "Other Public Sector Funder"
+      "de" : "Körperschaft oder Stiftung des öffentlichen Rechts",
+      "en" : "Corporate Body or Foundation under Public Law"
     }
   },
   "collects" : {
-    "id" : "http://purl.org/lobid/stocksize#n09",
+    "id" : "http://purl.org/lobid/stocksize#n10",
     "type" : "Collection",
     "label" : {
-      "de" : "300.001 - 1.000.000",
-      "en" : "300,001 - 1,000,000"
+      "de" : "1.000.001 und mehr",
+      "en" : "1,000,001 and more"
     },
-    "subject" : [ "Medizin" ]
+    "subject" : [ "Recht", "Orientalistik", "Osteuropa", "Ostasien", "Afrika", "Amtsdruckschriften", "Handschriften", "Karten", "Geistes- und Sozialwissenschaften" ]
   },
-  "alternateName" : [ "Köln ZB MED" ],
-  "sameAs" : [ "http://www.wikidata.org/entity/Q1204536", "http://ld.zdb-services.de/resource/organisations/DE-38M" ],
-  "containedIn" : "6553049",
+  "alternateName" : [ "SBB-PK, Potsdamer Straße", "Berlin SBB Haus Potsdamer Str" ],
+  "name_en" : "Leibniz Institute for Zoo and Wildlife Research Berlin, Library",
+  "sameAs" : [ "http://www.wikidata.org/entity/Q170109", "http://ld.zdb-services.de/resource/organisations/DE-1a" ],
+  "containedIn" : "6547539",
   "mainEntityOfPage" : {
-    "id" : "http://lobid.org/organisations/DE-38M#!",
+    "id" : "http://lobid.org/organisations/DE-1a#!",
     "dateCreated" : "18-11-99",
-    "dateModified" : "9042:27-03-13"
+    "dateModified" : "9006:16-05-12"
+  }
+}
+{
+  "isil" : "ZDB-1-AAS4",
+  "email" : "mailto:ssg-nationallizenzen@sbb.spk-berlin.de",
+  "type" : "Collection",
+  "rs" : "110000000000",
+  "name" : "American Antiquarian Society (AAS)Historical Periodicals Collection : Series 4 (1853-1865)[Nationallizenz]",
+  "url" : "http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=h9k",
+  "availableChannel" : [ {
+    "type" : [ "ServiceChannel" ],
+    "serviceType" : "Produktinfo",
+    "serviceUrl" : "http://www.nationallizenzen.de/angebote/nlproduct.2011-05-11.8008587391"
+  } ],
+  "id" : "http://lobid.org/organisations/ZDB-1-AAS4#!",
+  "location" : [ {
+    "type" : "Place",
+    "address" : {
+      "streetAddress" : "Staatsbibliothek zu Berlin - Preußischer\t\t\t\t\tKulturbesitz",
+      "addressLocality" : "Berlin",
+      "type" : "PostalAddress",
+      "postalCode" : "10785",
+      "addressCountry" : "DE"
+    },
+    "openingHoursSpecification" : {
+      "type" : "OpeningHoursSpecification"
+    },
+    "geo" : {
+      "lat" : "52.50771",
+      "lon" : "13.37063"
+    }
+  }, {
+    "place" : {
+      "type" : "Place"
+    },
+    "address" : {
+      "type" : "PostalAddress"
+    },
+    "openingHoursSpecification" : {
+      "type" : "OpeningHoursSpecification"
+    }
+  } ],
+  "classification" : {
+    "id" : "http://purl.org/lobid/libtype#n89",
+    "type" : "Concept",
+    "label" : {
+      "de" : "Paket elektronischer Ressourcen",
+      "en" : "Collection of Electronic Resources"
+    }
+  },
+  "collects" : {
+    "subject" : [ "E-Journals", "Die American Antiquarian Society (AAS)\t\t\t\t\tHistorical Periodicals Collection dokumentiert das Leben der\t\t\t\t\tamerikanischen Bevölkerung und die amerikanische Perspektive auf\t\t\t\t\tdas Weltgeschehen und die Wissenschaften von der Kolonialära über\t\t\t\t\tden Bürgerkrieg bis zur Zeit des Wiederaufbaus im 19. Jahrhundert.\t\t\t\t\tDer vierte Teil der Kollektion deckt ca. 1.800 Zeitschriften aus\t\t\t\t\tdem Zeitraum von 1853 bis 1865 ab" ]
+  },
+  "alternateName" : [ "Nationallizenz AAS Series4" ],
+  "sameAs" : [ "http://ld.zdb-services.de/resource/organisations/ZDB-1-AAS4" ],
+  "containedIn" : "6547539",
+  "mainEntityOfPage" : {
+    "id" : "http://lobid.org/organisations/ZDB-1-AAS4#!",
+    "dateCreated" : "25-05-11",
+    "dateModified" : "9006:08-06-15"
   }
 }
