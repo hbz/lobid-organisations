@@ -57,6 +57,10 @@
   "alternateName" : [ "Köln ZB MED" ],
   "sameAs" : [ "http://www.wikidata.org/entity/Q1204536", "http://ld.zdb-services.de/resource/organisations/DE-38M" ],
   "containedIn" : "6553049",
+  "linkedTo" : {
+    "id" : "http://lobid.org/organisations/DE-605#!",
+    "label" : "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
+  },
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-38M#!",
     "dateCreated" : "18-11-99",
@@ -120,6 +124,10 @@
   "alternateName" : [ "Bochum UB" ],
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496285", "http://ld.zdb-services.de/resource/organisations/DE-294" ],
   "containedIn" : "6553132",
+  "linkedTo" : {
+    "id" : "http://lobid.org/organisations/DE-605#!",
+    "label" : "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
+  },
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-294#!",
     "dateCreated" : "18-11-99",
@@ -197,6 +205,10 @@
   "alternateName" : [ "Köln USB" ],
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496260", "http://ld.zdb-services.de/resource/organisations/DE-38" ],
   "containedIn" : "6553049",
+  "linkedTo" : {
+    "id" : "http://lobid.org/organisations/DE-605#!",
+    "label" : "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
+  },
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-38#!",
     "dateCreated" : "18-11-99",
@@ -274,6 +286,10 @@
   "name_en" : "Leibniz Institute for Zoo and Wildlife Research Berlin, Library",
   "sameAs" : [ "http://www.wikidata.org/entity/Q170109", "http://ld.zdb-services.de/resource/organisations/DE-1a" ],
   "containedIn" : "6547539",
+  "linkedTo" : {
+    "id" : "http://lobid.org/organisations/DE-601#!",
+    "label" : "Verbundzentrale des GBV (VZG)"
+  },
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-1a#!",
     "dateCreated" : "18-11-99",

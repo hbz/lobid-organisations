@@ -827,7 +827,7 @@ do list(path: "035I","var":"$i")
 ## 				<regexp match="(?i).*gbv" format="Verbundzentrale des GBV (VZG)"/>
 ## 			</data>
 ## 		</entity>
-	if any_contain("$i.c","gbv")
+	if any_match("$i.c","(?i).*gbv")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-601#!")
 		add_field("linkedTo.label","Verbundzentrale des GBV (VZG)")
 		# 		<entity name="linkedTo">
@@ -838,7 +838,7 @@ do list(path: "035I","var":"$i")
 ## 				<regexp match="(?i).*bvb" format="Bibliotheksverbund Bayern"/>
 ## 			</data>
 ## 		</entity>
-	elsif  any_contain("$i.c","bvb")
+	elsif  any_match("$i.c","(?i).*bvb")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-604#!")
 		add_field("linkedTo.label","Bibliotheksverbund Bayern (BVB)")
 
@@ -852,7 +852,7 @@ do list(path: "035I","var":"$i")
 ## 				<regexp match="(?i).*hebis" format="Hessisches BibliotheksInformationsSystem HeBIS" />
 ## 			</data>
 ## 		</entity>
-#	elsif  any_contain("$i.c","hebis")
+#	elsif  any_match("$i.c","(?i).*hebis")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-603#!")
 		add_field("linkedTo.label","Hessisches BibliotheksInformationsSystem HeBIS")
 
@@ -865,7 +865,7 @@ do list(path: "035I","var":"$i")
 ## 				<regexp match="(?i).*hbz" format="Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)" />
 ## 			</data>
 ## 		</entity>
-	elsif  any_contain("$i.c","hbz")
+	elsif  any_match("$i.c","(?i).*hbz")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-605#!")
 		add_field("linkedTo.label","Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)")
 
@@ -877,7 +877,7 @@ do list(path: "035I","var":"$i")
 ## 				<regexp match="(?i).*kobv" format="Kooperativer Bibliotheksverbund Berlin-Brandenburg" />
 ## 			</data>
 ## 		</entity>
-	elsif  any_contain("$i.c","kobv")
+	elsif  any_match("$i.c","(?i).*kobv")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-602#!")
 		add_field("linkedTo.label","Kooperativer Bibliotheksverbund Berlin-Brandenburg")
 
@@ -889,7 +889,7 @@ do list(path: "035I","var":"$i")
 ## 				<regexp match="(?i).*swb" format="Bibliotheksservice-Zentrum Baden-Württemberg (BSZ)" />
 ## 			</data>
 ## 		</entity>
-	elsif  any_contain("$i.c","swb")
+	elsif  any_match("$i.c","(?i).*swb")
 		add_field("linkedTo.id","http://lobid.org/organisations/DE-576#!")
 		add_field("linkedTo.label","Bibliotheksservice-Zentrum Baden-Württemberg (BSZ)")
 	end
