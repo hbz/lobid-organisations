@@ -15,7 +15,7 @@
       "addressLocality" : "Greifswald",
       "type" : "PostalAddress",
       "postalCode" : "17489",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr.: 8-24, Sa: 9-24 Uhr",
@@ -68,7 +68,7 @@
       "addressLocality" : "Bamberg",
       "type" : "PostalAddress",
       "postalCode" : "96049",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo - Fr 9:00 - 17:00 Uhr, Sa 9:00 - 12:00 Uhr (im August Sa geschlossen)",
@@ -120,7 +120,7 @@
       "addressLocality" : "Kassel",
       "type" : "PostalAddress",
       "postalCode" : "34127",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo - Fr 8 bis 23 Uhr. Sa u. So 10 bis 21 Uhr",
@@ -172,7 +172,7 @@
       "addressLocality" : "Bremen",
       "type" : "PostalAddress",
       "postalCode" : "28359",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 8.00-22.00 h. Sa 10.00-18.00 h",
@@ -224,7 +224,7 @@
       "addressLocality" : "Bückeburg",
       "type" : "PostalAddress",
       "postalCode" : "31675",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo, Di, Do 9.00-16.00 Uhr, Mi 9.00-18.00 Uhr, Fr 9.00-13 Uhr",
@@ -276,7 +276,7 @@
       "addressLocality" : "Berlin",
       "type" : "PostalAddress",
       "postalCode" : "10623",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Zentralbibliothek: Mo-Fr 9-22 Uhr, Sa 10-18 Uhr",
@@ -329,7 +329,7 @@
       "addressLocality" : "Hannover",
       "type" : "PostalAddress",
       "postalCode" : "30559",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo., Mi., Fr.   11 - 19, Di., Do. 9 - 17, Sa. 10 - 13",
@@ -382,7 +382,7 @@
       "addressLocality" : "Memmingen",
       "type" : "PostalAddress",
       "postalCode" : "87700",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "type" : "OpeningHoursSpecification"
@@ -433,7 +433,7 @@
       "addressLocality" : "Neuburg/Donau",
       "type" : "PostalAddress",
       "postalCode" : "86633",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo 13.30-16.00. Di 13.30-18.00. Mi 13.30-16.00. Do 10.00-12.00 und 13.30-16.00. Fr 10.00-13.30",
@@ -485,7 +485,7 @@
       "addressLocality" : "Gelsenkirchen",
       "type" : "PostalAddress",
       "postalCode" : "45875",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 11.00-19.00 , Sa 10.00-13.00",
@@ -538,7 +538,7 @@
       "addressLocality" : "Potsdam",
       "type" : "PostalAddress",
       "postalCode" : "14467",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo 15 - 19   Di - Fr 10 - 19   Sa 10 - 16 ",
@@ -592,7 +592,7 @@
       "addressLocality" : "Neubrandenburg",
       "type" : "PostalAddress",
       "postalCode" : "17033",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo/Mi 13.00-18.00  Di 10.00-19.00  Do/Frei 10.00-18.00  Sa 10.00 - 13.00 ",
@@ -645,7 +645,7 @@
       "addressLocality" : "Berlin",
       "type" : "PostalAddress",
       "postalCode" : "10785",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr. 9.00-19.00 Uhr, Sa 9.00-13.00 Uhr",
@@ -699,7 +699,7 @@
       "addressLocality" : "Hameln",
       "type" : "PostalAddress",
       "postalCode" : "31785",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Di und Do-Fr 12.00-18.00. Mi 10.00-16.00. Sa 10.00-13.00",
@@ -752,7 +752,7 @@
       "addressLocality" : "Kulmbach",
       "type" : "PostalAddress",
       "postalCode" : "95326",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo  - 14:00 - 19:30, Di 10:00 - 17:00, Mi 9:30 - 14:00 -  , Do 10:00 - 17:00, Fr 10:00 - 14:00  -   ",
@@ -804,7 +804,7 @@
       "addressLocality" : "Braunschweig",
       "type" : "PostalAddress",
       "postalCode" : "38116",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "9-16.30",
@@ -856,7 +856,7 @@
       "addressLocality" : "Frankfurt/Main",
       "type" : "PostalAddress",
       "postalCode" : "60311",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 11.00-19.00. Sa 11.00-16.00",
@@ -908,7 +908,7 @@
       "addressLocality" : "Ulm/Donau",
       "type" : "PostalAddress",
       "postalCode" : "89081",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo - Fr 8:00 - 22:00 Uhr, Sa 10:00 - 20:00 Uhr",
@@ -959,7 +959,7 @@
       "addressLocality" : "Dortmund",
       "type" : "PostalAddress",
       "postalCode" : "44227",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 7.00-1.00h. Sa+So 9.00-1.00h, Bereichsbibliotheken s. homepage",
@@ -1011,7 +1011,7 @@
       "addressLocality" : "Bad Kreuznach",
       "type" : "PostalAddress",
       "postalCode" : "55543",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo und Mi 14.00-18.00. Di,Do,Fr 10.00-18.00. Sa 10.00-13.00",
@@ -1064,7 +1064,7 @@
       "addressLocality" : "Hattingen",
       "type" : "PostalAddress",
       "postalCode" : "45525",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo 10.00-19.00. Di 10.00-19.00. Do 10.00-19.00. Fr 10.00-19.00. Sa 10.00-14.00",
@@ -1108,7 +1108,7 @@
       "addressLocality" : "Dortmund",
       "type" : "PostalAddress",
       "postalCode" : "44137",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Di-Fr 10.00 bis 19.00  und Sa 10.00 bis 15.00",
@@ -1152,7 +1152,7 @@
       "addressLocality" : "Jülich",
       "type" : "PostalAddress",
       "postalCode" : "52428",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Di u. Fr. 10.00 bis 18.00 Uhr. Mi 15.00 bis 18.00 Uhr. Sa 10.00 bis 13.00 Uhr",
@@ -1197,7 +1197,7 @@
       "addressLocality" : "Coesfeld",
       "type" : "PostalAddress",
       "postalCode" : "48653",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Di. u. Do 10-13 und 15-18 Uhr, Mi 15-18 Uhr, Fr 9-13 und 15-18 Uhr , Sa 10-13 Uhr",
@@ -1242,7 +1242,7 @@
       "addressLocality" : "Warendorf",
       "type" : "PostalAddress",
       "postalCode" : "48231",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo 10.00-13.00. Mi 14.00-18.00. Di,Do,Fr 10.00-18.00",
@@ -1287,7 +1287,7 @@
       "addressLocality" : "Hürth",
       "type" : "PostalAddress",
       "postalCode" : "50354",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Di 10.00-17.00. Mi 14.00-17.00. Do 10.00-12.00 und 14.00-19.00. Fr 10.00-12.00 und 14.00-17.00. Sa 10.00-14.00",
@@ -1340,7 +1340,7 @@
       "addressLocality" : "Münster",
       "type" : "PostalAddress",
       "postalCode" : "48143",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 10.00-19.00. Sa 10.00-18.00",
@@ -1393,7 +1393,7 @@
       "addressLocality" : "Ingolstadt",
       "type" : "PostalAddress",
       "postalCode" : "85049",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo 10:00 - 18:00, Di 10:00 - 18:00, Mi 10:00 - 18:00, Do 10:00 - 18:00, Fr 10:00 - 18:00, Sa 10:00 - 15:00",
@@ -1444,7 +1444,7 @@
       "addressLocality" : "Brunsbüttel",
       "type" : "PostalAddress",
       "postalCode" : "25541",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo-Fr 10.00-13.00 und 15.00-19.00",
@@ -1495,7 +1495,7 @@
       "addressLocality" : "Zossen",
       "type" : "PostalAddress",
       "postalCode" : "15806",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo 13:00-18:00,   Di 13:00-18:00,   Do 10:00-19:00,   Fr 13:00-18:00,   Sa 10:00-13:00",
@@ -1547,7 +1547,7 @@
       "addressLocality" : "Rathenow",
       "type" : "PostalAddress",
       "postalCode" : "14712",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Mo, Di, Do: 10.00-18.00,   Fr: 10.00-14.00",
@@ -1599,7 +1599,7 @@
       "addressLocality" : "Simmern",
       "type" : "PostalAddress",
       "postalCode" : "55469",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     }
   } ],
   "classification" : {
@@ -1646,7 +1646,7 @@
       "addressLocality" : "Hildesheim",
       "type" : "PostalAddress",
       "postalCode" : "31134",
-      "addressCountry" : "DEU"
+      "addressCountry" : "DE"
     },
     "openingHoursSpecification" : {
       "description" : "Di. Mi.: 09.00 - 16.00 Uhr. Do: 09.00 - 18.00 Uhr",

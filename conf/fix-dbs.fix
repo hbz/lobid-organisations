@@ -64,7 +64,7 @@ end
 
 		if exists("iso")
 			copy_field("iso","addressCountry")
-			lookup("iso","iso3-iso2-map")
+			lookup("addressCountry","iso3-iso2-map")
 		else
 			add_field("addressCountry","DE")
 		end
