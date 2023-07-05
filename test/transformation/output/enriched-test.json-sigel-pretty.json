@@ -56,7 +56,7 @@
   },
   "alternateName" : [ "Köln ZB MED" ],
   "sameAs" : [ "http://www.wikidata.org/entity/Q1204536", "http://ld.zdb-services.de/resource/organisations/DE-38M" ],
-  "containedIn" : "6553049",
+  "containedIn" : "http://sws.geonames.org/6553049/",
   "linkedTo" : {
     "id" : "http://lobid.org/organisations/DE-605#!",
     "label" : "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
@@ -123,7 +123,7 @@
   },
   "alternateName" : [ "Bochum UB" ],
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496285", "http://ld.zdb-services.de/resource/organisations/DE-294" ],
-  "containedIn" : "6553132",
+  "containedIn" : "http://sws.geonames.org/6553132/",
   "linkedTo" : {
     "id" : "http://lobid.org/organisations/DE-605#!",
     "label" : "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
@@ -204,7 +204,7 @@
   },
   "alternateName" : [ "Köln USB" ],
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496260", "http://ld.zdb-services.de/resource/organisations/DE-38" ],
-  "containedIn" : "6553049",
+  "containedIn" : "http://sws.geonames.org/6553049/",
   "linkedTo" : {
     "id" : "http://lobid.org/organisations/DE-605#!",
     "label" : "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
@@ -285,7 +285,7 @@
   "alternateName" : [ "SBB-PK, Potsdamer Straße", "Berlin SBB Haus Potsdamer Str" ],
   "name_en" : "Leibniz Institute for Zoo and Wildlife Research Berlin, Library",
   "sameAs" : [ "http://www.wikidata.org/entity/Q170109", "http://ld.zdb-services.de/resource/organisations/DE-1a" ],
-  "containedIn" : "6547539",
+  "containedIn" : "http://sws.geonames.org/6547539/",
   "linkedTo" : {
     "id" : "http://lobid.org/organisations/DE-601#!",
     "label" : "Verbundzentrale des GBV (VZG)"
@@ -337,7 +337,7 @@
   },
   "alternateName" : [ "Nationallizenz AAS Series4" ],
   "sameAs" : [ "http://ld.zdb-services.de/resource/organisations/ZDB-1-AAS4" ],
-  "containedIn" : "6547539",
+  "containedIn" : "http://sws.geonames.org/6547539/",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/ZDB-1-AAS4#!",
     "dateCreated" : "25-05-11",

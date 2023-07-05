@@ -50,7 +50,7 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2496314", "http://ld.zdb-services.de/resource/organisations/DE-9" ],
-  "containedIn" : "6551180",
+  "containedIn" : "http://sws.geonames.org/6551180/",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-9#!"
   }
@@ -325,7 +325,7 @@
       }
     }
   },
-  "containedIn" : "6547539",
+  "containedIn" : "http://sws.geonames.org/6547539/",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DBS-AA083#!"
   }
@@ -603,7 +603,7 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q2326335", "http://ld.zdb-services.de/resource/organisations/DE-186" ],
-  "containedIn" : "7602560",
+  "containedIn" : "http://sws.geonames.org/7602560/",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-186#!"
   }
@@ -716,7 +716,7 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28737641", "http://ld.zdb-services.de/resource/organisations/DE-204" ],
-  "containedIn" : "6547539",
+  "containedIn" : "http://sws.geonames.org/6547539/",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-204#!"
   }
@@ -1657,7 +1657,7 @@
     }
   },
   "sameAs" : [ "http://www.wikidata.org/entity/Q28682011", "http://ld.zdb-services.de/resource/organisations/DE-514" ],
-  "containedIn" : "6550611",
+  "containedIn" : "http://sws.geonames.org/6550611/",
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-514#!"
   }

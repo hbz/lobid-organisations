@@ -811,7 +811,7 @@ end
 ## 		</combine>
 lookup("@ags","geonames_map", delete:"true")
 if exists("@ags")
-	paste("containedIn","http://sws.geonames.org/","@ags")
+	paste("containedIn","~http://sws.geonames.org/","@ags","~/", join_char:"")
 end
 #
 #
