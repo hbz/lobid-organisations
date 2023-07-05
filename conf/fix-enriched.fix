@@ -914,7 +914,7 @@ copy_field("001A.0","mainEntityOfPage.dateCreated")
 copy_field("001B.0","mainEntityOfPage.dateModified")
 
 replace_all("mainEntityOfPage.dateCreated","^.+?:","")
-replace_all("mainEntityOfPage.dateCreated","^.+?:","")
+replace_all("mainEntityOfPage.dateModified","^.+?:","")
 #
 #
 ## </metamorph>

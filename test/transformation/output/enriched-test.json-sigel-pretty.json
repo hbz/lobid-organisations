@@ -66,7 +66,7 @@
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-38M#!",
     "dateCreated" : "18-11-99",
-    "dateModified" : "9042:27-03-13"
+    "dateModified" : "27-03-13"
   }
 }
 {
@@ -137,7 +137,7 @@
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-294#!",
     "dateCreated" : "18-11-99",
-    "dateModified" : "9006:24-04-12"
+    "dateModified" : "24-04-12"
   }
 }
 {
@@ -218,7 +218,7 @@
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-38#!",
     "dateCreated" : "18-11-99",
-    "dateModified" : "9042:26-03-14"
+    "dateModified" : "26-03-14"
   }
 }
 {
@@ -301,7 +301,7 @@
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/DE-1a#!",
     "dateCreated" : "18-11-99",
-    "dateModified" : "9006:16-05-12"
+    "dateModified" : "16-05-12"
   }
 }
 {
@@ -349,6 +349,6 @@
   "mainEntityOfPage" : {
     "id" : "http://lobid.org/organisations/ZDB-1-AAS4#!",
     "dateCreated" : "25-05-11",
-    "dateModified" : "9006:08-06-15"
+    "dateModified" : "08-06-15"
   }
 }
