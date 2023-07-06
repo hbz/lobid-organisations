@@ -66,3 +66,6 @@ do list(path: "035B","var":"$i")
 		copy_field("$i.k","email")
 	end
 end
+
+
+	vacuum()

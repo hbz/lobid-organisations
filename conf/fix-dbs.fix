@@ -69,6 +69,8 @@ end
 			add_field("dbs_addressCountry","DE")
 		end
 
+	vacuum()
+
 # 	</rules>
 
 # </metamorph>
