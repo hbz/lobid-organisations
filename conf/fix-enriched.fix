@@ -181,26 +181,7 @@ end
 ## 		</data>		
 add_field("@context","http://lobid.org/organisations/context.jsonld")
 #
-## 		<combine name="type" value="${typeurl}">
-## 			<data source="nam|029A.a" name="type" />
-## 			<choose>
-## 				<data source="035E.f" name="typeurl">
-## 					<lookup in="libtype_map" />
-## 				</data>
-## 				<data source="nam" name="typeurl">
-## 					<constant value="Library" />
-## 				</data>
-## 			</choose>
-## 		</combine>
-#
-#
-copy_field("035E.f","@libType")
-lookup("@libType","libtype_map", delete:"true")
-if exists("@libType")
-	copy_field("@libType","type")
-else
-	add_field("type","Library")
-end
+
 #
 #
 ## 		<choose name="rs">
@@ -263,6 +244,33 @@ else
 	replace_all("@name","\\t|\\n|\\(\\s\\)\\s+","")
 	copy_field("@name","name")
 end
+
+## 		<combine name="type" value="${typeurl}">
+## 			<data source="nam|029A.a" name="type" />
+## 			<choose>
+## 				<data source="035E.f" name="typeurl">
+## 					<lookup in="libtype_map" />
+## 				</data>
+## 				<data source="nam" name="typeurl">
+## 					<constant value="Library" />
+## 				</data>
+## 			</choose>
+## 		</combine>
+#
+#
+
+if exists("name")
+	unless any_match("name","früher.*")
+		copy_field("035E.f","@libType")
+		lookup("@libType","libtype_map", delete:"true")
+		if exists("@libType")
+			copy_field("@libType","type")
+		else
+			add_field("type","Library")
+		end
+	end
+end
+
 #
 ## 		
 call_macro ("url-group", group_name:"url", dbs_field:"url", sigel_code:"A")
