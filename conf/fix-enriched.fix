@@ -225,9 +225,13 @@ end
 if any_match("gvz_id","\\d{11,12}")
 	copy_field("gvz_id","@rs")
 	replace_all("@rs","^(\\d{11})$","0$1")
-elsif exists("032P.n")
-	copy_field("032P.n","@rs")
 else
+	do list(path:"032P","var":"$i")
+		copy_field("$i.n","@rs")
+	end
+end
+
+unless exists("@rs")
 	copy_field("@postalCodeForLookups","@rs")
 	## TODO: No blacklist exists in fix:			<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
 	lookup("@rs","plz_blacklist")
@@ -800,23 +804,30 @@ if any_match("gemeindekennzahl","\\d{11,12}")
 	copy_field("gemeindekennzahl","@ags")
 	replace_all("@ags","^(\\d{11})$","0$1")
 	replace_all("@ags","(\\d{5})(\\d{4})(\\d{3})","$1$3")
-
+end
 ## 			<data source="032P.n" name="@ags">
 ## 				<regexp match="0(\d{7})" format="${1}" />
 ## 			</data>
 ## 			<data source="032P.n" name="@ags">
 ## 				<regexp match="\d{8}" />
 ## 			</data>
-elsif any_match("032P.n","\\d{8}") #TODO: Wiederholbares-Feld. Welches davon nehmen? 032P.*.n
-	copy_field("032P.n","@ags") #TODO: Wiederholbares-Feld. Welches davon nehmen? 032P.*.n
-	replace_all("@ags","^0(.*)$","$1")
+unless exists("@ags")
+	if exists("032P")
+		do list(path:"032P","var":"$i")
+			if any_match("$i.n","\\d{8}") #TODO: Wiederholbares-Feld. Welches davon nehmen? 032P.*.n
+				copy_field("$i.n","@ags") #TODO: Wiederholbares-Feld. Welches davon nehmen? 032P.*.n
+				replace_all("@ags","^0(.*)$","$1")
+			end
+		end
+	end
+end
 
 #	 			<data source="@postalCodeForLookups" name="@ags">
 ## 				<blacklist map="plz_blacklist"/>
 ## 				<lookup in="ags_map" />
 ## 			</data>
 ## 		</choose>
-else
+unless exists("@ags")
 	copy_field("@postalCodeForLookups","@ags")
 	## TODO: No blacklist exists in fix:			<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
 	lookup("@ags","plz_blacklist")
