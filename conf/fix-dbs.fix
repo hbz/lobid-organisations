@@ -63,10 +63,10 @@ end
 		# </choose>
 
 		if exists("iso")
-			copy_field("iso","addressCountry")
-			lookup("addressCountry","iso3-iso2-map")
+			copy_field("iso","dbs_addressCountry")
+			lookup("dbs_addressCountry","iso3-iso2-map")
 		else
-			add_field("addressCountry","DE")
+			add_field("dbs_addressCountry","DE")
 		end
 
 # 	</rules>

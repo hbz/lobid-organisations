@@ -408,7 +408,16 @@ end
 ## 			<data source="plz" name="plz" />
 ## 		</combine>	
 #
-paste("@geoLookupDbs","strasse","plz","ort","addressCountry",join_char:"_")
+if exists("strasse")
+	if exists("plz")
+		if exists("ort")
+			if exists("dbs_addressCountry")
+				paste("@geoLookupDbs","strasse","plz","ort","dbs_addressCountry",join_char:"_")
+			end
+		end
+	end
+end
+
 #
 #
 ## 		
@@ -480,8 +489,8 @@ end
 if exists("countryVisitor")
 	copy_field("countryVisitor","@visitorLocation.address.addressCountry")
 else
-	unless any_equal("addressCountry","NULL")
-		copy_field("addressCountry","@visitorLocation.address.addressCountry")
+	unless any_equal("dbs_addressCountry","NULL")
+		copy_field("dbs_addressCountry","@visitorLocation.address.addressCountry")
 	end
 end
 
@@ -798,8 +807,8 @@ if any_match("gemeindekennzahl","\\d{11,12}")
 ## 			<data source="032P.n" name="@ags">
 ## 				<regexp match="\d{8}" />
 ## 			</data>
-elsif any_match("032P.n","\\d{8}")
-	copy_field("032P.n","@ags")
+elsif any_match("032P.n","\\d{8}") #TODO: Wiederholbares-Feld. Welches davon nehmen? 032P.*.n
+	copy_field("032P.n","@ags") #TODO: Wiederholbares-Feld. Welches davon nehmen? 032P.*.n
 	replace_all("@ags","^0(.*)$","$1")
 
 #	 			<data source="@postalCodeForLookups" name="@ags">
