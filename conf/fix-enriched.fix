@@ -963,6 +963,9 @@ replace_all("mainEntityOfPage.dateModified","^.+?:","")
 ## </metamorph>
 ## 
 #
+if any_match("isil", "(?i).*test.*")
+	reject()
+end
 
 vacuum()
 
