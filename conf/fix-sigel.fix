@@ -3,7 +3,8 @@
 # 		<!-- internal ID: Use DBS ID (.b) if available, use ISIL (.e) if not -->
 
 copy_field("008H.b","@dbsId")
-copy_field("008H.e","isil") 
+copy_field("008H.e","isil")
+copy_field("008H.d","sigil")  
 replace_all("@dbsId"," ","")
 replace_all("isil"," ","")
 if any_match("@dbsId","[A-Z]{2}\\d{3}")

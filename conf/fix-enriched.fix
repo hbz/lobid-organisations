@@ -990,6 +990,7 @@ retain(
 	"provides",
 	"rs",
 	"sameAs[]",
+	"sigil",
 	"telephone",
 	"type",
 	"url"
