@@ -967,6 +967,7 @@ replace_all("mainEntityOfPage.dateModified","^.+?:","")
 vacuum()
 
 retain(
+	"_id",
 	"@context",
 	"address",
 	"alternateName[]",
