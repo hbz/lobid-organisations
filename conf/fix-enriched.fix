@@ -795,7 +795,7 @@ copy_field("@wikidataMap","sameAs[].$append")
 ## 				<occurrence only="1" />
 ## 			</data>
 if exists("isil")
-	paste("sameAs[].$append","~http://ld.zdb-services.de/resource/organisations/","isil",join_char:"" )
+	paste("sameAs[].$append","~https://ld.zdb-services.de/resource/organisations/","isil",join_char:"" )
 end
 #
 ## 		</entity>
