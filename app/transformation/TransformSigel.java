@@ -19,16 +19,14 @@ import org.metafacture.framework.ObjectReceiver;
 import org.metafacture.framework.helpers.DefaultObjectPipe;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.metafix.Metafix;
-import org.metafacture.triples.StreamToTriples;
 import org.metafacture.biblio.pica.PicaXmlHandler;
 import org.metafacture.xml.XmlDecoder;
-import org.metafacture.triples.TripleFilter;
 import org.metafacture.xml.XmlElementSplitter;
-import org.metafacture.triples.TripleCollect;
 import org.metafacture.io.ObjectWriter;
 import org.metafacture.xml.XmlFilenameWriter;
 import org.metafacture.io.FileOpener;
 import org.metafacture.biblio.OaiPmhOpener;
+import org.metafacture.mangling.RecordIdChanger;
 
 
 import controllers.Application;
@@ -54,19 +52,13 @@ public class TransformSigel {
 			final String outputPath, String geoLookupServer) throws IOException {
 		splitUpSigelDump();
 		final FileOpener splitFileOpener = new FileOpener();
-		StreamToTriples streamToTriples = new StreamToTriples();
-		streamToTriples.setRedirect(true);
-		final TripleFilter tripleFilter = new TripleFilter();
-		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		splitFileOpener//
 				.setReceiver(new XmlDecoder())//
 				.setReceiver(new PicaXmlHandler())//
 				.setReceiver(new Metafix("conf/fix-sigel.fix"))//
-				.setReceiver(streamToTriples)//
-				.setReceiver(tripleFilter)//
-				.setReceiver(new TripleCollect())//
+				.setReceiver(new RecordIdChanger())//
 				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
