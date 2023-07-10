@@ -987,6 +987,7 @@ retain(
 	"mainEntityOfPage",
 	"name",
 	"name_en",
+	"worldcatRegistryId",
 	"provides",
 	"rs",
 	"sameAs[]",
