@@ -4,7 +4,7 @@
 
 copy_field("008H.b","@dbsId")
 copy_field("008H.e","isil")
-copy_field("008H.d","sigil")
+copy_field("008H.d","sigel")
 copy_field("008H.g","worldcatRegistryId")  
 replace_all("@dbsId"," ","")
 replace_all("isil"," ","")
