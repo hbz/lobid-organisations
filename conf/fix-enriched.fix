@@ -971,7 +971,7 @@ end
 do list(path:"replaces[]","var":"$i")
 	add_field("$i.type","Organisation")
 	copy_field("$i.isil","$i.id")
-	replace_all("$i.id","^.*$","http://lobid.org/organisations/$1#!")
+	replace_all("$i.id","^(.*)$","http://lobid.org/organisations/$1#!")
 end
 
 set_array("replacedBy[]")
@@ -985,7 +985,7 @@ end
 do list(path:"replacedBy[]","var":"$i")
 	add_field("$i.type","Organisation")
 	copy_field("$i.isil","$i.id")
-	replace_all("$i.id","^.*$","http://lobid.org/organisations/$1#!")
+	replace_all("$i.id","^(.*)$","http://lobid.org/organisations/$1#!")
 end
 
 if any_match("050D.a",".*L.schung.*")
