@@ -962,30 +962,40 @@ end
 set_array("replaces[]")
 do list(path: "035D","var":"$i")
 	do list(path:"$i.b","var":"$j")
-		if any_match("$j","^..-.*")
+		if any_match("$j","^(..|ZDB)-.*")
 			copy_field("$j","replaces[].$append.isil")
 		end
 	end
 end
 
 do list(path:"replaces[]","var":"$i")
-	add_field("$i.type","Organisation")
 	copy_field("$i.isil","$i.id")
 	replace_all("$i.id","^(.*)$","http://lobid.org/organisations/$1#!")
+	if any_contain("$i.id", "ZDB")
+		remove_field("$i.isil")
+		add_field("$i.type","Collection")
+	else
+		add_field("$i.type","Organisation")
+	end
 end
 
 set_array("replacedBy[]")
 do list(path:"note[]", "var":"$i")
-	if any_match("$i","Ung.ltig;.*aufgegangen in.*(DE-.*?)(;.*|$)")
+	if any_match("$i","Ung.ltig;.*aufgegangen in.*((DE|ZDB)-.*?)(;.*|$)")
 		copy_field("$i","replacedBy[].$append.isil")
-		replace_all("replacedBy[].$last.isil","Ung.ltig;.*aufgegangen in.*(DE-.*?)(;.*|$)","$1")
+		replace_all("replacedBy[].$last.isil","Ung.ltig;.*aufgegangen in.*((DE|ZDB)-.*?)(;.*|$)","$1")
 	end
 end
 
 do list(path:"replacedBy[]","var":"$i")
-	add_field("$i.type","Organisation")
 	copy_field("$i.isil","$i.id")
 	replace_all("$i.id","^(.*)$","http://lobid.org/organisations/$1#!")
+	if any_contain("$i.id", "ZDB")
+		remove_field("$i.isil")
+		add_field("$i.type","Collection")
+	else
+		add_field("$i.type","Organisation")
+	end
 end
 
 if any_match("050D.a",".*L.schung.*")
