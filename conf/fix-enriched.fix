@@ -974,6 +974,20 @@ do list(path:"replaces[]","var":"$i")
 	replace_all("$i.id","^.*$","http://lobid.org/organisations/$1#!")
 end
 
+set_array("replacedBy[]")
+do list(path:"note[]", "var":"$i")
+	if any_match("$i","Ung.ltig;.*aufgegangen in.*(DE-.*?)(;.*|$)")
+		copy_field("$i","replacedBy[].$append.isil")
+		replace_all("replacedBy[].$last.isil","Ung.ltig;.*aufgegangen in.*(DE-.*?)(;.*|$)","$1")
+	end
+end
+
+do list(path:"replacedBy[]","var":"$i")
+	add_field("$i.type","Organisation")
+	copy_field("$i.isil","$i.id")
+	replace_all("$i.id","^.*$","http://lobid.org/organisations/$1#!")
+end
+
 copy_field("id","mainEntityOfPage.id")
 copy_field("001A.0","mainEntityOfPage.dateCreated")
 copy_field("001B.0","mainEntityOfPage.dateModified")
@@ -1014,6 +1028,7 @@ retain(
 	"provides",
 	"rs",
 	"replaces[]",
+	"replacedBy[]",
 	"sameAs[]",
 	"sigel",
 	"telephone",
