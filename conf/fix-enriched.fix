@@ -959,6 +959,21 @@ do list(path: "047A","var":"$i")
 	end
 end
 
+set_array("replaces[]")
+do list(path: "035D","var":"$i")
+	do list(path:"$i.b","var":"$j")
+		if any_match("$j","^..-.*")
+			copy_field("$j","replaces[].$append.isil")
+		end
+	end
+end
+
+do list(path:"replaces[]","var":"$i")
+	add_field("$i.type","Organisation")
+	copy_field("$i.isil","$i.id")
+	replace_all("$i.id","^.*$","http://lobid.org/organisations/$1#!")
+end
+
 copy_field("id","mainEntityOfPage.id")
 copy_field("001A.0","mainEntityOfPage.dateCreated")
 copy_field("001B.0","mainEntityOfPage.dateModified")
@@ -998,6 +1013,7 @@ retain(
 	"worldcatRegistryId",
 	"provides",
 	"rs",
+	"replaces[]",
 	"sameAs[]",
 	"sigel",
 	"telephone",
