@@ -952,6 +952,13 @@ end
 ## 		</entity>
 ## 	</rules>
 #
+set_array("note[]")
+do list(path: "047A","var":"$i")
+	do list(path:"$i.a","var":"$j")
+		copy_field("$j","note[].$append")
+	end
+end
+
 copy_field("id","mainEntityOfPage.id")
 copy_field("001A.0","mainEntityOfPage.dateCreated")
 copy_field("001B.0","mainEntityOfPage.dateModified")
@@ -987,6 +994,7 @@ retain(
 	"mainEntityOfPage",
 	"name",
 	"name_en",
+	"note[]",
 	"worldcatRegistryId",
 	"provides",
 	"rs",
