@@ -1016,6 +1016,12 @@ move_field("@librariesOrg_link","sameAs[].$append")
 
 replace_all("dissolutionDate","^L.schung(\\d{4}-\\d{2}).*","$1-01")
 
+if exists("029R.e")
+	paste("parentOrganization.id","~http://lobid.org/organisations/","029R.e","~#!",join_char:"")
+	copy_field("029R.a","parentOrganization.label")
+end
+
+
 copy_field("id","mainEntityOfPage.id")
 copy_field("001A.0","mainEntityOfPage.dateCreated")
 copy_field("001B.0","mainEntityOfPage.dateModified")
@@ -1055,6 +1061,7 @@ retain(
 	"name_en",
 	"note[]",
 	"worldcatRegistryId",
+	"parentOrganization",
 	"picaPPN",
 	"provides",
 	"rs",
