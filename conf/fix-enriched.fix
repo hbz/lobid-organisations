@@ -72,7 +72,8 @@ do once("mapsAndMacros")
 	put_filemap("conf/plz-ags-map.csv","ags_map", sep_char:"\t")		
 	put_filemap("conf/ags-rs-map.csv","rs_map", sep_char:"\t")		
 	put_filemap("conf/geonames-map.csv","geonames_map", sep_char:"\t")	
-	put_filemap("conf/plz-blacklist.csv","plz_blacklist", sep_char:"\t")						
+	put_filemap("conf/plz-blacklist.csv","plz_blacklist", sep_char:"\t")
+	put_filemap("conf/librariesOrg2lobidOrg.tsv","dbsID_librariesOrg2lobidOrg", sep_char:"\t",key_column:"1",value_column:"5",expected_columns:"-1")			
 	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_map",target:"skos:prefLabel", select_language:"de")
 	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_en_map",target:"skos:prefLabel", select_language:"en")
 	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_map",target:"skos:prefLabel", select_language:"de")   
@@ -1002,6 +1003,15 @@ if any_match("050D.a",".*L.schung.*")
 	copy_field("050D.a","dissolutionDate")
 end
 
+copy_field("dbsID","librariesOrgID")
+lookup("librariesOrgID","dbsID_librariesOrg2lobidOrg",delete:"true")
+
+
+copy_field("librariesOrgID","@librariesOrg_link")
+replace_all("@librariesOrg_link","^(.*)$","https://librarytechnology.org/library/$1")
+move_field("@librariesOrg_link","sameAs[].$append")
+
+
 replace_all("dissolutionDate","^L.schung(\\d{4}-\\d{2}).*","$1-01")
 
 copy_field("id","mainEntityOfPage.id")
@@ -1036,6 +1046,7 @@ retain(
 	"id",
 	"isil",
 	"location[]",
+	"librariesOrgID",
 	"linkedTo",
 	"mainEntityOfPage",
 	"name",
