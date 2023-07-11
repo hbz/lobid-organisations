@@ -226,6 +226,8 @@ end
 
 lookup("@rs","rs_map")
 copy_field("@rs","rs")
+
+copy_field("003@.0","picaPPN")
 ## 		
 ## 		<group name="name">
 ## 			<choose>
@@ -1053,6 +1055,7 @@ retain(
 	"name_en",
 	"note[]",
 	"worldcatRegistryId",
+	"picaPPN",
 	"provides",
 	"rs",
 	"replaces[]",
