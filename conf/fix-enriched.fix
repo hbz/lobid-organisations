@@ -67,7 +67,8 @@
 #	files="https://raw.githubusercontent.com/hbz/lookup-tables/master/data/geonames-map.csv" />
 ## 		<filemap name="plz_blacklist" files="plz-blacklist.csv" />
 do once("mapsAndMacros")
-	put_filemap("conf/isil2wikidata.csv","isil2wikidata_map", sep_char:"\t")
+	put_filemap("conf/wikidataLookup.tsv","isil2wikidata", sep_char:"\t",key_column:"2",value_column:"0",expected_columns:"-1")
+	put_filemap("conf/wikidataLookup.tsv","dbsId2wikidata", sep_char:"\t",key_column:"4",value_column:"0",expected_columns:"-1")
 	put_filemap("conf/libtype-map.csv","libtype_map", sep_char:"\t")
 	put_filemap("conf/plz-ags-map.csv","ags_map", sep_char:"\t")		
 	put_filemap("conf/ags-rs-map.csv","rs_map", sep_char:"\t")		
@@ -756,9 +757,12 @@ end
 ## 			<lookup in="isil2wikidata_map" />
 ## 		</data>
 copy_field("isil","@wikidataMap")
-prepend("@wikidataMap",'"')
-append("@wikidataMap",'"')
-lookup ("@wikidataMap","isil2wikidata_map",delete:"true")
+lookup ("@wikidataMap","isil2wikidata",delete:"true")
+unless exists("@wikidataMap")
+	copy_field("dbsId","@wikidataMap")
+	lookup ("@wikidataMap","dbsId2wikidata",delete:"true")
+end
+
 ##
 ## 		<entity name="alternateName[]" flushWith="record">
 ## 			<combine name="${code}" value="${label}" sameEntity="true" reset="true">
