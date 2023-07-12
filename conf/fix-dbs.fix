@@ -1,76 +1,36 @@
-# <?xml version="1.0" encoding="UTF-8"?>
-# <!-- Copyright 2014-2016, hbz. Licensed under the Eclipse Public License 1.0 -->
-# 
-# 	<maps>
-# 		<filemap name="iso3-iso2-map"
-# 			files="http://lobid.org/download/lookup-tables/data/iso3-iso2-map.csv" />
-# 	</maps>
 do once("maps")
 	put_filemap("conf/iso3-iso2-map.csv","iso3-iso2-map", sep_char:"\t")
 end
 
-# <metamorph xmlns="http://www.culturegraph.org/metamorph"
-# 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1"
-# 	entityMarker=".">
-# 	<rules>
-# 		<!-- use inr as _id -->
-# 		<data source="inr" name="_id">
-# 			<replace  pattern=" "  with=""/>
-# 		</data>	
-# 		<data source="inr" name="inr">
-# 			<replace  pattern=" "  with=""/>
-# 		</data>
-#		<data source="isil" name="isil">
-#			<not-equals string="NULL"/>
-#			<replace  pattern=" " with=""/>
-#			<not-equals string=""/>
-#			<replace  pattern="/" with="-"/>
-#			<urlencode/>
-#		</data>
+replace_all("inr"," ","")
+copy_field("inr","_id")
+
+replace_all("isil"," ","")
+replace_all("isil","/","-")
+if any_match("isil","NULL")
+	remove_field("isil")
+end
+uri_encode("isil") # z
+replace_all("isil","%2D","-")
 
 
-		replace_all("inr"," ","")
-		copy_field("inr","_id")
-
-		replace_all("isil"," ","")
-		replace_all("isil","/","-")
-		if any_match("isil","NULL")
-			remove_field("isil")
-		end
-		uri_encode("isil")
-		replace_all("isil","%2D","-")
+copy_field("lat","latDbs")
+copy_field("lon","lonDbs")
 
 
+if exists("iso")
+	copy_field("iso","dbs_addressCountry")
+	lookup("dbs_addressCountry","iso3-iso2-map")
+else
+	add_field("dbs_addressCountry","DE")
+end
 
-		# <data source="lat" name="latDbs" />
-		# <data source="lon" name="lonDbs" />
-		copy_field("lat","latDbs")
-		copy_field("lon","lonDbs")
-		
-		# TODO: What to do here?
-		# <data source="_else">
-		# 	<not-equals string="NULL" />
-		# </data>
+# TODO: What to do here? Is there a way to delete all Values, 
+# that have a certain value e.g. configurable vacuum()
+
+# <data source="_else">
+# 	<not-equals string="NULL" />
+# </data>
 
 
-		# <choose name="addressCountry">
-		# 	<data source="iso">
-		# 		<lookup in="iso3-iso2-map" />
-		# 	</data>
-		# 	<data source="_id">
-		# 		<constant value="DE"/>
-		# 	</data>
-		# </choose>
-
-		if exists("iso")
-			copy_field("iso","dbs_addressCountry")
-			lookup("dbs_addressCountry","iso3-iso2-map")
-		else
-			add_field("dbs_addressCountry","DE")
-		end
-
-	vacuum()
-
-# 	</rules>
-
-# </metamorph>
+vacuum()
