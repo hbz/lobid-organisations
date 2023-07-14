@@ -1,7 +1,7 @@
 do once("mapsAndMacros")
 	put_filemap("conf/wikidataLookup.tsv","isil2wikidata", sep_char:"\t",key_column:"2",value_column:"0",expected_columns:"-1")
 	put_filemap("conf/wikidataLookup.tsv","dbsId2wikidata", sep_char:"\t",key_column:"4",value_column:"0",expected_columns:"-1")
-	put_filemap("conf/wikidataLookup.tsv","wikidata2gndId", sep_char:"\t",key_column:"0",value_column:"3",expected_columns:"-1")
+	put_filemap("conf/wikidataLookup.tsv","wikidata2gndIdentifier", sep_char:"\t",key_column:"0",value_column:"3",expected_columns:"-1")
 	put_filemap("conf/libtype-map.csv","libtype_map", sep_char:"\t")
 	put_filemap("conf/plz-ags-map.csv","ags_map", sep_char:"\t")		
 	put_filemap("conf/ags-rs-map.csv","rs_map", sep_char:"\t")		
@@ -300,7 +300,7 @@ copy_field("streetAddressOther","@otherLocation.address.streetAddress")
 copy_field("localityOther","@otherLocation.address.addressLocality")
 copy_field("postalCodeOther","@otherLocation.address.postalCode")
 copy_field("countryOther","@otherLocation.address.addressCountry")
-copy_field("countryOther","@otherLocation.openingHoursSpecification.description")
+copy_field("openingHoursOther","@otherLocation.openingHoursSpecification.description")
 copy_field("openingCommentOther","@otherLocation.openingHoursSpecification.comment")
 copy_field("latOther","@otherLocation.geo.lat")
 copy_field("lonOther","@otherLocation.geo.lon")
@@ -380,10 +380,10 @@ end
 set_array("sameAs[]")
 
 copy_field("@wikidataMap","sameAs[].$append")
-copy_field("@wikidataMap","gndId")
-lookup("gndId","wikidata2gndId",delete:"true")
-if any_match("gndId","^.+$")
-	paste("sameAs[].$append","~https://lobid.org/gnd/","gndId","~#!",join_char:"")
+copy_field("@wikidataMap","gndIdentifier")
+lookup("gndIdentifier","wikidata2gndIdentifier",delete:"true")
+if any_match("gndIdentifier","^.+$")
+	paste("sameAs[].$append","~https://lobid.org/gnd/","gndIdentifier","~#!",join_char:"")
 end
 
 if exists("isil")
@@ -547,7 +547,7 @@ retain(
 	"dissolutionDate",
 	"email",
 	"fundertype",
-	"gndId",
+	"gndIdentifier",
 	"id",
 	"isil",
 	"location[]",
