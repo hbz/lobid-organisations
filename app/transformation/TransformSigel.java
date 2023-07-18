@@ -20,6 +20,8 @@ import org.metafacture.framework.helpers.DefaultObjectPipe;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.metafix.Metafix;
 import org.metafacture.biblio.pica.PicaXmlHandler;
+import org.metafacture.io.LineReader;
+import org.metafacture.biblio.pica.PicaDecoder;
 import org.metafacture.xml.XmlDecoder;
 import org.metafacture.xml.XmlElementSplitter;
 import org.metafacture.io.ObjectWriter;
@@ -49,10 +51,22 @@ public class TransformSigel {
 
 	static void process(String startOfUpdates, int intervalSize,
 			final String outputPath, String geoLookupServer) throws IOException {
-		splitUpSigelDump();
 		final FileOpener splitFileOpener = new FileOpener();
+		final FileOpener dumpOpener = new FileOpener();
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
+		dumpOpener//
+				.setReceiver(new LineReader())//
+				.setReceiver(new PicaDecoder())//
+				.setReceiver(new Metafix("conf/fix-sigel.fix"))//
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
+				.setReceiver(encodeJson)//
+				.setReceiver(TransformAll.esBulk())//
+				.setReceiver(new ObjectWriter<>(outputPath));
+		dumpOpener.process(TransformAll.DATA_INPUT_DIR + "sigil.dat");
+
+		ObjectWriter objectWriter = new ObjectWriter<>(outputPath);
+		objectWriter.setAppendIfFileExists(true);
 		splitFileOpener//
 				.setReceiver(new XmlDecoder())//
 				.setReceiver(new PicaXmlHandler())//
@@ -60,7 +74,7 @@ public class TransformSigel {
 				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
-				.setReceiver(new ObjectWriter<>(outputPath));
+				.setReceiver(objectWriter);
 		if (!startOfUpdates.isEmpty()) {
 			processSigelUpdates(startOfUpdates, intervalSize);
 		}
@@ -70,19 +84,20 @@ public class TransformSigel {
 				.collect(Collectors.toList()).forEach(path -> {
 					splitFileOpener.process(path.toString());
 				});
-		splitFileOpener.closeStream();
+ 
+ 
 	}
 
-	private static void splitUpSigelDump() {
-		final FileOpener dumpFileOpener = new FileOpener();
-		dumpFileOpener//
-				.setReceiver(new XmlDecoder())//
-				.setReceiver(new XmlElementSplitter(DUMP_TOP_LEVEL_TAG, DUMP_ENTITY))//
-				.setReceiver(
-						xmlFilenameWriter(TransformAll.DATA_OUTPUT_DIR, DUMP_XPATH));
-		dumpFileOpener.process(TransformAll.DATA_INPUT_DIR + "sigel.xml");
-		dumpFileOpener.closeStream();
-	}
+	// private static void splitUpSigelDump() {
+	// 	final FileOpener dumpFileOpener = new FileOpener();
+	// 	dumpFileOpener//
+	// 			.setReceiver(new XmlDecoder())//
+	// 			.setReceiver(new XmlElementSplitter(DUMP_TOP_LEVEL_TAG, DUMP_ENTITY))//
+	// 			.setReceiver(
+	// 					xmlFilenameWriter(TransformAll.DATA_OUTPUT_DIR, DUMP_XPATH));
+	// 	dumpFileOpener.process(TransformAll.DATA_INPUT_DIR + "sigel.xml");
+	// 	dumpFileOpener.closeStream();
+	// }
 
 	private static void processSigelUpdates(String startOfUpdates,
 			int intervalSize) {
