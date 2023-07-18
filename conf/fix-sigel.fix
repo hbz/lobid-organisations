@@ -64,7 +64,7 @@ do list(path: "035B","var":"$i")
 	if any_match("$i.a","S")
 		copy_field("$i.d","countryCode")
 		copy_field("$i.e","prefix")
-		copy_field("$i.f","phone")
+		copy_field("$i.f","phonenr")
 		copy_field("$i.k","email")
 	end
 end
