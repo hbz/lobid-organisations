@@ -49,22 +49,30 @@ public class TransformSigel {
 			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
 	static final String DUMP_XPATH = "/" + DUMP_TOP_LEVEL_TAG + "/" + XPATH;
 
-	static void process(String startOfUpdates, int intervalSize,
+	static void processBulk(String startOfUpdates, int intervalSize,
 			final String outputPath, String geoLookupServer) throws IOException {
-		final FileOpener splitFileOpener = new FileOpener();
-		final FileOpener dumpOpener = new FileOpener();
+		final FileOpener dumpOpener = new FileOpener();	
+		PicaDecoder picaDecoder = new PicaDecoder();
+		picaDecoder.setNormalizeUTF8(true);
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		dumpOpener//
 				.setReceiver(new LineReader())//
-				.setReceiver(new PicaDecoder())//
+				.setReceiver(picaDecoder)//
 				.setReceiver(new Metafix("conf/fix-sigel.fix"))//
 				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(new ObjectWriter<>(outputPath));
 		dumpOpener.process(TransformAll.DATA_INPUT_DIR + "sigil.dat");
+ 		dumpOpener.closeStream(); 
+	}
 
+		static void processUpdates(String startOfUpdates, int intervalSize,
+			final String outputPath, String geoLookupServer) throws IOException {
+		final FileOpener splitFileOpener = new FileOpener();		
+		JsonEncoder encodeJson = new JsonEncoder();
+		encodeJson.setPrettyPrinting(true);
 		ObjectWriter objectWriter = new ObjectWriter<>(outputPath);
 		objectWriter.setAppendIfFileExists(true);
 		splitFileOpener//
@@ -84,7 +92,8 @@ public class TransformSigel {
 				.collect(Collectors.toList()).forEach(path -> {
 					splitFileOpener.process(path.toString());
 				});
- 
+		splitFileOpener.closeStream();
+
  
 	}
 

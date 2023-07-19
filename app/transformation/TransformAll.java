@@ -52,7 +52,9 @@ public class TransformAll {
 			final String outputPath, String geoServer) throws IOException {
 		String dbsOutput = outputPath + "-dbs";
 		String sigelOutput = outputPath + "-sigel";
-		TransformSigel.process(startOfUpdates, intervalSize, sigelOutput,
+		TransformSigel.processBulk(startOfUpdates, intervalSize, sigelOutput,
+				geoServer);
+		TransformSigel.processUpdates(startOfUpdates, intervalSize, sigelOutput,
 				geoServer);
 		TransformDbs.process(dbsOutput, geoServer);
 		try (FileWriter resultWriter = new FileWriter(outputPath)) {
