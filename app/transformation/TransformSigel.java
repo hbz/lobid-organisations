@@ -64,7 +64,7 @@ public class TransformSigel {
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(new ObjectWriter<>(outputPath));
-		dumpOpener.process(TransformAll.DATA_INPUT_DIR + "sigil.dat");
+		dumpOpener.process(TransformAll.DATA_INPUT_DIR + "sigel.dat");
  		dumpOpener.closeStream(); 
 	}
 
