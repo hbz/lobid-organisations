@@ -190,8 +190,10 @@ end
 ## 		<!-- Telephone and email -->
 
 if exists ("phonenr")
-	paste("telephone","~00","countryCode","prefix","phonenr")
+	paste("@countryCode","~00","countryCode",join_char:"")
+	paste("telephone","@countryCode","prefix","phonenr")
 end
+
 if exists("email")
 	paste("email","~mailto:","email", join_char:"")
 end
