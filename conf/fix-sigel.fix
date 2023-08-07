@@ -9,7 +9,6 @@ copy_field("008H.g","worldcatRegistryId")
 replace_all("@dbsId"," ","")
 replace_all("isil"," ","")
 if any_match("@dbsId","[A-Z]{2}\\d{3}")
-	copy_field("@dbsId","_id")
 	copy_field("@dbsId","inr")
 else
 	copy_field("isil","_id")
@@ -71,3 +70,9 @@ end
 
 
 	vacuum()
+
+unless exists("inr")
+	unless exists("isil")
+		reject()
+	end
+end

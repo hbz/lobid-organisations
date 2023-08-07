@@ -3,7 +3,6 @@ do once("maps")
 end
 
 replace_all("inr"," ","")
-copy_field("inr","_id")
 
 replace_all("isil",",.*","") # sometimes a DBS entry has two ISIL, see  #467
 replace_all("isil"," ","")
@@ -35,3 +34,7 @@ end
 
 
 vacuum()
+
+unless exists("inr")
+	reject()
+end
