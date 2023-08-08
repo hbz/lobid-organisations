@@ -530,6 +530,19 @@ copy_field("001B.0","mainEntityOfPage.dateModified")
 
 replace_all("mainEntityOfPage.dateCreated","^.+?:","")
 replace_all("mainEntityOfPage.dateModified","^.+?:","")
+add_field("mainEntityOfPage.wasGeneratedBy.type","Activity")
+# TODO: Add field for startTimedTime
+# TODO: Check if property should be be schema.org:en
+# timestamp("mainEntityOfPage.wasGeneratedBy.endedAtTime",format:"yyyy-MM-dd'T'HH:mm:ss", timezone:"Europe/Berlin")
+set_array("mainEntityOfPage.wasGeneratedBy.used[]")
+if exists("picaPPN")
+	paste("mainEntityOfPage.wasGeneratedBy.used[].$append.id","~http://services.dnb.de/sru/bib?operation=searchRetrieve&query=isl%3D","isil","~&recordSchema=PicaPlus-xml&version=1.1",join_char:"")
+	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganisation.id","https://sigel.staatsbibliothek-berlin.de/vergabe/isil/")
+	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganisation.label","Deutsche ISIL-Agentur und Sigelstelle an der Staatsbibliothek zu Berlin")	
+else
+	add_field("mainEntityOfPage.wasGeneratedBy.used[].$append.sourceOrganisation.id","https://www.bibliotheksstatistik.de/")
+	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganisation.label","Deutsche Bibliotheksstatistik (DBS)")	
+end
 
 if any_match("isil", "(?i).*test.*")
 	reject()
