@@ -10,8 +10,6 @@ replace_all("@dbsId"," ","")
 replace_all("isil"," ","")
 if any_match("@dbsId","[A-Z]{2}\\d{3}")
 	copy_field("@dbsId","inr")
-else
-	copy_field("isil","_id")
 end
 
 do list(path: "032P","var":"$i")
@@ -67,10 +65,10 @@ do list(path: "035B","var":"$i")
 		copy_field("$i.k","email")
 	end
 end
+	
+vacuum()
 
-
-	vacuum()
-
+# Skip all records that have no "inr" or "isil"
 unless exists("inr")
 	unless exists("isil")
 		reject()

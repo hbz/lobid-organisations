@@ -28,7 +28,7 @@ public class TransformDbs {
 		opener//
 				.setReceiver(new LineReader())//
 				.setReceiver(decoder)//
-				.setReceiver(new Metafix("conf/fix-dbs.fix"))//
+				.setReceiver(new Metafix("conf/fix-dbs.fix"))// Fix skips all records that have no "inr"
 				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//

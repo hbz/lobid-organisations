@@ -56,7 +56,7 @@ public class TransformSigel {
 		splitFileOpener//
 				.setReceiver(new XmlDecoder())//
 				.setReceiver(new PicaXmlHandler())//
-				.setReceiver(new Metafix("conf/fix-sigel.fix"))//fix also kicks out all records without _id
+				.setReceiver(new Metafix("conf/fix-sigel.fix")) // Fix skips all records that have no "inr" and "isil"
 				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//

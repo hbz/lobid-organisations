@@ -35,6 +35,7 @@ end
 
 vacuum()
 
+# Skip all records that have no "inr"
 unless exists("inr")
 	reject()
 end
