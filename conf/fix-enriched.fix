@@ -141,7 +141,7 @@ else
 end
 
 if exists("name")
-	unless any_match("name","früher.*")
+	unless any_equal("035E.a","I")  # Deprecated records, more accurate than name prefix: früher
 		copy_field("035E.f","@libType")
 		lookup("@libType","libtype_map", delete:"true")
 		if exists("@libType")
