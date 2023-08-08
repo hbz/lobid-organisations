@@ -539,22 +539,11 @@ if exists("picaPPN")
 	paste("mainEntityOfPage.wasGeneratedBy.used[].$append.id","~http://services.dnb.de/sru/bib?operation=searchRetrieve&query=isl%3D","isil","~&recordSchema=PicaPlus-xml&version=1.1",join_char:"")
 	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganisation.id","https://sigel.staatsbibliothek-berlin.de/vergabe/isil/")
 	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganisation.label","Deutsche ISIL-Agentur und Sigelstelle an der Staatsbibliothek zu Berlin")	
-	add_field("mainEntityOfPage.wasGeneratedBy.used[].$append","https://github.com/metafacture/metafacture-core")
-	add_field("mainEntityOfPage.wasGeneratedBy.used[].$append","https://github.com/hbz/lobid-organisations/blob/master/conf/fix-sigel.fix")
-	add_field("mainEntityOfPage.wasGeneratedBy.used[].$append","https://github.com/hbz/lobid-organisations/blob/master/conf/fix-enriched.fix")
 else
 	add_field("mainEntityOfPage.wasGeneratedBy.used[].$append.sourceOrganisation.id","https://www.bibliotheksstatistik.de/")
 	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganisation.label","Deutsche Bibliotheksstatistik (DBS)")	
-	add_field("mainEntityOfPage.wasGeneratedBy.used[].$append","https://github.com/metafacture/metafacture-core")
-	add_field("mainEntityOfPage.wasGeneratedBy.used[].$append","https://github.com/hbz/lobid-organisations/blob/master/conf/fix-dbs.fix")
-	add_field("mainEntityOfPage.wasGeneratedBy.used[].$append","https://github.com/hbz/lobid-organisations/blob/master/conf/fix-enriched.fix")
 end
 
-#
-#
-## </metamorph>
-## 
-#
 if any_match("isil", "(?i).*test.*")
 	reject()
 end
