@@ -503,8 +503,14 @@ do list(path:"replacedBy[]","var":"$i")
 	end
 end
 
-if any_match("050D.a",".*L.schung.*")
-	copy_field("050D.a","dissolutionDate")
+if any_equal("035E.a","I")  # Deprecated records
+	if any_match("050D.a","^L.*schung.?(\\d{4}-\\d{2}).*")
+		copy_field("050D.a","dissolutionDate")
+	else
+		add_field("dissolutionDate","2099-12-31") # Add dummi date for deleted records that are missing the date.
+	end
+
+	replace_all("dissolutionDate","^L.*schung.?(\\d{4}-\\d{2}).*","$1-01")
 end
 
 copy_field("dbsID","librariesOrgID")
@@ -515,8 +521,6 @@ copy_field("librariesOrgID","@librariesOrg_link")
 replace_all("@librariesOrg_link","^(.*)$","https://librarytechnology.org/library/$1")
 move_field("@librariesOrg_link","sameAs[].$append")
 
-
-replace_all("dissolutionDate","^L.schung(\\d{4}-\\d{2}).*","$1-01")
 
 if exists("029R.e")
 	paste("parentOrganization.id","~http://lobid.org/organisations/","029R.e","~#!",join_char:"")
