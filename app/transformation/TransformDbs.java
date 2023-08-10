@@ -7,6 +7,7 @@ import org.metafacture.csv.CsvDecoder;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.io.LineReader;
 import org.metafacture.io.ObjectWriter;
+import org.metafacture.strings.StringMatcher;
 import org.metafacture.io.FileOpener;
 import org.metafacture.metafix.Metafix;
 import java.io.FileNotFoundException;
@@ -21,12 +22,16 @@ public class TransformDbs {
 	static void process(final String outputPath, String geoLookupServer) throws FileNotFoundException {
 		final FileOpener opener = new FileOpener();
 		opener.setEncoding("UTF-8");
+		final StringMatcher matcher = new StringMatcher();
+		matcher.setPattern("NULL");
+		matcher.setReplacement("");
 		final CsvDecoder decoder = new CsvDecoder(',');
 		decoder.setHasHeader(true);
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		opener//
 				.setReceiver(new LineReader())//
+				.setReceiver(matcher)//
 				.setReceiver(decoder)//
 				.setReceiver(new Metafix("conf/fix-dbs.fix"))// Fix skips all records that have no "inr"
 				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
