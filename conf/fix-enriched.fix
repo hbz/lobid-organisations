@@ -385,7 +385,7 @@ copy_field("@wikidataMap","sameAs[].$append")
 copy_field("@wikidataMap","gndIdentifier")
 lookup("gndIdentifier","wikidata2gndIdentifier",delete:"true")
 if any_match("gndIdentifier","^.+$")
-	paste("sameAs[].$append","~https://lobid.org/gnd/","gndIdentifier","~#!",join_char:"")
+	paste("sameAs[].$append","~https://d-nb.info/gnd/","gndIdentifier",join_char:"")
 end
 
 if exists("isil")
