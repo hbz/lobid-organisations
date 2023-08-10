@@ -464,16 +464,16 @@ do list(path: "047A","var":"$i")
 	end
 end
 
-set_array("replaces[]")
+set_array("predecessor[]")
 do list(path: "035D","var":"$i")
 	do list(path:"$i.b","var":"$j")
 		if any_match("$j","^(..|ZDB)-.*")
-			copy_field("$j","replaces[].$append.isil")
+			copy_field("$j","predecessor[].$append.isil")
 		end
 	end
 end
 
-do list(path:"replaces[]","var":"$i")
+do list(path:"predecessor[]","var":"$i")
 	copy_field("$i.isil","$i.id")
 	replace_all("$i.id","^(.*)$","http://lobid.org/organisations/$1#!")
 	if any_contain("$i.id", "ZDB")
@@ -484,15 +484,15 @@ do list(path:"replaces[]","var":"$i")
 	end
 end
 
-set_array("replacedBy[]")
+set_array("successor[]")
 do list(path:"note[]", "var":"$i")
-	if any_match("$i","Ung.ltig;.*aufgegangen in.*((DE|ZDB)-.*?)(;.*|$)")
-		copy_field("$i","replacedBy[].$append.isil")
-		replace_all("replacedBy[].$last.isil","Ung.ltig;.*aufgegangen in.*((DE|ZDB)-.*?)(;.*|$)","$1")
+	if any_match("$i","Ung.ltig;.*aufgegangen in.*([A-Z]{1,4}-.*?)(;.*|$)") # REGEX should catch the ISIL
+		copy_field("$i","successor[].$append.isil")
+		replace_all("successor[].$last.isil","Ung.ltig;.*aufgegangen in.*([A-Z]{1,4}-.*?)(;.*|$)","$1") # REGEX should catch the ISIL
 	end
 end
 
-do list(path:"replacedBy[]","var":"$i")
+do list(path:"successor[]","var":"$i")
 	copy_field("$i.isil","$i.id")
 	replace_all("$i.id","^(.*)$","http://lobid.org/organisations/$1#!")
 	if any_contain("$i.id", "ZDB")
@@ -581,8 +581,8 @@ retain(
 	"picaPPN",
 	"provides",
 	"rs",
-	"replaces[]",
-	"replacedBy[]",
+	"predecessor[]",
+	"successor[]",
 	"sameAs[]",
 	"sigel",
 	"telephone",

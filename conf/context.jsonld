@@ -120,8 +120,8 @@
 		"GeoCoordinates": "https://schema.org/GeoCoordinates",
 		"ServiceChannel": "https://schema.org/ServiceChannel",
 		"picaPPN": "http://purl.org/lobid/lv#picaPPN",
-		"replacedBy":  "https://schema.org/replacedBy",
-		"replaces" : "https://schema.org/replaces",
+		"successor":  "https://d-nb.info/standards/elementset/gnd#successor",
+		"predecessor" : "https://d-nb.info/standards/elementset/gnd#predecessor",
 		"gndIdentifier" : "https://d-nb.info/standards/elementset/gnd#gndIdentifier",
 		"note" : {
       "@id" : "http://id.loc.gov/ontologies/bibframe/note",
