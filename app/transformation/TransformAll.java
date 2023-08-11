@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.metafacture.metamorph.Metamorph;
 import org.metafacture.metafix.Metafix;
 import org.metafacture.elasticsearch.JsonToElasticsearchBulk;
 
