@@ -124,7 +124,7 @@
 		"predecessor" : "https://d-nb.info/standards/elementset/gnd#predecessor",
 		"gndIdentifier" : "https://d-nb.info/standards/elementset/gnd#gndIdentifier",
 		"note" : {
-      "@id" : "http://id.loc.gov/ontologies/bibframe/note",
+      "@id" : "http://www.w3.org/2004/02/skos/core#note",
       "@container" : "@set"
     },
 		"sigel": "http://purl.org/lobid/lv#sigel",
