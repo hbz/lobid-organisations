@@ -9,7 +9,6 @@ import org.metafacture.io.LineReader;
 import org.metafacture.io.ObjectWriter;
 import org.metafacture.strings.StringMatcher;
 import org.metafacture.io.FileOpener;
-import org.metafacture.metafix.Metafix;
 import java.io.FileNotFoundException;
 
 /**
