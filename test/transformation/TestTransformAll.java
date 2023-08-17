@@ -86,17 +86,6 @@ public class TestTransformAll {
 						.contains("Roemer-Museum");
 	}
 
-	//@Test
-	//public void sigelSplitting() {
-	//	final FileOpener sourceFileOpener = new FileOpener();
-	//	final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
-	//			TransformSigel.DUMP_TOP_LEVEL_TAG, TransformSigel.DUMP_ENTITY);
-	//	TransformSigel.setupSigelSplitting(sourceFileOpener, xmlSplitter,
-	//			DUMP_XPATH, TransformAll.DATA_OUTPUT_DIR);
-	//	sourceFileOpener.process(SIGEL_DUMP_LOCATION);
-	//	sourceFileOpener.closeStream();
-	//}
-
 	@Test
 	public void testContainsApiDescription() throws FileNotFoundException {
 		FormetaEncoder encoder = new FormetaEncoder();

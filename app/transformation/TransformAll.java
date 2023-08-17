@@ -51,11 +51,12 @@ public class TransformAll {
 			final String outputPath, String geoServer) throws IOException {
 		String dbsOutput = outputPath + "-dbs";
 		String sigelOutput = outputPath + "-sigel";
-		TransformSigel.processBulk(startOfUpdates, intervalSize, sigelOutput,
-				geoServer);
-		TransformSigel.processUpdates(startOfUpdates, intervalSize, sigelOutput,
-				geoServer);
-		TransformDbs.process(dbsOutput, geoServer);
+		TransformSigel.processBulk(startOfUpdates, intervalSize, sigelOutput, geoServer); //Start processing  Sigel pica binary bulk. 
+		TransformSigel.processUpdates(startOfUpdates, intervalSize, sigelOutput, geoServer); //Start process Sigel Pica XML Updates via OAI-PMH.
+		TransformDbs.process(dbsOutput, geoServer); //Start process DBS data.
+
+		//  DBS-Data, Sigel Bulk and Updates are joined in a single ES-Bulk-file.
+		// DBS data first, so that ES prefers Sigel entries that come later and overwrite DBS entries if available.
 		try (FileWriter resultWriter = new FileWriter(outputPath)) {
 			writeAll(dbsOutput, resultWriter);
 			writeAll(sigelOutput, resultWriter);

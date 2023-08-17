@@ -49,6 +49,7 @@ public class TransformSigel {
 			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
 	static final String DUMP_XPATH = "/" + DUMP_TOP_LEVEL_TAG + "/" + XPATH;
 
+// This opens the pica binary bulk we have, transforms them and saves them as JSON ES Bulk.
 	static void processBulk(String startOfUpdates, int intervalSize,
 			final String outputPath, String geoLookupServer) throws IOException {
 		final FileOpener dumpOpener = new FileOpener();	
@@ -68,6 +69,7 @@ public class TransformSigel {
  		dumpOpener.closeStream(); 
 	}
 
+// This opens the updates and transforms them and appends them to the JSON ES Bulk of the bulk transformation.
 		static void processUpdates(String startOfUpdates, int intervalSize,
 			final String outputPath, String geoLookupServer) throws IOException {
 		final FileOpener splitFileOpener = new FileOpener();		
@@ -78,8 +80,8 @@ public class TransformSigel {
 		splitFileOpener//
 				.setReceiver(new XmlDecoder())//
 				.setReceiver(new PicaXmlHandler())//
-				.setReceiver(new Metafix("conf/fix-sigel.fix")) // Fix skips all records that have no "inr" and "isil"
-				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
+				.setReceiver(new Metafix("conf/fix-sigel.fix")) // Preprocess Sigel-Data and fix skips all records that have no "inr" and "isil"
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer))// Process and enrich Sigel-Data.
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(objectWriter);
@@ -93,20 +95,7 @@ public class TransformSigel {
 					splitFileOpener.process(path.toString());
 				});
 		splitFileOpener.closeStream();
-
- 
 	}
-
-	// private static void splitUpSigelDump() {
-	// 	final FileOpener dumpFileOpener = new FileOpener();
-	// 	dumpFileOpener//
-	// 			.setReceiver(new XmlDecoder())//
-	// 			.setReceiver(new XmlElementSplitter(DUMP_TOP_LEVEL_TAG, DUMP_ENTITY))//
-	// 			.setReceiver(
-	// 					xmlFilenameWriter(TransformAll.DATA_OUTPUT_DIR, DUMP_XPATH));
-	// 	dumpFileOpener.process(TransformAll.DATA_INPUT_DIR + "sigel.xml");
-	// 	dumpFileOpener.closeStream();
-	// }
 
 	private static void processSigelUpdates(String startOfUpdates,
 			int intervalSize) {
@@ -120,6 +109,7 @@ public class TransformSigel {
 			updateOpener.closeStream();
 		}
 	}
+
 
 	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
 			String startOfUpdates, int updateIntervals) {
