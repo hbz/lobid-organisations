@@ -40,18 +40,15 @@ import play.Logger;
  *
  */
 public class TransformSigel {
-
-	static final String DUMP_TOP_LEVEL_TAG = "collection";
-	static final String DUMP_ENTITY = "record";
 	static final String UPDATE_TOP_LEVEL_TAG = "harvest";
+	static final String DUMP_TOP_LEVEL_TAG = "collection";
 	static final String UPDATE_ENTITY = "metadata";
 	static final String XPATH =
 			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
 	static final String DUMP_XPATH = "/" + DUMP_TOP_LEVEL_TAG + "/" + XPATH;
 
-// This opens the pica binary bulk we have, transforms them and saves them as JSON ES Bulk.
-	static void processBulk(String startOfUpdates, int intervalSize,
-			final String outputPath, String geoLookupServer) throws IOException {
+	// This opens the pica binary bulk we have, transforms them and saves them as JSON ES Bulk.
+	static void processBulk(final String outputPath, String geoLookupServer) throws IOException {
 		final FileOpener dumpOpener = new FileOpener();	
 		PicaDecoder picaDecoder = new PicaDecoder();
 		picaDecoder.setNormalizeUTF8(true);

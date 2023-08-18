@@ -49,9 +49,9 @@ public class TestStemming extends ElasticsearchTest {
 			{ "name", "preuss", /*->*/ 2 }});
 	} // @formatter:on
 
-	private String field;
-	private String q;
-	private long expectedCount;
+	private final String field;
+	private final String q;
+	private final long expectedCount;
 
 	public TestStemming(String field, String q, int count) {
 		this.field = field;

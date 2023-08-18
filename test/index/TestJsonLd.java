@@ -28,20 +28,19 @@ public class TestJsonLd extends ElasticsearchTest {
 				.prepareGet(Application.CONFIG.getString("index.es.name"),
 						Application.CONFIG.getString("index.es.type"), id)
 				.execute().actionGet();
-		String source = response.getSourceAsString();
-		return source;
+		return response.getSourceAsString();
 	}
 
 	@Test
 	public void validateJsonLd()
-			throws JsonParseException, IOException, JsonLdError {
+			throws IOException, JsonLdError {
 		Object sourceAsJson = JsonUtils.fromString(getSource("DE-1a"));
 		Object sourceAsRdf = JsonLdProcessor.toRDF(sourceAsJson);
 		assertNotNull("Index documents should be parsable as JSON-LD", sourceAsRdf);
 	}
 
 	@Test
-	public void testOverwrite() throws JsonParseException, IOException {
+	public void testOverwrite() throws IOException {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> entries =
 				((HashMap<String, Object>) JsonUtils.fromString(getSource("DE-38")));

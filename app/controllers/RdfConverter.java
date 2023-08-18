@@ -22,7 +22,7 @@ public class RdfConverter {
 	 * RDF serialization formats.
 	 */
 	@SuppressWarnings("javadoc")
-	public static enum RdfFormat {
+	public enum RdfFormat {
 		RDF_XML("RDF/XML"), //
 		N_TRIPLE("N-TRIPLE"), //
 		TURTLE("TURTLE");

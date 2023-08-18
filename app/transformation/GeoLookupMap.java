@@ -29,9 +29,9 @@ public class GeoLookupMap extends HashMap<String, String> {
 			Application.CONFIG.getString("transformation.geo.lookup.server");
 	private static final Double THRESHOLD =
 			Application.CONFIG.getDouble("transformation.geo.lookup.threshold");
-	private LookupType lookupType;
+	private final LookupType lookupType;
 
-	static enum LookupType {
+	enum LookupType {
 		LAT, LON
 	}
 

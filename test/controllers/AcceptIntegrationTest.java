@@ -83,8 +83,8 @@ public class AcceptIntegrationTest extends ElasticsearchTest {
 			{ fakeRequest(GET, "/organisations/DE-38").withHeader("Accept", "application/n-triples"), /*->*/ "application/n-triples" }});
 	} // @formatter:on
 
-	private FakeRequest fakeRequest;
-	private String contentType;
+	private final FakeRequest fakeRequest;
+	private final String contentType;
 
 	public AcceptIntegrationTest(FakeRequest request, String contentType) {
 		this.fakeRequest = request;
