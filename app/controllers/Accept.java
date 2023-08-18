@@ -28,10 +28,10 @@ public class Accept {
 		N_TRIPLE("nt", "application/n-triples", "text/plain"), //
 		TURTLE("ttl", "text/turtle", "application/x-turtle");
 
-		String[] types;
-		String queryParamString;
+		final String[] types;
+		final String queryParamString;
 
-		private Format(String format, String... types) {
+		Format(String format, String... types) {
 			this.queryParamString = format;
 			this.types = types;
 		}

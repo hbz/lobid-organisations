@@ -70,9 +70,9 @@ public class AcceptUnitTest {
 			{ fakeRequest().withHeader("Accept", "text/html"), "json", /*->*/ "json" }});
 	} // @formatter:on
 
-	private FakeRequest fakeRequest;
-	private String passedFormat;
-	private String expectedFormat;
+	private final FakeRequest fakeRequest;
+	private final String passedFormat;
+	private final String expectedFormat;
 
 	public AcceptUnitTest(FakeRequest request, String givenFormat,
 			String expectedFormat) {

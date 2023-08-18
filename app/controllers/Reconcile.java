@@ -79,7 +79,7 @@ public class Reconcile extends Controller {
 
 	private static List<JsonNode> mapToResults(String mainQuery,
 			SearchHits searchHits) {
-		return Arrays.asList(searchHits.getHits()).stream().map(hit -> {
+		return Arrays.stream(searchHits.getHits()).map(hit -> {
 			Map<String, Object> map = hit.getSource();
 			ObjectNode resultForHit = Json.newObject();
 			resultForHit.put("id", hit.getId());
@@ -101,8 +101,7 @@ public class Reconcile extends Controller {
 				QueryBuilders.simpleQueryStringQuery(queryString);
 		BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(stringQuery)
 				.must(QueryBuilders.existsQuery("type"));
-		SearchResponse response = Index.executeQuery(0, limit, boolQuery, "");
-		return response;
+		return Index.executeQuery(0, limit, boolQuery, "");
 	}
 
 	private static String buildQueryString(Entry<String, JsonNode> entry) {

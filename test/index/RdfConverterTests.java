@@ -32,11 +32,11 @@ public class RdfConverterTests extends ElasticsearchTest {
 
 	@Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(RdfFormat.values()).stream()
+		return Arrays.stream(RdfFormat.values())
 				.map(format -> new Object[] { format }).collect(Collectors.toList());
 	}
 
-	private RdfFormat format;
+	private final RdfFormat format;
 
 	public RdfConverterTests(RdfFormat format) {
 		this.format = format;

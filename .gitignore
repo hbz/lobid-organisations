@@ -26,3 +26,4 @@ app/transformation/input/*.csv
 .cache*
 /bin/
 application-log*.gz
+app/transformation/input/*.dat

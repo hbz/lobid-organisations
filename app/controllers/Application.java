@@ -33,6 +33,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.search.sort.SortParseElement;
 
@@ -510,7 +511,7 @@ public class Application extends Controller {
 
 	private static String searchQueryResult(String q, String location, int from,
 			int size, String aggregations) {
-		String result = null;
+		String result;
 		if (location == null || location.isEmpty()) {
 			result = buildSimpleQuery(q, from, size, aggregations);
 		} else {
@@ -619,8 +620,8 @@ public class Application extends Controller {
 
 	private static String returnAsJson(SearchResponse queryResponse) {
 		List<Map<String, Object>> hits =
-				Arrays.asList(queryResponse.getHits().hits()).stream()
-						.map(hit -> hit.getSource()).collect(Collectors.toList());
+				Arrays.stream(queryResponse.getHits().hits())
+						.map(SearchHit::getSource).collect(Collectors.toList());
 		ObjectNode object = Json.newObject();
 		object.put("@context",
 				CONFIG.getString("host") + routes.Application.context());
@@ -714,8 +715,8 @@ public class Application extends Controller {
 
 	private static Pair<String, String> contentAndType(JsonNode responseJson,
 			String responseFormat) {
-		String content = "";
-		String contentType = "";
+		String content;
+		String contentType;
 		switch (responseFormat) {
 		case "rdf": {
 			content = RdfConverter.toRdf(responseJson.toString(), RdfFormat.RDF_XML);

@@ -51,9 +51,9 @@ public class AggregationsTest extends ElasticsearchTest {
 			{ "&aggregations=invalid", /*->*/ 0, Status.BAD_REQUEST },});
 	} // @formatter:on
 
-	private FakeRequest fakeRequest;
-	private int expectedNumberOfAggragations;
-	private int expectedResponseStatus;
+	private final FakeRequest fakeRequest;
+	private final int expectedNumberOfAggragations;
+	private final int expectedResponseStatus;
 
 	public AggregationsTest(String param, int expectedNumberOfAggragations,
 			int status) {
