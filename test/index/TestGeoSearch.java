@@ -29,6 +29,6 @@ public class TestGeoSearch extends ElasticsearchTest {
 	public void requestGeo() {
 		SearchResponse response = geoSearch(13, 52);
 		long hits = response.getHits().getTotalHits();
-		assertEquals("Request should return 2 hits", 2, hits);
+		assertEquals("Request should return 5 hits", 5, hits);
 	}
 }
