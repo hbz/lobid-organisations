@@ -61,26 +61,30 @@ do once("mapsAndMacros")
 	)
 
 	## 		<!-- url and provides: Handle urls without http:// or https:// and remove blanks -->
+	## if multiple links are provided, which happens not very often only the first instance is mapped.
+
 	do put_macro("url-group")
 		if any_match("$[dbs_field]","http(.*)")
-			copy_field("$[dbs_field]","@url-group")
+			copy_field("$[dbs_field]","@$[group_name]")
 		elsif any_match("$[dbs_field]","(www(.*))")
 			copy_field("$[dbs_field]","@url-group")
-			replace_all("@url-group","(www(.*))","http://$1")
+			replace_all("@$[group_name]","(www(.*))","http://$1")
 		elsif exists("009Q")
 			do list(path:"009Q","var":"$i")
-				if any_equal("$i.z","$[sigel_code]")
-					if any_match("$i.u","http(.*)")
-						copy_field("$i.u","@url-group")
-					elsif any_match("$i.u","(www(.*))")
-						copy_field("$i.u","@url-group")
-						replace_all("@url-group","(www(.*))","http://$1")
+				unless exists("@$[group_name]")
+					if any_equal("$i.z","$[sigel_code]")
+						if any_match("$i.u","http(.*)")
+							copy_field("$i.u","@$[group_name]")
+						elsif any_match("$i.u","(www(.*))")
+							copy_field("$i.u","@$[group_name]")
+							replace_all("@u$[group_name]","(www(.*))","http://$1")
+						end
 					end
 				end
 			end
 		end
-		replace_all("@url-group","\\s+","")
-		move_field("@url-group","$[group_name]")
+		replace_all("@$[group_name]","\\s+","")
+		move_field("@$[group_name]","$[group_name]")
 	end
 
 	do put_macro("make-id")
