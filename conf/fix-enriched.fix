@@ -275,8 +275,9 @@ if exists("latDbs")
 elsif exists("latVisitor")
 	copy_field("latVisitor","@visitorLocation.geo.lat") # <!-- zdb sigel verzeichnis -->
 elsif exists("@geoLookupDbs") # <!-- geo lookup pelias -->
-	lookup("@geoLookupDbs","addLatMap", delete:"true")
-	copy_field("@geoLookupDbs","@visitorLocation.geo.lat")
+	copy_field("@geoLookupDbs","@geoLookupDbsLat")
+	lookup("@geoLookupDbsLat","addLatMap", delete:"true")
+	copy_field("@geoLookupDbsLat","@visitorLocation.geo.lat")
 end
 
 if exists("lonDbs")
@@ -284,8 +285,9 @@ if exists("lonDbs")
 elsif exists("lonVisitor") 
 	copy_field("lonVisitor","@visitorLocation.geo.lon") # <!-- zdb sigel verzeichnis -->
 elsif exists("@geoLookupDbs")
-	lookup("@geoLookupDbs","addlongMap" , delete:"true") # <!-- geo lookup pelias -->
-	copy_field("@geoLookupDbs","@visitorLocation.eo.lon")
+	copy_field("@geoLookupDbs","@geoLookupDbsLon")
+	lookup("@geoLookupDbsLon","addLongMap" , delete:"true") # <!-- geo lookup pelias -->
+	copy_field("@geoLookupDbsLon","@visitorLocation.geo.lon")
 end
 
 if exists("@visitorLocation")
