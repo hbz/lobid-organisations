@@ -53,15 +53,19 @@ public class TransformAll {
 		String sigelBulkOutput = outputPath + "-sigelBulk";
 		String sigelUpdatesOutput = outputPath + "-sigelUpdates";		
 		TransformSigel.processBulk(sigelBulkOutput, geoServer, wikidataLookupFilename); //Start processing  Sigel pica binary bulk.
-		TransformSigel.processUpdates(startOfUpdates, sigelUpdatesOutput, geoServer, wikidataLookupFilename); //Start process Sigel Pica XML Updates via OAI-PMH.
-		TransformDbs.process(dbsOutput, geoServer,wikidataLookupFilename); //Start process DBS data.
+		if (startOfUpdates != "") { // exclude updates for the tests, which set startOfUpdates to ""
+			TransformSigel.processUpdates(startOfUpdates, sigelUpdatesOutput, geoServer, wikidataLookupFilename); //Start process Sigel Pica XML Updates via OAI-PMH.
+			}
+		TransformDbs.process(dbsOutput, geoServer,wikidataLookupFilename); //Start process DBS CSV data.
 		
 		// DBS-Data, Sigel Bulk and Updates are joined in a single ES-Bulk-file.
 		// DBS data first, so that ES prefers Sigel entries that come later and overwrite DBS entries if available.
 		try (FileWriter resultWriter = new FileWriter(outputPath)) {
 			writeAll(dbsOutput, resultWriter);
 			writeAll(sigelBulkOutput, resultWriter);
-			writeAll(sigelUpdatesOutput, resultWriter);			
+			if (startOfUpdates != "") { // exclude updates for the tests, which set startOfUpdates to ""
+				writeAll(sigelUpdatesOutput, resultWriter);
+			}			
 		}
 	}
 
