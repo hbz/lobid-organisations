@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
       exclude ("io.netty", "netty"),
   "com.fasterxml.jackson.core" % "jackson-annotations" % "2.15.1",
   "com.github.jsonld-java" % "jsonld-java" % "0.4.1",
-  "com.github.jsonld-java" % "jsonld-java-jena" % "0.4.1" exclude("org.slf4j", "slf4j-log4j12"),
+  "com.github.jsonld-java" % "jsonld-java-jena" % "0.4.1",
   "org.apache.jena" % "jena-arq" % "2.9.3",
   "org.metafacture" % "metamorph" % "5.6.0",
   "org.metafacture" % "metafacture-elasticsearch" % "5.6.0",
