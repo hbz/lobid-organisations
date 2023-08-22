@@ -4,11 +4,13 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.Version;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -106,17 +108,20 @@ public class Index extends Controller {
 
 	/**
 	 * @param pathToJson Path to the JSON file to index
-	 * @throws IOException if json file cannot be found
+	 * @throws IOException              if json file cannot be found
+	 * @throws IllegalArgumentException if to be indexed file is smaller than expected
+	 * @throws ElasticsearchException   if bulk indexing fails
 	 */
-	public static void initialize(String pathToJson) throws IOException {
+	public static void initialize(String pathToJson) throws IOException, ElasticsearchException {
 		long minimumSize =
 				Long.parseLong(Application.CONFIG.getString("index.file.minsize"));
 		if (new File(pathToJson).length() >= minimumSize) {
 			createEmptyIndex();
-			indexData(pathToJson);
-		} else {
+			indexData(CLIENT, pathToJson, INDEX_NAME);
+		}
+		else {
 			throw new IllegalArgumentException(
-					"File not large enough: " + pathToJson);
+					"File " + pathToJson + " is not large enough - should be >='" + minimumSize + "' but is " + pathToJson.length());
 		}
 	}
 
@@ -195,19 +200,22 @@ public class Index extends Controller {
 		Index.CLIENT.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
-	static void indexData(final String aPath) throws IOException {
+	static void indexData(final Client aClient, final String aPath, final String aIndex) throws IOException, ElasticsearchException {
 		final BulkRequestBuilder bulkRequest = Index.CLIENT.prepareBulk();
 		try (BufferedReader br =
 				new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(aPath)),
 						StandardCharsets.UTF_8))) {
-			readData(bulkRequest, br);
+			readData(bulkRequest, br, aClient, aIndex);
 		}
-		bulkRequest.execute().actionGet();
-		Index.CLIENT.admin().indices().refresh(new RefreshRequest()).actionGet();
+		BulkResponse bulkResponse = bulkRequest.execute().actionGet();
+		if (bulkResponse.hasFailures()) {
+			throw new ElasticsearchException("Bulk insert failed: " + bulkResponse.buildFailureMessage());
+		}
+		aClient.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
 	private static void readData(final BulkRequestBuilder bulkRequest,
-								 final BufferedReader br)
+			final BufferedReader br, final Client client, final String aIndex)
 			throws IOException {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
