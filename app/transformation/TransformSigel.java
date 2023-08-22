@@ -36,16 +36,10 @@ import play.Logger;
 /**
  * Transformation from Sigel PicaPlus-XML to JSON.
  * 
- * @author Fabian Steeg (fsteeg)
+ * @author Fabian Steeg (fsteeg), Tobias Bülte (@TobiasNx)
  *
  */
 public class TransformSigel {
-	static final String UPDATE_TOP_LEVEL_TAG = "harvest";
-	static final String DUMP_TOP_LEVEL_TAG = "collection";
-	static final String UPDATE_ENTITY = "metadata";
-	static final String XPATH =
-			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
-	static final String DUMP_XPATH = "/" + DUMP_TOP_LEVEL_TAG + "/" + XPATH;
 
 	// This opens the pica binary bulk we have, transforms them and saves them as JSON ES Bulk.
 	static void processBulk(final String outputPath, final String geoLookupServer, final String wikidataLookupFilename) throws IOException {
@@ -67,14 +61,17 @@ public class TransformSigel {
 	}
 
 // This opens the updates and transforms them and appends them to the JSON ES Bulk of the bulk transformation.
-		static void processUpdates(String startOfUpdates, int intervalSize,
+		static void processUpdates(String startOfUpdates,
 			final String outputPath, final String geoLookupServer, final String wikidataLookupFilename) throws IOException {
-		final FileOpener splitFileOpener = new FileOpener();		
+		OaiPmhOpener sigelOaiPmhUpdates = new OaiPmhOpener();
+		sigelOaiPmhUpdates.setDateFrom(startOfUpdates);
+		sigelOaiPmhUpdates.setMetadataPrefix("PicaPlus-xml");
+		sigelOaiPmhUpdates.setSetSpec("bib");
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter objectWriter = new ObjectWriter<>(outputPath);
 		objectWriter.setAppendIfFileExists(true);
-		splitFileOpener//
+		sigelOaiPmhUpdates//			
 				.setReceiver(new XmlDecoder())//
 				.setReceiver(new PicaXmlHandler())//
 				.setReceiver(new Metafix("conf/fix-sigel.fix")) // Preprocess Sigel-Data and fix skips all records that have no "inr" and "isil"
@@ -82,129 +79,7 @@ public class TransformSigel {
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(objectWriter);
-		if (!startOfUpdates.isEmpty()) {
-			processSigelUpdates(startOfUpdates, intervalSize);
-		}
-		Files.walk(Paths.get(TransformAll.DATA_OUTPUT_DIR))//
-				.filter(Files::isRegularFile)//
-				.filter(file -> file.toString().endsWith(".xml"))//
-				.collect(Collectors.toList()).forEach(path -> {
-					splitFileOpener.process(path.toString());
-				});
-		splitFileOpener.closeStream();
+		sigelOaiPmhUpdates.process(Application.CONFIG.getString("transformation.sigel.repository"));
+		sigelOaiPmhUpdates.closeStream();
 	}
-
-	private static void processSigelUpdates(String startOfUpdates,
-			int intervalSize) {
-		int updateIntervals =
-				calculateIntervals(startOfUpdates, getToday(), intervalSize);
-		ArrayList<OaiPmhOpener> updateOpenerList =
-				buildUpdatePipes(intervalSize, startOfUpdates, updateIntervals);
-		for (OaiPmhOpener updateOpener : updateOpenerList) {
-			updateOpener.process(
-					Application.CONFIG.getString("transformation.sigel.repository"));
-			updateOpener.closeStream();
-		}
-	}
-
-
-	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
-			String startOfUpdates, int updateIntervals) {
-		String start = startOfUpdates;
-		String end = addDays(start, intervalSize);
-		final ArrayList<OaiPmhOpener> updateOpenerList = new ArrayList<>();
-
-		// There has to be at least one interval
-		int intervals;
-		if (updateIntervals == 0)
-			intervals = 1;
-		else
-			intervals = updateIntervals;
-
-		for (int i = 0; i < intervals; i++) {
-			final OaiPmhOpener openSigelUpdates = createOaiPmhOpener(start, end);
-			final XmlElementSplitter xmlSplitter =
-					new XmlElementSplitter(UPDATE_TOP_LEVEL_TAG, UPDATE_ENTITY);
-			final String updateXPath =
-					"/" + UPDATE_TOP_LEVEL_TAG + "/" + UPDATE_ENTITY + "/" + XPATH;
-			setupSigelSplitting(openSigelUpdates, xmlSplitter, updateXPath,
-					TransformAll.DATA_OUTPUT_DIR);
-
-			updateOpenerList.add(openSigelUpdates);
-			start = addDays(start, intervalSize);
-			if (i == intervals - 2)
-				end = getToday();
-			else
-				end = addDays(end, intervalSize);
-		}
-
-		return updateOpenerList;
-	}
-
-	/**
-	 * @param start the start of updates formatted in yyyy-MM-dd
-	 * @param end the end of updates formatted in yyyy-MM-dd
-	 * @return a new OaiPmhOpener
-	 */
-	private static OaiPmhOpener createOaiPmhOpener(String start, String end) {
-		OaiPmhOpener opener = new OaiPmhOpener();
-		opener.setDateFrom(start);
-		opener.setDateUntil(end);
-		opener.setMetadataPrefix("PicaPlus-xml");
-		opener.setSetSpec("bib");
-		return opener;
-	}
-
-	private static String addDays(String start, int intervalSize) {
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String result = null;
-		try {
-			final Date startDate = dateFormat.parse(start);
-			final Calendar calender = Calendar.getInstance();
-			calender.setTime(startDate);
-			calender.add(Calendar.DATE, intervalSize);
-			result = dateFormat.format(calender.getTime());
-		} catch (ParseException e) {
-			Logger.warn("Couldn't add days", e);
-		}
-		return result;
-	}
-
-	private static int calculateIntervals(String startOfUpdates, String end,
-			int intervalSize) {
-		final LocalDate startDate = LocalDate.parse(startOfUpdates);
-		final LocalDate endDate = LocalDate.parse(end);
-		long timeSpan = startDate.until(endDate, ChronoUnit.DAYS);
-		return (int) timeSpan / intervalSize;
-	}
-
-	private static String getToday() {
-		String dateFormat = "yyyy-MM-dd";
-		Calendar calender = Calendar.getInstance();
-		SimpleDateFormat simpleDate = new SimpleDateFormat(dateFormat);
-		return simpleDate.format(calender.getTime());
-	}
-
-	static XmlFilenameWriter setupSigelSplitting(final DefaultObjectPipe<String, ObjectReceiver<Reader>> opener,
-			final XmlElementSplitter splitter, String xPath,
-			final String outputPath) {
-		final XmlDecoder xmlDecoder = new XmlDecoder();
-		final XmlFilenameWriter xmlFilenameWriter =
-				xmlFilenameWriter(outputPath, xPath);
-		return opener//
-				.setReceiver(xmlDecoder)//
-				.setReceiver(splitter)//
-				.setReceiver(xmlFilenameWriter);
-	}
-
-	private static XmlFilenameWriter xmlFilenameWriter(String outputPath,
-			String xPath) {
-		final XmlFilenameWriter xmlFilenameWriter = new XmlFilenameWriter();
-		xmlFilenameWriter.setStartIndex(0);
-		xmlFilenameWriter.setEndIndex(2);
-		xmlFilenameWriter.setTarget(outputPath);
-		xmlFilenameWriter.setProperty(xPath);
-		return xmlFilenameWriter;
-	}
-
 }
