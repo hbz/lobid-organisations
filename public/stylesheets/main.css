@@ -154,3 +154,8 @@ h6 .small,
 .h6 .small {
   color: #666;
 }
+
+#figure {
+	float: right;
+	text-align: right;
+}
