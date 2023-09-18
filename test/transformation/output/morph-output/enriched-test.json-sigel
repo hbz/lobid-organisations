@@ -1,0 +1,471 @@
+{
+	"index": {
+		"_index": "organisations",
+		"_type": "organisation",
+		"_id": "http://lobid.org/organisations/ZDB-1-AAS4#!"
+	}
+}
+{
+	"rs": "110000000000",
+	"availableChannel": [
+		{
+			"serviceType": "Produktinfo",
+			"type": [
+				"ServiceChannel"
+			],
+			"serviceUrl": "http://www.nationallizenzen.de/angebote/nlproduct.2011-05-11.8008587391"
+		}
+	],
+	"alternateName": [
+		"Nationallizenz AAS Series4"
+	],
+	"mainEntityOfPage": {
+		"dateCreated": "25-05-11",
+		"dateModified": "08-06-15",
+		"id": "http://lobid.org/organisations/ZDB-1-AAS4"
+	},
+	"type": "Collection",
+	"classification": {
+		"id": "http://purl.org/lobid/libtype#n89",
+		"type": "Concept",
+		"label": {
+			"de": "Paket elektronischer Ressourcen",
+			"en": "Collection of electronic resources"
+		}
+	},
+	"@context": "http://lobid.org/organisations/context.jsonld",
+	"url": "http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=h9k",
+	"name": "American Antiquarian Society (AAS)Historical Periodicals Collection : Series 4 (1853-1865)[Nationallizenz]",
+	"containedIn": "http://sws.geonames.org/6547539/",
+	"location": [
+		{
+			"type": "Place",
+			"address": {
+				"postalCode": "10785",
+				"streetAddress": "Staatsbibliothek zu Berlin - Preußischer\t\t\t\t\tKulturbesitz",
+				"addressLocality": "Berlin",
+				"addressCountry": "DE",
+				"type": "PostalAddress"
+			},
+			"geo": {
+				"lat": "52.50771",
+				"lon": "13.37063"
+			}
+		}
+	],
+	"id": "http://lobid.org/organisations/ZDB-1-AAS4#!",
+	"isil": "ZDB-1-AAS4",
+	"collects": {
+		"subject": [
+			"E-Journals",
+			"Die American Antiquarian Society (AAS)\t\t\t\t\tHistorical Periodicals Collection dokumentiert das Leben der\t\t\t\t\tamerikanischen Bevölkerung und die amerikanische Perspektive auf\t\t\t\t\tdas Weltgeschehen und die Wissenschaften von der Kolonialära über\t\t\t\t\tden Bürgerkrieg bis zur Zeit des Wiederaufbaus im 19. Jahrhundert.\t\t\t\t\tDer vierte Teil der Kollektion deckt ca. 1.800 Zeitschriften aus\t\t\t\t\tdem Zeitraum von 1853 bis 1865 ab"
+		]
+	},
+	"email": "mailto:ssg-nationallizenzen@sbb.spk-berlin.de",
+	"sameAs": [
+		"http://ld.zdb-services.de/resource/organisations/ZDB-1-AAS4"
+	]
+}
+{
+	"index": {
+		"_index": "organisations",
+		"_type": "organisation",
+		"_id": "http://lobid.org/organisations/DE-1a#!"
+	}
+}
+{
+	"linkedTo": {
+		"id": "http://lobid.org/organisations/DE-601#!",
+		"label": "Verbundzentrale des GBV (VZG)"
+	},
+	"rs": "110000000000",
+	"address": {
+		"addressLocality": "Berlin",
+		"type": "PostalAddress",
+		"addressCountry": "DE",
+		"postalCode": "10772"
+	},
+	"availableChannel": [
+		{
+			"serviceType": "Online-Auskunft",
+			"type": [
+				"ServiceChannel"
+			],
+			"serviceUrl": "http://staatsbibliothek-berlin.de/service/auskunft/"
+		}
+	],
+	"telephone": "0049 30 2 66-433888 (Auskunft)",
+	"alternateName": [
+		"SBB-PK, Potsdamer Straße",
+		"Berlin SBB Haus Potsdamer Str"
+	],
+	"mainEntityOfPage": {
+		"dateCreated": "18-11-99",
+		"dateModified": "16-05-12",
+		"id": "http://lobid.org/organisations/DE-1a"
+	},
+	"type": "Library",
+	"classification": {
+		"id": "http://purl.org/lobid/libtype#n11",
+		"type": "Concept",
+		"label": {
+			"de": "Nationalbibliothek",
+			"en": "National Library"
+		}
+	},
+	"@context": "http://lobid.org/organisations/context.jsonld",
+	"url": "http://www.staatsbibliothek-berlin.de",
+	"provides": "http://stabikat.de",
+	"name": "Staatsbibliothek zu Berlin - Preußischer Kulturbesitz,Haus Potsdamer Straße",
+	"containedIn": "http://sws.geonames.org/6547539/",
+	"location": [
+		{
+			"type": "Place",
+			"address": {
+				"postalCode": "10785",
+				"streetAddress": "Potsdamer Str. 33",
+				"addressLocality": "Berlin",
+				"addressCountry": "DE",
+				"type": "PostalAddress"
+			},
+			"openingHoursSpecification": {
+				"type": "OpeningHoursSpecification",
+				"comment": "Öffnungszeiten besonderer Bereiche s. Homepage",
+				"description": "Mo-Fr 9.00-21.00, Sa 9.00-19.00"
+			},
+			"geo": {
+				"lat": "52.50771",
+				"lon": "13.37063"
+			}
+		}
+	],
+	"id": "http://lobid.org/organisations/DE-1a#!",
+	"isil": "DE-1a",
+	"fundertype": {
+		"id": "http://purl.org/lobid/fundertype#n07",
+		"type": "Concept",
+		"label": {
+			"de": "Körperschaft oder Stiftung des öffentlichen Rechts",
+			"en": "Corporate Body or Foundation under Public Law"
+		}
+	},
+	"collects": {
+		"type": "Collection",
+		"extent": {
+			"id": "http://purl.org/lobid/stocksize#n10",
+			"type": "Concept",
+			"label": {
+				"de": "1.000.001 und mehr",
+				"en": "1,000,001 and more"
+			}
+		},
+		"subject": [
+			"Recht",
+			"Orientalistik",
+			"Osteuropa",
+			"Ostasien",
+			"Afrika",
+			"Amtsdruckschriften",
+			"Handschriften",
+			"Karten",
+			"Geistes- und Sozialwissenschaften"
+		]
+	},
+	"email": "mailto:info@sbb.spk-berlin.de",
+	"dbsID": "AK001",
+	"name_en": "Leibniz Institute for Zoo and Wildlife Research Berlin, Library",
+	"sameAs": [
+		"http://www.wikidata.org/entity/Q170109",
+		"http://ld.zdb-services.de/resource/organisations/DE-1a"
+	]
+}
+{
+	"index": {
+		"_index": "organisations",
+		"_type": "organisation",
+		"_id": "http://lobid.org/organisations/DE-294#!"
+	}
+}
+{
+	"linkedTo": {
+		"id": "http://lobid.org/organisations/DE-605#!",
+		"label": "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
+	},
+	"rs": "059110000000",
+	"address": {
+		"addressLocality": "Bochum",
+		"type": "PostalAddress",
+		"addressCountry": "DE",
+		"postalCode": "44780"
+	},
+	"telephone": "0049 234 32-26270",
+	"alternateName": [
+		"Bochum UB"
+	],
+	"mainEntityOfPage": {
+		"dateCreated": "18-11-99",
+		"dateModified": "24-04-12",
+		"id": "http://lobid.org/organisations/DE-294"
+	},
+	"type": "Library",
+	"classification": {
+		"id": "http://purl.org/lobid/libtype#n60",
+		"type": "Concept",
+		"label": {
+			"de": "Zentrale Universitätsbibliothek",
+			"en": "Central University Library"
+		}
+	},
+	"@context": "http://lobid.org/organisations/context.jsonld",
+	"url": "http://www.ub.ruhr-uni-bochum.de",
+	"provides": "https://opac.ub.ruhr-uni-bochum.de/webOPACClient/start.do",
+	"name": "Ruhr-Universität Bochum,Universitätsbibliothek",
+	"containedIn": "http://sws.geonames.org/6553132/",
+	"location": [
+		{
+			"type": "Place",
+			"address": {
+				"postalCode": "44801",
+				"streetAddress": "Universitätsstr. 150",
+				"addressLocality": "Bochum",
+				"addressCountry": "DE",
+				"type": "PostalAddress"
+			},
+			"openingHoursSpecification": {
+				"type": "OpeningHoursSpecification",
+				"description": "Mo-Fr 8.00-24.00, Sa 11.00-20.00, So 11.00-18.00"
+			}
+		}
+	],
+	"id": "http://lobid.org/organisations/DE-294#!",
+	"isil": "DE-294",
+	"fundertype": {
+		"id": "http://purl.org/lobid/fundertype#n07",
+		"type": "Concept",
+		"label": {
+			"de": "Körperschaft oder Stiftung des öffentlichen Rechts",
+			"en": "Corporate Body or Foundation under Public Law"
+		}
+	},
+	"collects": {
+		"type": "Collection",
+		"extent": {
+			"id": "http://purl.org/lobid/stocksize#n10",
+			"type": "Concept",
+			"label": {
+				"de": "1.000.001 und mehr",
+				"en": "1,000,001 and more"
+			}
+		}
+	},
+	"email": "mailto:benutzung.ub@ruhr-uni-bochum.de",
+	"dbsID": "AB294",
+	"sameAs": [
+		"http://www.wikidata.org/entity/Q2496285",
+		"http://ld.zdb-services.de/resource/organisations/DE-294"
+	]
+}
+{
+	"index": {
+		"_index": "organisations",
+		"_type": "organisation",
+		"_id": "http://lobid.org/organisations/DE-38#!"
+	}
+}
+{
+	"linkedTo": {
+		"id": "http://lobid.org/organisations/DE-605#!",
+		"label": "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
+	},
+	"rs": "053150000000",
+	"availableChannel": [
+		{
+			"serviceType": "SRU",
+			"type": [
+				"ServiceChannel",
+				"WebAPI"
+			],
+			"serviceUrl": "http://info-test.de/sru"
+		},
+		{
+			"serviceType": "other",
+			"type": [
+				"ServiceChannel"
+			],
+			"serviceUrl": "http://info-test.de/other"
+		},
+		{
+			"serviceType": "OpenURL",
+			"type": [
+				"ServiceChannel",
+				"WebAPI"
+			],
+			"serviceUrl": "http://info-test.de/openurl"
+		},
+		{
+			"serviceType": "PAIA",
+			"type": [
+				"ServiceChannel",
+				"WebAPI"
+			],
+			"serviceUrl": "http://info-test.de/paia"
+		},
+		{
+			"serviceType": "DAIA",
+			"type": [
+				"ServiceChannel",
+				"WebAPI"
+			],
+			"serviceUrl": "http://info-test.de/daia"
+		}
+	],
+	"telephone": "0049 221 4 70-2437",
+	"alternateName": [
+		"Köln USB"
+	],
+	"mainEntityOfPage": {
+		"dateCreated": "18-11-99",
+		"dateModified": "26-03-14",
+		"id": "http://lobid.org/organisations/DE-38"
+	},
+	"type": "Library",
+	"classification": {
+		"id": "http://purl.org/lobid/libtype#n60",
+		"type": "Concept",
+		"label": {
+			"de": "Zentrale Universitätsbibliothek",
+			"en": "Central University Library"
+		}
+	},
+	"@context": "http://lobid.org/organisations/context.jsonld",
+	"url": "http://www.ub.uni-koeln.de",
+	"name": "Universitäts- und Stadtbibliothek Köln, Hauptabteilung",
+	"containedIn": "http://sws.geonames.org/6553049/",
+	"location": [
+		{
+			"type": "Place",
+			"address": {
+				"postalCode": "50931",
+				"streetAddress": "Universitätsstr. 33",
+				"addressLocality": "Köln",
+				"addressCountry": "DE",
+				"type": "PostalAddress"
+			}
+		}
+	],
+	"id": "http://lobid.org/organisations/DE-38#!",
+	"isil": "DE-38",
+	"fundertype": {
+		"id": "http://purl.org/lobid/fundertype#n02",
+		"type": "Concept",
+		"label": {
+			"de": "Land",
+			"en": "Federal State"
+		}
+	},
+	"collects": {
+		"type": "Collection",
+		"extent": {
+			"id": "http://purl.org/lobid/stocksize#n10",
+			"type": "Concept",
+			"label": {
+				"de": "1.000.001 und mehr",
+				"en": "1,000,001 and more"
+			}
+		}
+	},
+	"email": "mailto:Fernleihe@ub.uni-koeln.de",
+	"dbsID": "AB038",
+	"sameAs": [
+		"http://www.wikidata.org/entity/Q2496260",
+		"http://ld.zdb-services.de/resource/organisations/DE-38"
+	]
+}
+{
+	"index": {
+		"_index": "organisations",
+		"_type": "organisation",
+		"_id": "http://lobid.org/organisations/DE-38M#!"
+	}
+}
+{
+	"linkedTo": {
+		"id": "http://lobid.org/organisations/DE-605#!",
+		"label": "Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)"
+	},
+	"rs": "053150000000",
+	"telephone": "0049 221 4 78-7070",
+	"alternateName": [
+		"Köln ZB MED"
+	],
+	"mainEntityOfPage": {
+		"dateCreated": "18-11-99",
+		"dateModified": "27-03-13",
+		"id": "http://lobid.org/organisations/DE-38M"
+	},
+	"type": "Library",
+	"classification": {
+		"id": "http://purl.org/lobid/libtype#n15",
+		"type": "Concept",
+		"label": {
+			"de": "Zentrale Fachbibliothek",
+			"en": "Central Subject Library"
+		}
+	},
+	"@context": "http://lobid.org/organisations/context.jsonld",
+	"url": "http://www.zbmed.de",
+	"provides": "http://www.medpilot.de/?idb=ZBMED",
+	"name": "Deutsche Zentralbibliothek für Medizin - ZB MED Medizin. Gesundheit.",
+	"containedIn": "http://sws.geonames.org/6553049/",
+	"location": [
+		{
+			"type": "Place",
+			"address": {
+				"postalCode": "50931",
+				"streetAddress": "Gleueler Str. 60",
+				"addressLocality": "Köln",
+				"addressCountry": "DE",
+				"type": "PostalAddress"
+			},
+			"openingHoursSpecification": {
+				"type": "OpeningHoursSpecification",
+				"comment": "Ausleihe/Allg. Information: Mo-Fr 9.00-21.00, Sa 9.00-12.00; Fachauskunft: Mo 9.00-13.00; Di-Fr 9.00-16.00; weitere Schließtage s.Homepage",
+				"description": "Mo-Fr 9.00-21.00, Sa 9.00-17.00, So und Feiertags 12.00-17.00 (Lesesaal)"
+			},
+			"geo": {
+				"lat": "50.92466",
+				"lon": "6.91666"
+			}
+		}
+	],
+	"id": "http://lobid.org/organisations/DE-38M#!",
+	"isil": "DE-38M",
+	"fundertype": {
+		"id": "http://purl.org/lobid/fundertype#n06",
+		"type": "Concept",
+		"label": {
+			"de": "Sonstige öffentliche Trägerschaft",
+			"en": "Other Public Sector Funder"
+		}
+	},
+	"collects": {
+		"type": "Collection",
+		"extent": {
+			"id": "http://purl.org/lobid/stocksize#n09",
+			"type": "Concept",
+			"label": {
+				"de": "300.001 - 1.000.000",
+				"en": "300,001 - 1,000,000"
+			}
+		},
+		"subject": [
+			"Medizin"
+		]
+	},
+	"email": "mailto:info@zbmed.de",
+	"dbsID": "BJ038",
+	"sameAs": [
+		"http://www.wikidata.org/entity/Q1204536",
+		"http://ld.zdb-services.de/resource/organisations/DE-38M"
+	]
+}

@@ -35,12 +35,9 @@ public class IntegrationTest extends ElasticsearchTest {
 	@Test
 	public void testMainPage() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT,
-				new Callback<TestBrowser>() {
-					@Override
-					public void invoke(TestBrowser browser) {
-						browser.goTo("http://localhost:3333/organisations");
-						assertThat(browser.pageSource()).contains("lobid-organisations");
-					}
+				browser -> {
+					browser.goTo("http://localhost:3333/organisations");
+					assertThat(browser.pageSource()).contains("lobid-organisations");
 				});
 	}
 

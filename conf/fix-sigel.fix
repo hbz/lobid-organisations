@@ -1,0 +1,76 @@
+# 		<!-- http://sigel.staatsbibliothek-berlin.de/en/vergabe/adressenformat/092/ -->
+# 		
+# 		<!-- internal ID: Use DBS ID (.b) if available, use ISIL (.e) if not -->
+
+copy_field("008H.b","@dbsId")
+copy_field("008H.e","isil")
+copy_field("008H.d","sigel")
+copy_field("008H.g","worldcatRegistryId")  
+replace_all("@dbsId"," ","")
+replace_all("isil"," ","")
+if any_match("@dbsId","[A-Z]{2}\\d{3}")
+	copy_field("@dbsId","inr")
+end
+
+do list(path: "032P","var":"$i")
+
+# 		<!-- Different types of addresses -->
+# 		<!-- 1. Main address / address for visitors (type "S") -->		
+	if any_equal("$i.2","S")
+		copy_field("$i.a","streetAddressVisitor")
+		copy_field("$i.b","localityVisitor")
+		copy_field("$i.d","countryVisitor")
+		copy_field("$i.e","postalCodeVisitor")
+		copy_field("$i.i","openingHoursVisitor")		
+		copy_field("$i.j","openingCommentVisitor")
+		copy_field("$i.l","latVisitor")
+		copy_field("$i.k","lonVisitor")
+		set_array("descriptionVisitor")
+		copy_field("$i.3","descriptionVisitor.$append")
+		copy_field("$i.z","descriptionVisitor.$append")		
+		join_field("descriptionVisitor",", ")
+
+# 		<!-- 2. Other address (type "W")-->
+	elsif any_equal("$i.2","W")
+		copy_field("$i.a","streetAddressOther")
+		copy_field("$i.b","localityOther")
+		copy_field("$i.d","countryOther")
+		copy_field("$i.e","postalCodeOther")
+		copy_field("$i.i","openingHoursOther")			
+		copy_field("$i.j","openingCommentOther")
+		copy_field("$i.l","latOther")
+		copy_field("$i.k","lonOther")
+		set_array("descriptionOther")
+		copy_field("$i.3","descriptionOther.$append")
+		copy_field("$i.z","descriptionOther.$append")		
+		join_field("descriptionOther",", ")
+
+		# 		<!-- 3. Mailing address (type "P") -->
+	elsif any_equal("$i.2","P")
+		copy_field("$i.a","streetAddressMail")
+		copy_field("$i.b","localityMail")
+		copy_field("$i.d","countryMail")
+		copy_field("$i.e","postalCodeMail")
+		copy_field("$i.g","postOfficeBoxNumber")
+	end
+end
+	
+# 		<!-- Phone and email address of type "S" -->
+
+do list(path: "035B","var":"$i")
+	if any_match("$i.a","S")
+		copy_field("$i.d","countryCode")
+		copy_field("$i.e","prefix")
+		copy_field("$i.f","phonenr")
+		copy_field("$i.k","email")
+	end
+end
+	
+vacuum()
+
+# Skip all records that have no "inr" or "isil"
+unless exists("inr")
+	unless exists("isil")
+		reject()
+	end
+end

@@ -3,12 +3,13 @@
 package transformation;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.metafacture.metamorph.Metamorph;
+import org.metafacture.metafix.Metafix;
 import org.metafacture.elasticsearch.JsonToElasticsearchBulk;
 
 import controllers.Application;
@@ -50,9 +51,12 @@ public class TransformAll {
 			final String outputPath, String geoServer) throws IOException {
 		String dbsOutput = outputPath + "-dbs";
 		String sigelOutput = outputPath + "-sigel";
-		TransformSigel.process(startOfUpdates, intervalSize, sigelOutput,
-				geoServer);
-		TransformDbs.process(dbsOutput, geoServer);
+		TransformSigel.processBulk(sigelOutput, geoServer); //Start processing  Sigel pica binary bulk.
+		TransformSigel.processUpdates(startOfUpdates, intervalSize, sigelOutput, geoServer); //Start process Sigel Pica XML Updates via OAI-PMH.
+		TransformDbs.process(dbsOutput, geoServer); //Start process DBS data.
+
+		// DBS-Data, Sigel Bulk and Updates are joined in a single ES-Bulk-file.
+		// DBS data first, so that ES prefers Sigel entries that come later and overwrite DBS entries if available.
 		try (FileWriter resultWriter = new FileWriter(outputPath)) {
 			writeAll(dbsOutput, resultWriter);
 			writeAll(sigelOutput, resultWriter);
@@ -72,19 +76,18 @@ public class TransformAll {
 	}
 
 	static JsonToElasticsearchBulk esBulk() {
-		final JsonToElasticsearchBulk esBulk = new JsonToElasticsearchBulk("id",
+		return new JsonToElasticsearchBulk("id",
 				Application.CONFIG.getString("index.es.type"),
 				Application.CONFIG.getString("index.es.name"));
-		return esBulk;
 	}
 
-	static Metamorph morphEnriched(String geoLookupServer) {
-		final Metamorph morphEnriched = new Metamorph("morph-enriched.xml");
+	static Metafix fixEnriched(String geoLookupServer) throws FileNotFoundException {
+		final Metafix fixEnriched = new Metafix("conf/fix-enriched.fix");
 		if (geoLookupServer != null && !geoLookupServer.isEmpty()) {
-			morphEnriched.putMap("addLatMap", new GeoLookupMap(LookupType.LAT));
-			morphEnriched.putMap("addLongMap", new GeoLookupMap(LookupType.LON));
+			fixEnriched.putMap("addLatMap", new GeoLookupMap(LookupType.LAT));
+			fixEnriched.putMap("addLongMap", new GeoLookupMap(LookupType.LON));
 		}
-		return morphEnriched;
+		return fixEnriched;
 	}
 
 }

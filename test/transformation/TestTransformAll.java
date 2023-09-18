@@ -5,16 +5,17 @@ package transformation;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.metafacture.framework.helpers.DefaultObjectReceiver;
 import org.metafacture.metamorph.Metamorph;
+import org.metafacture.metafix.Metafix;
 import org.metafacture.formeta.FormetaEncoder;
-import org.metafacture.biblio.pica.PicaXmlHandler;
-import org.metafacture.xml.XmlDecoder;
-import org.metafacture.xml.XmlElementSplitter;
+import org.metafacture.io.LineReader;
+import org.metafacture.biblio.pica.PicaDecoder;
 import org.metafacture.io.FileOpener;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -37,7 +38,7 @@ public class TestTransformAll {
 	}
 
 	private static final String SIGEL_DUMP_LOCATION =
-			TransformAll.DATA_INPUT_DIR + "sigel.xml";
+			TransformAll.DATA_INPUT_DIR + "sigel.dat";
 	private static final String DUMP_XPATH =
 			"/" + TransformSigel.DUMP_TOP_LEVEL_TAG + "/" + TransformSigel.XPATH;
 
@@ -54,6 +55,7 @@ public class TestTransformAll {
 		assertThat(output.length()).as("output file size").isGreaterThan(0);
 	}
 
+
 	@Test
 	public void multiLangAlternateName() throws IOException {
 		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "");
@@ -69,8 +71,8 @@ public class TestTransformAll {
 		assertThat(new String(
 				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with `url` and `provides`")
-						.contains("http://www.medpilot.de/?idb=ZBMED")
-						.contains("http://www.zbmed.de");
+						.contains("https://www.livivo.de/?idb=ZBMED")
+						.contains("https://www.zbmed.de");
 	}
 
 	@Test
@@ -85,18 +87,7 @@ public class TestTransformAll {
 	}
 
 	@Test
-	public void sigelSplitting() {
-		final FileOpener sourceFileOpener = new FileOpener();
-		final XmlElementSplitter xmlSplitter = new XmlElementSplitter(
-				TransformSigel.DUMP_TOP_LEVEL_TAG, TransformSigel.DUMP_ENTITY);
-		TransformSigel.setupSigelSplitting(sourceFileOpener, xmlSplitter,
-				DUMP_XPATH, TransformAll.DATA_OUTPUT_DIR);
-		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
-		sourceFileOpener.closeStream();
-	}
-
-	@Test
-	public void testContainsApiDescription() {
+	public void testContainsApiDescription() throws FileNotFoundException {
 		FormetaEncoder encoder = new FormetaEncoder();
 		StringBuilder resultCollector = new StringBuilder();
 		encoder.setReceiver(new DefaultObjectReceiver<String>() {
@@ -106,21 +97,25 @@ public class TestTransformAll {
 			}
 		});
 		final FileOpener sourceFileOpener = new FileOpener();
-		sourceFileOpener.setReceiver(new XmlDecoder())
-				.setReceiver(new PicaXmlHandler())//
-				.setReceiver(new Metamorph("morph-sigel.xml"))//
-				.setReceiver(new Metamorph("morph-enriched.xml"))//
+		PicaDecoder picaDecoder = new PicaDecoder();
+		picaDecoder.setNormalizeUTF8(true);
+		sourceFileOpener.setReceiver(new LineReader())//
+				.setReceiver(picaDecoder)//
+				.setReceiver(new Metafix("conf/fix-sigel.fix"))//
+				.setReceiver(new Metafix("conf/fix-enriched.fix"))//
 				.setReceiver(encoder);
 		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
 		sourceFileOpener.closeStream();
 		assertThat(resultCollector.toString())//
 				.as("contains api description")//
 				.contains(
-						"availableChannel[]{{serviceType:SRU,type[]{type:ServiceChannel,type:WebAPI}serviceUrl:http\\://info-test.de/sru}"//
-								+ "{serviceType:other,type[]{type:ServiceChannel}serviceUrl:http\\://info-test.de/other}"//
-								+ "{serviceType:OpenURL,type[]{type:ServiceChannel,type:WebAPI}serviceUrl:http\\://info-test.de/openurl}"//
-								+ "{serviceType:PAIA,type[]{type:ServiceChannel,type:WebAPI}serviceUrl:http\\://info-test.de/paia}"//
-								+ "{serviceType:DAIA,type[]{type:ServiceChannel,type:WebAPI}serviceUrl:http\\://info-test.de/daia}}");
+						"availableChannel[]{1{type[]{1:ServiceChannel,2:WebAPI}serviceType:SRU,serviceUrl:http\\://sru.gbv.de/opac-de-hil2}"//
+								+ "2{type[]{1:ServiceChannel,2:WebAPI}serviceType:PAIA,serviceUrl:https\\://paia.gbv.de/DE-Hil2/}"//
+								+ "3{type[]{1:ServiceChannel,2:WebAPI}serviceType:DAIA,serviceUrl:https\\://paia.gbv.de/DE-Hil2/daia}}")
+								;
 	}
+
+
+
 
 }

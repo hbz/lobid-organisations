@@ -118,6 +118,25 @@
 		"PostalAddress": "https://schema.org/PostalAddress",
 		"Place": "https://schema.org/Place",
 		"GeoCoordinates": "https://schema.org/GeoCoordinates",
-		"ServiceChannel": "https://schema.org/ServiceChannel"
+		"ServiceChannel": "https://schema.org/ServiceChannel",
+		"picaPPN": "http://purl.org/lobid/lv#picaPPN",
+		"successor":  "https://d-nb.info/standards/elementset/gnd#successor",
+		"predecessor" : "https://d-nb.info/standards/elementset/gnd#predecessor",
+		"gndIdentifier" : "https://d-nb.info/standards/elementset/gnd#gndIdentifier",
+		"note" : {
+      "@id" : "http://www.w3.org/2004/02/skos/core#note",
+      "@container" : "@set"
+    },
+		"sigel": "http://purl.org/lobid/lv#sigel",
+		"worldcatRegistryId" : "http://purl.org/lobid/lv#worldcatRegistryId",
+		"parentOrganization":  {
+			"@type": "@id",
+			"@id": "https://schema.org/parentOrganization"
+		},
+		"sourceOrganization":  {
+			"@type": "@id",
+			"@id": "https://schema.org/sourceOrganization"
+		},
+		"librariesOrgID": "http://purl.org/lobid/lv#librariesOrgID"
 	}
 }

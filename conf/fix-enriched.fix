@@ -1,0 +1,597 @@
+do once("mapsAndMacros")
+	put_filemap("conf/wikidataLookup.tsv","isil2wikidata", sep_char:"\t",key_column:"2",value_column:"0",expected_columns:"-1")
+	put_filemap("conf/wikidataLookup.tsv","dbsId2wikidata", sep_char:"\t",key_column:"4",value_column:"0",expected_columns:"-1")
+	put_filemap("conf/wikidataLookup.tsv","wikidata2gndIdentifier", sep_char:"\t",key_column:"0",value_column:"3",expected_columns:"-1")
+	put_filemap("conf/libtype-map.csv","libtype_map", sep_char:"\t")
+	put_filemap("conf/plz-ags-map.csv","ags_map", sep_char:"\t")		
+	put_filemap("conf/ags-rs-map.csv","rs_map", sep_char:"\t")		
+	put_filemap("conf/geonames-map.csv","geonames_map", sep_char:"\t")	
+	put_filemap("conf/plz-blacklist.csv","plz_blacklist", sep_char:"\t")
+	put_filemap("conf/librariesOrg2lobidOrg.tsv","dbsID_librariesOrg2lobidOrg", sep_char:"\t",key_column:"1",value_column:"5",expected_columns:"-1")			
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_map",target:"skos:prefLabel", select_language:"de")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/fundertype.ttl","fundertype_id_to_value_en_map",target:"skos:prefLabel", select_language:"en")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_map",target:"skos:prefLabel", select_language:"de")   
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/libtype.ttl","libtype_id_to_value_en_map",target:"skos:prefLabel", select_language:"en")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_map",target:"skos:prefLabel", select_language:"de")
+	put_rdfmap("https://raw.githubusercontent.com/hbz/lobid-vocabs/master/stocksize.ttl","stocksize_id_to_value_en_map",target:"skos:prefLabel", select_language:"en")
+ 	put_map("dbs_fundertype_value_to_id_map", # values of dbs are not the same as the skos:notations
+			"1":"http://purl.org/lobid/fundertype#n01" ,
+			"2":"http://purl.org/lobid/fundertype#n02" ,
+			"3":"http://purl.org/lobid/fundertype#n03" ,
+			"4":"http://purl.org/lobid/fundertype#n04" ,
+			"5":"http://purl.org/lobid/fundertype#n06" ,
+			"6":"http://purl.org/lobid/fundertype#n07" ,
+			"7":"http://purl.org/lobid/fundertype#n08" ,
+			"8":"http://purl.org/lobid/fundertype#n09" ,
+			"9":"http://purl.org/lobid/fundertype#n10" ,
+			"10":"http://purl.org/lobid/fundertype#n11",
+			"11":"http://purl.org/lobid/fundertype#n12",
+			"12":"http://purl.org/lobid/fundertype#n13"
+	)
+	put_map("dbs_stocksize_value_to_id_map", # values of dbs are not the same as the skos:notations
+			"1":"http://purl.org/lobid/stocksize#n01" ,
+			"2":"http://purl.org/lobid/stocksize#n02" ,
+			"3":"http://purl.org/lobid/stocksize#n03" ,
+			"4":"http://purl.org/lobid/stocksize#n04" ,
+			"5":"http://purl.org/lobid/stocksize#n05" ,
+			"6":"http://purl.org/lobid/stocksize#n06" ,
+			"7":"http://purl.org/lobid/stocksize#n07" ,
+			"8":"http://purl.org/lobid/stocksize#n08" ,
+			"9":"http://purl.org/lobid/stocksize#n09" ,
+			"10":"http://purl.org/lobid/stocksize#n10",
+			"11":"http://purl.org/lobid/stocksize#n11"
+	)
+	put_map("dbs_libtype_value_to_id_map", # values of dbs are not the same as the skos:notations
+			"11":"http://purl.org/lobid/libtype#n11",
+			"15":"http://purl.org/lobid/libtype#n15",
+			"21":"http://purl.org/lobid/libtype#n21",
+			"30":"http://purl.org/lobid/libtype#n33",
+			"51":"http://purl.org/lobid/libtype#n33",
+			"52":"http://purl.org/lobid/libtype#n33",
+			"53":"http://purl.org/lobid/libtype#n36",
+			"54":"http://purl.org/lobid/libtype#n33",
+			"55":"http://purl.org/lobid/libtype#n36",
+			"56":"http://purl.org/lobid/libtype#n33",
+			"58":"http://purl.org/lobid/libtype#n36",
+			"59":"http://purl.org/lobid/libtype#n33",
+			"60":"http://purl.org/lobid/libtype#n60",
+			"70":"http://purl.org/lobid/libtype#n70",
+			"80":"http://purl.org/lobid/libtype#n81",
+			"91":"http://purl.org/lobid/libtype#n91"
+	)
+
+	## 		<!-- url and provides: Handle urls without http:// or https:// and remove blanks -->
+	## if multiple links are provided, which happens not very often only the first instance is mapped.
+
+	do put_macro("url-group")
+		if any_match("$[dbs_field]","http(.*)")
+			copy_field("$[dbs_field]","@$[group_name]")
+		elsif any_match("$[dbs_field]","(www(.*))")
+			copy_field("$[dbs_field]","@url-group")
+			replace_all("@$[group_name]","(www(.*))","http://$1")
+		elsif exists("009Q")
+			do list(path:"009Q","var":"$i")
+				unless exists("@$[group_name]")
+					if any_equal("$i.z","$[sigel_code]")
+						if any_match("$i.u","http(.*)")
+							copy_field("$i.u","@$[group_name]")
+						elsif any_match("$i.u","(www(.*))")
+							copy_field("$i.u","@$[group_name]")
+							replace_all("@u$[group_name]","(www(.*))","http://$1")
+						end
+					end
+				end
+			end
+		end
+		replace_all("@$[group_name]","\\s+","")
+		move_field("@$[group_name]","$[group_name]")
+	end
+
+	do put_macro("make-id")
+		if exists("$[isil-field]")
+			copy_field("$[isil-field]","$[output-name]")
+			replace_all("$[output-name]","^(.*)$","$[uri-base]")
+		else
+			copy_field("$[dbs-field]","$[output-name]")
+			lookup("$[output-name]","$[dbs-lookup]", delete:"true")
+		end
+	end
+end
+
+if exists("plz")
+	copy_field("plz","@postalCodeForLookups")
+elsif exists("postalCodeVisitor")
+	copy_field("postalCodeVisitor","@postalCodeForLookups")
+elsif exists("postalCodeMail")
+	copy_field("postalCodeMail","@postalCodeForLookups")
+elsif exists("postalCodeOther")
+	copy_field("postalCodeOther","@postalCodeForLookups")
+end
+
+add_field("@context","http://lobid.org/organisations/context.jsonld")
+
+if any_match("gvz_id","\\d{11,12}")
+	copy_field("gvz_id","@rs")
+	replace_all("@rs","^(\\d{11})$","0$1")
+else
+	do list(path:"032P","var":"$i")
+		copy_field("$i.n","@rs")
+	end
+end
+
+unless exists("@rs")
+	copy_field("@postalCodeForLookups","@rs")
+	## TODO: No blacklist exists in fix:			<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
+	lookup("@rs","plz_blacklist")
+	if any_equal("@rs","blacklist")
+		remove_field("@rs")
+	else
+		lookup("@rs","ags_map", delete:"true")
+	end
+end
+
+lookup("@rs","rs_map")
+copy_field("@rs","rs")
+
+copy_field("003@.0","picaPPN")
+
+if exists("nam")
+	copy_field("nam","name")
+else
+	copy_field("029A.a","@name")
+	# 					<!-- sanitize entries like "Ruhr-Universita\u0308t Bochum,\n\t\t\t\t\tUniversita\u0308tsbibliothek" -->
+	replace_all("@name","\\t|\\n|\\(\\s\\)\\s+","")
+	copy_field("@name","name")
+end
+
+if exists("name")
+	unless any_equal("035E.a","I")  # Deprecated records, more accurate than name prefix: früher
+		copy_field("035E.f","@libType")
+		lookup("@libType","libtype_map", delete:"true")
+		if exists("@libType")
+			copy_field("@libType","type")
+		else
+			add_field("type","Library")
+		end
+	end
+end
+	
+call_macro ("url-group", group_name:"url", dbs_field:"url", sigel_code:"A")
+call_macro ("url-group", group_name:"provides", dbs_field:"opac", sigel_code:"B")
+
+## 		<!-- API descriptions, see #421 -->
+
+set_array("availableChannel[]")
+
+do list (path: "009Q","var":"$i")
+	unless any_contain("$i.x","Information")
+		if any_equal("$i.z","W")
+			set_array("availableChannel[].$append.type[]","ServiceChannel")
+			if any_match("$i.x",".*(SRU|DAIA|PAIA|OpenURL).*")
+				add_field("availableChannel[].$last.type[].$append","WebAPI")
+			end
+			copy_field("$i.x","availableChannel[].$last.serviceType")
+			if any_match("$i.u","http(.*)")
+				copy_field("$i.u","availableChannel[].$last.serviceUrl")
+			end
+		end
+	end
+end
+
+## keep isil-element from dbs-records
+
+copy_field("inr","dbsID")
+#
+## 		<!-- new-id: isil if available or Pseudo-isil for DBS data that lack isil-->
+if exists("isil")
+	paste("id","~http://lobid.org/organisations/","isil","~#!",join_char:"")
+elsif exists("inr")
+	unless any_equal("inr","NULL")
+		paste("id","~http://lobid.org/organisations/DBS-","inr","~#!",join_char:"")
+	end
+end
+	
+## 		<!-- Telephone and email -->
+
+if exists ("phonenr")
+	paste("@countryCode","~00","countryCode",join_char:"")
+	paste("telephone","@countryCode","prefix","phonenr")
+end
+
+if exists("email")
+	paste("email","~mailto:","email", join_char:"")
+end
+#
+## 		<!-- Mailing address -->
+copy_field("streetAddressMail","address.streetAddress")
+copy_field("postOfficeBoxNumber","address.postOfficeBoxNumber")
+copy_field("localityMail","address.addressLocality")
+copy_field("postalCodeMail","address.postalCode")
+copy_field("countryMail","address.addressCountry")
+if exists("address")
+	add_field("address.type","PostalAddress")
+end
+## 		
+## 		<!-- Lookup fields for visitor and other address -->
+if exists("strasse")
+	if exists("plz")
+		if exists("ort")
+			if exists("dbs_addressCountry")
+				paste("@geoLookupDbs","strasse","plz","ort","dbs_addressCountry",join_char:"_")
+			end
+		end
+	end
+end
+	
+## 		<!-- Locations -->
+
+set_array("location[]")
+# Visitor location
+if exists("streetAddressVisitor")
+	copy_field("streetAddressVisitor","@visitorLocation.address.streetAddress")
+elsif exists("strasse")
+	unless any_equal("strasse","NULL")
+		copy_field("strasse","@visitorLocation.address.streetAddress")
+	end
+end
+
+copy_field("descriptionVisitor","@visitorLocation.description")
+if exists("localityVisitor")
+	copy_field("localityVisitor","@visitorLocation.address.addressLocality")
+elsif exists("ort") 
+	unless any_equal("ort","NULL")
+		copy_field("ort","@visitorLocation.address.addressLocality")
+	end
+end
+
+	if exists("postalCodeVisitor")
+		copy_field("postalCodeVisitor","@visitorLocation.address.postalCode")
+	elsif exists("plz")
+		unless any_equal("plz","NULL")
+			copy_field("plz","@visitorLocation.address.postalCode")
+		end
+	end
+
+if exists("countryVisitor")
+	copy_field("countryVisitor","@visitorLocation.address.addressCountry")
+else
+	unless any_equal("dbs_addressCountry","NULL")
+		copy_field("dbs_addressCountry","@visitorLocation.address.addressCountry")
+	end
+end
+
+if exists("openingHoursVisitor")
+	copy_field("openingHoursVisitor","@visitorLocation.openingHoursSpecification.description")
+elsif exists("oeffnungszeiten")
+	unless any_equal("oeffnungszeiten","NULL")
+		copy_field("oeffnungszeiten","@visitorLocation.openingHoursSpecification.description")
+	end
+end
+
+copy_field("openingCommentVisitor","@visitorLocation.openingHoursSpecification.comment")
+
+if exists("latDbs")
+	copy_field("latDbs","@visitorLocation.geo.lat") # <!-- dbs verzeichnis -->
+elsif exists("latVisitor")
+	copy_field("latVisitor","@visitorLocation.geo.lat") # <!-- zdb sigel verzeichnis -->
+elsif exists("@geoLookupDbs") # <!-- geo lookup pelias -->
+	copy_field("@geoLookupDbs","@geoLookupDbsLat")
+	lookup("@geoLookupDbsLat","addLatMap", delete:"true")
+	copy_field("@geoLookupDbsLat","@visitorLocation.geo.lat")
+end
+
+if exists("lonDbs")
+	copy_field("lonDbs","@visitorLocation.geo.lon") # <!-- dbs verzeichnis -->
+elsif exists("lonVisitor") 
+	copy_field("lonVisitor","@visitorLocation.geo.lon") # <!-- zdb sigel verzeichnis -->
+elsif exists("@geoLookupDbs")
+	copy_field("@geoLookupDbs","@geoLookupDbsLon")
+	lookup("@geoLookupDbsLon","addLongMap" , delete:"true") # <!-- geo lookup pelias -->
+	copy_field("@geoLookupDbsLon","@visitorLocation.geo.lon")
+end
+
+if exists("@visitorLocation")
+	add_field("@visitorLocation.type","Place")
+end
+if exists("@visitorLocation.address")
+	add_field("@visitorLocation.address.type","PostalAddress")
+end
+if exists("@visitorLocation.openingHoursSpecification")
+	add_field("@visitorLocation.openingHoursSpecification.type","OpeningHoursSpecification")
+end
+
+copy_field("@visitorLocation","location[].$append")
+
+# other location
+copy_field("descriptionOther","@otherLocation.description")
+copy_field("streetAddressOther","@otherLocation.address.streetAddress")
+copy_field("localityOther","@otherLocation.address.addressLocality")
+copy_field("postalCodeOther","@otherLocation.address.postalCode")
+copy_field("countryOther","@otherLocation.address.addressCountry")
+copy_field("openingHoursOther","@otherLocation.openingHoursSpecification.description")
+copy_field("openingCommentOther","@otherLocation.openingHoursSpecification.comment")
+copy_field("latOther","@otherLocation.geo.lat")
+copy_field("lonOther","@otherLocation.geo.lon")
+
+if exists("@otherLocation")
+	add_field("@otherLocation.type","Place")
+end
+if exists("@otherLocation.address")
+	add_field("@otherLocation.address.type","PostalAddress")
+end
+if exists("@otherLocation.openingHoursSpecification")
+	add_field("@otherLocation.openingHoursSpecification.type","OpeningHoursSpecification")
+end
+
+copy_field("@otherLocation","location[].$append")
+
+
+## 		<!-- Determine classification, fundertype, and stocksize ID, loop back '@' -->
+
+call_macro("make-id", "isil-field":"035E.f", "dbs-field":"typ_id", "dbs-lookup":"dbs_libtype_value_to_id_map", "uri-base":"http://purl.org/lobid/libtype#n$1","output-name":"@classificationId")
+call_macro("make-id", "isil-field":"035E.g", "dbs-field":"utr_id", "dbs-lookup":"dbs_fundertype_value_to_id_map", "uri-base":"http://purl.org/lobid/fundertype#n$1","output-name":"@fundertypeId")
+call_macro("make-id", "isil-field":"035E.h", "dbs-field":"bestandsgroessenklasse_id", "dbs-lookup":"dbs_stocksize_value_to_id_map", "uri-base":"http://purl.org/lobid/stocksize#n$1","output-name":"@stocksizeId")
+
+## 		<!-- Use classification, fundertype, and stocksize ID for labels -->
+do list(path:"@classificationId","var":"$i")
+	copy_field("$i","classification.id")
+	add_field("classification.type","Concept")
+	copy_field("$i","classification.label.de")
+	copy_field("$i","classification.label.en")
+end
+lookup("classification.label.de","libtype_id_to_value_map")
+lookup("classification.label.en","libtype_id_to_value_en_map")
+
+do list(path:"@fundertypeId","var":"$i")
+	copy_field("$i","fundertype.id")
+	add_field("fundertype.type","Concept")
+	copy_field("$i","fundertype.label.de")
+	copy_field("$i","fundertype.label.en")
+end
+
+lookup("fundertype.label.de","fundertype_id_to_value_map" )
+lookup("fundertype.label.en","fundertype_id_to_value_en_map")
+#
+
+do list(path:"@stocksizeId","var":"$i")
+	add_field("collects.type","Collection")
+	copy_field("$i","collects.extent.id")
+	add_field("collects.extent.type","Concept")
+	copy_field("$i","collects.extent.label.de")
+	copy_field("$i","collects.extent.label.en")
+end
+lookup("collects.extent.label.de","stocksize_id_to_value_map" )
+lookup("collects.extent.label.en","stocksize_id_to_value_en_map")
+
+set_array("collects.subject[]")
+do list(path:"035G","var":"$i")
+	copy_field("$i.a","collects.subject[].$append")
+end
+
+
+copy_field("isil","@wikidataMap")
+lookup ("@wikidataMap","isil2wikidata",delete:"true")
+unless exists("@wikidataMap")
+	copy_field("dbsId","@wikidataMap")
+	lookup ("@wikidataMap","dbsId2wikidata",delete:"true")
+end
+
+set_array("alternateName[]")
+do list(path:"029@","var":"$i")
+	if any_equal("$i.4","d")
+		copy_field("$i.a","name_en")
+	else
+		copy_field("$i.a","alternateName[].$append")
+	end
+end
+
+set_array("sameAs[]")
+
+copy_field("@wikidataMap","sameAs[].$append")
+copy_field("@wikidataMap","gndIdentifier")
+lookup("gndIdentifier","wikidata2gndIdentifier",delete:"true")
+if any_match("gndIdentifier","^.+$")
+	paste("sameAs[].$append","~https://d-nb.info/gnd/","gndIdentifier",join_char:"")
+end
+
+if exists("isil")
+	paste("sameAs[].$append","~https://ld.zdb-services.de/resource/organisations/","isil",join_char:"" )
+end
+
+## 		<!-- Prepare "Gemeindeschlüssel" for lookup in geonames map and "ags" -->
+
+if any_match("gemeindekennzahl","\\d{11,12}")
+	copy_field("gemeindekennzahl","@ags")
+	replace_all("@ags","^(\\d{11})$","0$1")
+	replace_all("@ags","(\\d{5})(\\d{4})(\\d{3})","$1$3")
+end
+
+unless exists("@ags")
+	if exists("032P")
+		do list(path:"032P","var":"$i")
+			if any_match("$i.n","\\d{8}") #TODO: Wiederholbares-Feld. Welches davon nehmen? 032P.*.n
+				copy_field("$i.n","@ags") #TODO: Wiederholbares-Feld. Welches davon nehmen? 032P.*.n
+				replace_all("@ags","^0(.*)$","$1")
+			end
+		end
+	end
+end
+
+
+unless exists("@ags")
+	copy_field("@postalCodeForLookups","@ags")
+	## TODO: No blacklist exists in fix:			<blacklist map="plz_blacklist"/> TODO: Perhaps mit emty element lookup?
+	lookup("@ags","plz_blacklist")
+	if any_equal("@ags","blacklist")
+		remove_field("@ags")
+	else
+		lookup("@ags","ags_map", delete:"true")
+	end
+end
+
+lookup("@ags","geonames_map", delete:"true")
+if exists("@ags")
+	paste("containedIn","~http://sws.geonames.org/","@ags","~/", join_char:"")
+end
+
+## 		<!-- Entities with id and label for 'linkedTo' -->
+do list(path: "035I","var":"$i")
+
+	if any_match("$i.c","(?i).*gbv")
+		add_field("linkedTo.id","http://lobid.org/organisations/DE-601#!")
+		add_field("linkedTo.label","Verbundzentrale des GBV (VZG)")
+
+	elsif  any_match("$i.c","(?i).*bvb")
+		add_field("linkedTo.id","http://lobid.org/organisations/DE-604#!")
+		add_field("linkedTo.label","Bibliotheksverbund Bayern (BVB)")
+
+	elsif  any_match("$i.c","(?i).*hebis")
+		add_field("linkedTo.id","http://lobid.org/organisations/DE-603#!")
+		add_field("linkedTo.label","Hessisches BibliotheksInformationsSystem HeBIS")
+
+	elsif  any_match("$i.c","(?i).*hbz")
+		add_field("linkedTo.id","http://lobid.org/organisations/DE-605#!")
+		add_field("linkedTo.label","Hochschulbibliothekszentrum des Landes Nordrhein-Westfalen (hbz)")
+
+	elsif  any_match("$i.c","(?i).*kobv")
+		add_field("linkedTo.id","http://lobid.org/organisations/DE-602#!")
+		add_field("linkedTo.label","Kooperativer Bibliotheksverbund Berlin-Brandenburg")
+
+	elsif  any_match("$i.c","(?i).*swb")
+		add_field("linkedTo.id","http://lobid.org/organisations/DE-576#!")
+		add_field("linkedTo.label","Bibliotheksservice-Zentrum Baden-Württemberg (BSZ)")
+	end
+end
+
+set_array("note[]")
+do list(path: "047A","var":"$i")
+	do list(path:"$i.a","var":"$j")
+		copy_field("$j","note[].$append")
+	end
+end
+
+set_array("predecessor[]")
+do list(path: "035D","var":"$i")
+	do list(path:"$i.b","var":"$j")
+		if any_match("$j","^(..|ZDB)-.*")
+			copy_field("$j","predecessor[].$append.isil")
+		end
+	end
+end
+
+do list(path:"predecessor[]","var":"$i")
+	copy_field("$i.isil","$i.id")
+	replace_all("$i.id","^(.*)$","http://lobid.org/organisations/$1#!")
+	if any_contain("$i.id", "ZDB")
+		remove_field("$i.isil")
+		add_field("$i.type","Collection")
+	else
+		add_field("$i.type","Organisation")
+	end
+end
+
+set_array("successor[]")
+do list(path:"note[]", "var":"$i")
+	if any_match("$i","Ung.ltig;.*aufgegangen in.*([A-Z]{1,4}-.*?)(;.*|$)") # REGEX should catch the ISIL
+		copy_field("$i","successor[].$append.isil")
+		replace_all("successor[].$last.isil","Ung.ltig;.*aufgegangen in.*([A-Z]{1,4}-.*?)(;.*|$)","$1") # REGEX should catch the ISIL
+	end
+end
+
+do list(path:"successor[]","var":"$i")
+	copy_field("$i.isil","$i.id")
+	replace_all("$i.id","^(.*)$","http://lobid.org/organisations/$1#!")
+	if any_contain("$i.id", "ZDB")
+		remove_field("$i.isil")
+		add_field("$i.type","Collection")
+	else
+		add_field("$i.type","Organisation")
+	end
+end
+
+if any_equal("035E.a","I")  # Deprecated records
+	if any_match("050D.a","^L.*schung.?(\\d{4}-\\d{2}).*")
+		copy_field("050D.a","dissolutionDate")
+	else
+		add_field("dissolutionDate","2099-12-31") # Add dummi date for deleted records that are missing the date.
+	end
+
+	replace_all("dissolutionDate","^L.*schung.?(\\d{4}-\\d{2}).*","$1-01")
+end
+
+copy_field("dbsID","librariesOrgID")
+lookup("librariesOrgID","dbsID_librariesOrg2lobidOrg",delete:"true")
+
+
+copy_field("librariesOrgID","@librariesOrg_link")
+replace_all("@librariesOrg_link","^(.*)$","https://librarytechnology.org/library/$1")
+move_field("@librariesOrg_link","sameAs[].$append")
+
+
+if exists("029R.e")
+	paste("parentOrganization.id","~http://lobid.org/organisations/","029R.e","~#!",join_char:"")
+	copy_field("029R.a","parentOrganization.label")
+end
+
+
+copy_field("id","mainEntityOfPage.id")
+copy_field("001A.0","mainEntityOfPage.dateCreated")
+copy_field("001B.0","mainEntityOfPage.dateModified")
+
+replace_all("mainEntityOfPage.dateCreated","^.+?:","")
+replace_all("mainEntityOfPage.dateModified","^.+?:","")
+add_field("mainEntityOfPage.wasGeneratedBy.type","Activity")
+# TODO: Add field for startTimedTime
+# TODO: Check if property should be be schema.org:en
+# timestamp("mainEntityOfPage.wasGeneratedBy.endedAtTime",format:"yyyy-MM-dd'T'HH:mm:ss", timezone:"Europe/Berlin")
+set_array("mainEntityOfPage.wasGeneratedBy.used[]")
+if exists("picaPPN")
+	paste("mainEntityOfPage.wasGeneratedBy.used[].$append.id","~http://services.dnb.de/sru/bib?operation=searchRetrieve&query=isl%3D","isil","~&recordSchema=PicaPlus-xml&version=1.1",join_char:"")
+	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganization.id","https://sigel.staatsbibliothek-berlin.de/vergabe/isil/")
+	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganization.label","Deutsche ISIL-Agentur und Sigelstelle an der Staatsbibliothek zu Berlin")	
+else
+	add_field("mainEntityOfPage.wasGeneratedBy.used[].$append.sourceOrganization.id","https://www.bibliotheksstatistik.de/")
+	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganization.label","Deutsche Bibliotheksstatistik (DBS)")	
+end
+
+if any_match("isil", "(?i).*test.*")
+	reject()
+end
+
+vacuum()
+
+retain(
+	"@context",
+	"address",
+	"alternateName[]",
+	"availableChannel[]",
+	"classification",
+	"collects",
+	"containedIn",
+	"dbsID",
+	"dissolutionDate",
+	"email",
+	"fundertype",
+	"gndIdentifier",
+	"id",
+	"isil",
+	"location[]",
+	"librariesOrgID",
+	"linkedTo",
+	"mainEntityOfPage",
+	"name",
+	"name_en",
+	"note[]",
+	"worldcatRegistryId",
+	"parentOrganization",
+	"picaPPN",
+	"provides",
+	"rs",
+	"predecessor[]",
+	"successor[]",
+	"sameAs[]",
+	"sigel",
+	"telephone",
+	"type",
+	"url"
+	)

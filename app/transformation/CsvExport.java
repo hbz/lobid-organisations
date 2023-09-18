@@ -21,7 +21,7 @@ import play.libs.Json;
  */
 public class CsvExport {
 
-	private JsonNode organisations;
+	private final JsonNode organisations;
 
 	/**
 	 * @param json The organisations JSON data to export
@@ -35,23 +35,24 @@ public class CsvExport {
 	 * @return The data for the given fields in CSV format
 	 */
 	public String of(String fields) {
-		String csv = fields + "\n";
+		StringBuilder csv = new StringBuilder(fields + "\n");
 		for (Iterator<JsonNode> iter = organisations.elements(); iter.hasNext();) {
 			JsonNode org = iter.next();
-			csv += Arrays.asList(fields.split(",")).stream().map(field -> {
+			csv.append(Arrays.asList(fields.split(",")).stream().map(field -> {
 				try {
 					Object value = JsonPath.read(Configuration.defaultConfiguration()
 							.jsonProvider().parse(org.toString()), "$." + field);
 					return String.format("\"%s\"",
 							value.toString().replaceAll("\"", "\"\""));
-				} catch (PathNotFoundException x) {
+				}
+				catch (PathNotFoundException x) {
 					Logger.trace(x.getMessage());
 					// https://www.w3.org/TR/2015/REC-tabular-data-model-20151217/#empty-and-quoted-cells
 					return "";
 				}
-			}).collect(Collectors.joining(",")) + "\n";
+			}).collect(Collectors.joining(","))).append("\n");
 		}
-		return csv;
+		return csv.toString();
 	}
 
 }

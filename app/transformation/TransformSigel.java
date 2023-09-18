@@ -17,14 +17,13 @@ import java.util.stream.Collectors;
 
 import org.metafacture.framework.ObjectReceiver;
 import org.metafacture.framework.helpers.DefaultObjectPipe;
-import org.metafacture.metamorph.Metamorph;
 import org.metafacture.json.JsonEncoder;
-import org.metafacture.triples.StreamToTriples;
+import org.metafacture.metafix.Metafix;
 import org.metafacture.biblio.pica.PicaXmlHandler;
+import org.metafacture.io.LineReader;
+import org.metafacture.biblio.pica.PicaDecoder;
 import org.metafacture.xml.XmlDecoder;
-import org.metafacture.triples.TripleFilter;
 import org.metafacture.xml.XmlElementSplitter;
-import org.metafacture.triples.TripleCollect;
 import org.metafacture.io.ObjectWriter;
 import org.metafacture.xml.XmlFilenameWriter;
 import org.metafacture.io.FileOpener;
@@ -41,36 +40,48 @@ import play.Logger;
  *
  */
 public class TransformSigel {
-
-	static final String DUMP_TOP_LEVEL_TAG = "collection";
-	static final String DUMP_ENTITY = "record";
 	static final String UPDATE_TOP_LEVEL_TAG = "harvest";
+	static final String DUMP_TOP_LEVEL_TAG = "collection";
 	static final String UPDATE_ENTITY = "metadata";
 	static final String XPATH =
 			"/*[local-name() = 'record']/*[local-name() = 'global']/*[local-name() = 'tag'][@id='008H']/*[local-name() = 'subf'][@id='e']";
 	static final String DUMP_XPATH = "/" + DUMP_TOP_LEVEL_TAG + "/" + XPATH;
 
-	static void process(String startOfUpdates, int intervalSize,
-			final String outputPath, String geoLookupServer) throws IOException {
-		splitUpSigelDump();
-		final FileOpener splitFileOpener = new FileOpener();
-		StreamToTriples streamToTriples = new StreamToTriples();
-		streamToTriples.setRedirect(true);
-		final TripleFilter tripleFilter = new TripleFilter();
-		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
+	// This opens the pica binary bulk we have, transforms them and saves them as JSON ES Bulk.
+	static void processBulk(final String outputPath, String geoLookupServer) throws IOException {
+		final FileOpener dumpOpener = new FileOpener();	
+		PicaDecoder picaDecoder = new PicaDecoder();
+		picaDecoder.setNormalizeUTF8(true);
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
-		splitFileOpener//
-				.setReceiver(new XmlDecoder())//
-				.setReceiver(new PicaXmlHandler())//
-				.setReceiver(new Metamorph("morph-sigel.xml"))//
-				.setReceiver(streamToTriples)//
-				.setReceiver(tripleFilter)//
-				.setReceiver(new TripleCollect())//
-				.setReceiver(TransformAll.morphEnriched(geoLookupServer))//
+		dumpOpener//
+				.setReceiver(new LineReader())//
+				.setReceiver(picaDecoder)//
+				.setReceiver(new Metafix("conf/fix-sigel.fix"))//
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(new ObjectWriter<>(outputPath));
+		dumpOpener.process(TransformAll.DATA_INPUT_DIR + "sigel.dat");
+ 		dumpOpener.closeStream(); 
+	}
+
+// This opens the updates and transforms them and appends them to the JSON ES Bulk of the bulk transformation.
+		static void processUpdates(String startOfUpdates, int intervalSize,
+			final String outputPath, String geoLookupServer) throws IOException {
+		final FileOpener splitFileOpener = new FileOpener();		
+		JsonEncoder encodeJson = new JsonEncoder();
+		encodeJson.setPrettyPrinting(true);
+		ObjectWriter objectWriter = new ObjectWriter<>(outputPath);
+		objectWriter.setAppendIfFileExists(true);
+		splitFileOpener//
+				.setReceiver(new XmlDecoder())//
+				.setReceiver(new PicaXmlHandler())//
+				.setReceiver(new Metafix("conf/fix-sigel.fix")) // Preprocess Sigel-Data and fix skips all records that have no "inr" and "isil"
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer))// Process and enrich Sigel-Data.
+				.setReceiver(encodeJson)//
+				.setReceiver(TransformAll.esBulk())//
+				.setReceiver(objectWriter);
 		if (!startOfUpdates.isEmpty()) {
 			processSigelUpdates(startOfUpdates, intervalSize);
 		}
@@ -81,17 +92,6 @@ public class TransformSigel {
 					splitFileOpener.process(path.toString());
 				});
 		splitFileOpener.closeStream();
-	}
-
-	private static void splitUpSigelDump() {
-		final FileOpener dumpFileOpener = new FileOpener();
-		dumpFileOpener//
-				.setReceiver(new XmlDecoder())//
-				.setReceiver(new XmlElementSplitter(DUMP_TOP_LEVEL_TAG, DUMP_ENTITY))//
-				.setReceiver(
-						xmlFilenameWriter(TransformAll.DATA_OUTPUT_DIR, DUMP_XPATH));
-		dumpFileOpener.process(TransformAll.DATA_INPUT_DIR + "sigel.xml");
-		dumpFileOpener.closeStream();
 	}
 
 	private static void processSigelUpdates(String startOfUpdates,
@@ -106,6 +106,7 @@ public class TransformSigel {
 			updateOpener.closeStream();
 		}
 	}
+
 
 	private static ArrayList<OaiPmhOpener> buildUpdatePipes(int intervalSize,
 			String startOfUpdates, int updateIntervals) {

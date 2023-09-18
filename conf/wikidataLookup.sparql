@@ -1,0 +1,10 @@
+# Items that have an ISIL or DBS ID, add GND ID if existing
+SELECT ?item ?itemLabel ?isil ?gndId ?dbsId
+WHERE
+{
+	 { ?item wdt:P791 ?isil } # Give back entries that either have an ISIL
+      UNION                   # or
+     { ?item wdt:P4007 ?dbsId . } # a DBS ID 
+     OPTIONAL { ?item wdt:P227 ?gndId .  } # Add GND ID if in Wikidata.
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "de,en". } 
+}

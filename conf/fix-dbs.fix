@@ -1,0 +1,41 @@
+do once("maps")
+	put_filemap("conf/iso3-iso2-map.csv","iso3-iso2-map", sep_char:"\t")
+end
+
+replace_all("inr"," ","")
+
+replace_all("isil",",.*","") # sometimes a DBS entry has two ISIL, see  #467
+replace_all("isil"," ","")
+replace_all("isil","/","-")
+if any_match("isil","NULL")
+	remove_field("isil")
+end
+uri_encode("isil") # z
+replace_all("isil","%2D","-")
+
+
+copy_field("lat","latDbs")
+copy_field("lon","lonDbs")
+
+
+if exists("iso")
+	copy_field("iso","dbs_addressCountry")
+	lookup("dbs_addressCountry","iso3-iso2-map")
+else
+	add_field("dbs_addressCountry","DE")
+end
+
+# TODO: What to do here? Is there a way to delete all Values, 
+# that have a certain value e.g. configurable vacuum()
+
+# <data source="_else">
+# 	<not-equals string="NULL" />
+# </data>
+
+
+vacuum()
+
+# Skip all records that have no "inr"
+unless exists("inr")
+	reject()
+end

@@ -2,15 +2,14 @@
 
 package transformation;
 
-import org.metafacture.metamorph.Metamorph;
+import org.metafacture.metafix.Metafix;
 import org.metafacture.csv.CsvDecoder;
 import org.metafacture.json.JsonEncoder;
 import org.metafacture.io.LineReader;
-import org.metafacture.triples.StreamToTriples;
-import org.metafacture.triples.TripleFilter;
-import org.metafacture.triples.TripleCollect;
 import org.metafacture.io.ObjectWriter;
+import org.metafacture.strings.StringMatcher;
 import org.metafacture.io.FileOpener;
+import java.io.FileNotFoundException;
 
 /**
  * Transformation from DBS CSV to JSON.
@@ -19,25 +18,22 @@ import org.metafacture.io.FileOpener;
  *
  */
 public class TransformDbs {
-	static void process(final String outputPath, String geoLookupServer) {
+	static void process(final String outputPath, String geoLookupServer) throws FileNotFoundException {
 		final FileOpener opener = new FileOpener();
-		StreamToTriples streamToTriples = new StreamToTriples();
-		streamToTriples.setRedirect(true);
 		opener.setEncoding("UTF-8");
+		final StringMatcher matcher = new StringMatcher();
+		matcher.setPattern("NULL");
+		matcher.setReplacement("");
 		final CsvDecoder decoder = new CsvDecoder(',');
 		decoder.setHasHeader(true);
-		final TripleFilter tripleFilter = new TripleFilter();
-		tripleFilter.setSubjectPattern(".+"); // Remove entries without id
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
 		opener//
 				.setReceiver(new LineReader())//
+				.setReceiver(matcher)//
 				.setReceiver(decoder)//
-				.setReceiver(new Metamorph("morph-dbs.xml"))//
-				.setReceiver(streamToTriples)//
-				.setReceiver(tripleFilter)//
-				.setReceiver(new TripleCollect())//
-				.setReceiver(TransformAll.morphEnriched(geoLookupServer))//
+				.setReceiver(new Metafix("conf/fix-dbs.fix"))// Fix skips all records that have no "inr"
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(new ObjectWriter<>(outputPath));

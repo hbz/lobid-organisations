@@ -19,12 +19,10 @@ public class TestGeoSearch extends ElasticsearchTest {
 		QueryBuilder geoQuery = geoPolygonQuery("location.geo")
 				.addPoint(lat - 1, lon - 1).addPoint(lat - 1, lon + 1)
 				.addPoint(lat + 1, lon - 1).addPoint(lat + 1, lon + 1);
-		SearchResponse responseOfSearch =
-				client.prepareSearch(Application.CONFIG.getString("index.es.name"))
-						.setTypes(Application.CONFIG.getString("index.es.type"))
-						.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setQuery(geoQuery)
-						.execute().actionGet();
-		return responseOfSearch;
+		return client.prepareSearch(Application.CONFIG.getString("index.es.name"))
+				.setTypes(Application.CONFIG.getString("index.es.type"))
+				.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setQuery(geoQuery)
+				.execute().actionGet();
 	}
 
 	@Test

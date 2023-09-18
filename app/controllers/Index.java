@@ -71,14 +71,14 @@ public class Index extends Controller {
 		}
 	}
 
-	private static Settings clientSettings =
+	private final static Settings clientSettings =
 			Settings.settingsBuilder().put("path.home", ".")
 					.put("http.port", Application.CONFIG.getString("index.es.port.http"))
 					.put("transport.tcp.port",
 							Application.CONFIG.getString("index.es.port.tcp"))
 					.put("script.default_lang", "native").build();
 
-	private static Node node = new ConfigurableNode(
+	private final static Node node = new ConfigurableNode(
 			nodeBuilder().settings(clientSettings).local(true).getSettings().build(),
 			Arrays.asList(BundlePlugin.class, LocationAggregation.class, Zero.class))
 					.start();
@@ -116,7 +116,7 @@ public class Index extends Controller {
 		long minimumSize =
 				Long.parseLong(Application.CONFIG.getString("index.file.minsize"));
 		if (new File(pathToJson).length() >= minimumSize) {
-			createEmptyIndex(CLIENT, INDEX_NAME, "conf/index-settings.json");
+			createEmptyIndex();
 			indexData(CLIENT, pathToJson, INDEX_NAME);
 		}
 		else {
@@ -189,25 +189,21 @@ public class Index extends Controller {
 		return searchRequest;
 	}
 
-	static void createEmptyIndex(final Client aClient, final String aIndexName,
-			final String aPathToIndexSettings) throws IOException {
-		deleteIndex(aClient, aIndexName);
+	static void createEmptyIndex() throws IOException {
+		deleteIndex(Index.CLIENT, Index.INDEX_NAME);
 		CreateIndexRequestBuilder cirb =
-				aClient.admin().indices().prepareCreate(aIndexName);
-		if (aPathToIndexSettings != null) {
-			String settingsMappings = Files.lines(Paths.get(aPathToIndexSettings))
-					.collect(Collectors.joining());
-			cirb.setSource(settingsMappings);
-		}
+				Index.CLIENT.admin().indices().prepareCreate(Index.INDEX_NAME);
+		String settingsMappings = Files.lines(Paths.get("conf/index-settings.json"))
+				.collect(Collectors.joining());
+		cirb.setSource(settingsMappings);
 		cirb.execute().actionGet();
-		aClient.admin().indices().refresh(new RefreshRequest()).actionGet();
+		Index.CLIENT.admin().indices().refresh(new RefreshRequest()).actionGet();
 	}
 
-	static void indexData(final Client aClient, final String aPath,
-			final String aIndex) throws IOException, ElasticsearchException {
-		final BulkRequestBuilder bulkRequest = aClient.prepareBulk();
+	static void indexData(final Client aClient, final String aPath, final String aIndex) throws IOException, ElasticsearchException {
+		final BulkRequestBuilder bulkRequest = Index.CLIENT.prepareBulk();
 		try (BufferedReader br =
-				new BufferedReader(new InputStreamReader(new FileInputStream(aPath),
+				new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(aPath)),
 						StandardCharsets.UTF_8))) {
 			readData(bulkRequest, br, aClient, aIndex);
 		}
@@ -224,8 +220,8 @@ public class Index extends Controller {
 		final ObjectMapper mapper = new ObjectMapper();
 		String line;
 		int currentLine = 1;
-		String organisationData = null;
-		String[] idUriParts = null;
+		String organisationData;
+		String[] idUriParts;
 		String organisationId = null;
 
 		// First line: index with id, second line: source
@@ -237,7 +233,7 @@ public class Index extends Controller {
 				organisationId = idUriParts[idUriParts.length - 1].replace("#!", "");
 			} else {
 				organisationData = line;
-				bulkRequest.add(client.prepareIndex(aIndex, INDEX_TYPE, organisationId)
+				bulkRequest.add(Index.CLIENT.prepareIndex(Index.INDEX_NAME, INDEX_TYPE, organisationId)
 						.setSource(organisationData));
 			}
 			currentLine++;
