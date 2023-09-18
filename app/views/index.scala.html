@@ -16,10 +16,10 @@
 <p>@Html(Messages.get("index.development.text", "https://github.com/hbz/lobid-organisations#about", "https://github.com/hbz/lobid-organisations/issues/new", "https://github.com/hbz/lobid-organisations/graphs/contributors"))</p>
 </div>
 <div class="col-md-5">
-<figure>@defining(routes.Application.get(item.get("isil").get("value").asText(), "")) { orgLink =>
+<div id="figure" role="figure" aria-labelledby="caption">@defining(routes.Application.get(item.get("isil").get("value").asText(), "")) { orgLink =>
 	<a href='@orgLink'><img id="index-image" src='https://lobid.org/imagesproxy?url=@item.get("image").get("value").asText().replace("http:","https:")' title='@Messages.get("index.image.info")' alt="@label"/></a>
-	<figcaption><a href='@orgLink'>@label</a><br/><small>(@Messages.get("index.image.source") @Html(attribution))</small></figcaption>
-}</figure>
+	<p id="caption"><a href='@orgLink'>@label</a><br/><small>(@Messages.get("index.image.source") @Html(attribution))</small></p>
+}</div>
 </div>
 </div>
 }
