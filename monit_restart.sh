@@ -30,7 +30,7 @@ JAVA_OPTS=$(echo "$JAVA_OPTS" |sed 's#,#\ #g')
 cd $HOME/git/$REPO
 case $ACTION in
 	start)
-		if [ -f /tmp/lobid-organisations/ ]; then  # missing if rebooted
+		if [ ! -d /tmp/lobid-organisations/ ]; then  # missing if rebooted
 			mkdir /tmp/lobid-organisations/
 		fi
 		if [ -f target/universal/stage/RUNNING_PID ]; then
