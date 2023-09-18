@@ -126,3 +126,31 @@ small {
 .navbar-default {
 	margin-top: 10px;
 }
+
+/* improve accessibility */
+h1 small,
+h2 small,
+h3 small,
+h4 small,
+h5 small,
+h6 small,
+.h1 small,
+.h2 small,
+.h3 small,
+.h4 small,
+.h5 small,
+.h6 small,
+h1 .small,
+h2 .small,
+h3 .small,
+h4 .small,
+h5 .small,
+h6 .small,
+.h1 .small,
+.h2 .small,
+.h3 .small,
+.h4 .small,
+.h5 .small,
+.h6 .small {
+  color: #666;
+}
