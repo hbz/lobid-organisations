@@ -49,6 +49,7 @@
 							<ul class="dropdown-menu">
 								<li @if(controllers.Application.currentUri().contains("dataset")){class="active"}><a href='@routes.Application.dataset("")'>@Messages.get("main.navbar.info.dataset")</a></li>
 								<li><a href="mailto:lobid-admin@@hbz-nrw.de?subject=Feedback%20lobid-organisations,%20URL%20@controllers.Application.currentUri()">@Messages.get("main.navbar.info.feedback")</a></li>
+								<li><a href="http://lobid.org/usage-policy/">@Messages.get("main.navbar.info.policy")</a></li>
 							</ul>
 						</li>
 					</ul>

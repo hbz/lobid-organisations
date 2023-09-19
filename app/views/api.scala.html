@@ -31,6 +31,10 @@ $('input.search-organisations').autocomplete({
 }
 
 @main("*", scripts = hypothesisEmbed) {
+    <div id="usage-policy" class="alert alert-info" role="alert">
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        @Html(Messages.get("api.usage.policy", "https://lobid.org/usage-policy/"))
+    </div>
     <h2 id="basics">@Messages.get("api.basics.header") <small><a href="#basics"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     <dl>
     @desc("HTTP GET", routes.Application.get("DE-6", format="json"))

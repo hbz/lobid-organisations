@@ -122,3 +122,12 @@ small {
 	color: blue;
 	z-index: 100 !important;
 }
+
+#usage-policy {
+	margin-top: 20px;
+	/*
+	setting standard background-color for .alert-info
+	https://getbootstrap.com/docs/3.3/components/#alerts
+	*/
+	background-color: #d9edf7;
+}
