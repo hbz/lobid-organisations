@@ -18,7 +18,8 @@ main.navbar.info.dataset = Dataset description
 main.navbar.info.feedback = Feedback about current page
 main.navbar.info.policy = Guidelines API usage
 
-main.footer.text = a LOD service by <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
+main.footer.text = a service by <a href="{0}">hbz</a>
+main.footer.warranty = Warranty
 main.footer.imprint = Imprint
 main.footer.data_protection = Privacy
 
