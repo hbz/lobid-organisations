@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
  *
  */
 public class TransformDbs {
-	static void process(final String outputPath, String geoLookupServer) throws FileNotFoundException {
+	static void process(final String outputPath, String geoLookupServer, final String wikidataLookupFilename) throws FileNotFoundException {
 		final FileOpener opener = new FileOpener();
 		opener.setEncoding("UTF-8");
 		final StringMatcher matcher = new StringMatcher();
@@ -33,7 +33,7 @@ public class TransformDbs {
 				.setReceiver(matcher)//
 				.setReceiver(decoder)//
 				.setReceiver(new Metafix("conf/fix-dbs.fix"))// Fix skips all records that have no "inr"
-				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer, wikidataLookupFilename))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(new ObjectWriter<>(outputPath));
