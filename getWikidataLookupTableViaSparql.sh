@@ -9,4 +9,4 @@ WHERE
      OPTIONAL { ?item wdt:P227 ?gndId . } # Add GND ID if in Wikidata.
     SERVICE wikibase:label { bd:serviceParam wikibase:language "de,en". }
 }
-' |sed 's#^"##g'|sed 's#"\t<#\t#g'|sed 's#>\t"#\t#g' |sed 's#"@..#\t#g'  |sed 's#\t"#\t#g' |sed 's#"\t#\t#g' |sed 's#"\^\^.*##g' |sed 's#\t\t#\t#g' > ./conf/wikidataLookup.tsv
+' |sed 's#<##g' | sed 's#^"##g'|sed 's#"\t<#\t#g'|sed 's#>\t"#\t#g' |sed 's#"@..#\t#g'  |sed 's#\t"#\t#g' |sed 's#"\t#\t#g' |sed 's#"\^\^.*##g' |sed 's#\t\t#\t#g' |sed 's#"$##g' > ./conf/wikidataLookup.tsv

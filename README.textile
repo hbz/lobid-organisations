@@ -43,6 +43,9 @@ h2. Deployment
 
 _Short instructions for clean deployment, includes hbz-internal instructions that won't work outside the hbz network. Find detailed developer documentation further below._
 
+To get the lookup table @conf/wikidataLookup.tsv@:
+* @bash getWikidataLookupTableViaSparql.sh@
+
 After the build steps above, edit @conf/application.conf@ as required (e.g. ports to be used by the embedded Elasticsearch), download the full data dumps, and start the application:
 
 * @cd app/transformation/input/@
