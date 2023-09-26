@@ -102,7 +102,7 @@ public class TestTransformAll {
 		final HashMap<String, String> fixVariables = new HashMap<>();
 		final String wikidataLookupFile ="../test/conf/wikidataLookup.tsv";
 		fixVariables.put("isil2wikidata", wikidataLookupFile);
-		fixVariables.put("dbsId2wikidata", wikidataLookupFile);
+		fixVariables.put("dbsID2wikidata", wikidataLookupFile);
 		fixVariables.put("wikidata2gndIdentifier", wikidataLookupFile);
 		Metafix fixEnriched = new Metafix("conf/fix-enriched.fix", fixVariables);
 		sourceFileOpener.setReceiver(new LineReader())//

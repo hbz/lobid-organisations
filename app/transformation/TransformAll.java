@@ -85,7 +85,7 @@ public class TransformAll {
 	static Metafix fixEnriched(final String geoLookupServer, final String wikidataLookupFilename) throws FileNotFoundException {
 		final HashMap<String, String> fixVariables = new HashMap<>();
 		fixVariables.put("isil2wikidata", wikidataLookupFilename);
-		fixVariables.put("dbsId2wikidata", wikidataLookupFilename);
+		fixVariables.put("dbsID2wikidata", wikidataLookupFilename);
 		fixVariables.put("wikidata2gndIdentifier", wikidataLookupFilename);
 		Metafix fixEnriched = new Metafix("conf/fix-enriched.fix", fixVariables);
 
