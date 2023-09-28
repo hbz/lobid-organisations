@@ -23,6 +23,7 @@ public class Accept {
 		HTML("html", "text/html"), //
 		JAVASCRIPT("js", "text/javascript", "application/javascript"), //
 		CSV("csv", "text/csv"), //
+		TSV("tsv", "text/tab-separated-values"), //
 		BULK("bulk", "application/x-jsonlines"), //
 		RDF_XML("rdf", "application/rdf+xml", "application/xml", "text/xml"), //
 		N_TRIPLE("nt", "application/n-triples", "text/plain"), //
