@@ -129,7 +129,7 @@ organisation.location.streetAddress = Straße
 organisation.location.addressCountry = Land
 organisation.location.openingHoursSpecification = Öffnungszeiten
 
-organisation.footer.change = Änderungen zu diesem Eintrag im Sigelverzeichnis mitteilen.
+organisation.footer.change = Änderungen zu diesem Eintrag im ISIL-Verzeichnis mitteilen.
 
 organisation.notFound = Eine Organisation mit der ID {0} konnte nicht gefunden werden.
 

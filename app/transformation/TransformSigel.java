@@ -48,7 +48,7 @@ public class TransformSigel {
 	static final String DUMP_XPATH = "/" + DUMP_TOP_LEVEL_TAG + "/" + XPATH;
 
 	// This opens the pica binary bulk we have, transforms them and saves them as JSON ES Bulk.
-	static void processBulk(final String outputPath, String geoLookupServer) throws IOException {
+	static void processBulk(final String outputPath, final String geoLookupServer, final String wikidataLookupFilename) throws IOException {
 		final FileOpener dumpOpener = new FileOpener();	
 		PicaDecoder picaDecoder = new PicaDecoder();
 		picaDecoder.setNormalizeUTF8(true);
@@ -58,7 +58,7 @@ public class TransformSigel {
 				.setReceiver(new LineReader())//
 				.setReceiver(picaDecoder)//
 				.setReceiver(new Metafix("conf/fix-sigel.fix"))//
-				.setReceiver(TransformAll.fixEnriched(geoLookupServer))//
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer, wikidataLookupFilename))//
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(new ObjectWriter<>(outputPath));
@@ -68,7 +68,7 @@ public class TransformSigel {
 
 // This opens the updates and transforms them and appends them to the JSON ES Bulk of the bulk transformation.
 		static void processUpdates(String startOfUpdates, int intervalSize,
-			final String outputPath, String geoLookupServer) throws IOException {
+			final String outputPath, final String geoLookupServer, final String wikidataLookupFilename) throws IOException {
 		final FileOpener splitFileOpener = new FileOpener();		
 		JsonEncoder encodeJson = new JsonEncoder();
 		encodeJson.setPrettyPrinting(true);
@@ -78,7 +78,7 @@ public class TransformSigel {
 				.setReceiver(new XmlDecoder())//
 				.setReceiver(new PicaXmlHandler())//
 				.setReceiver(new Metafix("conf/fix-sigel.fix")) // Preprocess Sigel-Data and fix skips all records that have no "inr" and "isil"
-				.setReceiver(TransformAll.fixEnriched(geoLookupServer))// Process and enrich Sigel-Data.
+				.setReceiver(TransformAll.fixEnriched(geoLookupServer, wikidataLookupFilename))// Process and enrich Sigel-Data.
 				.setReceiver(encodeJson)//
 				.setReceiver(TransformAll.esBulk())//
 				.setReceiver(objectWriter);

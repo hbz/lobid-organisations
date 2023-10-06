@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 import org.metafacture.metafix.Metafix;
 import org.metafacture.elasticsearch.JsonToElasticsearchBulk;
@@ -47,13 +48,13 @@ public class TransformAll {
 	 * @param geoServer The lookup server for geo data
 	 * @throws IOException If dump and temp files cannot be read
 	 */
-	public static void process(String startOfUpdates, int intervalSize,
-			final String outputPath, String geoServer) throws IOException {
+	public static void process(final String startOfUpdates, final int intervalSize,
+			 String outputPath, final String geoServer, final String wikidataLookupFilename) throws IOException {
 		String dbsOutput = outputPath + "-dbs";
 		String sigelOutput = outputPath + "-sigel";
-		TransformSigel.processBulk(sigelOutput, geoServer); //Start processing  Sigel pica binary bulk.
-		TransformSigel.processUpdates(startOfUpdates, intervalSize, sigelOutput, geoServer); //Start process Sigel Pica XML Updates via OAI-PMH.
-		TransformDbs.process(dbsOutput, geoServer); //Start process DBS data.
+		TransformSigel.processBulk(sigelOutput, geoServer, wikidataLookupFilename); //Start processing  Sigel pica binary bulk.
+		TransformSigel.processUpdates(startOfUpdates, intervalSize, sigelOutput, geoServer, wikidataLookupFilename); //Start process Sigel Pica XML Updates via OAI-PMH.
+		TransformDbs.process(dbsOutput, geoServer,wikidataLookupFilename); //Start process DBS data.
 
 		// DBS-Data, Sigel Bulk and Updates are joined in a single ES-Bulk-file.
 		// DBS data first, so that ES prefers Sigel entries that come later and overwrite DBS entries if available.
@@ -81,8 +82,13 @@ public class TransformAll {
 				Application.CONFIG.getString("index.es.name"));
 	}
 
-	static Metafix fixEnriched(String geoLookupServer) throws FileNotFoundException {
-		final Metafix fixEnriched = new Metafix("conf/fix-enriched.fix");
+	static Metafix fixEnriched(final String geoLookupServer, final String wikidataLookupFilename) throws FileNotFoundException {
+		final HashMap<String, String> fixVariables = new HashMap<>();
+		fixVariables.put("isil2wikidata", wikidataLookupFilename);
+		fixVariables.put("dbsID2wikidata", wikidataLookupFilename);
+		fixVariables.put("wikidata2gndIdentifier", wikidataLookupFilename);
+		Metafix fixEnriched = new Metafix("conf/fix-enriched.fix", fixVariables);
+
 		if (geoLookupServer != null && !geoLookupServer.isEmpty()) {
 			fixEnriched.putMap("addLatMap", new GeoLookupMap(LookupType.LAT));
 			fixEnriched.putMap("addLongMap", new GeoLookupMap(LookupType.LON));
