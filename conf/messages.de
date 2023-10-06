@@ -16,8 +16,10 @@ main.navbar.api.title = Programmierschnittstelle
 
 main.navbar.info.dataset = Datenbeschreibung
 main.navbar.info.feedback = Feedback zur aktuellen Seite
+main.navbar.info.policy = Richtlinien API-Nutzung
 
-main.footer.text = ein LOD-Dienst des <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
+main.footer.text = ein Dienst des <a href="{0}">hbz</a>
+main.footer.warranty = Gewährleistung
 main.footer.imprint = Impressum
 main.footer.data_protection = Datenschutz
 
@@ -47,6 +49,7 @@ search.position_sort = In Ihrer Nähe
 
 # api
 
+api.usage.policy = Technische und sonstige Hinweise zur lobid-Nutzung finden sich in den <a class="alert-link" href="{0}">Richtlinien zur API-Nutzung</a>.
 api.basics.header = API-Grundlagen
 api.basics.search = Suche über alle Felder
 api.basics.pagination = Suche mit Paginierung

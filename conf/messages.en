@@ -16,8 +16,10 @@ main.navbar.api.title = Application programming interface
 
 main.navbar.info.dataset = Dataset description
 main.navbar.info.feedback = Feedback about current page
+main.navbar.info.policy = Guidelines API usage
 
-main.footer.text = a LOD service by <a href="{0}">hbz — Hochschulbibliothekszentrum des Landes NRW</a>
+main.footer.text = a service by <a href="{0}">hbz</a>
+main.footer.warranty = Warranty
 main.footer.imprint = Imprint
 main.footer.data_protection = Privacy
 
@@ -47,6 +49,7 @@ search.position_sort = Close to you
 
 # api
 
+api.usage.policy = Technical and other guidance on the usage of lobid can be found in the <a class="alert-link" href="{0}">API Usage Guidelines</a>.
 api.basics.header = API basics
 api.basics.search = Query all fields
 api.basics.pagination = Query with pagination
