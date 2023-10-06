@@ -54,8 +54,8 @@ public class CsvExport {
 				try {
 					Object value = JsonPath.read(Configuration.defaultConfiguration()
 							.jsonProvider().parse(org.toString()), "$." + field);
-					return String.format("\"%s\"",
-							value.toString().replaceAll("\"", "\"\""));
+					return separator==DEFAULT_SEPARATOR ? String.format("\"%s\"",
+							value.toString().replaceAll("\"", "\"\"")) : value.toString();
 				}
 				catch (PathNotFoundException x) {
 					Logger.trace(x.getMessage());
