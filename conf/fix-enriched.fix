@@ -290,6 +290,16 @@ elsif exists("@geoLookupDbs")
 	copy_field("@geoLookupDbsLon","@visitorLocation.geo.lon")
 end
 
+# Workaround for failing pelias lookups
+
+unless exists("@visitorLocation.geo.lon")
+ remove_field("@visitorLocation.geo")
+end
+
+unless exists("@visitorLocation.geo.lat")
+ remove_field("@visitorLocation.geo")
+end
+
 if exists("@visitorLocation")
 	add_field("@visitorLocation.type","Place")
 end
