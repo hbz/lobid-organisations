@@ -14,6 +14,8 @@ If you want to stop it permanently via cmd, do this first:
 $ sudo /etc/ini.d/monit stop
 "
 
+bash checkIfBaseDataShouldBeUpdated.sh
+
 if [ ! $# -eq 1 ]; then
 	echo "$USAGE"
 	exit 65
