@@ -15,7 +15,7 @@ libraryDependencies ++= Seq(
       // otherwise javaWs won't work
       exclude ("io.netty", "netty"),
   "com.fasterxml.jackson.core" % "jackson-annotations" % "2.15.1",
-  "com.github.jsonld-java" % "jsonld-java" % "0.13.4",
+  "com.github.jsonld-java" % "jsonld-java" % "0.13.6",
   "org.apache.jena" % "jena-arq" % "3.17.0",
   "org.metafacture" % "metamorph" % "5.7.0-rc1" exclude("org.slf4j", "slf4j-simple"),
   "org.metafacture" % "metafacture-elasticsearch" % "5.7.0-rc1",
