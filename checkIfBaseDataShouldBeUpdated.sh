@@ -15,6 +15,8 @@ Getriggert und ausgeführt in $(pwd)/checkIfBaseDataShouldBeUpdated.sh :
 Es ist Zeit sich von der ZDB einen neuen binary PICA Sigel basedump zu holen.
 Siehe https://github.com/hbz/lobid-organisations/issues/504.
 
+Hol dir den Dump von $(cat .secrets/INFO)
+
 EOF
 fi
 
