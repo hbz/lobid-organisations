@@ -421,6 +421,14 @@ public class Application extends Controller {
 					"attachment; filename=organisations.csv");
 			return ok(csvExport(format, orgs)).as("text/csv; charset=utf-8");
 		});
+		results.put("tsv", () -> {
+			String queryResultString =
+					searchQueryResult(q, location, from, size, aggregations);
+			String orgs = Json.parse(queryResultString).get("member").toString();
+			response().setHeader("Content-Disposition",
+					"attachment; filename=organisations.tsv");
+			return ok(csvExport(format, orgs, CsvExport.TAB_SEPARATOR)).as("text/tab-separated-values; charset=utf-8");
+		});
 		Supplier<Result> json = () -> {
 			String queryResultString =
 					searchQueryResult(q, location, from, size, aggregations);
@@ -490,11 +498,21 @@ public class Application extends Controller {
 		return Optional.ofNullable(json.get(field));
 	}
 
-	private static String csvExport(String format, String orgs) {
+	private static String csvExport(String format, String orgs, String separator) {
 		String[] formatConfig = format.split(FORMAT_CONFIG_SEP); // e.g. csv:name,id
 		String fields = formatConfig.length > 1 && !formatConfig[1].isEmpty()
 				? formatConfig[1] : defaultFields();
-		return new CsvExport(orgs).of(fields);
+		if (separator == null) {
+			return new CsvExport(orgs).of(fields);
+		}
+		else {
+			String fieldsWithNonDefaultSeparator=fields.replaceAll(",", separator);
+			return new CsvExport(orgs).of(fieldsWithNonDefaultSeparator, separator);
+		}
+	}
+
+	private static String csvExport(String format, String orgs) {
+		return csvExport(format, orgs, CsvExport.DEFAULT_SEPARATOR);
 	}
 
 	private static String defaultFields() {
@@ -704,6 +722,12 @@ public class Application extends Controller {
 					String.format("attachment; filename=%s.csv", id));
 			return ok(csvExport(format, "[" + json.toString() + "]"))
 					.as("text/csv; charset=utf-8");
+		});
+		results.put("tsv", () -> {
+			response().setHeader("Content-Disposition",
+					String.format("attachment; filename=%s.tsv", id));
+			return ok(csvExport(format, "[" + json.toString() + "]", CsvExport.TAB_SEPARATOR))
+					.as("text/tab-separated-values; charset=utf-8");
 		});
 		Pair<String, String> contentAndType = contentAndType(json, format);
 		Supplier<Result> rdfSupplier =

@@ -137,6 +137,7 @@
       "documentation": "http://lobid.org/organisations/api",
       "encodingFormat": [
         "text/csv",
+        "text/tab-separated-values",
         "application/json",
         "application/ld+json"
       ],

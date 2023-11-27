@@ -39,7 +39,7 @@ search.location = Location
 search.prev = prev
 search.next = next
 search.total_results = Total results
-search.footer.api_text = You can also access this data as <a href="{0}">JSON</a> or <a href="{1}">CSV</a> using our <a href="{2}">API</a>.
+search.footer.api_text = You can also access this data as <a href="{0}">JSON</a> or <a href="{1}">CSV</a> (resp. <a href="{2}">TSV</a>) using our <a href="{3}">API</a>.
 search.footer.no_results = No results for <code>{0}</code>.
 search.type = Type
 search.collects = Stock size
@@ -67,7 +67,7 @@ api.location.distance = Query with distance ("location": coordinate of a point a
 
 api.content_types.header = Content types
 api.content_types.default = By default, this service returns structured API responses (as JSON):
-api.content_types.negotiate = It supports content negotiation based on the "Accept" header to serve JSON (application/json), CSV (text/csv), JSON lines (application/x-jsonlines), or HTML (text/html):
+api.content_types.negotiate = It supports content negotiation based on the "Accept" header to serve JSON (application/json), CSV (text/csv), TSV (text/tab-separated-values), JSON lines (application/x-jsonlines), or HTML (text/html):
 api.content_types.override = An optional "format" query parameter can be used to override the "Accept" header, e.g. to display JSON in a browser:
 api.content_types.dotFormat = For individual organisations, the format parameter values can be used as file extensions in URLs:
 api.content_types.compress = For larger requests, the response can be compressed as gzip:
@@ -76,6 +76,10 @@ api.content_types.more = Individual organisations additionally support different
 api.csv.header = CSV export
 api.csv.default = Default fields ("format=csv")
 api.csv.custom = Custom fields ("format": fields to use, with dots for nested fields "csv:field1,field2.subfield")
+
+api.tsv.header = TSV export
+api.tsv.default = Default fields ("format=tsv")
+api.tsv.custom = Custom fields ("format": fields to use, with dots for nested fields "tsv:field1,field2.subfield")
 
 api.autocomplete.header = Auto-complete
 api.autocomplete.intro = The API supports a response format for auto-complete suggestions using a specified field:

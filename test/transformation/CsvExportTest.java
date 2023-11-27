@@ -15,9 +15,27 @@ import play.libs.Json;
 
 @SuppressWarnings("javadoc")
 public class CsvExportTest {
+	@Test
+	public void testFlatFieldsDefaultSeparator() {
+		testFlatFields(CsvExport.DEFAULT_SEPARATOR);
+	}
 
 	@Test
-	public void testFlatFields() {
+	public void testFlatFieldsTabulatorSeparator() {
+		testFlatFields(CsvExport.TAB_SEPARATOR);
+	}
+
+	@Test
+	public void testNestedFieldsDefaultSeparator() {
+		testNestedFields(CsvExport.DEFAULT_SEPARATOR);
+	}
+
+	@Test
+	public void testNestedFieldsTabulatorSeparator() {
+		testNestedFields(CsvExport.TAB_SEPARATOR);
+	}
+
+	private void testFlatFields(final String sep) {
 		ObjectNode node1 = Json.newObject();
 		node1.put("field1", "org1-value1");
 		node1.put("field2", "org1-value2");
@@ -28,15 +46,17 @@ public class CsvExportTest {
 		node2.put("field3", "org2-value3");
 		List<ObjectNode> orgs = Arrays.asList(node1, node2);
 		CsvExport export = new CsvExport(Json.stringify(Json.toJson(orgs)));
-		String expected = String.format("%s,%s\n%s,%s\n%s,%s\n", //
+		String expected = String.format("%s" + sep + "%s\n%s" + sep + "%s\n%s" + sep + "%s\n", //
 				"field1", "field3", //
 				"\"org1-value1\"", "\"org1-value3\"", //
 				"\"org2-value1\"", "\"org2-value3\"");
-		assertThat(export.of("field1,field3")).isEqualTo(expected);
+		if (sep.equals(CsvExport.TAB_SEPARATOR)) {
+			expected=expected.replaceAll("\"","");
+		}
+		assertThat(export.of("field1" + sep + "field3", sep)).isEqualTo(expected);
 	}
 
-	@Test
-	public void testNestedFields() {
+	private void testNestedFields(final String sep) {
 		ObjectNode org1 = Json.newObject();
 		ObjectNode sub1 = Json.newObject();
 		org1.put("field1", "org1-value1");
@@ -55,15 +75,17 @@ public class CsvExportTest {
 		sub2.put("field3", "org2-sub3");
 		List<ObjectNode> orgs = Arrays.asList(org1, org2);
 		CsvExport export = new CsvExport(Json.stringify(Json.toJson(orgs)));
-		String expected = String.format("%s,%s\n%s,%s\n%s,%s\n", //
+		String expected = String.format("%s" + sep + "%s\n%s" + sep + "%s\n%s" + sep + "%s\n", //
 				"field1", "field3.field2", //
 				"\"org1-value1\"", "\"org1-sub2\"", //
 				"\"org2-value1\"", "\"org2-sub2\"");
-		assertThat(export.of("field1,field3.field2")).isEqualTo(expected);
+		if (sep.equals(CsvExport.TAB_SEPARATOR)) {
+			expected=expected.replaceAll("\"","");
+		}
+		assertThat(export.of("field1" + sep + "field3.field2", sep)).isEqualTo(expected);
 	}
 
-	@Test
-	public void testMissingField() {
+	private void testMissingField() {
 		ObjectNode org = Json.newObject();
 		org.put("field1", "org1-value1");
 		org.put("field2", "org1-value2");
