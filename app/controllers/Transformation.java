@@ -40,12 +40,10 @@ public class Transformation extends Controller {
 		try {
 			String startOfUpdates =
 					Application.CONFIG.getString("transformation.updates.start");
-			String intervalSize =
-					Application.CONFIG.getString("transformation.updates.interval.size");
 			String geoLookupServer =
 					Application.CONFIG.getString("transformation.geo.lookup.server");
 			String outputPath = TransformAll.DATA_OUTPUT_FILE;
-			TransformAll.process(startOfUpdates, Integer.parseInt(intervalSize), outputPath,
+			TransformAll.process(startOfUpdates, outputPath,
 					geoLookupServer, "./wikidataLookup.tsv");
 		} catch (Exception e) {
 			Logger.root().error("Transformation failed", e);

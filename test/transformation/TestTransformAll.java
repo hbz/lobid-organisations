@@ -40,8 +40,6 @@ public class TestTransformAll {
 
 	private static final String SIGEL_DUMP_LOCATION =
 			TransformAll.DATA_INPUT_DIR + "sigel.dat";
-	private static final String DUMP_XPATH =
-			"/" + TransformSigel.DUMP_TOP_LEVEL_TAG + "/" + TransformSigel.XPATH;
 	private static final String wikidataLookupFilename = "../test/conf/wikidataLookup.tsv";
 
 	@BeforeClass
@@ -49,7 +47,7 @@ public class TestTransformAll {
 		File output = new File(TransformAll.DATA_OUTPUT_FILE);
 		assertThat(!output.exists() || output.delete()).as("no output file")
 				.isTrue();
-		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "", wikidataLookupFilename);
+		TransformAll.process("", TransformAll.DATA_OUTPUT_FILE, "", wikidataLookupFilename);
 	}
 
 	@AfterClass
@@ -61,7 +59,7 @@ public class TestTransformAll {
 
 	@Test
 	public void multiLangAlternateName() throws IOException {
-		assertThat(new String(
+				assertThat(new String(
 				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with multiLangAlternateName")
 						.contains("Leibniz Institute").contains("Berlin SBB");
@@ -69,7 +67,7 @@ public class TestTransformAll {
 
 	@Test
 	public void separateUrlAndProvidesFields() throws IOException {
-		assertThat(new String(
+				assertThat(new String(
 				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with `url` and `provides`")
 						.contains("https://www.livivo.de/?idb=ZBMED")
@@ -78,7 +76,7 @@ public class TestTransformAll {
 
 	@Test
 	public void preferSigelData() throws IOException {
-		assertThat(new String(
+				assertThat(new String(
 				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
 						.as("transformation output with preferred Sigel data")
 						.contains("Hauptabteilung")//
