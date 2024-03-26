@@ -1,5 +1,6 @@
 # mail if basedump is more than a year old
 # see https://github.com/hbz/lobid-organisations/issues/504
+# This script is called by the "restart.sh" script.
 
 MAIL_TO=$(cat .secrets/MAIL_TO)
 MAIL_FROM=$(cat .secrets/MAIL_FROM)
