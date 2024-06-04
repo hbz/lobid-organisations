@@ -71,7 +71,7 @@ public class TransformSigel {
 		encodeJson.setPrettyPrinting(true);
 		ObjectWriter objectWriter = new ObjectWriter<>(outputPath);
 		objectWriter.setAppendIfFileExists(true);
-		sigelOaiPmhUpdates//			
+		sigelOaiPmhUpdates//
 				.setReceiver(new XmlDecoder())//
 				.setReceiver(new PicaXmlHandler())//
 				.setReceiver(new Metafix("conf/fix-sigel.fix")) // Preprocess Sigel-Data and fix skips all records that have no "inr" and "isil"

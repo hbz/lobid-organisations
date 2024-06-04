@@ -136,7 +136,7 @@ The transformation is triggered when the application starts but it can also be s
 
 If you run the transformation with the full data (see above for downloads), the application will download additional updates for the Sigel data.
 
-Thus, you will have specify one parameters in @conf/application.conf@ : the date from which the updates start (usually the date of the base dump creation, e.g. 2013-06-01).
+Thus, you will have specify one parameters in @conf/application.conf@ : the date from which the updates start (usually the date of the base dump creation, e.g. 2024-02-01).
 
 You can run the transformation of the full data using the following command:
 

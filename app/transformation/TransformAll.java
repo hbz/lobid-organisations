@@ -48,10 +48,10 @@ public class TransformAll {
 	 * @throws IOException If dump and temp files cannot be read
 	 */
 	public static void process(final String startOfUpdates,
-			 String outputPath, final String geoServer, final String wikidataLookupFilename) throws IOException {
+			String outputPath, final String geoServer, final String wikidataLookupFilename) throws IOException {
 		String dbsOutput = outputPath + "-dbs";
 		String sigelBulkOutput = outputPath + "-sigelBulk";
-		String sigelUpdatesOutput = outputPath + "-sigelUpdates";		
+		String sigelUpdatesOutput = outputPath + "-sigelUpdates";
 		TransformSigel.processBulk(sigelBulkOutput, geoServer, wikidataLookupFilename); //Start processing  Sigel pica binary bulk.
 		if (startOfUpdates != "") { // exclude updates for the tests, which set startOfUpdates to ""
 			TransformSigel.processUpdates(startOfUpdates, sigelUpdatesOutput, geoServer, wikidataLookupFilename); //Start process Sigel Pica XML Updates via OAI-PMH.
@@ -65,7 +65,7 @@ public class TransformAll {
 			writeAll(sigelBulkOutput, resultWriter);
 			if (startOfUpdates != "") { // exclude updates for the tests, which set startOfUpdates to ""
 				writeAll(sigelUpdatesOutput, resultWriter);
-			}			
+			}
 		}
 	}
 
