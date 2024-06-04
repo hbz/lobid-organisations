@@ -63,6 +63,7 @@ $('input.search-organisations').autocomplete({
     <p><code>curl http://lobid.org@routes.Application.get("DE-6")</code></p>
     <p>@Messages.get("api.content_types.negotiate")</p>
     <p><code>curl --header "Accept: text/csv" http://lobid.org@routes.Application.search("kunst")</code></p>
+    <p><code>curl --header "Accept: text/tab-separated-values" http://lobid.org@routes.Application.search("kunst")</code></p>
     <p><code>curl --header "Accept: application/x-jsonlines" http://lobid.org@routes.Application.search("kunst") > kunst.jsonl</code></p>
     <p>@Messages.get("api.content_types.override") <a href='@routes.Application.get("DE-6", format="json")'>@routes.Application.get("DE-6", format="json")</a></p>
     <p>@Messages.get("api.content_types.dotFormat") <a href='@routes.Application.getDotFormat("DE-6", format="json")'>@routes.Application.getDotFormat("DE-6", format="json")</a></p>
@@ -73,6 +74,10 @@ $('input.search-organisations').autocomplete({
     <h2 id="csv">@Messages.get("api.csv.header") <small><a href="#csv"><span class="glyphicon glyphicon-link"></span></a></small></h2>
     @desc(Messages.get("api.csv.default"), routes.Application.search("kunst", size=300, format="csv"))
     @desc(Messages.get("api.csv.custom"), routes.Application.search("kunst", size=300, format="csv:name,isil,url,classification.label.de"))
+
+    <h2 id="tsv">@Messages.get("api.tsv.header") <small><a href="#tsv"><span class="glyphicon glyphicon-link"></span></a></small></h2>
+    @desc(Messages.get("api.tsv.default"), routes.Application.search("kunst", size=300, format="tsv"))
+    @desc(Messages.get("api.tsv.custom"), routes.Application.search("kunst", size=300, format="tsv:name,isil,url,classification.label.de"))
 
     <h2 id="auto-complete">@Messages.get("api.autocomplete.header") <small><a href='#auto-complete'><span class='glyphicon glyphicon-link'></span></a></small></h2>
     <p>@Messages.get("api.autocomplete.intro")</p>
