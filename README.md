@@ -54,7 +54,7 @@ used by Github Actions.
 ### Deployment
 
 *Short instructions for clean deployment, includes hbz-internal
-instructions that won’t work outside the hbz network. Find detailed
+instructions that won't work outside the hbz network. Find detailed
 developer documentation further below.*
 
 To get the lookup table `conf/wikidataLookup.tsv`:
@@ -146,8 +146,8 @@ and querying.
 
 ### Workflow
 
-The source data sets are the *Sigelverzeichnis* (‘Sigel’, format:
-PicaPlus-XML) and the *Deutsche Bibliotheksstatistik* (‘DBS’, format:
+The source data sets are the *Sigelverzeichnis* (‘Sigel', format:
+PicaPlus-XML) and the *Deutsche Bibliotheksstatistik* (‘DBS', format:
 CSV). The transformation is implemented by a pipeline with 3 logical
 steps:
 
@@ -162,7 +162,7 @@ steps:
   - The entries in the resulting data set have a URI with their ISIL as
     ID (e.g., http://lobid.org/organisations/DE-9). If no ISIL is
     available, a Pseudo-ISIL is generated consisting of the string
-    ‘DBS-’ and the DBS ID (e.g.,
+    ‘DBS-' and the DBS ID (e.g.,
     http://lobid.org/organisations/DBS-GX848).
 
 Each of these steps has a corresponding Java class, Morph definition,
