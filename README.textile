@@ -4,6 +4,8 @@ Data transformation workflows, web API and UI for the lobid-organisations data s
 
 Transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing. Data of two or more entries are merged if the DBS IDs (INR) of the entries are identical. The resulting data is used to build an index in Elasticsearch.
 
+The resulting JSON is JSON-LD and therefore provides machine-readable Linked Data. The context file lists all used RDF properties and classes: http://lobid.org/organisations/context.jsonld
+
 This repo replaces the lobid-organisations part of "https://github.com/lobid/lodmill":https://github.com/lobid/lodmill.
 
 For information about the Lobid architecture and development process, see "http://hbz.github.io/#lobid":http://hbz.github.io/#lobid.
