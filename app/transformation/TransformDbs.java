@@ -10,6 +10,7 @@ import org.metafacture.io.ObjectWriter;
 import org.metafacture.strings.StringMatcher;
 import org.metafacture.io.FileOpener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Transformation from DBS CSV to JSON.
@@ -18,7 +19,7 @@ import java.io.FileNotFoundException;
  *
  */
 public class TransformDbs {
-	static void process(final String outputPath, String geoLookupServer, final String wikidataLookupFilename) throws FileNotFoundException {
+	static void process(final String outputPath, String geoLookupServer, final String wikidataLookupFilename) throws IOException, FileNotFoundException {
 		final FileOpener opener = new FileOpener();
 		opener.setEncoding("UTF-8");
 		final StringMatcher matcher = new StringMatcher();
