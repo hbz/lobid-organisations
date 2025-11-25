@@ -16,14 +16,8 @@ jobs:
     #  run: |
     #    git clone https://github.com/metafacture/metafacture-core.git
     #    cd metafacture-core
-    #    git checkout metafacture-core-5.7.0
+    #    git checkout metafacture-core-7.0.0
     #    ./gradlew publishToMavenLocal
-    - name: Install metafacture-fix
-      run: |
-        git clone https://github.com/metafacture/metafacture-fix.git
-        cd metafacture-fix
-        git checkout 1.1.2
-        ./gradlew publishToMavenLocal
     - uses: sbt/setup-sbt@v1
     - name: Run tests
       run: sbt update test
