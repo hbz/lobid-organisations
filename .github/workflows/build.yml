@@ -24,5 +24,6 @@ jobs:
         cd metafacture-fix
         git checkout 1.1.2
         ./gradlew publishToMavenLocal
+    - uses: sbt/setup-sbt@v1
     - name: Run tests
       run: sbt update test
