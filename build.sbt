@@ -43,3 +43,7 @@ dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-core" % "2.6.2"
 resolvers += Resolver.mavenLocal
 
 resourceDirectory in Test := baseDirectory.value / "test" / "transformation"
+
+javacOptions ++= Seq("-source", "11", "-target", "11")
+
+import com.typesafe.sbteclipse.core.EclipsePlugin.EclipseKeys
