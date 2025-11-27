@@ -1,4 +1,4 @@
-# README
+# lobid-organisations
 
 ## About
 
@@ -20,26 +20,17 @@ This section contains information about building and deploying the repo, running
 
 [![](https://github.com/hbz/lobid-organisations/workflows/Build/badge.svg?branch=master)](https://github.com/hbz/lobid-organisations/actions?query=workflow%3ABuild)
 
-Prerequisites: Java 8, Maven 3; verify with `mvn -version`
+Prerequisites: Java 11, Maven 3; verify with `mvn -version`
 
 Create and change into a folder where you want to store the projects:
 
 - `mkdir ~/git ; cd ~/git`
 
-Build the hbz metafacture-core fork:
-
-- `git clone https://github.com/hbz/metafacture-core.git`
-- `cd metafacture-core`
-- `git checkout 4.0.0-HBZ-SNAPSHOT`
-- `mvn clean install -DskipTests`
-- `cd ..`
-
 Get lobid-organisations, set up the Play application, and run the tests:
 
 - `git clone https://github.com/hbz/lobid-organisations.git`
-- `cd ~ ; wget http://downloads.typesafe.com/typesafe-activator/1.3.10/typesafe-activator-1.3.10-minimal.zip`
-- `unzip typesafe-activator-1.3.10-minimal.zip`
-- `cd git/lobid-organisations ; ~/activator-1.3.10-minimal/bin/activator test`
+- `sbt clean`
+- `sbt test`
 
 See the `.github/workflows/build.yml` file for details on the CI config used by Github Actions.
 
@@ -53,12 +44,19 @@ To get the lookup table `conf/wikidataLookup.tsv`:
 
 After the build steps above, edit `conf/application.conf` as required (e.g. ports to be used by the embedded Elasticsearch), download the full data dumps, and start the application:
 
+Check if `$JAVA_HOME` variable is set
+- `echo $JAVA_HOME`
+
+Set the variable to the home folder, not the path of your JAVA installation:
+e.g.: `export JAVA_HOME="/usr"`
+
+
 - `cd app/transformation/input/`
 - `wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip`
 - `wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml`
 - `cd ../../..`
-- `~/activator-1.3.10-minimal/bin/activator clean`
-- `~/activator-1.3.10-minimal/bin/activator "start 7201"`
+- `sbt clean`
+- `JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-organisations -Dhttp.port=7201 -no-version-check`
 
 When startup is complete (`Listening for HTTP on /0.0.0.0:7201`), exit with `Ctrl+D`, output will be logged to `target/universal/stage/logs/application.log`.
 
@@ -67,6 +65,8 @@ For monitoring config on `quaoar1`, see `/etc/monit/conf.d/play-instances.rc`. M
 ### Tests
 
 The build described above executes tests of the Metamorph transformations and the Elasticsearch indexing.
+
+TODO: get rid of Metamorph section:
 
 The Metamorph tests are defined in XML files with a `test_` prefix corresponding to the tested Metamorph files:
 
@@ -86,24 +86,6 @@ For details, see the [Metamorph testing framework documentation](https://github.
 
 The Elasticsearch tests are defined in in `test/controllers`.
 
-### Eclipse
-
-The processing pipelines are written in Java, the actual transformation logic and tests are written in XML. Both can be comfortably edited using Eclipse, which provides content assist (auto-suggest) and direct execution of the tests and the transformation.
-
-Download and run the [Eclipse Java IDE](https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/lunar) (at least version 4.4, Luna), close the welcome screen and import metafacture-core:
-
-- `File` -\> `Import...` -\> `Maven` -\> `Existing Maven Projects...` -\> `Next` -\> `Browse...` -\> select `~/git/metafacture-core` -\>  `Finish`
-- Follow the instructions for installing additional plugins and     restart Eclipse when it asks you to
-- Set up the XML schemas for content assist and documentation while editing metamorph and metamorph-test files:
-- `Window` (on Mac: `Eclipse`) -\> `Preferences` -\> `XML` -\> `XML Catalog`
-- select `User Specified Entries` -\> `Add...` -\> `Workspace...` -\> `metafacture-core/src/main/resources/schemata/metamorph.xsd`
-- repeat previous step for `metamorph-test.xsd` in the same location
-
-Import lobid-organisations:
-
-- Create eclipse project sources: `cd git/lobid-organisations; ~/activator-1.3.10-minimal/bin/activator "eclipse with-source=true"`
-- `File` -\> `Import...` -\> `Existing Projects into Workspace` -\> `Next` -\> `Browse...` -\> select `~/git/lobid-organsations` -\>  Finish
-
 ## Data
 
 This section contains information about the data workflows, indexing, and querying.
@@ -119,7 +101,7 @@ The source data sets are the *Sigelverzeichnis* ('Sigel', format: PicaPlus-XML) 
   - Entries with a unique DBS ID or without DBS ID are integrated as well --- they are not merged with any other entry
   - The entries in the resulting data set have a URI with their ISIL as ID (e.g., <http://lobid.org/organisations/DE-9>). If no ISIL is available, a Pseudo-ISIL is generated consisting of the string 'DBS-' and the DBS ID (e.g., <http://lobid.org/organisations/DBS-GX848>).
 
-Each of these steps has a corresponding Java class, Morph definition, and output file.
+Each of these steps has a corresponding Java class, Fix scripts, and output file.
 
 Finally, the data is indexed in Elasticsearch. The ID of an organisation is represented as a URI (e.g., <http://lobid.org/organisations/DE-9>). However, when building up the index, the organisations are given the last bit of this URI only as Elasticsearch IDs (e.g., DE-9). Thus, Elasticsearch-internally, the organisations can be accessed via their ISIL or Pseudo-ISIL.
 
@@ -132,7 +114,14 @@ lobid-organisations is a web app implemented with Play to serve the JSON-LD cont
 On start up, the web app will transform the data and build an Elasticsearch index from the output of the transformation. These steps can be triggered separately using HTTP POST when the application is up and running. Before building the index, the application will check for the minimum size of the transformation output. This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified in `conf/application.conf`. In addition, during transformation updates of the Sigel data can be fetched --- you can specify the date (i.e. the date of the dump, e.g. 2013-06-01) from which want the updates to start in `conf/application.conf`. Updates will be downloaded from this date on
 until today.
 
-Run the Play application: `~/activator-1.3.10-minimal/bin/activator run`
+Run the Play application:
+
+Set the variable to the home folder, not the path of your JAVA installation:
+e.g.: `export JAVA_HOME="/usr"`
+
+
+- `sbt clean`
+- `JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-organisations -Dhttp.port=9000 -no-version-check`
 
 Open `http://localhost:9000/organisations`
 
