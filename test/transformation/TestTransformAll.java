@@ -85,7 +85,7 @@ public class TestTransformAll {
 	}
 
 	@Test
-	public void testContainsApiDescription() throws FileNotFoundException {
+	public void testContainsApiDescription() throws IOException, FileNotFoundException {
 		FormetaEncoder encoder = new FormetaEncoder();
 		StringBuilder resultCollector = new StringBuilder();
 		encoder.setReceiver(new DefaultObjectReceiver<String>() {

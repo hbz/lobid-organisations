@@ -1,0 +1,181 @@
+# README
+
+## About
+
+Data transformation workflows, web API and UI for the lobid-organisations data set based on [Metafacture](https://github.com/culturegraph/metafacture-documentation) and [Play Framework](https://playframework.com/).
+
+Transforms two data sets from Pica-XML and CSV to JSON-LD for Elasticsearch indexing. Data of two or more entries are merged if the DBS IDs (INR) of the entries are identical. The resulting data is used to build an index in Elasticsearch.
+
+The resulting JSON is JSON-LD and therefore provides machine-readable Linked Data. The context file lists all used RDF properties and classes: <http://lobid.org/organisations/context.jsonld>
+
+This repo replaces the lobid-organisations part of <https://github.com/lobid/lodmill>.
+
+For information about the Lobid architecture and development process, see <http://hbz.github.io/#lobid>.
+
+## Setup
+
+This section contains information about building and deploying the repo, running tests, and setting up Eclipse.
+
+### Build
+
+[![](https://github.com/hbz/lobid-organisations/workflows/Build/badge.svg?branch=master)](https://github.com/hbz/lobid-organisations/actions?query=workflow%3ABuild)
+
+Prerequisites: Java 8, Maven 3; verify with `mvn -version`
+
+Create and change into a folder where you want to store the projects:
+
+- `mkdir ~/git ; cd ~/git`
+
+Build the hbz metafacture-core fork:
+
+- `git clone https://github.com/hbz/metafacture-core.git`
+- `cd metafacture-core`
+- `git checkout 4.0.0-HBZ-SNAPSHOT`
+- `mvn clean install -DskipTests`
+- `cd ..`
+
+Get lobid-organisations, set up the Play application, and run the tests:
+
+- `git clone https://github.com/hbz/lobid-organisations.git`
+- `cd ~ ; wget http://downloads.typesafe.com/typesafe-activator/1.3.10/typesafe-activator-1.3.10-minimal.zip`
+- `unzip typesafe-activator-1.3.10-minimal.zip`
+- `cd git/lobid-organisations ; ~/activator-1.3.10-minimal/bin/activator test`
+
+See the `.github/workflows/build.yml` file for details on the CI config used by Github Actions.
+
+### Deployment
+
+*Short instructions for clean deployment, includes hbz-internal instructions that won't work outside the hbz network. Find detailed developer documentation further below.*
+
+To get the lookup table `conf/wikidataLookup.tsv`:
+
+- `bash getWikidataLookupTableViaSparql.sh`
+
+After the build steps above, edit `conf/application.conf` as required (e.g. ports to be used by the embedded Elasticsearch), download the full data dumps, and start the application:
+
+- `cd app/transformation/input/`
+- `wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip`
+- `wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml`
+- `cd ../../..`
+- `~/activator-1.3.10-minimal/bin/activator clean`
+- `~/activator-1.3.10-minimal/bin/activator "start 7201"`
+
+When startup is complete (`Listening for HTTP on /0.0.0.0:7201`), exit with `Ctrl+D`, output will be logged to `target/universal/stage/logs/application.log`.
+
+For monitoring config on `quaoar1`, see `/etc/monit/conf.d/play-instances.rc`. Monit logs to `/var/log/monit.log`. Check status with `sudo monit status`, reload config changes with `sudo monit reload`, for more see `man monit`.
+
+### Tests
+
+The build described above executes tests of the Metamorph transformations and the Elasticsearch indexing.
+
+The Metamorph tests are defined in XML files with a `test_` prefix corresponding to the tested Metamorph files:
+
+in `app/transformation`:
+
+`morph-dbs.xml`\
+`morph-enriched.xml`\
+`morph-sigel.xml`
+
+in `test/transformation`:
+
+`test_morph-dbs.xml`\
+`test_morph-enriched.xml`\
+`test_morph-sigel.xml`
+
+For details, see the [Metamorph testing framework documentation](https://github.com/culturegraph/metafacture-core/wiki/Testing-Framework-for-Metamorph).
+
+The Elasticsearch tests are defined in in `test/controllers`.
+
+### Eclipse
+
+The processing pipelines are written in Java, the actual transformation logic and tests are written in XML. Both can be comfortably edited using Eclipse, which provides content assist (auto-suggest) and direct execution of the tests and the transformation.
+
+Download and run the [Eclipse Java IDE](https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/lunar) (at least version 4.4, Luna), close the welcome screen and import metafacture-core:
+
+- `File` -\> `Import...` -\> `Maven` -\> `Existing Maven Projects...` -\> `Next` -\> `Browse...` -\> select `~/git/metafacture-core` -\>  `Finish`
+- Follow the instructions for installing additional plugins and     restart Eclipse when it asks you to
+- Set up the XML schemas for content assist and documentation while editing metamorph and metamorph-test files:
+- `Window` (on Mac: `Eclipse`) -\> `Preferences` -\> `XML` -\> `XML Catalog`
+- select `User Specified Entries` -\> `Add...` -\> `Workspace...` -\> `metafacture-core/src/main/resources/schemata/metamorph.xsd`
+- repeat previous step for `metamorph-test.xsd` in the same location
+
+Import lobid-organisations:
+
+- Create eclipse project sources: `cd git/lobid-organisations; ~/activator-1.3.10-minimal/bin/activator "eclipse with-source=true"`
+- `File` -\> `Import...` -\> `Existing Projects into Workspace` -\> `Next` -\> `Browse...` -\> select `~/git/lobid-organsations` -\>  Finish
+
+## Data
+
+This section contains information about the data workflows, indexing, and querying.
+
+### Workflow
+
+The source data sets are the *Sigelverzeichnis* ('Sigel', format: PicaPlus-XML) and the *Deutsche Bibliotheksstatistik* ('DBS', format: CSV). The transformation is implemented by a pipeline with 3 logical steps:
+
+- Preprocess Sigel data, use DBS ID as record ID; if no DBS ID is available, use ISIL; in this step, updates are downloaded for the time period from base dump creation until today
+- Preprocess DBS data, use DBS ID as record ID
+- Combine all data from Sigel and DBS:
+  - Merge Sigel and DBS entries that have identical DBS IDs
+  - Entries with a unique DBS ID or without DBS ID are integrated as well --- they are not merged with any other entry
+  - The entries in the resulting data set have a URI with their ISIL as ID (e.g., <http://lobid.org/organisations/DE-9>). If no ISIL is available, a Pseudo-ISIL is generated consisting of the string 'DBS-' and the DBS ID (e.g., <http://lobid.org/organisations/DBS-GX848>).
+
+Each of these steps has a corresponding Java class, Morph definition, and output file.
+
+Finally, the data is indexed in Elasticsearch. The ID of an organisation is represented as a URI (e.g., <http://lobid.org/organisations/DE-9>). However, when building up the index, the organisations are given the last bit of this URI only as Elasticsearch IDs (e.g., DE-9). Thus, Elasticsearch-internally, the organisations can be accessed via their ISIL or Pseudo-ISIL.
+
+Transformation and indexing are done automatically when starting the application. However, both processes can be triggered separately, see below.
+
+### Start web app
+
+lobid-organisations is a web app implemented with Play to serve the JSON-LD context as `application/ld+json` with CORS support. This is required to use the JSON-LD from third party clients, e.g. the [JSON-LD Playground](http://json-ld.org/playground/). It also provides proxy routes for Elasticsearch queries via HTTP (see index page of the web app for details).
+
+On start up, the web app will transform the data and build an Elasticsearch index from the output of the transformation. These steps can be triggered separately using HTTP POST when the application is up and running. Before building the index, the application will check for the minimum size of the transformation output. This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified in `conf/application.conf`. In addition, during transformation updates of the Sigel data can be fetched --- you can specify the date (i.e. the date of the dump, e.g. 2013-06-01) from which want the updates to start in `conf/application.conf`. Updates will be downloaded from this date on
+until today.
+
+Run the Play application: `~/activator-1.3.10-minimal/bin/activator run`
+
+Open `http://localhost:9000/organisations`
+
+The web application can also be accessed via <http://lobid.org/organisations>.
+
+### Transform
+
+The transformation is triggered when the application starts but it can also be started separately when the application is running (only works hbz internally).
+
+If you run the transformation with the full data (see above for downloads), the application will download additional updates for the Sigel data. These downloads comprise the data from a given date until today. They are split into smaller intervals of several days, you can specify the size of these intervals.
+
+Thus, you will have specify two parameters in `conf/application.conf` : (1) the date from which the updates start (usually the date of the base dump creation, e.g. 2013-06-01) and (2) the interval size in days (must not be too large).
+
+You can run the transformation of the full data using the following command:
+
+- `curl -X POST "http://localhost:9000/organisations/transform"`
+
+### Index
+
+Indexing is triggered when the application starts but it can also be started separately when the application is running. You can use the following command to do so:
+
+- `curl -X POST "http://localhost:9000/organisations/index"`
+
+:warning: Because of bug (see: <https://github.com/hbz/lobid-organisations/issues/435>) a restart afterwards is mandatory.
+
+### Query
+
+Query the resulting index:
+
+- `curl -XGET 'http://localhost:7211/organisations/_search?q=*'; echo`
+
+For details on the various options see the [query string syntax documentation](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax).
+
+Get a specific record by DE-38:
+
+- `curl -XGET 'http://localhost:7211/organisations/organisation/DE-38'; echo`
+
+Exclude the metadata (you can paste the resulting document into the [JSON-LD Playground](http://json-ld.org/playground/) for conversion tests etc.):
+
+- `curl -XGET 'http://localhost:7211/organisations/organisation/DE-38/_source'; echo`
+
+For details on the various options see the [GET API documentation](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html).
+
+## License
+
+Eclipse Public License: <http://www.eclipse.org/legal/epl-v10.html>
