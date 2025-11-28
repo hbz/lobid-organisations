@@ -142,9 +142,9 @@ The web application can also be accessed via <http://lobid.org/organisations>.
 
 The transformation is triggered when the application starts but it can also be started separately when the application is running (only works hbz internally).
 
-If you run the transformation with the full data (see above for downloads), the application will download additional updates for the Sigel data. These downloads comprise the data from a given date until today. They are split into smaller intervals of several days, you can specify the size of these intervals.
+If you run the transformation with the full data (see above for downloads), the application will download additional updates for the Sigel data.
 
-Thus, you will have specify two parameters in `conf/application.conf` : (1) the date from which the updates start (usually the date of the base dump creation, e.g. 2013-06-01) and (2) the interval size in days (must not be too large).
+Thus, you will have to specify one parameter in @conf/application.conf@ : the date from which the updates start (usually the date of the base dump creation, e.g. 2013-06-01).
 
 You can run the transformation of the full data using the following command:
 
