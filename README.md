@@ -52,10 +52,11 @@ e.g.: `export JAVA_HOME="/usr"`
 
 
 - `cd app/transformation/input/`
-- `wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip`
-- `wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml`
+- `wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip` TODO: this is not correct anymore!
+- `wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml` TODO: this is not correct anymore!
 - `cd ../../..`
 - `sbt clean`
+- `sbt --java-home $JAVA_HOME stage`
 - `JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-organisations -Dhttp.port=7201 -no-version-check`
 
 When startup is complete (`Listening for HTTP on /0.0.0.0:7201`), exit with `Ctrl+D`, output will be logged to `target/universal/stage/logs/application.log`.
@@ -121,6 +122,7 @@ e.g.: `export JAVA_HOME="/usr"`
 
 
 - `sbt clean`
+- `sbt --java-home $JAVA_HOME stage`
 - `JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-organisations -Dhttp.port=9000 -no-version-check`
 
 Open `http://localhost:9000/organisations`
