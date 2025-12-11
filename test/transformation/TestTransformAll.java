@@ -40,16 +40,14 @@ public class TestTransformAll {
 
 	private static final String SIGEL_DUMP_LOCATION =
 			TransformAll.DATA_INPUT_DIR + "sigel.dat";
-	private static final String DUMP_XPATH =
-			"/" + TransformSigel.DUMP_TOP_LEVEL_TAG + "/" + TransformSigel.XPATH;
 	private static final String wikidataLookupFilename = "../test/conf/wikidataLookup.tsv";
 
 	@BeforeClass
 	public static void setUp() throws IOException {
 		File output = new File(TransformAll.DATA_OUTPUT_FILE);
 		assertThat(!output.exists() || output.delete()).as("no output file")
-				.isTrue();
-		TransformAll.process("", 0, TransformAll.DATA_OUTPUT_FILE, "", wikidataLookupFilename);
+			.isTrue();
+		TransformAll.process("", TransformAll.DATA_OUTPUT_FILE, "", wikidataLookupFilename);
 	}
 
 	@AfterClass
@@ -62,28 +60,28 @@ public class TestTransformAll {
 	@Test
 	public void multiLangAlternateName() throws IOException {
 		assertThat(new String(
-				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
-						.as("transformation output with multiLangAlternateName")
-						.contains("Leibniz Institute").contains("Berlin SBB");
+			Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
+				.as("transformation output with multiLangAlternateName")
+				.contains("Leibniz Institute").contains("Berlin SBB");
 	}
 
 	@Test
 	public void separateUrlAndProvidesFields() throws IOException {
 		assertThat(new String(
-				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
-						.as("transformation output with `url` and `provides`")
-						.contains("https://www.livivo.de/?idb=ZBMED")
-						.contains("https://www.zbmed.de");
+			Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
+				.as("transformation output with `url` and `provides`")
+				.contains("https://www.livivo.de/?idb=ZBMED")
+				.contains("https://www.zbmed.de");
 	}
 
 	@Test
 	public void preferSigelData() throws IOException {
 		assertThat(new String(
-				Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
-						.as("transformation output with preferred Sigel data")
-						.contains("Hauptabteilung")//
-						.as("transformation output containing DBS data")
-						.contains("Roemer-Museum");
+			Files.readAllBytes(Paths.get(TransformAll.DATA_OUTPUT_FILE))))
+				.as("transformation output with preferred Sigel data")
+				.contains("Hauptabteilung")//
+				.as("transformation output containing DBS data")
+				.contains("Roemer-Museum");
 	}
 
 	@Test
@@ -106,22 +104,17 @@ public class TestTransformAll {
 		fixVariables.put("wikidata2gndIdentifier", wikidataLookupFile);
 		Metafix fixEnriched = new Metafix("conf/fix-enriched.fix", fixVariables);
 		sourceFileOpener.setReceiver(new LineReader())//
-				.setReceiver(picaDecoder)//
-				.setReceiver(new Metafix("conf/fix-sigel.fix"))//
-				.setReceiver(fixEnriched)//
-				.setReceiver(encoder);
+			.setReceiver(picaDecoder)//
+			.setReceiver(new Metafix("conf/fix-sigel.fix"))//
+			.setReceiver(fixEnriched)//
+			.setReceiver(encoder);
 		sourceFileOpener.process(SIGEL_DUMP_LOCATION);
 		sourceFileOpener.closeStream();
 		assertThat(resultCollector.toString())//
-				.as("contains api description")//
-				.contains(
-						"availableChannel[]{1{type[]{1:ServiceChannel,2:WebAPI}serviceType:SRU,serviceUrl:http\\://sru.gbv.de/opac-de-hil2}"//
-								+ "2{type[]{1:ServiceChannel,2:WebAPI}serviceType:PAIA,serviceUrl:https\\://paia.gbv.de/DE-Hil2/}"//
-								+ "3{type[]{1:ServiceChannel,2:WebAPI}serviceType:DAIA,serviceUrl:https\\://paia.gbv.de/DE-Hil2/daia}}")
-								;
+			.as("contains api description")//
+			.contains(
+				"availableChannel[]{1{type[]{1:ServiceChannel,2:WebAPI}serviceType:SRU,serviceUrl:http\\://sru.gbv.de/opac-de-hil2}"//
+					+ "2{type[]{1:ServiceChannel,2:WebAPI}serviceType:PAIA,serviceUrl:https\\://paia.gbv.de/DE-Hil2/}"//
+					+ "3{type[]{1:ServiceChannel,2:WebAPI}serviceType:DAIA,serviceUrl:https\\://paia.gbv.de/DE-Hil2/daia}}");
 	}
-
-
-
-
 }
