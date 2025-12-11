@@ -43,24 +43,29 @@ public class TransformAll {
 
 	/**
 	 * @param startOfUpdates Date from which updates should start
-	 * @param intervalSize Days to load update for at once
 	 * @param outputPath The path to which the output of transform should go
 	 * @param geoServer The lookup server for geo data
 	 * @throws IOException If dump and temp files cannot be read
 	 */
-	public static void process(final String startOfUpdates, final int intervalSize,
-			 String outputPath, final String geoServer, final String wikidataLookupFilename) throws IOException {
+	public static void process(final String startOfUpdates,
+			String outputPath, final String geoServer, final String wikidataLookupFilename) throws IOException {
 		String dbsOutput = outputPath + "-dbs";
-		String sigelOutput = outputPath + "-sigel";
-		TransformSigel.processBulk(sigelOutput, geoServer, wikidataLookupFilename); //Start processing  Sigel pica binary bulk.
-		TransformSigel.processUpdates(startOfUpdates, intervalSize, sigelOutput, geoServer, wikidataLookupFilename); //Start process Sigel Pica XML Updates via OAI-PMH.
-		TransformDbs.process(dbsOutput, geoServer,wikidataLookupFilename); //Start process DBS data.
-
+		String sigelBulkOutput = outputPath + "-sigelBulk";
+		String sigelUpdatesOutput = outputPath + "-sigelUpdates";
+		TransformSigel.processBulk(sigelBulkOutput, geoServer, wikidataLookupFilename); //Start processing  Sigel pica binary bulk.
+		if (startOfUpdates != "") { // exclude updates for the tests, which set startOfUpdates to ""
+			TransformSigel.processUpdates(startOfUpdates, sigelUpdatesOutput, geoServer, wikidataLookupFilename); //Start process Sigel Pica XML Updates via OAI-PMH.
+			}
+		TransformDbs.process(dbsOutput, geoServer,wikidataLookupFilename); //Start process DBS CSV data.
+		
 		// DBS-Data, Sigel Bulk and Updates are joined in a single ES-Bulk-file.
 		// DBS data first, so that ES prefers Sigel entries that come later and overwrite DBS entries if available.
 		try (FileWriter resultWriter = new FileWriter(outputPath)) {
 			writeAll(dbsOutput, resultWriter);
-			writeAll(sigelOutput, resultWriter);
+			writeAll(sigelBulkOutput, resultWriter);
+			if (startOfUpdates != "") { // exclude updates for the tests, which set startOfUpdates to ""
+				writeAll(sigelUpdatesOutput, resultWriter);
+			}
 		}
 	}
 
