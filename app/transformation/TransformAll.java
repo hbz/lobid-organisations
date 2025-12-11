@@ -69,9 +69,9 @@ public class TransformAll {
 		}
 	}
 
-	private static void writeAll(String dbsOutput, FileWriter resultWriter)
+	private static void writeAll(String output, FileWriter resultWriter)
 			throws IOException {
-		Files.readAllLines(Paths.get(dbsOutput)).forEach(line -> {
+		Files.readAllLines(Paths.get(output)).forEach(line -> {
 			try {
 				resultWriter.write(line);
 				resultWriter.write("\n");
