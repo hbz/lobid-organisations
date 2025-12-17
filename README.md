@@ -122,8 +122,8 @@ e.g.: `export JAVA_HOME="/usr"`
 
 
 - `sbt clean`
-- `sbt --java-home $JAVA_HOME stage`
-- `JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-organisations -Dhttp.port=9000 -no-version-check`
+- `sbt stage`
+- `./target/universal/stage/bin/lobid-organisations -no-version-check`
 
 Open `http://localhost:9000/organisations`
 
