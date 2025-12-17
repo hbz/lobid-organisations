@@ -47,7 +47,7 @@ public class TestTransformAll {
 		File output = new File(TransformAll.DATA_OUTPUT_FILE);
 		assertThat(!output.exists() || output.delete()).as("no output file")
 			.isTrue();
-		TransformAll.process("", TransformAll.DATA_OUTPUT_FILE, "", wikidataLookupFilename);
+		TransformAll.process("", TransformAll.DATA_OUTPUT_FILE, wikidataLookupFilename);
 	}
 
 	@AfterClass
