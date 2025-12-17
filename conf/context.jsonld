@@ -118,7 +118,6 @@
 		"PostalAddress": "https://schema.org/PostalAddress",
 		"Place": "https://schema.org/Place",
 		"GeoCoordinates": "https://schema.org/GeoCoordinates",
-		"ServiceChannel": "https://schema.org/ServiceChannel",
 		"picaPPN": "http://purl.org/lobid/lv#picaPPN",
 		"successor":  "https://d-nb.info/standards/elementset/gnd#successor",
 		"predecessor" : "https://d-nb.info/standards/elementset/gnd#predecessor",
