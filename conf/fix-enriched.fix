@@ -274,30 +274,12 @@ if exists("latDbs")
 	copy_field("latDbs","@visitorLocation.geo.lat") # <!-- dbs verzeichnis -->
 elsif exists("latVisitor")
 	copy_field("latVisitor","@visitorLocation.geo.lat") # <!-- zdb sigel verzeichnis -->
-elsif exists("@geoLookupDbs") # <!-- geo lookup pelias -->
-	copy_field("@geoLookupDbs","@geoLookupDbsLat")
-	lookup("@geoLookupDbsLat","addLatMap", delete:"true")
-	copy_field("@geoLookupDbsLat","@visitorLocation.geo.lat")
 end
 
 if exists("lonDbs")
 	copy_field("lonDbs","@visitorLocation.geo.lon") # <!-- dbs verzeichnis -->
 elsif exists("lonVisitor") 
 	copy_field("lonVisitor","@visitorLocation.geo.lon") # <!-- zdb sigel verzeichnis -->
-elsif exists("@geoLookupDbs")
-	copy_field("@geoLookupDbs","@geoLookupDbsLon")
-	lookup("@geoLookupDbsLon","addLongMap" , delete:"true") # <!-- geo lookup pelias -->
-	copy_field("@geoLookupDbsLon","@visitorLocation.geo.lon")
-end
-
-# Workaround for failing pelias lookups
-
-unless exists("@visitorLocation.geo.lon")
- remove_field("@visitorLocation.geo")
-end
-
-unless exists("@visitorLocation.geo.lat")
- remove_field("@visitorLocation.geo")
 end
 
 if exists("@visitorLocation")

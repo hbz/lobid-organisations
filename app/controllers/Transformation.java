@@ -40,11 +40,8 @@ public class Transformation extends Controller {
 		try {
 			String startOfUpdates =
 					Application.CONFIG.getString("transformation.updates.start");
-			String geoLookupServer =
-					Application.CONFIG.getString("transformation.geo.lookup.server");
 			String outputPath = TransformAll.DATA_OUTPUT_FILE;
-			TransformAll.process(startOfUpdates, outputPath,
-					geoLookupServer, "./wikidataLookup.tsv");
+			TransformAll.process(startOfUpdates, outputPath, "./wikidataLookup.tsv");
 		} catch (Exception e) {
 			Logger.root().error("Transformation failed", e);
 			return internalServerError("Transformation failed");
