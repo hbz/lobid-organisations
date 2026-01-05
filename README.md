@@ -65,27 +65,11 @@ For monitoring config on `quaoar1`, see `/etc/monit/conf.d/play-instances.rc`. M
 
 ### Tests
 
-The build described above executes tests of the Metamorph transformations and the Elasticsearch indexing.
-
-TODO: get rid of Metamorph section:
-
-The Metamorph tests are defined in XML files with a `test_` prefix corresponding to the tested Metamorph files:
-
-in `app/transformation`:
-
-`morph-dbs.xml`\
-`morph-enriched.xml`\
-`morph-sigel.xml`
-
-in `test/transformation`:
-
-`test_morph-dbs.xml`\
-`test_morph-enriched.xml`\
-`test_morph-sigel.xml`
-
-For details, see the [Metamorph testing framework documentation](https://github.com/culturegraph/metafacture-core/wiki/Testing-Framework-for-Metamorph).
+The build described above executes tests of the Metafacture transformations and the Elasticsearch indexing.
 
 The Elasticsearch tests are defined in in `test/controllers`.
+
+The Metafacture tests are defined in `test/transformation/TestTransformAll.java` and are based on transforming sample test file from the ISIL dump and the DBS export.
 
 ## Data
 

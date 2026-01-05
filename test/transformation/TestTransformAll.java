@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.metafacture.framework.helpers.DefaultObjectReceiver;
-import org.metafacture.metamorph.Metamorph;
 import org.metafacture.metafix.Metafix;
 import org.metafacture.formeta.FormetaEncoder;
 import org.metafacture.io.LineReader;
