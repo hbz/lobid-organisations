@@ -60,7 +60,12 @@ function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
    zoomControl: true
   });
   var latlng = L.latLng(latCoord, lonCoord);
-  var icon = L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"});
+  var icon = L.icon({
+      iconUrl: '@controllers.routes.Assets.at("javascripts/images/marker-icon-red.png")',
+      iconSize: [20, 30],
+      iconAnchor: [10, 30],
+      popupAnchor: [0, -30]
+  });
   var marker = L.marker([latCoord, lonCoord],{
     title: name,
     icon: icon
@@ -79,6 +84,6 @@ function makeMap(i, latCoord, lonCoord, iconLabel, name, locationDetails) {
 function zoomDetails(map, latlng, marker, content) {
   map.invalidateSize(false);
   marker.bindPopup(content, {keepInView: true, minWidth: 300});
-  map.setView(latlng, 16, {animate: false});
+  map.setView(latlng, 17, {animate: false});
   marker.openPopup();
 }

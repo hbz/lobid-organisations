@@ -111,7 +111,12 @@ function addMarkerLayer(){
 		 var lon = latLon.split(",")[1];
 		 var marker = L.marker([lat,lon],{
 			 title : name,
-			 icon : L.MakiMarkers.icon({icon: iconLabel, color: "#FF333B", size: "m"})
+			 icon : L.icon({
+      iconUrl: '@controllers.routes.Assets.at("javascripts/images/marker-icon-red.png")',
+      iconSize: [20, 30],
+      iconAnchor: [10, 30],
+      popupAnchor: [0, -30]
+			});
 		 });
 		 marker.on('click', function(e) {
 		  location.href = link;
