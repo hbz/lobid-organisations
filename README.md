@@ -17,7 +17,7 @@ For information about the Lobid architecture and development process, see <http:
 
 This section contains information about building and deploying the repo, running tests, and setting up Eclipse.
 
-### Build
+### Test
 
 [![](https://github.com/hbz/lobid-organisations/workflows/Build/badge.svg?branch=master)](https://github.com/hbz/lobid-organisations/actions?query=workflow%3ABuild)
 
@@ -35,18 +35,30 @@ Get lobid-organisations, set up the Play application, and run the tests:
 
 See the `.github/workflows/build.yml` file for details on the CI config used by Github Actions.
 
+The Elasticsearch tests are defined in in `test/controllers`.
+
+The Metafacture tests are defined in `test/transformation/TestTransformAll.java` and are based on transforming sample test file from the ISIL dump and the DBS export.
+
 ### Deployment
 
 *Short instructions for clean deployment, includes hbz-internal instructions that won't work outside the hbz network. Find detailed developer documentation further below.*
 After the build steps above, edit `conf/application.conf` as required (e.g. ports to be used by the embedded Elasticsearch).
 
-Check if `$JAVA_HOME` variable is set
-- `echo $JAVA_HOME`
+On start up, the web app will looks in /tmp/lobid-organisations. If there is
+already data of minimum size the data is used to build an index.
+The "minimum size" is checked to prevent building up an index that only contains
+part of the available data or no data at all (e.g. if something goes wrong during
+the transformation the result may be an empty file). This minimum size threshold is
+specified in `conf/application.conf
 
-Set the variable to the home folder, not the path of your JAVA installation:
-e.g.: `export JAVA_HOME="/usr"`
+If there is no data or not of minimum size the source data is transformed and the
+result is saved to /tmp/lobid-organisations.
+This data is used to build an Elasticsearch index.
 
-Get the data dumps:
+These steps can be triggered separately using HTTP POST when the application is up and running.
+See below under Data-Trigger... how to do this.
+
+#### Get the source data dumps
 To get the wikidate lookup table `conf/wikidataLookup.tsv`:
 - `bash getWikidataLookupTableViaSparql.sh`
 
@@ -57,8 +69,20 @@ via scp to /home/dbs/, once a week, and copied from there to:
 The `sigel.dat` is not open data. It's provided by "Zeitschriftendatenbank.de".
 To get it internally, see `checkIfBaseDataShouldBeUpdated.sh` .
 
-On start up, the web app will transform the data and build an Elasticsearch index from the output of the transformation. These steps can be triggered separately using HTTP POST when the application is up and running. Before building the index, the application will check for the minimum size of the transformation output. This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified in `conf/application.conf`. In addition, during transformation updates of the Sigel data can be fetched --- you can specify the date (i.e. the date of the dump, e.g. 2013-06-01) from which want the updates to start in `conf/application.conf`. Updates will be downloaded from this date on until today.
-Start the application:
+#### Set "minimum size"
+The minimum size threshold is specified in `conf/application.conf`.
+
+#### Set date from where updates of sigil will be fetched
+Updates of the Sigel data can be fetched.The date of the base dump is set, e.g. 2013-06-01, in `conf/application.conf`. Updates will be downloaded from this date on until today.
+
+
+#### Start the application
+Check if `$JAVA_HOME` variable is set
+- `echo $JAVA_HOME`
+
+Set the variable to the home folder, not the path of your JAVA installation:
+e.g.: `export JAVA_HOME="/usr"`
+
 - `sbt clean`
 - `sbt --java-home $JAVA_HOME stage`
 - `JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-organisations -Dhttp.port=7201 -no-version-check`
@@ -69,19 +93,11 @@ The web application can also be accessed via <http://lobid.org/organisations>.
 
 For monitoring config on `quaoar1`, see `/etc/monit/conf.d/play-instances.rc`. Monit logs to `/var/log/monit.log`. Check status with `sudo monit status`, reload config changes with `sudo monit reload`, for more see `man monit`.
 
-### Tests
+### Data
 
-The build described above executes tests of the Metafacture transformations and the Elasticsearch indexing.
+This section contains additional information about the data workflows, indexing, and querying.
 
-The Elasticsearch tests are defined in in `test/controllers`.
-
-The Metafacture tests are defined in `test/transformation/TestTransformAll.java` and are based on transforming sample test file from the ISIL dump and the DBS export.
-
-## Data
-
-This section contains information about the data workflows, indexing, and querying.
-
-### Workflow
+#### Workflow
 
 The source data sets are the *Sigelverzeichnis* ('Sigel', format: PicaPlus-XML) and the *Deutsche Bibliotheksstatistik* ('DBS', format: CSV). The transformation is implemented by a pipeline with 3 logical steps:
 
@@ -98,11 +114,11 @@ Finally, the data is indexed in Elasticsearch. The ID of an organisation is repr
 
 Transformation and indexing are done automatically when starting the application. However, both processes can be triggered separately, see below.
 
-### Transform
+#### Trigger transformation
 
 The transformation is triggered when the application starts but it can also be started separately when the application is running (only works hbz internally).
 
-If you run the transformation with the full data (see above for downloads), the application will download additional updates for the Sigel data.
+If you run the transformation with the full data (see above), the application will download additional updates for the Sigel data.
 
 Thus, you will have to specify one parameter in @conf/application.conf@ : the date from which the updates start (usually the date of the base dump creation, e.g. 2013-06-01).
 
@@ -110,7 +126,7 @@ You can run the transformation of the full data using the following command:
 
 - `curl -X POST "http://localhost:9000/organisations/transform"`
 
-### Index
+#### Trigger indexing
 
 Indexing is triggered when the application starts but it can also be started separately when the application is running. You can use the following command to do so:
 
@@ -118,7 +134,7 @@ Indexing is triggered when the application starts but it can also be started sep
 
 :warning: Because of bug (see: <https://github.com/hbz/lobid-organisations/issues/435>) a restart afterwards is mandatory.
 
-### Query
+#### Query
 
 Query the resulting index:
 
