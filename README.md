@@ -1,4 +1,5 @@
 # lobid-organisations
+lobid-organisations is a web app implemented with Play to serve the JSON-LD context as `application/ld+json` with CORS support. This is required to use the JSON-LD from third party clients, e.g. the [JSON-LD Playground](http://json-ld.org/playground/). It also provides proxy routes for Elasticsearch queries via HTTP (see index page of the web app for details).
 
 ## About
 
@@ -20,7 +21,7 @@ This section contains information about building and deploying the repo, running
 
 [![](https://github.com/hbz/lobid-organisations/workflows/Build/badge.svg?branch=master)](https://github.com/hbz/lobid-organisations/actions?query=workflow%3ABuild)
 
-Prerequisites: Java 11, Maven 3; verify with `mvn -version`
+Prerequisites: Java 11, Maven 3 (verify with `mvn -version`); sbt
 
 Create and change into a folder where you want to store the projects:
 
@@ -37,12 +38,7 @@ See the `.github/workflows/build.yml` file for details on the CI config used by 
 ### Deployment
 
 *Short instructions for clean deployment, includes hbz-internal instructions that won't work outside the hbz network. Find detailed developer documentation further below.*
-
-To get the lookup table `conf/wikidataLookup.tsv`:
-
-- `bash getWikidataLookupTableViaSparql.sh`
-
-After the build steps above, edit `conf/application.conf` as required (e.g. ports to be used by the embedded Elasticsearch), download the full data dumps, and start the application:
+After the build steps above, edit `conf/application.conf` as required (e.g. ports to be used by the embedded Elasticsearch).
 
 Check if `$JAVA_HOME` variable is set
 - `echo $JAVA_HOME`
@@ -50,16 +46,26 @@ Check if `$JAVA_HOME` variable is set
 Set the variable to the home folder, not the path of your JAVA installation:
 e.g.: `export JAVA_HOME="/usr"`
 
+Get the data dumps:
+To get the wikidate lookup table `conf/wikidataLookup.tsv`:
+- `bash getWikidataLookupTableViaSparql.sh`
 
-- `cd app/transformation/input/`
-- `wget http://quaoar1.hbz-nrw.de:7001/assets/data/dbs.zip; unzip dbs.zip` TODO: this is not correct anymore!
-- `wget http://quaoar1.hbz-nrw.de:7001/assets/data/sigel.xml` TODO: this is not correct anymore!
-- `cd ../../..`
+The `dbs.csv` is not open data. It's provided by "bibliotheksstatistik.de"
+via scp to /home/dbs/, once a week, and copied from there to:
+- `app/transformation/input/`
+
+The `sigel.dat` is not open data. It's provided by "Zeitschriftendatenbank.de".
+To get it internally, see `checkIfBaseDataShouldBeUpdated.sh` .
+
+On start up, the web app will transform the data and build an Elasticsearch index from the output of the transformation. These steps can be triggered separately using HTTP POST when the application is up and running. Before building the index, the application will check for the minimum size of the transformation output. This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified in `conf/application.conf`. In addition, during transformation updates of the Sigel data can be fetched --- you can specify the date (i.e. the date of the dump, e.g. 2013-06-01) from which want the updates to start in `conf/application.conf`. Updates will be downloaded from this date on until today.
+Start the application:
 - `sbt clean`
 - `sbt --java-home $JAVA_HOME stage`
 - `JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-organisations -Dhttp.port=7201 -no-version-check`
 
 When startup is complete (`Listening for HTTP on /0.0.0.0:7201`), exit with `Ctrl+D`, output will be logged to `target/universal/stage/logs/application.log`.
+
+The web application can also be accessed via <http://lobid.org/organisations>.
 
 For monitoring config on `quaoar1`, see `/etc/monit/conf.d/play-instances.rc`. Monit logs to `/var/log/monit.log`. Check status with `sudo monit status`, reload config changes with `sudo monit reload`, for more see `man monit`.
 
@@ -91,27 +97,6 @@ Each of these steps has a corresponding Java class, Fix scripts, and output file
 Finally, the data is indexed in Elasticsearch. The ID of an organisation is represented as a URI (e.g., <http://lobid.org/organisations/DE-9>). However, when building up the index, the organisations are given the last bit of this URI only as Elasticsearch IDs (e.g., DE-9). Thus, Elasticsearch-internally, the organisations can be accessed via their ISIL or Pseudo-ISIL.
 
 Transformation and indexing are done automatically when starting the application. However, both processes can be triggered separately, see below.
-
-### Start web app
-
-lobid-organisations is a web app implemented with Play to serve the JSON-LD context as `application/ld+json` with CORS support. This is required to use the JSON-LD from third party clients, e.g. the [JSON-LD Playground](http://json-ld.org/playground/). It also provides proxy routes for Elasticsearch queries via HTTP (see index page of the web app for details).
-
-On start up, the web app will transform the data and build an Elasticsearch index from the output of the transformation. These steps can be triggered separately using HTTP POST when the application is up and running. Before building the index, the application will check for the minimum size of the transformation output. This is done to prevent building up an index that only contains part of the available data or no data at all (e.g. if something goes wrong during the transformation, the result may be an empty file). This minimum size threshold is specified in `conf/application.conf`. In addition, during transformation updates of the Sigel data can be fetched --- you can specify the date (i.e. the date of the dump, e.g. 2013-06-01) from which want the updates to start in `conf/application.conf`. Updates will be downloaded from this date on
-until today.
-
-Run the Play application:
-
-Set the variable to the home folder, not the path of your JAVA installation:
-e.g.: `export JAVA_HOME="/usr"`
-
-
-- `sbt clean`
-- `sbt stage`
-- `./target/universal/stage/bin/lobid-organisations -no-version-check`
-
-Open `http://localhost:9000/organisations`
-
-The web application can also be accessed via <http://lobid.org/organisations>.
 
 ### Transform
 
