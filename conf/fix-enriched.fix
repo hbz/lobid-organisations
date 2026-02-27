@@ -161,12 +161,12 @@ call_macro ("url-group", group_name:"provides", dbs_field:"opac", sigel_code:"B"
 
 ## 		<!-- API descriptions, see #421 -->
 
-set_array("availableChannel[]")
+add_array("availableChannel[]")
 
 do list (path: "009Q","var":"$i")
 	unless any_contain("$i.x","Information")
 		if any_equal("$i.z","W")
-			set_array("availableChannel[].$append.type[]","ServiceChannel")
+			add_array("availableChannel[].$append.type[]","ServiceChannel")
 			if any_match("$i.x",".*(SRU|DAIA|PAIA|OpenURL).*")
 				add_field("availableChannel[].$last.type[].$append","WebAPI")
 			end
@@ -225,7 +225,7 @@ end
 	
 ## 		<!-- Locations -->
 
-set_array("location[]")
+add_array("location[]")
 # Visitor location
 if exists("streetAddressVisitor")
 	copy_field("streetAddressVisitor","@visitorLocation.address.streetAddress")
@@ -355,7 +355,7 @@ end
 lookup("collects.extent.label.de","stocksize_id_to_value_map" )
 lookup("collects.extent.label.en","stocksize_id_to_value_en_map")
 
-set_array("collects.subject[]")
+add_array("collects.subject[]")
 do list(path:"035G","var":"$i")
 	copy_field("$i.a","collects.subject[].$append")
 end
@@ -368,7 +368,7 @@ unless exists("@wikidataMap")
 	lookup ("@wikidataMap","dbsID2wikidata",delete:"true")
 end
 
-set_array("alternateName[]")
+add_array("alternateName[]")
 do list(path:"029@","var":"$i")
 	if any_equal("$i.4","d")
 		copy_field("$i.a","name_en")
@@ -377,7 +377,7 @@ do list(path:"029@","var":"$i")
 	end
 end
 
-set_array("sameAs[]")
+add_array("sameAs[]")
 
 copy_field("@wikidataMap","sameAs[].$append")
 copy_field("@wikidataMap","gndIdentifier")
@@ -455,14 +455,14 @@ do list(path: "035I","var":"$i")
 	end
 end
 
-set_array("note[]")
+add_array("note[]")
 do list(path: "047A","var":"$i")
 	do list(path:"$i.a","var":"$j")
 		copy_field("$j","note[].$append")
 	end
 end
 
-set_array("predecessor[]")
+add_array("predecessor[]")
 do list(path: "035D","var":"$i")
 	do list(path:"$i.b","var":"$j")
 		if any_match("$j","^(..|ZDB)-.*")
@@ -482,7 +482,7 @@ do list(path:"predecessor[]","var":"$i")
 	end
 end
 
-set_array("successor[]")
+add_array("successor[]")
 do list(path:"note[]", "var":"$i")
 	if any_match("$i","Ung.ltig;.*aufgegangen in.*([A-Z]{1,4}-.*?)(;.*|$)") # REGEX should catch the ISIL
 		copy_field("$i","successor[].$append.isil")
@@ -536,7 +536,7 @@ add_field("mainEntityOfPage.wasGeneratedBy.type","Activity")
 # TODO: Add field for startTimedTime
 # TODO: Check if property should be be schema.org:en
 # timestamp("mainEntityOfPage.wasGeneratedBy.endedAtTime",format:"yyyy-MM-dd'T'HH:mm:ss", timezone:"Europe/Berlin")
-set_array("mainEntityOfPage.wasGeneratedBy.used[]")
+add_array("mainEntityOfPage.wasGeneratedBy.used[]")
 if exists("picaPPN")
 	paste("mainEntityOfPage.wasGeneratedBy.used[].$append.id","~http://services.dnb.de/sru/bib?operation=searchRetrieve&query=isl%3D","isil","~&recordSchema=PicaPlus-xml&version=1.1",join_char:"")
 	add_field("mainEntityOfPage.wasGeneratedBy.used[].$last.sourceOrganization.id","https://sigel.staatsbibliothek-berlin.de/vergabe/isil/")
