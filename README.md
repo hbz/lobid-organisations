@@ -19,7 +19,7 @@ This section contains information about building and deploying the repo, running
 
 ### Test
 
-[![](https://github.com/hbz/lobid-organisations/workflows/Build/badge.svg?branch=master)](https://github.com/hbz/lobid-organisations/actions?query=workflow%3ABuild)
+[![](https://github.com/hbz/lobid-organisations/workflows/Build/badge.svg)](https://github.com/hbz/lobid-organisations/actions?query=workflow%3ABuild)
 
 Prerequisites: Java 11, Maven 3 (verify with `mvn -version`); sbt
 
