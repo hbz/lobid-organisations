@@ -30,8 +30,8 @@ Create and change into a folder where you want to store the projects:
 Get lobid-organisations, set up the Play application, and run the tests:
 
 - `git clone https://github.com/hbz/lobid-organisations.git`
-- `sbt clean`
-- `sbt test`
+- `sbt -Djava.security.manager=allow clean`
+- `sbt -Djava.security.manager=allow test`
 
 See the `.github/workflows/build.yml` file for details on the CI config used by Github Actions.
 
@@ -83,8 +83,8 @@ Check if `$JAVA_HOME` variable is set
 Set the variable to the home folder, not the path of your JAVA installation:
 e.g.: `export JAVA_HOME="/usr"`
 
-- `sbt clean`
-- `sbt --java-home $JAVA_HOME stage`
+- `sbt -Djava.security.manager=allow  clean`
+- `sbt -Djava.security.manager=allow  --java-home $JAVA_HOME stage`
 - `JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-organisations -Dhttp.port=7201 -no-version-check`
 
 When startup is complete (`Listening for HTTP on /0.0.0.0:7201`), exit with `Ctrl+D`, output will be logged to `target/universal/stage/logs/application.log`.
