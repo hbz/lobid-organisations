@@ -38,7 +38,7 @@ case $ACTION in
 			kill $(cat target/universal/stage/RUNNING_PID)
 			rm target/universal/stage/RUNNING_PID
 		fi
-		sbt clean
+		sbt -Djava.security.manager=allow clean
 		sbt --java-home $JAVA_HOME stage
 		JAVA_OPTS="$JAVA_OPTS -XX:+ExitOnOutOfMemoryError" ./target/universal/stage/bin/lobid-organisations -Dhttp.port=$PORT -no-version-check > monit_start.log &
 		;;
